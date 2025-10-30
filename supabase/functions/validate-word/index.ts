@@ -288,7 +288,7 @@ Deno.serve(async (req: Request) => {
         aic_reward: aicReward,
         ai_analysis: aiValidation.analysis,
         message: validationStatus === 'validated'
-          ? `Congratulations! You earned ${aicReward} AIC tokens! ${aiValidation.analysis}`
+          ? `Congratulations! You earned ${aicReward} AIC (≈ $${(aicReward / 1000).toFixed(2)} USDC)! ${aiValidation.analysis}`
           : aiValidation.is_intentional_error
             ? 'Intentional errors detected. No rewards issued.'
             : 'Word validation failed. Try again with better accuracy.',

@@ -240,7 +240,7 @@ export function VocabularyGame({ userId, walletAddress, onGoBack }: VocabularyGa
                 : 'text-red-900'
             }`}>
               {lastResult.validation_status === 'validated'
-                ? `+${lastResult.aic_reward} AIC Tokens!`
+                ? `+${parseFloat(lastResult.aic_reward) || 0} AIC Tokens!`
                 : 'Try Again!'}
             </h3>
 
