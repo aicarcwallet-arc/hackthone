@@ -74,6 +74,10 @@ Deno.serve(async (req: Request) => {
       );
     }
 
+    const formattedPrivateKey = minterPrivateKey.startsWith("0x")
+      ? minterPrivateKey
+      : `0x${minterPrivateKey}`;
+
     const aicTokenAddress = Deno.env.get("VITE_AIC_TOKEN_ADDRESS") as `0x${string}`;
     if (!aicTokenAddress) {
       return new Response(
@@ -119,7 +123,7 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    const account = privateKeyToAccount(minterPrivateKey as `0x${string}`);
+    const account = privateKeyToAccount(formattedPrivateKey as `0x${string}`);
     const walletClient = createWalletClient({
       account,
       chain: ARC_TESTNET,
