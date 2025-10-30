@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
-import { type Address, createWalletClient, custom, parseUnits } from 'viem';
+import { type Address } from 'viem';
 import { BridgeKit } from '@circle-fin/bridge-kit';
+import { createAdapterFromProvider } from '@circle-fin/adapter-viem-v2';
 
 interface BridgeState {
   isLoading: boolean;
@@ -8,6 +9,16 @@ interface BridgeState {
   txHash: string | null;
   status: 'idle' | 'bridging' | 'success' | 'error';
 }
+
+const CHAIN_ID_TO_NAME: Record<number, string> = {
+  333333: 'Arc_Testnet',
+  11155111: 'Ethereum_Sepolia',
+  421614: 'Arbitrum_Sepolia',
+  84532: 'Base_Sepolia',
+  11155420: 'Optimism_Sepolia',
+  80002: 'Polygon_Amoy',
+  43113: 'Avalanche_Fuji',
+};
 
 export function useBridge() {
   const [state, setState] = useState<BridgeState>({
@@ -31,37 +42,37 @@ export function useBridge() {
           throw new Error('Please install MetaMask');
         }
 
-        const accounts = await window.ethereum.request({
-          method: 'eth_requestAccounts',
-        }) as string[];
+        const kit = new BridgeKit();
 
-        if (!accounts || accounts.length === 0) {
-          throw new Error('No wallet connected');
+        const adapter = await createAdapterFromProvider({
+          provider: window.ethereum,
+          capabilities: {
+            addressContext: 'user-controlled',
+          },
+        });
+
+        const fromChain = CHAIN_ID_TO_NAME[fromChainId];
+        const toChain = CHAIN_ID_TO_NAME[toChainId];
+
+        if (!fromChain || !toChain) {
+          throw new Error(`Unsupported chain: ${fromChainId} -> ${toChainId}`);
         }
 
-        const walletClient = createWalletClient({
-          account: accounts[0] as Address,
-          transport: custom(window.ethereum),
+        const result = await kit.bridge({
+          from: { adapter, chain: fromChain },
+          to: { adapter, chain: toChain },
+          amount: amount,
+          token: 'USDC',
+          config: { transferSpeed: 'FAST' },
         });
 
-        const bridgeKit = new BridgeKit({
-          signer: walletClient as any,
-        });
-
-        const amountInUnits = parseUnits(amount, 6);
-
-        const result = await bridgeKit.bridge({
-          amount: amountInUnits.toString(),
-          sourceChain: fromChainId,
-          destinationChain: toChainId,
-          tokenAddress: tokenAddress,
-          recipientAddress: accounts[0] as Address,
-        });
+        const burnStep = result.steps.find((s) => s.name === 'depositForBurn');
+        const mintStep = result.steps.find((s) => s.name === 'mint');
 
         setState({
           isLoading: false,
           error: null,
-          txHash: result.transactionHash || result.hash || 'pending',
+          txHash: burnStep?.txHash || mintStep?.txHash || 'completed',
           status: 'success',
         });
       } catch (err: any) {
