@@ -34,15 +34,7 @@ export function WalletDashboard({ walletAddress, userId }: WalletDashboardProps)
         window.ethereum.on('chainChanged', handleChainChanged);
       }
 
-      // Auto-refresh every 3 seconds to keep balance up to date
-      const interval = setInterval(() => {
-        checkNetwork(); // Check network status regularly
-        loadUserStats();
-        refreshBalances();
-      }, 3000);
-
       return () => {
-        clearInterval(interval);
         if (window.ethereum) {
           window.ethereum.removeListener('chainChanged', handleChainChanged);
         }
