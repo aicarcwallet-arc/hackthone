@@ -252,19 +252,16 @@ export function useAICToken(walletAddress?: string) {
   };
 
   const getSwapQuote = async (amountIn: string, direction: 'AIC_TO_USDC' | 'USDC_TO_AIC') => {
-    if (!AIC_SWAP_ADDRESS) return '0';
+    if (!amountIn || parseFloat(amountIn) <= 0) return '0';
 
     try {
-      const amount = parseUnits(amountIn, 6);
+      // AIC is pegged 1:1 with USDC, so calculate locally
+      // Apply 0.3% swap fee
+      const inputAmount = parseFloat(amountIn);
+      const fee = inputAmount * 0.003;
+      const outputAmount = inputAmount - fee;
 
-      const quote = await publicClient.readContract({
-        address: AIC_SWAP_ADDRESS,
-        abi: AIC_SWAP_ABI,
-        functionName: direction === 'AIC_TO_USDC' ? 'getAICToUSDCQuote' : 'getUSDCToAICQuote',
-        args: [amount],
-      }) as bigint;
-
-      return formatUnits(quote, 6);
+      return outputAmount.toFixed(6);
     } catch (error) {
       console.error('Quote error:', error);
       return '0';
