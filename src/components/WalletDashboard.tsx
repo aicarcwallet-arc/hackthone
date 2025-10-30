@@ -22,18 +22,37 @@ export function WalletDashboard({ walletAddress, userId }: WalletDashboardProps)
       loadBalance();
       loadUserStats();
 
+      // Listen for network changes
+      const handleChainChanged = () => {
+        console.log('Chain changed, rechecking network...');
+        checkNetwork();
+        loadBalance();
+        refreshBalances();
+      };
+
+      if (window.ethereum) {
+        window.ethereum.on('chainChanged', handleChainChanged);
+      }
+
       // Auto-refresh every 3 seconds to keep balance up to date
       const interval = setInterval(() => {
+        checkNetwork(); // Check network status regularly
         loadUserStats();
         refreshBalances();
       }, 3000);
 
-      return () => clearInterval(interval);
+      return () => {
+        clearInterval(interval);
+        if (window.ethereum) {
+          window.ethereum.removeListener('chainChanged', handleChainChanged);
+        }
+      };
     }
   }, [walletAddress, userId]);
 
   const checkNetwork = async () => {
     const isArc = await isOnArcNetwork();
+    console.log('Network check result - isOnArcNetwork:', isArc);
     setOnArcNetwork(isArc);
   };
 
