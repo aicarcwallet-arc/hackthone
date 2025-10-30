@@ -23,8 +23,8 @@ contract AICToken is ERC20, Ownable {
     event GameRewardMinted(address indexed player, uint256 amount, string submissionId);
 
     constructor() ERC20("AI Cognitive Token", "AIC") Ownable(msg.sender) {
-        // Mint initial supply for liquidity pool
-        _mint(msg.sender, 1000000 * 10**decimals()); // 1M AIC initial supply
+        // No initial supply - all AIC minted programmatically!
+        // Either: 1) Game rewards 2) USDC burn/lock
     }
 
     /**
@@ -78,6 +78,17 @@ contract AICToken is ERC20, Ownable {
     function burn(address from, uint256 amount) external {
         require(minters[msg.sender], "Not authorized to burn");
         _burn(from, amount);
+    }
+
+    /**
+     * @dev Programmable mint - called by bridge/burn contracts
+     * Enables USDC → AIC minting (like TON USDC)
+     */
+    function mint(address to, uint256 amount) external {
+        require(minters[msg.sender], "Not authorized to mint");
+        require(to != address(0), "Invalid address");
+        require(amount > 0, "Amount must be positive");
+        _mint(to, amount);
     }
 
     /**
