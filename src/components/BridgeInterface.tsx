@@ -45,7 +45,10 @@ export function BridgeInterface() {
   };
 
   const handleBridge = async () => {
+    console.log('Bridge button clicked');
+
     if (!connectedAddress) {
+      console.log('No wallet connected, prompting connection');
       await handleConnectWallet();
       return;
     }
@@ -62,7 +65,9 @@ export function BridgeInterface() {
     }
 
     try {
+      console.log('Starting bridge:', { fromChain, toChain, amount, tokenAddress });
       await bridgeTokens(fromChain, toChain, amount, tokenAddress as `0x${string}`);
+      console.log('Bridge successful');
     } catch (err: any) {
       console.error('Bridge failed:', err);
     }

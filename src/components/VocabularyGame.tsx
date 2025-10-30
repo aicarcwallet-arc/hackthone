@@ -35,7 +35,13 @@ export function VocabularyGame({ userId, walletAddress }: VocabularyGameProps) {
   }, [isPlaying, currentWord, startTime]);
 
   const handleStartGame = async () => {
-    await startGame();
+    console.log('Start Game button clicked');
+    try {
+      await startGame();
+      console.log('Game started successfully');
+    } catch (err) {
+      console.error('Failed to start game:', err);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -58,11 +64,13 @@ export function VocabularyGame({ userId, walletAddress }: VocabularyGameProps) {
   };
 
   const handleNextWord = () => {
+    console.log('Next Word button clicked');
     setShowResult(false);
     setLastResult(null);
     nextWord();
     setStartTime(Date.now());
     inputRef.current?.focus();
+    console.log('Loaded next word');
   };
 
   const handleEndGame = async () => {

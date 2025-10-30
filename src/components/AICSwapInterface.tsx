@@ -37,6 +37,8 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
   };
 
   const handleSwap = async () => {
+    console.log('Swap button clicked', { direction, fromAmount, walletAddress });
+
     if (!walletAddress) {
       setError('Please connect your wallet');
       return;
@@ -51,27 +53,34 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
     setTxHash('');
 
     try {
+      console.log('Starting swap...');
       const hash = direction === 'AIC_TO_USDC'
         ? await swapAICForUSDC(fromAmount)
         : await swapUSDCForAIC(fromAmount);
 
+      console.log('Swap successful, hash:', hash);
       setTxHash(hash);
       setFromAmount('');
       setToAmount('');
     } catch (err: any) {
+      console.error('Swap error:', err);
       setError(err.message || 'Swap failed');
     }
   };
 
   const switchDirection = () => {
+    console.log('Switch direction button clicked');
     setDirection(prev => prev === 'AIC_TO_USDC' ? 'USDC_TO_AIC' : 'AIC_TO_USDC');
     setFromAmount('');
     setToAmount('');
+    console.log('Direction switched');
   };
 
   const setMaxAmount = () => {
+    console.log('Max button clicked');
     const balance = direction === 'AIC_TO_USDC' ? aicBalance : usdcBalance;
     setFromAmount(balance);
+    console.log('Set max amount:', balance);
   };
 
   if (!contractsDeployed) {
