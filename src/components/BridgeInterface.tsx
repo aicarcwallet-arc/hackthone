@@ -358,16 +358,28 @@ export function BridgeInterface() {
 
         <button
           onClick={handleBridge}
-          disabled={true}
-          className="w-full bg-gray-600 cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-all flex items-center justify-center gap-2 touch-manipulation opacity-50"
+          disabled={isLoading || !connectedAddress}
+          className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-all shadow-[0_0_30px_rgba(34,211,238,0.5)] hover:shadow-[0_0_50px_rgba(34,211,238,0.8)] flex items-center justify-center gap-2 touch-manipulation"
         >
-          Bridge USDC (Coming Soon)
+          {isLoading ? (
+            <>
+              <Loader2 className="w-5 h-5 animate-spin" />
+              <span className="text-sm sm:text-base">Bridging via CCTP...</span>
+            </>
+          ) : (
+            <>
+              <ArrowDownUp className="w-5 h-5" />
+              <span className="text-sm sm:text-base">Step 3: Bridge {selectedToken}</span>
+            </>
+          )}
         </button>
-        <div className="p-3 bg-yellow-900/30 border border-yellow-500/30 rounded-lg">
-          <p className="text-xs text-yellow-300 text-center">
-            ℹ️ Bridge feature requires Circle CCTP backend integration. For now, use Step 1 & 2 above to claim and swap your AIC tokens to USDC on Arc Testnet.
-          </p>
-        </div>
+        {!isLoading && connectedAddress && amount && parseFloat(amount) > 0 && (
+          <div className="p-3 bg-cyan-900/30 border border-cyan-500/30 rounded-lg">
+            <p className="text-xs text-cyan-300 text-center">
+              ✨ Powered by Circle CCTP • Bridge across 18 testnet chains
+            </p>
+          </div>
+        )}
       </div>
 
       {status === 'success' && txHash && (
