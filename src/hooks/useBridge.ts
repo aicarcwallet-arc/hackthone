@@ -42,6 +42,24 @@ export function useBridge() {
           throw new Error('Please install MetaMask');
         }
 
+        // Ensure we're on the source chain first
+        const currentChainId = await window.ethereum.request({ method: 'eth_chainId' }) as string;
+        const currentChainIdNum = parseInt(currentChainId, 16);
+
+        if (currentChainIdNum !== fromChainId) {
+          try {
+            await window.ethereum.request({
+              method: 'wallet_switchEthereumChain',
+              params: [{ chainId: `0x${fromChainId.toString(16)}` }],
+            });
+          } catch (switchError: any) {
+            if (switchError.code === 4902) {
+              throw new Error(`Please add chain ${fromChainId} to MetaMask first`);
+            }
+            throw switchError;
+          }
+        }
+
         const kit = new BridgeKit();
 
         const adapter = await createAdapterFromProvider({
@@ -58,6 +76,8 @@ export function useBridge() {
           throw new Error(`Unsupported chain: ${fromChainId} -> ${toChainId}`);
         }
 
+        console.log('Starting bridge:', { fromChain, toChain, amount });
+
         const result = await kit.bridge({
           from: { adapter, chain: fromChain },
           to: { adapter, chain: toChain },
@@ -65,6 +85,8 @@ export function useBridge() {
           token: 'USDC',
           config: { transferSpeed: 'FAST' },
         });
+
+        console.log('Bridge result:', result);
 
         const burnStep = result.steps.find((s) => s.name === 'depositForBurn');
         const mintStep = result.steps.find((s) => s.name === 'mint');
