@@ -240,11 +240,22 @@ Deno.serve(async (req: Request) => {
     if (updateError) throw updateError;
 
     if (validationStatus === 'validated') {
+      // Get current user totals
+      const { data: userData } = await supabaseClient
+        .from('users')
+        .select('total_words_submitted, total_aic_earned')
+        .eq('id', user_id)
+        .single();
+
+      const currentWords = userData?.total_words_submitted || 0;
+      const currentEarned = parseFloat(userData?.total_aic_earned || '0');
+
+      // Update with incremented values
       const { error: userUpdateError } = await supabaseClient
         .from('users')
         .update({
-          total_words_submitted: supabaseClient.rpc('increment_words'),
-          total_aic_earned: supabaseClient.rpc('increment_aic', { amount: aicReward }),
+          total_words_submitted: currentWords + 1,
+          total_aic_earned: currentEarned + aicReward,
           updated_at: new Date().toISOString(),
         })
         .eq('id', user_id);
