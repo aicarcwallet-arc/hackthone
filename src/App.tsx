@@ -3,10 +3,12 @@ import { LandingPage } from './components/LandingPage';
 import { BridgeInterface } from './components/BridgeInterface';
 import { SwapInterface } from './components/SwapInterface';
 import { AICSwapInterface } from './components/AICSwapInterface';
+import { USDCWithdraw } from './components/USDCWithdraw';
 import { VocabularyGame } from './components/VocabularyGame';
 import { TransactionHistory } from './components/TransactionHistory';
 import { WalletDashboard } from './components/WalletDashboard';
 import { InstallPrompt } from './components/InstallPrompt';
+import { useAICToken } from './hooks/useAICToken';
 import { Repeat, Send, Trophy, History } from 'lucide-react';
 import { supabase } from './lib/supabase';
 
@@ -17,6 +19,9 @@ function App() {
   const [activeTab, setActiveTab] = useState<Tab>('game');
   const [connectedAddress, setConnectedAddress] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const { usdcBalance } = useAICToken(connectedAddress || undefined);
 
   useEffect(() => {
     console.log('App mounted!');
@@ -133,27 +138,27 @@ function App() {
       </div>
 
       {/* Floating Arc Logo icons */}
-      <div className="absolute top-32 right-1/3 w-16 h-16 opacity-6 animate-float">
+      <div className="absolute top-32 right-1/3 w-10 h-10 opacity-[0.03] animate-float">
         <img src="/ARAC LOGO.png" alt="" className="w-full h-full object-contain" />
       </div>
-      <div className="absolute bottom-32 left-1/3 w-20 h-20 opacity-8 animate-float-delayed">
+      <div className="absolute bottom-32 left-1/3 w-12 h-12 opacity-[0.04] animate-float-delayed">
         <img src="/ARAC LOGO.png" alt="" className="w-full h-full object-contain" />
       </div>
-      <div className="absolute top-2/3 right-16 w-14 h-14 opacity-5 animate-float-slow">
+      <div className="absolute top-2/3 right-16 w-10 h-10 opacity-[0.03] animate-float-slow">
         <img src="/ARAC LOGO.png" alt="" className="w-full h-full object-contain" />
       </div>
 
       {/* Floating AiC Token icons */}
-      <div className="absolute top-1/4 left-1/3 w-16 h-16 opacity-7 animate-float">
+      <div className="absolute top-1/4 left-1/3 w-10 h-10 opacity-[0.03] animate-float">
         <img src="/aic toekn  copy.png" alt="" className="w-full h-full object-contain" />
       </div>
-      <div className="absolute bottom-20 right-1/2 w-18 h-18 opacity-8 animate-float-delayed">
+      <div className="absolute bottom-20 right-1/2 w-12 h-12 opacity-[0.04] animate-float-delayed">
         <img src="/aic toekn  copy.png" alt="" className="w-full h-full object-contain" />
       </div>
-      <div className="absolute top-1/2 left-10 w-14 h-14 opacity-6 animate-float-slow">
+      <div className="absolute top-1/2 left-10 w-10 h-10 opacity-[0.03] animate-float-slow">
         <img src="/aic toekn  copy.png" alt="" className="w-full h-full object-contain" />
       </div>
-      <div className="absolute bottom-1/3 right-20 w-12 h-12 opacity-5 animate-float">
+      <div className="absolute bottom-1/3 right-20 w-8 h-8 opacity-[0.02] animate-float">
         <img src="/aic toekn  copy.png" alt="" className="w-full h-full object-contain" />
       </div>
       <div className="w-full max-w-6xl pb-safe">
@@ -261,9 +266,23 @@ function App() {
           {activeTab === 'game' && <VocabularyGame key={`game-${connectedAddress}`} userId={userId} walletAddress={connectedAddress} onGoBack={() => setActiveTab('game')} />}
           {activeTab === 'bridge' && <BridgeInterface />}
           {activeTab === 'swap' && (
-            <div className="space-y-6">
-              <AICSwapInterface key={`swap-${connectedAddress}-${activeTab}`} walletAddress={connectedAddress || undefined} />
-              <div className="text-center text-sm text-gray-400">
+            <div className="space-y-6 w-full max-w-4xl">
+              <AICSwapInterface key={`swap-${connectedAddress}-${activeTab}-${refreshKey}`} walletAddress={connectedAddress || undefined} />
+
+              {parseFloat(usdcBalance) > 0 && connectedAddress && (
+                <div className="pt-6">
+                  <h3 className="text-center text-lg font-semibold text-white mb-4">
+                    💸 Send USDC from Your Wallet
+                  </h3>
+                  <USDCWithdraw
+                    walletAddress={connectedAddress}
+                    usdcBalance={usdcBalance}
+                    onSuccess={() => setRefreshKey(prev => prev + 1)}
+                  />
+                </div>
+              )}
+
+              <div className="text-center text-sm text-gray-400 pt-4">
                 Or use other tokens:
               </div>
               <SwapInterface />
