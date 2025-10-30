@@ -77,7 +77,7 @@ export function WalletDashboard({ walletAddress, userId }: WalletDashboardProps)
 
   return (
     <div className="w-full max-w-4xl mx-auto mb-4 sm:mb-6 px-2 sm:px-0">
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 text-white">
+      <div className="bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.4)] p-4 sm:p-6 text-white">
         <div className="flex items-center justify-between mb-4 sm:mb-6 flex-wrap gap-2">
           <div className="flex items-center gap-2 sm:gap-3">
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-full flex items-center justify-center">

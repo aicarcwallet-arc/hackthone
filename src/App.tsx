@@ -146,18 +146,18 @@ function App() {
       </div>
       <div className="w-full max-w-6xl pb-safe">
         <div className="text-center mb-4 sm:mb-8 px-2">
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-4 py-1 rounded-full text-xs sm:text-sm font-semibold mb-3">
+          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-4 py-1 rounded-full text-xs sm:text-sm font-semibold mb-3 shadow-[0_0_20px_rgba(34,211,238,0.4)]">
             <span className="animate-pulse">🔥</span>
             LIVE ON ARC TESTNET
             <span className="animate-pulse">🔥</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 via-cyan-600 to-blue-600 bg-clip-text text-transparent mb-3">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent mb-3 drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
             AIC Token Game
           </h1>
-          <p className="text-sm sm:text-base md:text-lg text-gray-700 max-w-2xl mx-auto font-medium">
+          <p className="text-sm sm:text-base md:text-lg text-gray-300 max-w-2xl mx-auto font-medium">
             Type hackathon words • Earn AIC tokens • Bridge to any chain
           </p>
-          <p className="text-xs sm:text-sm text-gray-500 mt-2">
+          <p className="text-xs sm:text-sm text-gray-400 mt-2">
             Powered by Circle Bridge Kit • Arc Layer 1 • Native USDC Gas
           </p>
         </div>
@@ -165,8 +165,11 @@ function App() {
         {!connectedAddress && (
           <div className="flex justify-center mb-4 sm:mb-6 px-4">
             <button
-              onClick={handleConnectWallet}
-              className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold py-3 px-8 rounded-lg transition-colors touch-manipulation"
+              onClick={() => {
+                console.log('Connect Wallet button clicked');
+                handleConnectWallet();
+              }}
+              className="w-full sm:w-auto bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold py-3 px-8 rounded-lg transition-all shadow-[0_0_30px_rgba(34,211,238,0.5)] hover:shadow-[0_0_50px_rgba(34,211,238,0.8)] touch-manipulation z-50 relative"
             >
               Connect Wallet to Start
             </button>
