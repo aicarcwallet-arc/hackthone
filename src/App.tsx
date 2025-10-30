@@ -281,11 +281,6 @@ function App() {
                   />
                 </div>
               )}
-
-              <div className="text-center text-sm text-gray-400 pt-4">
-                Or use other tokens:
-              </div>
-              <SwapInterface />
             </div>
           )}
           {activeTab === 'history' && <TransactionHistory userId={userId} />}
