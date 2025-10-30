@@ -3,16 +3,17 @@ import { LandingPage } from './components/LandingPage';
 import { BridgeInterface } from './components/BridgeInterface';
 import { SwapInterface } from './components/SwapInterface';
 import { AICSwapInterface } from './components/AICSwapInterface';
+import { BurnPegInterface } from './components/BurnPegInterface';
 import { USDCWithdraw } from './components/USDCWithdraw';
 import { VocabularyGame } from './components/VocabularyGame';
 import { TransactionHistory } from './components/TransactionHistory';
 import { WalletDashboard } from './components/WalletDashboard';
 import { InstallPrompt } from './components/InstallPrompt';
 import { useAICToken } from './hooks/useAICToken';
-import { Repeat, Send, Trophy, History } from 'lucide-react';
+import { Repeat, Send, Trophy, History, Flame } from 'lucide-react';
 import { supabase } from './lib/supabase';
 
-type Tab = 'game' | 'bridge' | 'swap' | 'history';
+type Tab = 'game' | 'bridge' | 'swap' | 'burn' | 'history';
 
 function App() {
   const [showLanding, setShowLanding] = useState(true);
@@ -244,6 +245,20 @@ function App() {
                 </button>
                 <button
                   onClick={() => {
+                    console.log('Burn tab clicked');
+                    setActiveTab('burn');
+                  }}
+                  className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-3 rounded-md font-medium text-sm transition-all touch-manipulation whitespace-nowrap ${
+                    activeTab === 'burn'
+                      ? 'bg-gradient-to-r from-red-500 to-orange-600 text-white shadow-[0_0_20px_rgba(239,68,68,0.5)]'
+                      : 'text-gray-300 hover:bg-red-500/20'
+                  }`}
+                >
+                  <Flame className="w-4 h-4" />
+                  <span>Burn</span>
+                </button>
+                <button
+                  onClick={() => {
                     console.log('History tab clicked');
                     setActiveTab('history');
                   }}
@@ -283,6 +298,7 @@ function App() {
               )}
             </div>
           )}
+          {activeTab === 'burn' && <BurnPegInterface walletAddress={connectedAddress || undefined} />}
           {activeTab === 'history' && <TransactionHistory userId={userId} />}
         </div>
 
