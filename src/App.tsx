@@ -147,7 +147,10 @@ function App() {
             <div className="flex justify-center mb-4 sm:mb-6 px-2">
               <div className="inline-flex bg-white rounded-lg shadow-md p-1 overflow-x-auto max-w-full">
                 <button
-                  onClick={() => setActiveTab('game')}
+                  onClick={() => {
+                    console.log('Game tab clicked');
+                    setActiveTab('game');
+                  }}
                   className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-3 rounded-md font-medium text-sm transition-all touch-manipulation whitespace-nowrap ${
                     activeTab === 'game'
                       ? 'bg-blue-600 text-white shadow-sm'
@@ -159,7 +162,10 @@ function App() {
                   <span className="sm:hidden">Play</span>
                 </button>
                 <button
-                  onClick={() => setActiveTab('bridge')}
+                  onClick={() => {
+                    console.log('Bridge tab clicked');
+                    setActiveTab('bridge');
+                  }}
                   className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-3 rounded-md font-medium text-sm transition-all touch-manipulation whitespace-nowrap ${
                     activeTab === 'bridge'
                       ? 'bg-blue-600 text-white shadow-sm'
@@ -170,7 +176,10 @@ function App() {
                   <span>Bridge</span>
                 </button>
                 <button
-                  onClick={() => setActiveTab('swap')}
+                  onClick={() => {
+                    console.log('Swap tab clicked');
+                    setActiveTab('swap');
+                  }}
                   className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-3 rounded-md font-medium text-sm transition-all touch-manipulation whitespace-nowrap ${
                     activeTab === 'swap'
                       ? 'bg-blue-600 text-white shadow-sm'
@@ -181,7 +190,10 @@ function App() {
                   <span>Swap</span>
                 </button>
                 <button
-                  onClick={() => setActiveTab('history')}
+                  onClick={() => {
+                    console.log('History tab clicked');
+                    setActiveTab('history');
+                  }}
                   className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-3 rounded-md font-medium text-sm transition-all touch-manipulation whitespace-nowrap ${
                     activeTab === 'history'
                       ? 'bg-blue-600 text-white shadow-sm'

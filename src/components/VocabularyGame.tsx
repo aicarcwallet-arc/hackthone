@@ -45,6 +45,7 @@ export function VocabularyGame({ userId, walletAddress }: VocabularyGameProps) {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
+    console.log('Submit button clicked');
     e.preventDefault();
 
     if (!currentWord || !startTime || !typedWord.trim()) return;
