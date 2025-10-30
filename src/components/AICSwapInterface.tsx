@@ -317,7 +317,7 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
           </div>
           <div className="flex justify-between">
             <span>Minimum received</span>
-            <span className="text-gray-800">
+            <span className="text-white">
               {toAmount ? (parseFloat(toAmount) * 0.95).toFixed(6) : '0'} {direction === 'AIC_TO_USDC' ? 'USDC' : 'AIC'}
             </span>
           </div>
