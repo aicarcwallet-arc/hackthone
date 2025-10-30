@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { type Address } from 'viem';
-import { BridgeKit } from '@circle-fin/bridge-kit';
+import { BridgeKit, type ChainIdentifier } from '@circle-fin/bridge-kit';
 import { createAdapterFromProvider } from '@circle-fin/adapter-viem-v2';
 
 interface BridgeState {
@@ -10,14 +10,14 @@ interface BridgeState {
   status: 'idle' | 'bridging' | 'success' | 'error';
 }
 
-const CHAIN_ID_TO_NAME: Record<number, string> = {
-  333333: 'Arc_Testnet',
-  11155111: 'Ethereum_Sepolia',
-  421614: 'Arbitrum_Sepolia',
-  84532: 'Base_Sepolia',
-  11155420: 'Optimism_Sepolia',
-  80002: 'Polygon_Amoy',
-  43113: 'Avalanche_Fuji',
+const CHAIN_ID_TO_NAME: Record<number, ChainIdentifier> = {
+  333333: 'Arc_Testnet' as ChainIdentifier,
+  11155111: 'Ethereum_Sepolia' as ChainIdentifier,
+  421614: 'Arbitrum_Sepolia' as ChainIdentifier,
+  84532: 'Base_Sepolia' as ChainIdentifier,
+  11155420: 'Optimism_Sepolia' as ChainIdentifier,
+  80002: 'Polygon_Amoy' as ChainIdentifier,
+  43113: 'Avalanche_Fuji' as ChainIdentifier,
 };
 
 export function useBridge() {
