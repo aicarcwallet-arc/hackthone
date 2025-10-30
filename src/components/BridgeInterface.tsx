@@ -1,9 +1,10 @@
 import { useState, useMemo } from 'react';
-import { ArrowDownUp, Loader2, CheckCircle, XCircle, ExternalLink, Repeat } from 'lucide-react';
+import { ArrowDownUp, Loader2, CheckCircle, XCircle, ExternalLink, Repeat, Gift } from 'lucide-react';
 import { useBridge } from '../hooks/useBridge';
 import { useAICToken } from '../hooks/useAICToken';
 import { SUPPORTED_CHAINS, CHAIN_OPTIONS, ARC_TESTNET_CHAIN_ID } from '../config/chains';
 import { getTokenAddress, getAvailableTokensForChain } from '../config/tokens';
+import { supabase } from '../lib/supabase';
 
 export function BridgeInterface() {
   const [fromChain, setFromChain] = useState(ARC_TESTNET_CHAIN_ID);
@@ -18,9 +19,13 @@ export function BridgeInterface() {
   );
 
   const { isLoading, error, txHash, status, bridgeTokens, reset } = useBridge();
-  const { aicBalance, usdcBalance, loading: swapLoading, swapAICForUSDC } = useAICToken(connectedAddress || undefined);
+  const { aicBalance, usdcBalance, loading: swapLoading, swapAICForUSDC, refreshBalances } = useAICToken(connectedAddress || undefined);
   const [swapSuccess, setSwapSuccess] = useState(false);
   const [swapTxHash, setSwapTxHash] = useState<string>('');
+  const [claimLoading, setClaimLoading] = useState(false);
+  const [claimSuccess, setClaimSuccess] = useState(false);
+  const [claimTxHash, setClaimTxHash] = useState<string>('');
+  const [unclaimedAIC, setUnclaimedAIC] = useState<number>(0);
 
   const handleConnectWallet = async () => {
     try {
@@ -35,10 +40,66 @@ export function BridgeInterface() {
 
       if (accounts && accounts.length > 0) {
         setConnectedAddress(accounts[0]);
+        await checkUnclaimedAIC(accounts[0]);
       }
     } catch (err: any) {
       console.error('Failed to connect wallet:', err);
       alert(err.message || 'Failed to connect wallet');
+    }
+  };
+
+  const checkUnclaimedAIC = async (address: string) => {
+    try {
+      const { data } = await supabase
+        .from('users')
+        .select('total_aic_earned, claimed_aic')
+        .eq('wallet_address', address.toLowerCase())
+        .maybeSingle();
+
+      if (data) {
+        const earned = parseFloat(data.total_aic_earned || '0');
+        const claimed = parseFloat(data.claimed_aic || '0');
+        setUnclaimedAIC(earned - claimed);
+      }
+    } catch (err) {
+      console.error('Error checking unclaimed AIC:', err);
+    }
+  };
+
+  const handleClaimAIC = async () => {
+    if (!connectedAddress) return;
+
+    setClaimLoading(true);
+    setClaimSuccess(false);
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/mint-aic-tokens`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          },
+          body: JSON.stringify({ walletAddress: connectedAddress }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to claim AIC');
+      }
+
+      setClaimTxHash(result.txHash);
+      setClaimSuccess(true);
+      setUnclaimedAIC(0);
+      await refreshBalances();
+    } catch (err: any) {
+      console.error('Claim error:', err);
+      alert(err.message || 'Failed to claim AIC tokens');
+    } finally {
+      setClaimLoading(false);
     }
   };
 
@@ -111,57 +172,103 @@ export function BridgeInterface() {
             </p>
           </div>
 
-          <div className="mb-4 sm:mb-6 p-4 bg-gradient-to-r from-blue-900/50 to-cyan-900/50 border border-cyan-500/30 rounded-lg backdrop-blur-sm space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-300">Your AIC Balance</span>
-              <span className="text-lg font-bold text-cyan-300">{aicBalance} AIC</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-300">Your USDC Balance</span>
-              <span className="text-lg font-bold text-green-300">{parseFloat(usdcBalance).toFixed(2)} USDC</span>
-            </div>
-            {parseFloat(aicBalance) > 0 && (
-              <button
-                onClick={async () => {
-                  try {
-                    setSwapSuccess(false);
-                    const hash = await swapAICForUSDC(aicBalance);
-                    setSwapTxHash(hash);
-                    setSwapSuccess(true);
-                  } catch (err: any) {
-                    alert(err.message || 'Swap failed');
-                  }
-                }}
-                disabled={swapLoading}
-                className="w-full bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-400 hover:to-cyan-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-semibold py-2.5 px-4 rounded-lg transition-all flex items-center justify-center gap-2 touch-manipulation"
-              >
-                {swapLoading ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    <span className="text-sm">Swapping...</span>
-                  </>
-                ) : (
-                  <>
-                    <Repeat className="w-4 h-4" />
-                    <span className="text-sm">Convert All AIC to USDC</span>
-                  </>
-                )}
-              </button>
-            )}
-            {swapSuccess && swapTxHash && (
-              <div className="p-2 bg-green-500/20 border border-green-500/30 rounded text-center">
-                <p className="text-xs text-green-300">✅ Swap successful on Arc!</p>
-                <a
-                  href={`https://testnet.arcscan.com/tx/${swapTxHash}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs text-cyan-300 hover:text-cyan-200 underline inline-flex items-center gap-1 mt-1"
+          <div className="mb-4 sm:mb-6 space-y-3">
+            {unclaimedAIC > 0 && (
+              <div className="p-4 bg-gradient-to-r from-yellow-900/50 to-orange-900/50 border border-yellow-500/30 rounded-lg backdrop-blur-sm space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-300">Unclaimed AIC (from game)</span>
+                  <span className="text-lg font-bold text-yellow-300">{unclaimedAIC.toFixed(2)} AIC</span>
+                </div>
+                <button
+                  onClick={handleClaimAIC}
+                  disabled={claimLoading}
+                  className="w-full bg-gradient-to-r from-yellow-500 to-orange-600 hover:from-yellow-400 hover:to-orange-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-semibold py-2.5 px-4 rounded-lg transition-all flex items-center justify-center gap-2 touch-manipulation"
                 >
-                  View on Arc Explorer
-                  <ExternalLink className="w-3 h-3" />
-                </a>
+                  {claimLoading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span className="text-sm">Claiming on Arc...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Gift className="w-4 h-4" />
+                      <span className="text-sm">Claim AIC Tokens to Wallet</span>
+                    </>
+                  )}
+                </button>
+                {claimSuccess && claimTxHash && (
+                  <div className="p-2 bg-green-500/20 border border-green-500/30 rounded text-center">
+                    <p className="text-xs text-green-300">✅ Claimed successfully!</p>
+                    <a
+                      href={`https://testnet.arcscan.com/tx/${claimTxHash}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-cyan-300 hover:text-cyan-200 underline inline-flex items-center gap-1 mt-1"
+                    >
+                      View on Arc Explorer
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
+                )}
+                <p className="text-xs text-gray-400 text-center">Step 1: Claim your earned AIC from the game to your wallet</p>
               </div>
             )}
+
+            <div className="p-4 bg-gradient-to-r from-blue-900/50 to-cyan-900/50 border border-cyan-500/30 rounded-lg backdrop-blur-sm space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-gray-300">Your AIC Balance (on-chain)</span>
+                <span className="text-lg font-bold text-cyan-300">{aicBalance} AIC</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-gray-300">Your USDC Balance</span>
+                <span className="text-lg font-bold text-green-300">{parseFloat(usdcBalance).toFixed(2)} USDC</span>
+              </div>
+              {parseFloat(aicBalance) > 0 && (
+                <>
+                  <button
+                    onClick={async () => {
+                      try {
+                        setSwapSuccess(false);
+                        const hash = await swapAICForUSDC(aicBalance);
+                        setSwapTxHash(hash);
+                        setSwapSuccess(true);
+                      } catch (err: any) {
+                        alert(err.message || 'Swap failed');
+                      }
+                    }}
+                    disabled={swapLoading}
+                    className="w-full bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-400 hover:to-cyan-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-semibold py-2.5 px-4 rounded-lg transition-all flex items-center justify-center gap-2 touch-manipulation"
+                  >
+                    {swapLoading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span className="text-sm">Swapping on Arc...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Repeat className="w-4 h-4" />
+                        <span className="text-sm">Step 2: Convert AIC to USDC</span>
+                      </>
+                    )}
+                  </button>
+                  <p className="text-xs text-gray-400 text-center">⚡ Low gas fees • Flash transaction on Arc Layer 1</p>
+                </>
+              )}
+              {swapSuccess && swapTxHash && (
+                <div className="p-2 bg-green-500/20 border border-green-500/30 rounded text-center">
+                  <p className="text-xs text-green-300">✅ Swap successful on Arc!</p>
+                  <a
+                    href={`https://testnet.arcscan.com/tx/${swapTxHash}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-cyan-300 hover:text-cyan-200 underline inline-flex items-center gap-1 mt-1"
+                  >
+                    View on Arc Explorer
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+              )}
+            </div>
           </div>
         </>
       )}
