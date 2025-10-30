@@ -151,7 +151,7 @@ export function WalletDashboard({ walletAddress, userId }: WalletDashboardProps)
               <p className="text-2xl sm:text-3xl font-bold mb-1">
                 {parseFloat(usdcBalance).toFixed(2)}
               </p>
-              <p className="text-blue-200 text-xs sm:text-sm">USDC</p>
+              <p className="text-blue-200 text-xs sm:text-sm">In MetaMask (Arc)</p>
             </div>
 
             <div className="bg-white/10 backdrop-blur-sm rounded-lg sm:rounded-xl p-3 sm:p-4">

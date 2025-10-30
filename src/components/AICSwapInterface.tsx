@@ -235,7 +235,17 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
 
         {txHash && (
           <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-4 backdrop-blur-sm space-y-3">
-            <p className="text-green-300 font-semibold mb-1">✅ Swap Successful!</p>
+            <p className="text-green-300 font-semibold mb-1 text-lg">✅ Swap Successful!</p>
+            {direction === 'AIC_TO_USDC' && (
+              <p className="text-sm text-gray-200 bg-green-600/20 p-2 rounded">
+                💰 Your USDC is now in your MetaMask wallet on Arc Testnet! Open MetaMask to see it.
+              </p>
+            )}
+            {direction === 'USDC_TO_AIC' && (
+              <p className="text-sm text-gray-200 bg-green-600/20 p-2 rounded">
+                💰 Your AIC tokens are now in your wallet! Check your balance above.
+              </p>
+            )}
             <div className="bg-gray-800/50 p-2 rounded">
               <p className="text-xs text-gray-400 mb-1">Transaction Hash (Arc Testnet):</p>
               <p className="text-xs font-mono text-cyan-300 break-all">{txHash}</p>
@@ -313,6 +323,37 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
           </div>
         </div>
       </div>
+
+      {parseFloat(usdcBalance) > 0 && (
+        <div className="mt-6 p-4 bg-green-500/10 border border-green-500/30 rounded-lg">
+          <div className="flex items-start gap-3 mb-3">
+            <Wallet className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="text-green-400 font-semibold mb-1">✅ USDC Ready in MetaMask!</p>
+              <p className="text-sm text-gray-300 mb-2">
+                Your <span className="font-bold text-white">{parseFloat(usdcBalance).toFixed(2)} USDC</span> is already deposited in your MetaMask wallet on <span className="font-semibold text-cyan-400">Arc Testnet</span>
+              </p>
+              <div className="text-xs text-gray-400 space-y-1 pl-4 border-l-2 border-green-500/30">
+                <p>✓ No withdrawal needed - it's already yours!</p>
+                <p>✓ Check MetaMask to see your balance</p>
+                <p>✓ Ready to bridge to other chains</p>
+              </div>
+            </div>
+          </div>
+          <div className="space-y-2">
+            <button
+              onClick={addUSDCToMetaMask}
+              className="w-full bg-green-600 hover:bg-green-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg"
+            >
+              <Wallet className="w-4 h-4" />
+              Add USDC to MetaMask
+            </button>
+            <p className="text-xs text-gray-400 text-center">
+              💡 Click <span className="text-cyan-400 font-semibold">Bridge</span> tab to transfer USDC to Ethereum, Polygon, or other chains
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
