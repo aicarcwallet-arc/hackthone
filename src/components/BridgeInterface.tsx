@@ -358,23 +358,16 @@ export function BridgeInterface() {
 
         <button
           onClick={handleBridge}
-          disabled={isLoading || !connectedAddress}
-          className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-all shadow-[0_0_30px_rgba(34,211,238,0.5)] hover:shadow-[0_0_50px_rgba(34,211,238,0.8)] flex items-center justify-center gap-2 touch-manipulation"
+          disabled={true}
+          className="w-full bg-gray-600 cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-all flex items-center justify-center gap-2 touch-manipulation opacity-50"
         >
-          {isLoading ? (
-            <>
-              <Loader2 className="w-5 h-5 animate-spin" />
-              <span className="text-sm sm:text-base">Sign in MetaMask</span>
-            </>
-          ) : (
-            `Bridge ${selectedToken}`
-          )}
+          Bridge USDC (Coming Soon)
         </button>
-        {!isLoading && connectedAddress && amount && parseFloat(amount) > 0 && (
-          <p className="text-xs text-gray-400 text-center mt-2 px-2">
-            ⚠️ MetaMask signature required
+        <div className="p-3 bg-yellow-900/30 border border-yellow-500/30 rounded-lg">
+          <p className="text-xs text-yellow-300 text-center">
+            ℹ️ Bridge feature requires Circle CCTP backend integration. For now, use Step 1 & 2 above to claim and swap your AIC tokens to USDC on Arc Testnet.
           </p>
-        )}
+        </div>
       </div>
 
       {status === 'success' && txHash && (
