@@ -2,31 +2,38 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/png" href="/aic toekn  copy.png" />
+    <link rel="apple-touch-icon" href="/aic toekn  copy.png" />
 
     <!-- Mobile Optimization -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="AIC Game" />
+    <meta name="apple-mobile-web-app-title" content="AIC Token" />
 
     <!-- Theme Colors -->
-    <meta name="theme-color" content="#2563eb" />
-    <meta name="msapplication-navbutton-color" content="#2563eb" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="#2563eb" />
+    <meta name="theme-color" content="#06b6d4" />
+    <meta name="msapplication-navbutton-color" content="#06b6d4" />
+    <meta name="msapplication-TileColor" content="#06b6d4" />
 
     <!-- SEO and Description -->
-    <meta name="description" content="Earn AIC tokens by typing blockchain vocabulary words. Play, earn, and swap on Arc Testnet." />
-    <meta name="keywords" content="blockchain, AIC token, vocabulary game, Arc Testnet, crypto earnings" />
+    <meta name="description" content="Earn AIC tokens, swap crypto, bridge assets on Arc Testnet. Web3 rewards app with MetaMask integration." />
+    <meta name="keywords" content="AIC token, Arc Testnet, crypto swap, bridge, MetaMask, Web3, blockchain wallet" />
+    <meta name="author" content="AIC Token" />
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="AIC Token Vocabulary Game" />
-    <meta property="og:description" content="Earn AIC tokens (1:1 with USDC) by typing blockchain vocabulary words" />
+    <meta property="og:title" content="AIC Token - Earn & Swap Crypto" />
+    <meta property="og:description" content="Earn AIC tokens (1:1 with USDC), swap crypto, and bridge assets on Arc Testnet" />
+    <meta property="og:image" content="/aic toekn  copy.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="AIC Token - Earn & Swap" />
+    <meta name="twitter:description" content="Web3 rewards app on Arc Testnet" />
+    <meta name="twitter:image" content="/aic toekn  copy.png" />
 
     <!-- PWA Manifest -->
-    <link rel="manifest" href="/manifest.json" />
+    <link rel="manifest" href="/manifest.json" crossorigin="use-credentials" />
 
     <!-- Prevent text size adjustment on mobile -->
     <style>
@@ -53,27 +60,37 @@
       }
     </style>
 
-    <title>AIC Token Game - Earn Crypto Playing</title>
+    <title>AIC Token - Earn & Swap Crypto</title>
   </head>
   <body>
     <div id="root">
-      <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #dbeafe 0%, #cffafe 50%, #ffffff 100%); font-family: system-ui, -apple-system, sans-serif;">
+      <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); font-family: system-ui, -apple-system, sans-serif;">
         <div style="text-align: center; padding: 40px;">
-          <div style="display: inline-block; padding: 8px 20px; background: linear-gradient(135deg, #2563eb 0%, #0891b2 100%); color: white; border-radius: 9999px; font-size: 14px; font-weight: 600; margin-bottom: 20px;">
-            🔥 LIVE ON ARC TESTNET 🔥
+          <img src="/aic toekn  copy.png" alt="AIC Token" style="width: 80px; height: 80px; margin: 0 auto 20px; display: block;" />
+          <div style="display: inline-block; padding: 8px 20px; background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%); color: white; border-radius: 9999px; font-size: 14px; font-weight: 600; margin-bottom: 20px;">
+            LIVE ON ARC TESTNET
           </div>
-          <h1 style="font-size: 48px; font-weight: bold; background: linear-gradient(135deg, #2563eb 0%, #0891b2 50%, #2563eb 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 20px;">
-            AIC Token Game
+          <h1 style="font-size: 48px; font-weight: bold; background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #06b6d4 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 20px;">
+            AIC Token
           </h1>
-          <p style="font-size: 18px; color: #374151; margin-bottom: 10px; font-weight: 500;">
-            Type hackathon words • Earn AIC tokens • Bridge to any chain
+          <p style="font-size: 18px; color: #a1a1aa; margin-bottom: 10px; font-weight: 500;">
+            Earn • Swap • Bridge • Grow
           </p>
-          <p style="font-size: 14px; color: #6b7280;">
-            Loading app...
+          <p style="font-size: 14px; color: #71717a;">
+            Loading your Web3 wallet...
           </p>
         </div>
       </div>
     </div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(registration => console.log('SW registered:', registration.scope))
+            .catch(err => console.log('SW registration failed:', err));
+        });
+      }
+    </script>
   </body>
 </html>

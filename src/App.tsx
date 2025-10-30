@@ -6,6 +6,7 @@ import { AICSwapInterface } from './components/AICSwapInterface';
 import { VocabularyGame } from './components/VocabularyGame';
 import { TransactionHistory } from './components/TransactionHistory';
 import { WalletDashboard } from './components/WalletDashboard';
+import { InstallPrompt } from './components/InstallPrompt';
 import { Repeat, Send, Trophy, History } from 'lucide-react';
 import { supabase } from './lib/supabase';
 
@@ -270,6 +271,8 @@ function App() {
           )}
           {activeTab === 'history' && <TransactionHistory userId={userId} />}
         </div>
+
+        <InstallPrompt />
 
         <div className="mt-12 grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
           <div className="bg-white rounded-lg shadow-md p-6">
