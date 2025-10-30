@@ -99,12 +99,9 @@ export function useAICToken(walletAddress?: string) {
 
       const amountIn = parseUnits(aicAmount, 6);
 
-      const quote = await publicClient.readContract({
-        address: AIC_SWAP_ADDRESS,
-        abi: AIC_SWAP_ABI,
-        functionName: 'getAICToUSDCQuote',
-        args: [amountIn],
-      }) as bigint;
+      // Calculate quote locally: 1:1 peg minus 0.3% fee
+      const fee = amountIn * 3n / 1000n;
+      const quote = amountIn - fee;
 
       const minOut = (quote * 95n) / 100n;
 
@@ -183,12 +180,9 @@ export function useAICToken(walletAddress?: string) {
 
       const amountIn = parseUnits(usdcAmount, 6);
 
-      const quote = await publicClient.readContract({
-        address: AIC_SWAP_ADDRESS,
-        abi: AIC_SWAP_ABI,
-        functionName: 'getUSDCToAICQuote',
-        args: [amountIn],
-      }) as bigint;
+      // Calculate quote locally: 1:1 peg minus 0.3% fee
+      const fee = amountIn * 3n / 1000n;
+      const quote = amountIn - fee;
 
       const minOut = (quote * 95n) / 100n;
 
