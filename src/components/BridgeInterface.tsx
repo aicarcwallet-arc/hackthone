@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
-import { ArrowDownUp, Loader2, CheckCircle, XCircle, ExternalLink } from 'lucide-react';
+import { ArrowDownUp, Loader2, CheckCircle, XCircle, ExternalLink, Repeat } from 'lucide-react';
 import { useBridge } from '../hooks/useBridge';
+import { useAICToken } from '../hooks/useAICToken';
 import { SUPPORTED_CHAINS, CHAIN_OPTIONS, ARC_TESTNET_CHAIN_ID } from '../config/chains';
 import { getTokenAddress, getAvailableTokensForChain } from '../config/tokens';
 
@@ -17,6 +18,9 @@ export function BridgeInterface() {
   );
 
   const { isLoading, error, txHash, status, bridgeTokens, reset } = useBridge();
+  const { aicBalance, usdcBalance, loading: swapLoading, swapAICForUSDC } = useAICToken(connectedAddress || undefined);
+  const [swapSuccess, setSwapSuccess] = useState(false);
+  const [swapTxHash, setSwapTxHash] = useState<string>('');
 
   const handleConnectWallet = async () => {
     try {
@@ -100,11 +104,66 @@ export function BridgeInterface() {
           Connect Wallet
         </button>
       ) : (
-        <div className="mb-4 sm:mb-6 p-3 bg-green-500/20 border border-green-500/30 rounded-lg backdrop-blur-sm">
-          <p className="text-xs sm:text-sm text-green-300 font-medium">
-            Connected: {connectedAddress.slice(0, 6)}...{connectedAddress.slice(-4)}
-          </p>
-        </div>
+        <>
+          <div className="mb-4 sm:mb-6 p-3 bg-green-500/20 border border-green-500/30 rounded-lg backdrop-blur-sm">
+            <p className="text-xs sm:text-sm text-green-300 font-medium">
+              Connected: {connectedAddress.slice(0, 6)}...{connectedAddress.slice(-4)}
+            </p>
+          </div>
+
+          <div className="mb-4 sm:mb-6 p-4 bg-gradient-to-r from-blue-900/50 to-cyan-900/50 border border-cyan-500/30 rounded-lg backdrop-blur-sm space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-gray-300">Your AIC Balance</span>
+              <span className="text-lg font-bold text-cyan-300">{aicBalance} AIC</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-gray-300">Your USDC Balance</span>
+              <span className="text-lg font-bold text-green-300">{parseFloat(usdcBalance).toFixed(2)} USDC</span>
+            </div>
+            {parseFloat(aicBalance) > 0 && (
+              <button
+                onClick={async () => {
+                  try {
+                    setSwapSuccess(false);
+                    const hash = await swapAICForUSDC(aicBalance);
+                    setSwapTxHash(hash);
+                    setSwapSuccess(true);
+                  } catch (err: any) {
+                    alert(err.message || 'Swap failed');
+                  }
+                }}
+                disabled={swapLoading}
+                className="w-full bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-400 hover:to-cyan-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-semibold py-2.5 px-4 rounded-lg transition-all flex items-center justify-center gap-2 touch-manipulation"
+              >
+                {swapLoading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span className="text-sm">Swapping...</span>
+                  </>
+                ) : (
+                  <>
+                    <Repeat className="w-4 h-4" />
+                    <span className="text-sm">Convert All AIC to USDC</span>
+                  </>
+                )}
+              </button>
+            )}
+            {swapSuccess && swapTxHash && (
+              <div className="p-2 bg-green-500/20 border border-green-500/30 rounded text-center">
+                <p className="text-xs text-green-300">✅ Swap successful on Arc!</p>
+                <a
+                  href={`https://testnet.arcscan.com/tx/${swapTxHash}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-cyan-300 hover:text-cyan-200 underline inline-flex items-center gap-1 mt-1"
+                >
+                  View on Arc Explorer
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+            )}
+          </div>
+        </>
       )}
 
       <div className="space-y-3 sm:space-y-4">
