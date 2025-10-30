@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { createPublicClient, createWalletClient, custom, http, type Address } from 'viem';
 import { BridgeKit } from '@circle-fin/bridge-kit';
+import { supabase } from '../lib/supabase';
 
 interface BridgeState {
   isLoading: boolean;
@@ -71,6 +72,26 @@ export function useBridge() {
         });
 
         const txHash = typeof result === 'string' ? result : (result as any)?.txHash || 'bridge-initiated';
+
+        const { data: userData } = await supabase
+          .from('users')
+          .select('id')
+          .eq('wallet_address', accounts[0].toLowerCase())
+          .maybeSingle();
+
+        if (userData && txHash !== 'bridge-initiated') {
+          await supabase.from('token_transactions').insert({
+            user_id: userData.id,
+            transaction_type: 'bridge',
+            amount: parseFloat(amount),
+            from_token: 'USDC',
+            to_token: 'USDC',
+            tx_hash: txHash,
+            chain_id: fromChainId,
+            status: 'confirmed',
+            confirmed_at: new Date().toISOString(),
+          });
+        }
 
         setState({
           isLoading: false,

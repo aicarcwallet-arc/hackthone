@@ -65,10 +65,7 @@ export function TransactionHistory({ userId }: TransactionHistoryProps) {
 
   const getTxExplorerUrl = (txHash: string, chainId?: number) => {
     if (!txHash) return null;
-    if (chainId === 69420) {
-      return getExplorerUrl(txHash);
-    }
-    return null;
+    return getExplorerUrl(txHash);
   };
 
   if (!userId) {
@@ -168,13 +165,23 @@ export function TransactionHistory({ userId }: TransactionHistoryProps) {
         </div>
       )}
 
-      <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200">
-        <div className="bg-blue-50 rounded-lg p-3 sm:p-4">
-          <p className="text-xs sm:text-sm text-blue-900 font-medium mb-2">About Arc Testnet</p>
-          <p className="text-xs sm:text-sm text-blue-700">
+      <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-cyan-500/20">
+        <div className="bg-cyan-500/10 border border-cyan-500/30 rounded-lg p-3 sm:p-4">
+          <p className="text-xs sm:text-sm text-cyan-300 font-medium mb-2">🔗 Arc Testnet Explorer</p>
+          <p className="text-xs sm:text-sm text-gray-300 mb-2">
             All transactions are permanently recorded on Arc Testnet blockchain with sub-second finality.
-            Your AIC tokens are real ERC-20 tokens deployed at 0x394E...489A.
+            Click transaction hash to view on <a href="https://testnet.arcscan.app" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:text-cyan-300 underline">Arc Explorer</a>.
           </p>
+          <div className="flex flex-wrap gap-2 text-xs">
+            <div className="bg-gray-800/50 px-2 py-1 rounded">
+              <span className="text-gray-400">Chain ID:</span>{' '}
+              <span className="text-white font-mono">5042002</span>
+            </div>
+            <div className="bg-gray-800/50 px-2 py-1 rounded">
+              <span className="text-gray-400">RPC:</span>{' '}
+              <span className="text-white font-mono truncate">rpc.testnet.arc.network</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

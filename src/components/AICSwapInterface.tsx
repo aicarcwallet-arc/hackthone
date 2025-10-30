@@ -234,16 +234,21 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
         )}
 
         {txHash && (
-          <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-4 backdrop-blur-sm space-y-2">
-            <p className="text-green-300 text-sm mb-2">Swap successful!</p>
+          <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-4 backdrop-blur-sm space-y-3">
+            <p className="text-green-300 font-semibold mb-1">✅ Swap Successful!</p>
+            <div className="bg-gray-800/50 p-2 rounded">
+              <p className="text-xs text-gray-400 mb-1">Transaction Hash (Arc Testnet):</p>
+              <p className="text-xs font-mono text-cyan-300 break-all">{txHash}</p>
+            </div>
             <div className="flex flex-wrap gap-2">
               <a
                 href={`${getActiveArcExplorerUrl()}/tx/${txHash}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-cyan-400 hover:text-cyan-300 text-sm inline-flex items-center gap-1"
+                className="bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/50 text-cyan-300 px-3 py-2 rounded-lg text-sm inline-flex items-center gap-1 transition-colors"
               >
-                View on Explorer <ExternalLink className="w-3 h-3" />
+                <ExternalLink className="w-4 h-4" />
+                View on Arc Explorer
               </a>
               {direction === 'AIC_TO_USDC' && (
                 <button

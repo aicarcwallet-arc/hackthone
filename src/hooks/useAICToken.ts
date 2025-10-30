@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { createPublicClient, createWalletClient, custom, http, formatUnits, parseUnits } from 'viem';
 import { SUPPORTED_CHAINS } from '../config/chains';
 import { AIC_TOKEN_ADDRESS, AIC_SWAP_ADDRESS, USDC_ADDRESS, AIC_TOKEN_ABI, AIC_SWAP_ABI, ERC20_ABI } from '../config/contracts';
+import { supabase } from '../lib/supabase';
 
 export function useAICToken(walletAddress?: string) {
   const [aicBalance, setAicBalance] = useState<string>('0');
@@ -115,6 +116,26 @@ export function useAICToken(walletAddress?: string) {
 
       await publicClient.waitForTransactionReceipt({ hash: swapHash });
 
+      const { data: userData } = await supabase
+        .from('users')
+        .select('id')
+        .eq('wallet_address', walletAddress.toLowerCase())
+        .maybeSingle();
+
+      if (userData) {
+        await supabase.from('token_transactions').insert({
+          user_id: userData.id,
+          transaction_type: 'swap',
+          amount: parseFloat(aicAmount),
+          from_token: 'AIC',
+          to_token: 'USDC',
+          tx_hash: swapHash,
+          chain_id: SUPPORTED_CHAINS.ARC_TESTNET.id,
+          status: 'confirmed',
+          confirmed_at: new Date().toISOString(),
+        });
+      }
+
       await fetchBalances();
       await fetchPrice();
 
@@ -178,6 +199,26 @@ export function useAICToken(walletAddress?: string) {
       });
 
       await publicClient.waitForTransactionReceipt({ hash: swapHash });
+
+      const { data: userData } = await supabase
+        .from('users')
+        .select('id')
+        .eq('wallet_address', walletAddress.toLowerCase())
+        .maybeSingle();
+
+      if (userData) {
+        await supabase.from('token_transactions').insert({
+          user_id: userData.id,
+          transaction_type: 'swap',
+          amount: parseFloat(usdcAmount),
+          from_token: 'USDC',
+          to_token: 'AIC',
+          tx_hash: swapHash,
+          chain_id: SUPPORTED_CHAINS.ARC_TESTNET.id,
+          status: 'confirmed',
+          confirmed_at: new Date().toISOString(),
+        });
+      }
 
       await fetchBalances();
       await fetchPrice();

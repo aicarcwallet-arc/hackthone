@@ -207,33 +207,36 @@ export function BridgeInterface() {
       </div>
 
       {status === 'success' && txHash && (
-        <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-green-500/20 border border-green-500/30 rounded-lg backdrop-blur-sm">
+        <div className="mt-4 sm:mt-6 p-4 bg-green-500/20 border border-green-500/30 rounded-lg backdrop-blur-sm space-y-3">
           <div className="flex items-start gap-3">
             <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
             <div className="flex-1">
-              <p className="font-medium text-green-300 mb-1">Bridge Successful!</p>
-              <p className="text-sm text-green-400 break-all mb-2">
-                Transaction: {txHash.slice(0, 10)}...{txHash.slice(-8)}
-              </p>
+              <p className="font-semibold text-green-300 mb-1">✅ Bridge Successful!</p>
+            </div>
+          </div>
+          <div className="bg-gray-800/50 p-2 rounded">
+            <p className="text-xs text-gray-400 mb-1">Transaction Hash (Arc Testnet):</p>
+            <p className="text-xs font-mono text-cyan-300 break-all">{txHash}</p>
+          </div>
+          <div className="flex flex-wrap gap-2">
               {getExplorerUrl(fromChain, txHash) && (
                 <a
                   href={getExplorerUrl(fromChain, txHash)!}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-sm text-green-400 hover:text-green-300 font-medium"
+                  className="bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/50 text-cyan-300 px-3 py-2 rounded-lg text-sm inline-flex items-center gap-1 transition-colors"
                 >
-                  View on Explorer
                   <ExternalLink className="w-4 h-4" />
+                  View on Arc Explorer
                 </a>
               )}
               <button
                 onClick={reset}
-                className="block mt-2 text-sm text-green-400 hover:text-green-300 font-medium"
+                className="bg-green-500/20 hover:bg-green-500/30 border border-green-500/50 text-green-300 px-3 py-2 rounded-lg text-sm transition-colors"
               >
                 Bridge Again
               </button>
             </div>
-          </div>
         </div>
       )}
 
