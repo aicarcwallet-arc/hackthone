@@ -109,40 +109,51 @@ function App() {
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black flex items-center justify-center p-2 sm:p-4 relative overflow-hidden">
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
 
+      {/* Floating Circle Logo icons */}
+      <div className="absolute top-20 left-10 w-20 h-20 opacity-15 animate-float">
+        <img src="/circle.b8b9d808c4509a1c3043e1a2859807b7a83364094f388457832f020fa02cbc37.png" alt="" className="w-full h-full object-contain" />
+      </div>
+      <div className="absolute top-1/3 right-20 w-32 h-32 opacity-20 animate-float-delayed">
+        <img src="/circle.b8b9d808c4509a1c3043e1a2859807b7a83364094f388457832f020fa02cbc37.png" alt="" className="w-full h-full object-contain" />
+      </div>
+      <div className="absolute bottom-40 left-1/4 w-16 h-16 opacity-12 animate-float-slow">
+        <img src="/circle.b8b9d808c4509a1c3043e1a2859807b7a83364094f388457832f020fa02cbc37.png" alt="" className="w-full h-full object-contain" />
+      </div>
+
       {/* Floating USDC icons */}
-      <div className="absolute top-20 left-10 w-16 h-16 opacity-10 animate-float">
-        <div className="text-4xl">💵</div>
+      <div className="absolute top-40 right-10 w-24 h-24 opacity-18 animate-float-delayed">
+        <img src="/usdc-3d-icon-download-in-png-blend-fbx-gltf-file-formats--bitcoin-logo-coin-cryptocurrency-symbol-crypto-coins-vol2-pack-science-technology-icons-7947905.webp" alt="" className="w-full h-full object-contain" />
       </div>
-      <div className="absolute top-60 right-20 w-24 h-24 opacity-15 animate-float-delayed">
-        <div className="text-6xl">💵</div>
+      <div className="absolute bottom-60 right-1/4 w-20 h-20 opacity-15 animate-float">
+        <img src="/usdc-3d-icon-download-in-png-blend-fbx-gltf-file-formats--bitcoin-logo-coin-cryptocurrency-symbol-crypto-coins-vol2-pack-science-technology-icons-7947905.webp" alt="" className="w-full h-full object-contain" />
       </div>
-      <div className="absolute bottom-40 left-1/4 w-12 h-12 opacity-10 animate-float-slow">
-        <div className="text-3xl">💵</div>
-      </div>
-
-      {/* Floating Arc/Chain icons */}
-      <div className="absolute top-40 right-10 w-20 h-20 opacity-10 animate-float-delayed">
-        <div className="text-5xl">⛓️</div>
-      </div>
-      <div className="absolute bottom-60 right-1/4 w-16 h-16 opacity-15 animate-float">
-        <div className="text-4xl">⛓️</div>
-      </div>
-      <div className="absolute top-1/3 left-20 w-14 h-14 opacity-10 animate-float-slow">
-        <div className="text-3xl">⛓️</div>
+      <div className="absolute top-1/2 left-20 w-28 h-28 opacity-20 animate-float-slow">
+        <img src="/usdc-3d-icon-download-in-png-blend-fbx-gltf-file-formats--bitcoin-logo-coin-cryptocurrency-symbol-crypto-coins-vol2-pack-science-technology-icons-7947905.webp" alt="" className="w-full h-full object-contain" />
       </div>
 
-      {/* Floating AiC logo icons */}
-      <div className="absolute top-32 right-1/3 w-20 h-20 opacity-10 animate-float">
-        <img src="/aic toekn .png" alt="" className="w-full h-full" />
+      {/* Floating Arc Logo icons */}
+      <div className="absolute top-32 right-1/3 w-24 h-24 opacity-15 animate-float">
+        <img src="/ARAC LOGO.png" alt="" className="w-full h-full object-contain" />
       </div>
-      <div className="absolute bottom-32 left-1/3 w-28 h-28 opacity-15 animate-float-delayed">
-        <img src="/aic toekn .png" alt="" className="w-full h-full" />
+      <div className="absolute bottom-32 left-1/3 w-32 h-32 opacity-20 animate-float-delayed">
+        <img src="/ARAC LOGO.png" alt="" className="w-full h-full object-contain" />
       </div>
-      <div className="absolute top-1/2 right-16 w-16 h-16 opacity-10 animate-float-slow">
-        <img src="/aic toekn .png" alt="" className="w-full h-full" />
+      <div className="absolute top-2/3 right-16 w-20 h-20 opacity-12 animate-float-slow">
+        <img src="/ARAC LOGO.png" alt="" className="w-full h-full object-contain" />
       </div>
-      <div className="absolute bottom-20 right-1/2 w-12 h-12 opacity-10 animate-float">
-        <img src="/aic toekn .png" alt="" className="w-full h-full" />
+
+      {/* Floating AiC Token icons */}
+      <div className="absolute top-1/4 left-1/3 w-24 h-24 opacity-18 animate-float">
+        <img src="/aic toekn  copy.png" alt="" className="w-full h-full object-contain" />
+      </div>
+      <div className="absolute bottom-20 right-1/2 w-28 h-28 opacity-20 animate-float-delayed">
+        <img src="/aic toekn  copy.png" alt="" className="w-full h-full object-contain" />
+      </div>
+      <div className="absolute top-1/2 left-10 w-20 h-20 opacity-15 animate-float-slow">
+        <img src="/aic toekn  copy.png" alt="" className="w-full h-full object-contain" />
+      </div>
+      <div className="absolute bottom-1/3 right-20 w-16 h-16 opacity-12 animate-float">
+        <img src="/aic toekn  copy.png" alt="" className="w-full h-full object-contain" />
       </div>
       <div className="w-full max-w-6xl pb-safe">
         <div className="text-center mb-4 sm:mb-8 px-2">
