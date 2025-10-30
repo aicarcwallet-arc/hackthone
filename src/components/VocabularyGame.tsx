@@ -202,7 +202,7 @@ export function VocabularyGame({ userId, walletAddress, onGoBack }: VocabularyGa
           </div>
           <div className="flex items-center gap-1 sm:gap-2">
             <Coins className="w-4 h-4 sm:w-5 sm:h-5 text-green-500" />
-            <span className="text-sm sm:text-base font-semibold text-white">{totalEarned.toFixed(2)} AIC</span>
+            <span className="text-sm sm:text-base font-semibold text-white">{(totalEarned || 0).toFixed(2)} AIC</span>
           </div>
         </div>
         <button
@@ -246,7 +246,7 @@ export function VocabularyGame({ userId, walletAddress, onGoBack }: VocabularyGa
 
             {lastResult.wallet_balance && (
               <p className="text-sm text-green-700 mb-2">
-                New Balance: {parseFloat(lastResult.wallet_balance).toFixed(2)} AIC
+                New Balance: {(parseFloat(lastResult.wallet_balance) || 0).toFixed(2)} AIC
               </p>
             )}
 
