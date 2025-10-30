@@ -81,13 +81,13 @@ export function BridgeInterface() {
   };
 
   return (
-    <div className="w-full max-w-md bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-2xl border border-blue-100 p-4 sm:p-6">
+    <div className="w-full max-w-md bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-4 sm:p-6">
       <div className="mb-4 sm:mb-6">
-        <h2 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-2">Circle Bridge Kit</h2>
-        <p className="text-xs sm:text-sm text-gray-700 font-medium">
+        <h2 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-2">Circle Bridge Kit</h2>
+        <p className="text-xs sm:text-sm text-gray-300 font-medium">
           Bridge USDC across chains • All transactions on Arc Testnet
         </p>
-        <p className="text-xs text-gray-500 mt-1">
+        <p className="text-xs text-gray-400 mt-1">
           Powered by Circle CCTP Protocol
         </p>
       </div>
@@ -95,13 +95,13 @@ export function BridgeInterface() {
       {!connectedAddress ? (
         <button
           onClick={handleConnectWallet}
-          className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 active:from-blue-800 active:to-cyan-800 text-white font-semibold py-3 px-4 rounded-lg transition-all shadow-lg hover:shadow-xl mb-4 sm:mb-6 touch-manipulation"
+          className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold py-3 px-4 rounded-lg transition-all shadow-[0_0_30px_rgba(34,211,238,0.5)] hover:shadow-[0_0_50px_rgba(34,211,238,0.8)] mb-4 sm:mb-6 touch-manipulation"
         >
           Connect Wallet
         </button>
       ) : (
-        <div className="mb-4 sm:mb-6 p-3 bg-green-50 border border-green-200 rounded-lg">
-          <p className="text-xs sm:text-sm text-green-800 font-medium">
+        <div className="mb-4 sm:mb-6 p-3 bg-green-500/20 border border-green-500/30 rounded-lg backdrop-blur-sm">
+          <p className="text-xs sm:text-sm text-green-300 font-medium">
             Connected: {connectedAddress.slice(0, 6)}...{connectedAddress.slice(-4)}
           </p>
         </div>
@@ -109,13 +109,13 @@ export function BridgeInterface() {
 
       <div className="space-y-3 sm:space-y-4">
         <div>
-          <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
             Token
           </label>
           <select
             value={selectedToken}
             onChange={(e) => setSelectedToken(e.target.value)}
-            className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent touch-manipulation"
+            className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base bg-gray-800/50 border border-cyan-500/30 text-white rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 touch-manipulation"
             disabled={isLoading}
           >
             {availableTokens.map((token) => (
@@ -127,13 +127,13 @@ export function BridgeInterface() {
         </div>
 
         <div>
-          <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
             From Chain
           </label>
           <select
             value={fromChain}
             onChange={(e) => setFromChain(Number(e.target.value))}
-            className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent touch-manipulation"
+            className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base bg-gray-800/50 border border-cyan-500/30 text-white rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 touch-manipulation"
             disabled={isLoading}
           >
             {CHAIN_OPTIONS.map((option) => (
@@ -147,21 +147,21 @@ export function BridgeInterface() {
         <div className="flex justify-center">
           <button
             onClick={handleSwapChains}
-            className="p-2 hover:bg-gray-100 active:bg-gray-200 rounded-full transition-colors touch-manipulation"
+            className="p-2 hover:bg-cyan-500/20 active:bg-cyan-500/30 rounded-full transition-colors touch-manipulation"
             disabled={isLoading}
           >
-            <ArrowDownUp className="w-5 h-5 text-gray-600" />
+            <ArrowDownUp className="w-5 h-5 text-cyan-400" />
           </button>
         </div>
 
         <div>
-          <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
             To Chain
           </label>
           <select
             value={toChain}
             onChange={(e) => setToChain(Number(e.target.value))}
-            className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent touch-manipulation"
+            className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base bg-gray-800/50 border border-cyan-500/30 text-white rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 touch-manipulation"
             disabled={isLoading}
           >
             {CHAIN_OPTIONS.filter((option) => option.value !== fromChain).map(
@@ -175,7 +175,7 @@ export function BridgeInterface() {
         </div>
 
         <div>
-          <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
             Amount ({selectedToken})
           </label>
           <input
@@ -185,7 +185,7 @@ export function BridgeInterface() {
             placeholder="0.00"
             step="0.01"
             min="0"
-            className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent touch-manipulation"
+            className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base bg-gray-800/50 border border-cyan-500/30 text-white rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 touch-manipulation placeholder-gray-500"
             disabled={isLoading}
           />
         </div>
@@ -193,7 +193,7 @@ export function BridgeInterface() {
         <button
           onClick={handleBridge}
           disabled={isLoading || !connectedAddress}
-          className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 active:from-blue-800 active:to-cyan-800 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 touch-manipulation"
+          className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-all shadow-[0_0_30px_rgba(34,211,238,0.5)] hover:shadow-[0_0_50px_rgba(34,211,238,0.8)] flex items-center justify-center gap-2 touch-manipulation"
         >
           {isLoading ? (
             <>
@@ -207,12 +207,12 @@ export function BridgeInterface() {
       </div>
 
       {status === 'success' && txHash && (
-        <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-green-50 border border-green-200 rounded-lg">
+        <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-green-500/20 border border-green-500/30 rounded-lg backdrop-blur-sm">
           <div className="flex items-start gap-3">
-            <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+            <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
             <div className="flex-1">
-              <p className="font-medium text-green-900 mb-1">Bridge Successful!</p>
-              <p className="text-sm text-green-700 break-all mb-2">
+              <p className="font-medium text-green-300 mb-1">Bridge Successful!</p>
+              <p className="text-sm text-green-400 break-all mb-2">
                 Transaction: {txHash.slice(0, 10)}...{txHash.slice(-8)}
               </p>
               {getExplorerUrl(fromChain, txHash) && (
@@ -220,7 +220,7 @@ export function BridgeInterface() {
                   href={getExplorerUrl(fromChain, txHash)!}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-sm text-green-700 hover:text-green-800 font-medium"
+                  className="inline-flex items-center gap-1 text-sm text-green-400 hover:text-green-300 font-medium"
                 >
                   View on Explorer
                   <ExternalLink className="w-4 h-4" />
@@ -228,7 +228,7 @@ export function BridgeInterface() {
               )}
               <button
                 onClick={reset}
-                className="block mt-2 text-sm text-green-700 hover:text-green-800 font-medium"
+                className="block mt-2 text-sm text-green-400 hover:text-green-300 font-medium"
               >
                 Bridge Again
               </button>
@@ -238,15 +238,15 @@ export function BridgeInterface() {
       )}
 
       {status === 'error' && error && (
-        <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-red-50 border border-red-200 rounded-lg">
+        <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-red-900/30 border border-red-500/30 rounded-lg backdrop-blur-sm">
           <div className="flex items-start gap-3">
-            <XCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+            <XCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
             <div className="flex-1">
-              <p className="font-medium text-red-900 mb-1">Bridge Failed</p>
-              <p className="text-sm text-red-700">{error}</p>
+              <p className="font-medium text-red-300 mb-1">Bridge Failed</p>
+              <p className="text-sm text-red-400">{error}</p>
               <button
                 onClick={reset}
-                className="mt-2 text-sm text-red-700 hover:text-red-800 font-medium"
+                className="mt-2 text-sm text-red-400 hover:text-red-300 font-medium"
               >
                 Try Again
               </button>
@@ -255,18 +255,18 @@ export function BridgeInterface() {
         </div>
       )}
 
-      <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200">
+      <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-cyan-500/20">
         <div className="flex items-center justify-between text-xs sm:text-sm">
-          <span className="text-gray-600">Protocol</span>
-          <span className="font-medium text-gray-900">Circle CCTP</span>
+          <span className="text-gray-400">Protocol</span>
+          <span className="font-medium text-white">Circle CCTP</span>
         </div>
         <div className="flex items-center justify-between text-sm mt-2">
-          <span className="text-gray-600">Estimated Time</span>
-          <span className="font-medium text-gray-900">10-20 minutes</span>
+          <span className="text-gray-400">Estimated Time</span>
+          <span className="font-medium text-white">10-20 minutes</span>
         </div>
         <div className="flex items-center justify-between text-sm mt-2">
-          <span className="text-gray-600">Bridge Fee</span>
-          <span className="font-medium text-gray-900">Network gas only</span>
+          <span className="text-gray-400">Bridge Fee</span>
+          <span className="font-medium text-white">Network gas only</span>
         </div>
       </div>
     </div>

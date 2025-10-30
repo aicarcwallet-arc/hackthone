@@ -85,17 +85,17 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
 
   if (!contractsDeployed) {
     return (
-      <div className="bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto">
-        <h2 className="text-2xl font-bold mb-4 text-gray-800">AIC Swap</h2>
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center">
-          <p className="text-gray-700 mb-4">
+      <div className="bg-gray-900/80 backdrop-blur-sm rounded-lg shadow-[0_0_50px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-8 max-w-md mx-auto">
+        <h2 className="text-2xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">AIC Swap</h2>
+        <div className="bg-yellow-500/20 border border-yellow-500/30 rounded-lg p-6 text-center backdrop-blur-sm">
+          <p className="text-gray-300 mb-4">
             Contracts not deployed yet. Please deploy AIC Token and Swap contracts first.
           </p>
           <a
             href="https://remix.ethereum.org"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-600 hover:text-blue-700 underline inline-flex items-center gap-2"
+            className="text-cyan-400 hover:text-cyan-300 underline inline-flex items-center gap-2"
           >
             Deploy with Remix <ExternalLink className="w-4 h-4" />
           </a>
@@ -105,21 +105,21 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto">
+    <div className="bg-gray-900/80 backdrop-blur-sm rounded-lg shadow-[0_0_50px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-8 max-w-md mx-auto">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">Swap</h2>
-        <div className="text-sm text-gray-600">
+        <h2 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Swap</h2>
+        <div className="text-sm text-gray-300">
           1 AIC = {parseFloat(aicPrice).toFixed(4)} USDC
         </div>
       </div>
 
       <div className="space-y-4">
-        <div className="bg-gray-50 rounded-lg p-4">
+        <div className="bg-gray-800/50 backdrop-blur-sm border border-cyan-500/20 rounded-lg p-4">
           <div className="flex justify-between mb-2">
-            <span className="text-sm text-gray-600">From</span>
+            <span className="text-sm text-gray-300">From</span>
             <button
               onClick={setMaxAmount}
-              className="text-sm text-blue-600 hover:text-blue-700"
+              className="text-sm text-cyan-400 hover:text-cyan-300"
             >
               Max: {direction === 'AIC_TO_USDC' ? aicBalance : usdcBalance}
             </button>
@@ -130,10 +130,10 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
               value={fromAmount}
               onChange={(e) => setFromAmount(e.target.value)}
               placeholder="0.0"
-              className="flex-1 text-2xl bg-transparent border-none outline-none"
+              className="flex-1 text-2xl bg-transparent border-none outline-none text-white placeholder-gray-500"
               disabled={loading}
             />
-            <div className="bg-white rounded-lg px-4 py-2 font-semibold text-gray-800">
+            <div className="bg-cyan-500/20 border border-cyan-500/30 rounded-lg px-4 py-2 font-semibold text-cyan-300">
               {direction === 'AIC_TO_USDC' ? 'AIC' : 'USDC'}
             </div>
           </div>
@@ -141,15 +141,15 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
 
         <button
           onClick={switchDirection}
-          className="w-full flex items-center justify-center p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="w-full flex items-center justify-center p-2 hover:bg-cyan-500/20 rounded-lg transition-colors"
           disabled={loading}
         >
-          <ArrowDownUp className="w-6 h-6 text-gray-600" />
+          <ArrowDownUp className="w-6 h-6 text-cyan-400" />
         </button>
 
-        <div className="bg-gray-50 rounded-lg p-4">
+        <div className="bg-gray-800/50 backdrop-blur-sm border border-cyan-500/20 rounded-lg p-4">
           <div className="flex justify-between mb-2">
-            <span className="text-sm text-gray-600">To (estimated)</span>
+            <span className="text-sm text-gray-300">To (estimated)</span>
           </div>
           <div className="flex items-center gap-3">
             <input
@@ -157,28 +157,28 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
               value={toAmount}
               readOnly
               placeholder="0.0"
-              className="flex-1 text-2xl bg-transparent border-none outline-none"
+              className="flex-1 text-2xl bg-transparent border-none outline-none text-white placeholder-gray-500"
             />
-            <div className="bg-white rounded-lg px-4 py-2 font-semibold text-gray-800">
+            <div className="bg-cyan-500/20 border border-cyan-500/30 rounded-lg px-4 py-2 font-semibold text-cyan-300">
               {direction === 'AIC_TO_USDC' ? 'USDC' : 'AIC'}
             </div>
           </div>
         </div>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700 text-sm">
+          <div className="bg-red-900/30 border border-red-500/30 rounded-lg p-4 text-red-300 text-sm backdrop-blur-sm">
             {error}
           </div>
         )}
 
         {txHash && (
-          <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-            <p className="text-green-700 text-sm mb-2">Swap successful!</p>
+          <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-4 backdrop-blur-sm">
+            <p className="text-green-300 text-sm mb-2">Swap successful!</p>
             <a
               href={`${getActiveArcExplorerUrl()}/tx/${txHash}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 hover:text-blue-700 text-sm inline-flex items-center gap-1"
+              className="text-cyan-400 hover:text-cyan-300 text-sm inline-flex items-center gap-1"
             >
               View on Explorer <ExternalLink className="w-3 h-3" />
             </a>
@@ -188,7 +188,7 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
         <button
           onClick={handleSwap}
           disabled={loading || !fromAmount || parseFloat(fromAmount) <= 0}
-          className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-semibold py-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+          className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-700 text-white font-semibold py-4 rounded-lg transition-all shadow-[0_0_30px_rgba(34,211,238,0.5)] hover:shadow-[0_0_50px_rgba(34,211,238,0.8)] flex items-center justify-center gap-2"
         >
           {loading ? (
             <>
@@ -201,15 +201,15 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
         </button>
       </div>
 
-      <div className="mt-6 pt-6 border-t border-gray-200">
-        <div className="text-sm text-gray-600 space-y-1">
+      <div className="mt-6 pt-6 border-t border-cyan-500/20">
+        <div className="text-sm text-gray-400 space-y-1">
           <div className="flex justify-between">
             <span>Price impact</span>
-            <span className="text-gray-800">{'< 0.1%'}</span>
+            <span className="text-white">{'< 0.1%'}</span>
           </div>
           <div className="flex justify-between">
             <span>Swap fee (0.3%)</span>
-            <span className="text-gray-800">
+            <span className="text-white">
               {fromAmount ? (parseFloat(fromAmount) * 0.003).toFixed(6) : '0'} {direction === 'AIC_TO_USDC' ? 'AIC' : 'USDC'}
             </span>
           </div>

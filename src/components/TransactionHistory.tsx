@@ -73,8 +73,8 @@ export function TransactionHistory({ userId }: TransactionHistoryProps) {
 
   if (!userId) {
     return (
-      <div className="w-full max-w-3xl bg-white rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-8">
-        <div className="text-center text-sm sm:text-base text-gray-600">
+      <div className="w-full max-w-3xl bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-4 sm:p-8">
+        <div className="text-center text-sm sm:text-base text-gray-300">
           Connect your wallet to view transaction history
         </div>
       </div>
@@ -82,16 +82,16 @@ export function TransactionHistory({ userId }: TransactionHistoryProps) {
   }
 
   return (
-    <div className="w-full max-w-4xl bg-white rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6">
+    <div className="w-full max-w-4xl bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-4 sm:p-6">
       <div className="flex items-center justify-between mb-4 sm:mb-6 flex-wrap gap-2">
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Transaction History</h2>
-          <p className="text-xs sm:text-sm text-gray-600">All transactions on Arc Testnet blockchain</p>
+          <h2 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-1">Transaction History</h2>
+          <p className="text-xs sm:text-sm text-gray-300">All transactions on Arc Testnet blockchain</p>
         </div>
         <button
           onClick={loadTransactions}
           disabled={isLoading}
-          className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-blue-50 hover:bg-blue-100 active:bg-blue-200 text-blue-600 font-medium text-xs sm:text-sm rounded-lg transition-colors touch-manipulation"
+          className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/30 text-cyan-300 font-medium text-xs sm:text-sm rounded-lg transition-colors touch-manipulation"
         >
           <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
           {isLoading ? 'Loading...' : 'Refresh'}
@@ -99,7 +99,7 @@ export function TransactionHistory({ userId }: TransactionHistoryProps) {
       </div>
 
       {transactions.length === 0 ? (
-        <div className="text-center py-8 sm:py-12 text-sm sm:text-base text-gray-500">
+        <div className="text-center py-8 sm:py-12 text-sm sm:text-base text-gray-400">
           No transactions yet. Start playing to earn AIC tokens!
         </div>
       ) : (
@@ -107,7 +107,7 @@ export function TransactionHistory({ userId }: TransactionHistoryProps) {
           {transactions.map((tx) => (
             <div
               key={tx.id}
-              className="flex flex-col sm:flex-row items-start sm:items-center gap-3 p-3 sm:p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              className="flex flex-col sm:flex-row items-start sm:items-center gap-3 p-3 sm:p-4 border border-cyan-500/20 bg-gray-800/30 backdrop-blur-sm rounded-lg hover:bg-cyan-500/10 transition-colors"
             >
               <div className="flex items-center gap-3 sm:gap-4 flex-1 w-full">
                 <div className="flex-shrink-0">
@@ -116,21 +116,21 @@ export function TransactionHistory({ userId }: TransactionHistoryProps) {
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <p className="text-sm sm:text-base font-semibold text-gray-900 capitalize">
+                    <p className="text-sm sm:text-base font-semibold text-white capitalize">
                       {tx.transaction_type}
                     </p>
                     {tx.from_token && tx.to_token && (
-                      <span className="text-xs sm:text-sm text-gray-600">
+                      <span className="text-xs sm:text-sm text-gray-400">
                         {tx.from_token} → {tx.to_token}
                       </span>
                     )}
                   </div>
-                  <p className="text-xs sm:text-sm text-gray-500">
+                  <p className="text-xs sm:text-sm text-gray-400">
                     {new Date(tx.created_at).toLocaleString()}
                   </p>
                   {tx.tx_hash && (
                     <div className="flex items-center gap-1 mt-1">
-                      <p className="text-xs text-gray-500 font-mono truncate max-w-[150px] sm:max-w-xs">
+                      <p className="text-xs text-gray-400 font-mono truncate max-w-[150px] sm:max-w-xs">
                         {tx.tx_hash}
                       </p>
                       {getTxExplorerUrl(tx.tx_hash, tx.chain_id) && (
@@ -138,7 +138,7 @@ export function TransactionHistory({ userId }: TransactionHistoryProps) {
                           href={getTxExplorerUrl(tx.tx_hash, tx.chain_id)!}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-blue-600 hover:text-blue-700 flex items-center gap-1"
+                          className="text-cyan-400 hover:text-cyan-300 flex items-center gap-1"
                           title="View on Arc Explorer"
                         >
                           <ExternalLink className="w-3 h-3" />
@@ -150,11 +150,11 @@ export function TransactionHistory({ userId }: TransactionHistoryProps) {
                 </div>
 
                 <div className="text-right ml-auto">
-                  <p className="font-bold text-gray-900 text-base sm:text-lg">
+                  <p className="font-bold text-white text-base sm:text-lg">
                     {tx.transaction_type === 'reward' ? '+' : ''}
                     {tx.amount.toFixed(2)}
                   </p>
-                  <p className="text-xs sm:text-sm text-gray-600">
+                  <p className="text-xs sm:text-sm text-gray-400">
                     {tx.to_token || 'AIC'}
                   </p>
                 </div>

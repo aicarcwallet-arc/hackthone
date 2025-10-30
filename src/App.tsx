@@ -181,7 +181,7 @@ function App() {
             <WalletDashboard walletAddress={connectedAddress} userId={userId} />
 
             <div className="flex justify-center mb-4 sm:mb-6 px-2">
-              <div className="inline-flex bg-white rounded-lg shadow-md p-1 overflow-x-auto max-w-full">
+              <div className="inline-flex bg-gray-800/50 backdrop-blur-sm rounded-lg shadow-[0_0_30px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-1 overflow-x-auto max-w-full">
                 <button
                   onClick={() => {
                     console.log('Game tab clicked');
@@ -189,8 +189,8 @@ function App() {
                   }}
                   className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-3 rounded-md font-medium text-sm transition-all touch-manipulation whitespace-nowrap ${
                     activeTab === 'game'
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'text-gray-700 hover:bg-gray-100'
+                      ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-[0_0_20px_rgba(34,211,238,0.5)]'
+                      : 'text-gray-300 hover:bg-cyan-500/20'
                   }`}
                 >
                   <Trophy className="w-4 h-4" />
@@ -204,8 +204,8 @@ function App() {
                   }}
                   className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-3 rounded-md font-medium text-sm transition-all touch-manipulation whitespace-nowrap ${
                     activeTab === 'bridge'
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'text-gray-700 hover:bg-gray-100'
+                      ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-[0_0_20px_rgba(34,211,238,0.5)]'
+                      : 'text-gray-300 hover:bg-cyan-500/20'
                   }`}
                 >
                   <Send className="w-4 h-4" />
@@ -218,8 +218,8 @@ function App() {
                   }}
                   className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-3 rounded-md font-medium text-sm transition-all touch-manipulation whitespace-nowrap ${
                     activeTab === 'swap'
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'text-gray-700 hover:bg-gray-100'
+                      ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-[0_0_20px_rgba(34,211,238,0.5)]'
+                      : 'text-gray-300 hover:bg-cyan-500/20'
                   }`}
                 >
                   <Repeat className="w-4 h-4" />
@@ -232,8 +232,8 @@ function App() {
                   }}
                   className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-3 rounded-md font-medium text-sm transition-all touch-manipulation whitespace-nowrap ${
                     activeTab === 'history'
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'text-gray-700 hover:bg-gray-100'
+                      ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-[0_0_20px_rgba(34,211,238,0.5)]'
+                      : 'text-gray-300 hover:bg-cyan-500/20'
                   }`}
                 >
                   <History className="w-4 h-4" />
@@ -251,7 +251,7 @@ function App() {
           {activeTab === 'swap' && (
             <div className="space-y-6">
               <AICSwapInterface walletAddress={connectedAddress || undefined} />
-              <div className="text-center text-sm text-gray-500">
+              <div className="text-center text-sm text-gray-400">
                 Or use other tokens:
               </div>
               <SwapInterface />
