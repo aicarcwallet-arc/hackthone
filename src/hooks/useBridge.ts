@@ -10,8 +10,9 @@ interface BridgeState {
   status: 'idle' | 'bridging' | 'success' | 'error';
 }
 
+// Arc Testnet (333333) is NOT supported by Circle CCTP yet
+// Only include chains that have CCTP contracts deployed
 const CHAIN_ID_TO_NAME: Record<number, ChainIdentifier> = {
-  333333: 'Arc_Testnet' as ChainIdentifier,
   11155111: 'Ethereum_Sepolia' as ChainIdentifier,
   421614: 'Arbitrum_Sepolia' as ChainIdentifier,
   84532: 'Base_Sepolia' as ChainIdentifier,

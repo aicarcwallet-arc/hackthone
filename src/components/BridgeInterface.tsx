@@ -1,14 +1,14 @@
 import { useState, useMemo } from 'react';
-import { ArrowDownUp, Loader2, CheckCircle, XCircle, ExternalLink, Repeat, Gift } from 'lucide-react';
+import { ArrowDownUp, Loader2, CheckCircle, XCircle, ExternalLink, Repeat, Gift, AlertCircle } from 'lucide-react';
 import { useBridge } from '../hooks/useBridge';
 import { useAICToken } from '../hooks/useAICToken';
-import { SUPPORTED_CHAINS, CHAIN_OPTIONS, ARC_TESTNET_CHAIN_ID } from '../config/chains';
+import { SUPPORTED_CHAINS, BRIDGE_CHAIN_OPTIONS, ARC_TESTNET_CHAIN_ID } from '../config/chains';
 import { getTokenAddress, getAvailableTokensForChain } from '../config/tokens';
 import { supabase } from '../lib/supabase';
 
 export function BridgeInterface() {
-  const [fromChain, setFromChain] = useState(ARC_TESTNET_CHAIN_ID);
-  const [toChain, setToChain] = useState(11155111);
+  const [fromChain, setFromChain] = useState(11155111); // Start with Ethereum Sepolia
+  const [toChain, setToChain] = useState(84532); // Base Sepolia
   const [selectedToken, setSelectedToken] = useState('USDC');
   const [amount, setAmount] = useState('');
   const [connectedAddress, setConnectedAddress] = useState<string | null>(null);
@@ -150,11 +150,26 @@ export function BridgeInterface() {
       <div className="mb-4 sm:mb-6">
         <h2 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-2">Circle Bridge Kit</h2>
         <p className="text-xs sm:text-sm text-gray-300 font-medium">
-          Bridge USDC across chains • All transactions on Arc Testnet
+          Bridge USDC across 6 testnet chains
         </p>
         <p className="text-xs text-gray-400 mt-1">
           Powered by Circle CCTP Protocol
         </p>
+      </div>
+
+      <div className="mb-4 p-3 bg-yellow-900/30 border border-yellow-500/30 rounded-lg backdrop-blur-sm">
+        <div className="flex items-start gap-2">
+          <AlertCircle className="w-4 h-4 text-yellow-400 flex-shrink-0 mt-0.5" />
+          <div className="text-xs text-yellow-200">
+            <p className="font-semibold mb-1">Arc Testnet Bridge Coming Soon</p>
+            <p className="text-yellow-300/80">
+              Circle CCTP is not yet deployed on Arc Testnet. Use this bridge to transfer USDC between Ethereum Sepolia, Base Sepolia, Arbitrum Sepolia, Optimism Sepolia, Polygon Amoy, and Avalanche Fuji.
+            </p>
+            <p className="mt-2 text-yellow-300/80">
+              ℹ️ You can still swap AIC to USDC on Arc Testnet above!
+            </p>
+          </div>
+        </div>
       </div>
 
       {!connectedAddress ? (
@@ -302,7 +317,7 @@ export function BridgeInterface() {
             className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base bg-gray-800/50 border border-cyan-500/30 text-white rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 touch-manipulation"
             disabled={isLoading}
           >
-            {CHAIN_OPTIONS.map((option) => (
+            {BRIDGE_CHAIN_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>
@@ -330,7 +345,7 @@ export function BridgeInterface() {
             className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base bg-gray-800/50 border border-cyan-500/30 text-white rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 touch-manipulation"
             disabled={isLoading}
           >
-            {CHAIN_OPTIONS.filter((option) => option.value !== fromChain).map(
+            {BRIDGE_CHAIN_OPTIONS.filter((option) => option.value !== fromChain).map(
               (option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}

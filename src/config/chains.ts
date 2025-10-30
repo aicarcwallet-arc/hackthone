@@ -234,3 +234,8 @@ export const CHAIN_OPTIONS = Object.entries(SUPPORTED_CHAINS).map(([key, chain])
   label: chain.name,
   key,
 }));
+
+// Bridge-supported chains (Arc Testnet NOT supported by Circle CCTP yet)
+export const BRIDGE_CHAIN_OPTIONS = CHAIN_OPTIONS.filter(
+  (option) => option.value !== ARC_TESTNET_CHAIN_ID
+);
