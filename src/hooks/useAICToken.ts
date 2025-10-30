@@ -37,8 +37,9 @@ export function useAICToken(walletAddress?: string) {
         .maybeSingle();
 
       if (userData) {
-        setDbBalance(userData.total_aic_earned || 0);
-        setAicBalance(((userData.total_aic_earned || 0) / 1000).toFixed(6));
+        const earnedBalance = parseFloat(userData.total_aic_earned || '0');
+        setDbBalance(earnedBalance);
+        setAicBalance(earnedBalance.toFixed(2));
       }
     } catch (error) {
       console.error('Error fetching database balance:', error);

@@ -21,6 +21,14 @@ export function WalletDashboard({ walletAddress, userId }: WalletDashboardProps)
       checkNetwork();
       loadBalance();
       loadUserStats();
+
+      // Auto-refresh every 3 seconds to keep balance up to date
+      const interval = setInterval(() => {
+        loadUserStats();
+        refreshBalances();
+      }, 3000);
+
+      return () => clearInterval(interval);
     }
   }, [walletAddress, userId]);
 
@@ -50,10 +58,11 @@ export function WalletDashboard({ walletAddress, userId }: WalletDashboardProps)
         .from('users')
         .select('total_aic_earned')
         .eq('id', userId)
-        .single();
+        .maybeSingle();
 
       if (data) {
-        setTotalEarned(data.total_aic_earned || 0);
+        const earned = parseFloat(data.total_aic_earned || '0');
+        setTotalEarned(earned);
       }
     } catch (error) {
       console.error('Failed to load user stats:', error);
