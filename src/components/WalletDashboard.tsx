@@ -177,19 +177,22 @@ export function WalletDashboard({ walletAddress, userId }: WalletDashboardProps)
         )}
 
         <div className="mt-4 pt-4 border-t border-white/20 space-y-2">
-          <div className="flex items-center justify-center gap-4 text-xs">
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs">
             <div className="flex items-center gap-1">
               <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-              <span className="text-blue-100">MetaMask Connected</span>
+              <span className="text-blue-100">MetaMask</span>
             </div>
             <div className="flex items-center gap-1">
               <div className="w-2 h-2 bg-green-400 rounded-full"></div>
               <span className="text-blue-100">Arc Testnet</span>
             </div>
+            <div className="flex items-center gap-1">
+              <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+              <span className="text-blue-100 font-medium">1 AIC = 1 USDC</span>
+            </div>
           </div>
-          <p className="text-blue-100 text-xs text-center">
-            All transactions require MetaMask signature and are recorded on Arc Testnet blockchain.{' '}
-            <span className="font-medium">1 AIC = 1 USDC</span>
+          <p className="text-blue-100 text-xs text-center px-2">
+            All transactions require MetaMask signature and are recorded on blockchain
           </p>
         </div>
       </div>

@@ -280,15 +280,15 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
           {loading ? (
             <>
               <Loader2 className="w-5 h-5 animate-spin" />
-              <span>Sign in MetaMask to Complete Swap</span>
+              <span className="text-sm sm:text-base">Sign in MetaMask</span>
             </>
           ) : (
             'Swap Tokens'
           )}
         </button>
         {!loading && fromAmount && parseFloat(fromAmount) > 0 && (
-          <p className="text-xs text-gray-400 text-center mt-2">
-            ⚠️ You will be asked to sign transactions with MetaMask
+          <p className="text-xs text-gray-400 text-center mt-2 px-2">
+            ⚠️ MetaMask signature required
           </p>
         )}
       </div>

@@ -198,15 +198,15 @@ export function BridgeInterface() {
           {isLoading ? (
             <>
               <Loader2 className="w-5 h-5 animate-spin" />
-              <span>Sign in MetaMask to Bridge</span>
+              <span className="text-sm sm:text-base">Sign in MetaMask</span>
             </>
           ) : (
             `Bridge ${selectedToken}`
           )}
         </button>
         {!isLoading && connectedAddress && amount && parseFloat(amount) > 0 && (
-          <p className="text-xs text-gray-400 text-center mt-2">
-            ⚠️ MetaMask signature required for bridging transaction
+          <p className="text-xs text-gray-400 text-center mt-2 px-2">
+            ⚠️ MetaMask signature required
           </p>
         )}
       </div>

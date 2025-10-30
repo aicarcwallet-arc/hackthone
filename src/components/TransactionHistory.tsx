@@ -177,9 +177,9 @@ export function TransactionHistory({ userId }: TransactionHistoryProps) {
               <span className="text-gray-400">Chain ID:</span>{' '}
               <span className="text-white font-mono">5042002</span>
             </div>
-            <div className="bg-gray-800/50 px-2 py-1 rounded">
+            <div className="bg-gray-800/50 px-2 py-1 rounded max-w-full">
               <span className="text-gray-400">RPC:</span>{' '}
-              <span className="text-white font-mono truncate">rpc.testnet.arc.network</span>
+              <span className="text-white font-mono truncate inline-block max-w-[180px] sm:max-w-none align-bottom">rpc.testnet.arc.network</span>
             </div>
           </div>
         </div>
