@@ -90,11 +90,19 @@ export function WalletDashboard({ walletAddress, userId }: WalletDashboardProps)
 
   const handleSwitchNetwork = async () => {
     try {
+      console.log('Attempting to switch to Arc Testnet...');
       await switchToArcNetwork();
-      setOnArcNetwork(true);
-      await loadBalance();
-    } catch (error) {
+      console.log('Network switch successful');
+
+      // Wait a moment for the network to fully switch
+      setTimeout(async () => {
+        await checkNetwork();
+        await loadBalance();
+        await refreshBalances();
+      }, 500);
+    } catch (error: any) {
       console.error('Failed to switch network:', error);
+      alert(`Failed to switch network: ${error.message || 'Unknown error'}`);
     }
   };
 

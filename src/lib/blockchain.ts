@@ -102,34 +102,51 @@ export async function getArcWalletClient() {
 
 export async function switchToArcNetwork() {
   if (!window.ethereum) {
-    throw new Error('No wallet provider found');
+    throw new Error('No wallet provider found. Please install MetaMask.');
   }
+
+  const chainIdHex = `0x${ARC_TESTNET_CHAIN_ID.toString(16)}`;
+  console.log(`Switching to Arc Testnet (Chain ID: ${ARC_TESTNET_CHAIN_ID}, Hex: ${chainIdHex})`);
 
   try {
     await window.ethereum.request({
       method: 'wallet_switchEthereumChain',
-      params: [{ chainId: `0x${ARC_TESTNET_CHAIN_ID.toString(16)}` }],
+      params: [{ chainId: chainIdHex }],
     });
+    console.log('Successfully switched to Arc Testnet');
   } catch (switchError: any) {
+    console.log('Switch error:', switchError.code, switchError.message);
+
+    // Chain not added to wallet, try adding it
     if (switchError.code === 4902) {
-      await window.ethereum.request({
-        method: 'wallet_addEthereumChain',
-        params: [
-          {
-            chainId: `0x${ARC_TESTNET_CHAIN_ID.toString(16)}`,
-            chainName: 'Arc Testnet',
-            nativeCurrency: {
-              name: 'USDC',
-              symbol: 'USDC',
-              decimals: 6,
+      console.log('Arc Testnet not found in wallet, adding it...');
+      try {
+        await window.ethereum.request({
+          method: 'wallet_addEthereumChain',
+          params: [
+            {
+              chainId: chainIdHex,
+              chainName: 'Arc Testnet',
+              nativeCurrency: {
+                name: 'USDC',
+                symbol: 'USDC',
+                decimals: 6,
+              },
+              rpcUrls: ['https://rpc.testnet.arc.network'],
+              blockExplorerUrls: ['https://testnet.arcscan.app'],
             },
-            rpcUrls: ['https://rpc.testnet.arc.network'],
-            blockExplorerUrls: ['https://testnet.arcscan.app'],
-          },
-        ],
-      });
+          ],
+        });
+        console.log('Successfully added Arc Testnet to wallet');
+      } catch (addError: any) {
+        console.error('Failed to add Arc Testnet:', addError);
+        throw new Error(`Failed to add Arc Testnet: ${addError.message}`);
+      }
+    } else if (switchError.code === 4001) {
+      // User rejected the request
+      throw new Error('You rejected the network switch request');
     } else {
-      throw switchError;
+      throw new Error(`Failed to switch network: ${switchError.message}`);
     }
   }
 }
