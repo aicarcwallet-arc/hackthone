@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { LandingPage } from './components/LandingPage';
 import { BridgeInterface } from './components/BridgeInterface';
 import { SwapInterface } from './components/SwapInterface';
 import { AICSwapInterface } from './components/AICSwapInterface';
@@ -11,6 +12,7 @@ import { supabase } from './lib/supabase';
 type Tab = 'game' | 'bridge' | 'swap' | 'history';
 
 function App() {
+  const [showLanding, setShowLanding] = useState(true);
   const [activeTab, setActiveTab] = useState<Tab>('game');
   const [connectedAddress, setConnectedAddress] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
@@ -98,6 +100,10 @@ function App() {
   };
 
   console.log('Rendering App, connectedAddress:', connectedAddress);
+
+  if (showLanding) {
+    return <LandingPage onGetStarted={() => setShowLanding(false)} />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-white flex items-center justify-center p-2 sm:p-4 relative overflow-hidden">
