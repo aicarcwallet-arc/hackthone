@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ArrowDownUp, Loader2, ExternalLink, Wallet } from 'lucide-react';
+import { ArrowDownUp, Loader2, ExternalLink, Wallet, Lock, Zap } from 'lucide-react';
 import { useAICToken } from '../hooks/useAICToken';
 import { AIC_TOKEN_ADDRESS, AIC_SWAP_ADDRESS, USDC_ADDRESS } from '../config/contracts';
 import { getActiveArcExplorerUrl } from '../config/chains';
@@ -150,6 +150,31 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
 
   return (
     <div className="bg-gray-900/80 backdrop-blur-sm rounded-lg shadow-[0_0_50px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-8 max-w-md mx-auto">
+      {/* Arc FX Engine Banner */}
+      <div className="bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/40 rounded-lg p-4 mb-6">
+        <div className="flex items-center gap-2 mb-2">
+          <Lock className="w-5 h-5 text-cyan-400" />
+          <p className="text-cyan-300 text-base font-bold">Arc FX Engine - Programmatic Peg</p>
+        </div>
+        <p className="text-sm text-gray-200 mb-3">AIC tokens are programmatically pegged 1:1 with USDC via Arc's native Layer 1 protocol</p>
+        <div className="grid grid-cols-2 gap-2 text-xs">
+          <div className="bg-gray-800/50 rounded p-2">
+            <div className="flex items-center gap-1 text-cyan-400 mb-1">
+              <Zap className="w-3 h-3" />
+              <span className="font-semibold">Sub-second finality</span>
+            </div>
+            <p className="text-gray-400">Instant settlement</p>
+          </div>
+          <div className="bg-gray-800/50 rounded p-2">
+            <div className="flex items-center gap-1 text-green-400 mb-1">
+              <span className="font-bold">$</span>
+              <span className="font-semibold">Few cents gas</span>
+            </div>
+            <p className="text-gray-400">USDC native gas</p>
+          </div>
+        </div>
+      </div>
+
       <div className="space-y-4 mb-6">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Swap AIC ↔ USDC</h2>

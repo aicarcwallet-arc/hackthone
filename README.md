@@ -46,11 +46,12 @@ An AI-powered vocabulary game where players earn **AIC (AI Cognitive) tokens** w
 - Detects cheating and intentional errors
 - Calculates fair rewards (100-500 AIC per word)
 
-### 2. **Programmatic USDC Peg**
-- Constant Product AMM (x * y = k)
-- 0.3% swap fee
-- 5% slippage protection
-- Real-time price discovery
+### 2. **Arc's Native FX Engine Pegging**
+- Built on Arc's programmable Layer 1 infrastructure
+- 1:1 USDC peg via Arc's native FX engine
+- No external liquidity pools needed
+- USDC as native gas token (few cents per transaction)
+- Sub-second finality with instant settlement
 
 ### 3. **Unlimited Liquidity**
 - Vocabulary words are unlimited
@@ -65,10 +66,12 @@ An AI-powered vocabulary game where players earn **AIC (AI Cognitive) tokens** w
 - CCTP for secure transfers
 
 ### 5. **Arc-Native Architecture**
-- USDC as gas token (6 decimals)
-- Sub-second finality
-- Predictable, low fees
+- USDC as native gas token (6 decimals)
+- Arc's FX engine for programmatic stablecoin conversion
+- Sub-second finality via Malachite consensus
+- Predictable, dollar-denominated fees
 - Production-ready for mainnet
+- Built on Circle's "Economic OS for the internet"
 
 ---
 
@@ -289,22 +292,23 @@ npm run build
 
 ## 💡 Tokenomics: Why AIC Has Value
 
-### The Liquidity Model
+### Arc's Programmatic Pegging Model
 
-1. **Unlimited Supply from Gameplay**
+1. **Arc Network's Native FX Infrastructure**
+   - AIC leverages Arc's built-in FX engine
+   - Programmatic 1:1 peg to USDC at protocol level
+   - No manual liquidity pools required
+   - Automated conversion between stablecoins
+
+2. **Unlimited Supply from Gameplay**
    - Vocabulary words are infinite
    - Players continuously earn AIC
-   - Constant minting = growing liquidity
+   - Constant minting = growing value
 
-2. **Programmatic Peg to USDC**
-   - AMM maintains 1:1 price target
-   - Arbitrage opportunities keep balance
-   - Deep liquidity from high gameplay volume
-
-3. **Market Value Discovery**
-   - Price determined by supply/demand
-   - Swap fees generate LP rewards
-   - Self-sustaining ecosystem
+3. **Market Value via Arc Protocol**
+   - Arc's FX engine maintains price stability
+   - Instant delivery-versus-payment (DvP)
+   - Institutional-grade settlement
 
 4. **Real Utility**
    - Educational performance = real value
