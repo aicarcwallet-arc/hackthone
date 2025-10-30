@@ -106,11 +106,44 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-white flex items-center justify-center p-2 sm:p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black flex items-center justify-center p-2 sm:p-4 relative overflow-hidden">
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-      <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
-      <div className="absolute top-40 right-10 w-72 h-72 bg-cyan-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
-      <div className="absolute -bottom-8 left-20 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
+
+      {/* Floating USDC icons */}
+      <div className="absolute top-20 left-10 w-16 h-16 opacity-10 animate-float">
+        <div className="text-4xl">💵</div>
+      </div>
+      <div className="absolute top-60 right-20 w-24 h-24 opacity-15 animate-float-delayed">
+        <div className="text-6xl">💵</div>
+      </div>
+      <div className="absolute bottom-40 left-1/4 w-12 h-12 opacity-10 animate-float-slow">
+        <div className="text-3xl">💵</div>
+      </div>
+
+      {/* Floating Arc/Chain icons */}
+      <div className="absolute top-40 right-10 w-20 h-20 opacity-10 animate-float-delayed">
+        <div className="text-5xl">⛓️</div>
+      </div>
+      <div className="absolute bottom-60 right-1/4 w-16 h-16 opacity-15 animate-float">
+        <div className="text-4xl">⛓️</div>
+      </div>
+      <div className="absolute top-1/3 left-20 w-14 h-14 opacity-10 animate-float-slow">
+        <div className="text-3xl">⛓️</div>
+      </div>
+
+      {/* Floating AiC logo icons */}
+      <div className="absolute top-32 right-1/3 w-20 h-20 opacity-10 animate-float">
+        <img src="/aic toekn .png" alt="" className="w-full h-full" />
+      </div>
+      <div className="absolute bottom-32 left-1/3 w-28 h-28 opacity-15 animate-float-delayed">
+        <img src="/aic toekn .png" alt="" className="w-full h-full" />
+      </div>
+      <div className="absolute top-1/2 right-16 w-16 h-16 opacity-10 animate-float-slow">
+        <img src="/aic toekn .png" alt="" className="w-full h-full" />
+      </div>
+      <div className="absolute bottom-20 right-1/2 w-12 h-12 opacity-10 animate-float">
+        <img src="/aic toekn .png" alt="" className="w-full h-full" />
+      </div>
       <div className="w-full max-w-6xl pb-safe">
         <div className="text-center mb-4 sm:mb-8 px-2">
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-4 py-1 rounded-full text-xs sm:text-sm font-semibold mb-3">
