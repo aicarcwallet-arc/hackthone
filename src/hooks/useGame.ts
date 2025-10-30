@@ -173,11 +173,13 @@ export function useGame(userId: string | null) {
           validationResult.explorer_base_url = getExplorerUrl('');
         }
 
+        const rewardAmount = parseFloat(validationResult.aic_reward) || 0;
+
         setState((prev) => ({
           ...prev,
           isLoading: false,
           wordsCompleted: prev.wordsCompleted + 1,
-          totalEarned: prev.totalEarned + validationResult.aic_reward,
+          totalEarned: prev.totalEarned + rewardAmount,
         }));
 
         return validationResult;
