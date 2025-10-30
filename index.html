@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+
+    <!-- Mobile Optimization -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="AIC Game" />
+
+    <!-- Theme Colors -->
+    <meta name="theme-color" content="#2563eb" />
+    <meta name="msapplication-navbutton-color" content="#2563eb" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="#2563eb" />
+
+    <!-- SEO and Description -->
+    <meta name="description" content="Earn AIC tokens by typing blockchain vocabulary words. Play, earn, and swap on Arc Testnet." />
+    <meta name="keywords" content="blockchain, AIC token, vocabulary game, Arc Testnet, crypto earnings" />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="AIC Token Vocabulary Game" />
+    <meta property="og:description" content="Earn AIC tokens (1:1 with USDC) by typing blockchain vocabulary words" />
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Prevent text size adjustment on mobile -->
+    <style>
+      * {
+        -webkit-text-size-adjust: 100%;
+        -moz-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
+
+      /* Prevent pull-to-refresh on mobile */
+      body {
+        overscroll-behavior-y: contain;
+      }
+
+      /* Smooth scrolling */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Remove tap highlight on mobile */
+      * {
+        -webkit-tap-highlight-color: transparent;
+      }
+    </style>
+
+    <title>AIC Token Game - Earn Crypto Playing</title>
+  </head>
+  <body>
+    <div id="root">
+      <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #dbeafe 0%, #cffafe 50%, #ffffff 100%); font-family: system-ui, -apple-system, sans-serif;">
+        <div style="text-align: center; padding: 40px;">
+          <div style="display: inline-block; padding: 8px 20px; background: linear-gradient(135deg, #2563eb 0%, #0891b2 100%); color: white; border-radius: 9999px; font-size: 14px; font-weight: 600; margin-bottom: 20px;">
+            🔥 LIVE ON ARC TESTNET 🔥
+          </div>
+          <h1 style="font-size: 48px; font-weight: bold; background: linear-gradient(135deg, #2563eb 0%, #0891b2 50%, #2563eb 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 20px;">
+            AIC Token Game
+          </h1>
+          <p style="font-size: 18px; color: #374151; margin-bottom: 10px; font-weight: 500;">
+            Type hackathon words • Earn AIC tokens • Bridge to any chain
+          </p>
+          <p style="font-size: 14px; color: #6b7280;">
+            Loading app...
+          </p>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
