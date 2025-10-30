@@ -9,6 +9,7 @@ export function useAICToken(walletAddress?: string) {
   const [usdcBalance, setUsdcBalance] = useState<string>('0');
   const [aicPrice, setAicPrice] = useState<string>('0');
   const [loading, setLoading] = useState(false);
+  const [dbBalance, setDbBalance] = useState<number>(0);
 
   const publicClient = createPublicClient({
     chain: SUPPORTED_CHAINS.ARC_TESTNET,
@@ -16,33 +17,50 @@ export function useAICToken(walletAddress?: string) {
   });
 
   useEffect(() => {
-    if (walletAddress && AIC_TOKEN_ADDRESS && USDC_ADDRESS) {
+    if (walletAddress) {
       fetchBalances();
-      fetchPrice();
+      fetchDatabaseBalance();
+      if (AIC_TOKEN_ADDRESS && USDC_ADDRESS) {
+        fetchPrice();
+      }
     }
   }, [walletAddress]);
 
-  const fetchBalances = async () => {
-    if (!walletAddress || !AIC_TOKEN_ADDRESS) return;
+  const fetchDatabaseBalance = async () => {
+    if (!walletAddress) return;
 
     try {
-      const [aic, usdc] = await Promise.all([
-        publicClient.readContract({
-          address: AIC_TOKEN_ADDRESS,
-          abi: AIC_TOKEN_ABI,
-          functionName: 'balanceOf',
-          args: [walletAddress as `0x${string}`],
-        }),
-        publicClient.readContract({
+      const { data: userData } = await supabase
+        .from('users')
+        .select('total_aic_earned')
+        .eq('wallet_address', walletAddress.toLowerCase())
+        .maybeSingle();
+
+      if (userData) {
+        setDbBalance(userData.total_aic_earned || 0);
+        setAicBalance(((userData.total_aic_earned || 0) / 1000).toFixed(6));
+      }
+    } catch (error) {
+      console.error('Error fetching database balance:', error);
+    }
+  };
+
+  const fetchBalances = async () => {
+    if (!walletAddress) return;
+
+    try {
+      await fetchDatabaseBalance();
+
+      if (AIC_TOKEN_ADDRESS && USDC_ADDRESS) {
+        const usdc = await publicClient.readContract({
           address: USDC_ADDRESS,
           abi: ERC20_ABI,
           functionName: 'balanceOf',
           args: [walletAddress as `0x${string}`],
-        }),
-      ]);
+        });
 
-      setAicBalance(formatUnits(aic as bigint, 6));
-      setUsdcBalance(formatUnits(usdc as bigint, 6));
+        setUsdcBalance(formatUnits(usdc as bigint, 6));
+      }
     } catch (error) {
       console.error('Error fetching balances:', error);
     }
@@ -257,6 +275,7 @@ export function useAICToken(walletAddress?: string) {
     usdcBalance,
     aicPrice,
     loading,
+    dbBalance,
     swapAICForUSDC,
     swapUSDCForAIC,
     getSwapQuote,

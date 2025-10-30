@@ -190,7 +190,7 @@ function App() {
 
         {connectedAddress && (
           <>
-            <WalletDashboard walletAddress={connectedAddress} userId={userId} />
+            <WalletDashboard key={`wallet-${connectedAddress}-${activeTab}`} walletAddress={connectedAddress} userId={userId} />
 
             <div className="flex justify-center mb-4 sm:mb-6 px-2">
               <div className="inline-flex bg-gray-800/50 backdrop-blur-sm rounded-lg shadow-[0_0_30px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-1 overflow-x-auto max-w-full">
@@ -258,11 +258,11 @@ function App() {
         )}
 
         <div className="flex justify-center">
-          {activeTab === 'game' && <VocabularyGame userId={userId} walletAddress={connectedAddress} onGoBack={() => setActiveTab('game')} />}
+          {activeTab === 'game' && <VocabularyGame key={`game-${connectedAddress}`} userId={userId} walletAddress={connectedAddress} onGoBack={() => setActiveTab('game')} />}
           {activeTab === 'bridge' && <BridgeInterface />}
           {activeTab === 'swap' && (
             <div className="space-y-6">
-              <AICSwapInterface walletAddress={connectedAddress || undefined} />
+              <AICSwapInterface key={`swap-${connectedAddress}-${activeTab}`} walletAddress={connectedAddress || undefined} />
               <div className="text-center text-sm text-gray-400">
                 Or use other tokens:
               </div>
