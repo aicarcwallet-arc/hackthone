@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { ArrowDownUp, Loader2, ExternalLink } from 'lucide-react';
+import { ArrowDownUp, Loader2, ExternalLink, Wallet } from 'lucide-react';
 import { useAICToken } from '../hooks/useAICToken';
-import { AIC_TOKEN_ADDRESS, AIC_SWAP_ADDRESS } from '../config/contracts';
+import { AIC_TOKEN_ADDRESS, AIC_SWAP_ADDRESS, USDC_ADDRESS } from '../config/contracts';
 import { getActiveArcExplorerUrl } from '../config/chains';
 
 interface AICSwapInterfaceProps {
@@ -73,7 +73,51 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
     setDirection(prev => prev === 'AIC_TO_USDC' ? 'USDC_TO_AIC' : 'AIC_TO_USDC');
     setFromAmount('');
     setToAmount('');
+    setError('');
+    setTxHash('');
     console.log('Direction switched');
+  };
+
+  const addUSDCToMetaMask = async () => {
+    if (!window.ethereum || !USDC_ADDRESS) return;
+
+    try {
+      await window.ethereum.request({
+        method: 'wallet_watchAsset',
+        params: {
+          type: 'ERC20',
+          options: {
+            address: USDC_ADDRESS,
+            symbol: 'USDC',
+            decimals: 6,
+            image: 'https://cryptologos.cc/logos/usd-coin-usdc-logo.png',
+          },
+        },
+      });
+    } catch (err) {
+      console.error('Failed to add USDC to MetaMask:', err);
+    }
+  };
+
+  const addAICToMetaMask = async () => {
+    if (!window.ethereum || !AIC_TOKEN_ADDRESS) return;
+
+    try {
+      await window.ethereum.request({
+        method: 'wallet_watchAsset',
+        params: {
+          type: 'ERC20',
+          options: {
+            address: AIC_TOKEN_ADDRESS,
+            symbol: 'AIC',
+            decimals: 6,
+            image: '',
+          },
+        },
+      });
+    } catch (err) {
+      console.error('Failed to add AIC to MetaMask:', err);
+    }
   };
 
   const setMaxAmount = () => {
@@ -106,10 +150,28 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
 
   return (
     <div className="bg-gray-900/80 backdrop-blur-sm rounded-lg shadow-[0_0_50px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-8 max-w-md mx-auto">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Swap</h2>
-        <div className="text-sm text-gray-300">
-          1 AIC = {parseFloat(aicPrice).toFixed(4)} USDC
+      <div className="space-y-4 mb-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Swap AIC ↔ USDC</h2>
+          <div className="text-sm text-gray-300">
+            1 AIC = {parseFloat(aicPrice).toFixed(4)} USDC
+          </div>
+        </div>
+        <div className="flex gap-2">
+          <button
+            onClick={addAICToMetaMask}
+            className="flex-1 text-xs bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 py-2 px-3 rounded-lg transition-colors flex items-center justify-center gap-1"
+          >
+            <Wallet className="w-3 h-3" />
+            Add AIC to Wallet
+          </button>
+          <button
+            onClick={addUSDCToMetaMask}
+            className="flex-1 text-xs bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 py-2 px-3 rounded-lg transition-colors flex items-center justify-center gap-1"
+          >
+            <Wallet className="w-3 h-3" />
+            Add USDC to Wallet
+          </button>
         </div>
       </div>
 
@@ -172,16 +234,36 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
         )}
 
         {txHash && (
-          <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-4 backdrop-blur-sm">
+          <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-4 backdrop-blur-sm space-y-2">
             <p className="text-green-300 text-sm mb-2">Swap successful!</p>
-            <a
-              href={`${getActiveArcExplorerUrl()}/tx/${txHash}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-cyan-400 hover:text-cyan-300 text-sm inline-flex items-center gap-1"
-            >
-              View on Explorer <ExternalLink className="w-3 h-3" />
-            </a>
+            <div className="flex flex-wrap gap-2">
+              <a
+                href={`${getActiveArcExplorerUrl()}/tx/${txHash}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-cyan-400 hover:text-cyan-300 text-sm inline-flex items-center gap-1"
+              >
+                View on Explorer <ExternalLink className="w-3 h-3" />
+              </a>
+              {direction === 'AIC_TO_USDC' && (
+                <button
+                  onClick={addUSDCToMetaMask}
+                  className="text-cyan-400 hover:text-cyan-300 text-sm inline-flex items-center gap-1"
+                >
+                  <Wallet className="w-3 h-3" />
+                  Add USDC to MetaMask
+                </button>
+              )}
+              {direction === 'USDC_TO_AIC' && (
+                <button
+                  onClick={addAICToMetaMask}
+                  className="text-cyan-400 hover:text-cyan-300 text-sm inline-flex items-center gap-1"
+                >
+                  <Wallet className="w-3 h-3" />
+                  Add AIC to MetaMask
+                </button>
+              )}
+            </div>
           </div>
         )}
 

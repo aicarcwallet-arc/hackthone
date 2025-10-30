@@ -1,13 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
-import { Trophy, Clock, Zap, Target, Coins, Play, X } from 'lucide-react';
+import { Trophy, Clock, Zap, Target, Coins, Play, X, ArrowLeft } from 'lucide-react';
 import { useGame } from '../hooks/useGame';
 
 interface VocabularyGameProps {
   userId: string | null;
   walletAddress: string | null;
+  onGoBack?: () => void;
 }
 
-export function VocabularyGame({ userId, walletAddress }: VocabularyGameProps) {
+export function VocabularyGame({ userId, walletAddress, onGoBack }: VocabularyGameProps) {
   const {
     isLoading,
     error,
@@ -186,6 +187,15 @@ export function VocabularyGame({ userId, walletAddress }: VocabularyGameProps) {
     <div className="w-full max-w-3xl bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-4 sm:p-8">
       <div className="flex items-center justify-between mb-4 sm:mb-6 flex-wrap gap-2">
         <div className="flex items-center gap-3 sm:gap-6">
+          {onGoBack && (
+            <button
+              onClick={onGoBack}
+              className="flex items-center gap-1 sm:gap-2 text-cyan-400 hover:text-cyan-300 font-medium text-sm sm:text-base touch-manipulation"
+            >
+              <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="hidden sm:inline">Back</span>
+            </button>
+          )}
           <div className="flex items-center gap-1 sm:gap-2">
             <Trophy className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-500" />
             <span className="text-sm sm:text-base font-semibold text-white">{wordsCompleted} Words</span>

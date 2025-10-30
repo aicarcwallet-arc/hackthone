@@ -257,7 +257,7 @@ function App() {
         )}
 
         <div className="flex justify-center">
-          {activeTab === 'game' && <VocabularyGame userId={userId} walletAddress={connectedAddress} />}
+          {activeTab === 'game' && <VocabularyGame userId={userId} walletAddress={connectedAddress} onGoBack={() => setActiveTab('game')} />}
           {activeTab === 'bridge' && <BridgeInterface />}
           {activeTab === 'swap' && (
             <div className="space-y-6">
