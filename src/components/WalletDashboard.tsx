@@ -147,9 +147,9 @@ export function WalletDashboard({ walletAddress, userId }: WalletDashboardProps)
                 <p className="text-blue-200 text-xs sm:text-sm">AIC Balance</p>
               </div>
               <p className="text-2xl sm:text-3xl font-bold mb-1">
-                {parseFloat(aicBalance).toFixed(2)}
+                {totalEarned.toFixed(2)}
               </p>
-              <p className="text-blue-200 text-xs sm:text-sm">≈ ${parseFloat(aicBalance).toFixed(2)} USDC</p>
+              <p className="text-blue-200 text-xs sm:text-sm">≈ ${totalEarned.toFixed(2)} USDC</p>
             </div>
 
             <div className="bg-white/10 backdrop-blur-sm rounded-lg sm:rounded-xl p-3 sm:p-4">
