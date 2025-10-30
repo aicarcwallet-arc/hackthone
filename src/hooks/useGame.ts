@@ -167,19 +167,19 @@ export function useGame(userId: string | null) {
 
         const validationResult = await response.json();
 
+        const rewardAmount = parseFloat(validationResult.aic_reward) || 0;
+        const newTotalEarned = state.totalEarned + rewardAmount;
+
         if (validationResult.validation_status === 'validated' && validationResult.aic_reward > 0) {
-          const updatedBalance = await getAICBalance(walletAddress as Address);
-          validationResult.wallet_balance = updatedBalance;
+          validationResult.wallet_balance = newTotalEarned.toString();
           validationResult.explorer_base_url = getExplorerUrl('');
         }
-
-        const rewardAmount = parseFloat(validationResult.aic_reward) || 0;
 
         setState((prev) => ({
           ...prev,
           isLoading: false,
           wordsCompleted: prev.wordsCompleted + 1,
-          totalEarned: prev.totalEarned + rewardAmount,
+          totalEarned: newTotalEarned,
         }));
 
         return validationResult;
