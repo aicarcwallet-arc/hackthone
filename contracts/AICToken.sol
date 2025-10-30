@@ -72,6 +72,15 @@ contract AICToken is ERC20, Ownable {
     }
 
     /**
+     * @dev Burn tokens from specific address (for vault redemption)
+     * Can only be called by authorized minters (including vault)
+     */
+    function burn(address from, uint256 amount) external {
+        require(minters[msg.sender], "Not authorized to burn");
+        _burn(from, amount);
+    }
+
+    /**
      * @dev Get token decimals (6 decimals to match USDC on Arc)
      */
     function decimals() public pure override returns (uint8) {
