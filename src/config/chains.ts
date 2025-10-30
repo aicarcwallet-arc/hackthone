@@ -6,7 +6,7 @@ const getInfuraRpcUrl = (network: string): string => {
   return `https://${network}.infura.io/v3/${infuraKey}`;
 };
 
-export const ARC_TESTNET_CHAIN_ID = 333333;
+export const ARC_TESTNET_CHAIN_ID = 5042002;
 export const ARC_MAINNET_CHAIN_ID = 1042; // Update this when Arc Mainnet launches
 
 // Automatically detect which network to use

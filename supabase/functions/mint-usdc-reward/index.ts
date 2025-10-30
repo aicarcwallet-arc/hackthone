@@ -10,7 +10,7 @@ const corsHeaders = {
 };
 
 const ARC_TESTNET = {
-  id: 333333,
+  id: 5042002,
   name: "Arc Testnet",
   network: "arc-testnet",
   nativeCurrency: {
@@ -84,6 +84,7 @@ Deno.serve(async (req: Request) => {
       ? treasuryPrivateKey
       : `0x${treasuryPrivateKey}`;
 
+    const rpcUrl = Deno.env.get("ARC_TESTNET_RPC_URL") || "https://rpc.testnet.arc.network";
     const usdcTokenAddress = "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238" as `0x${string}`;
 
     const { data: userData, error: userError } = await supabase
@@ -122,7 +123,7 @@ Deno.serve(async (req: Request) => {
 
     const publicClient = createPublicClient({
       chain: ARC_TESTNET,
-      transport: http("https://rpc.testnet.arc.network"),
+      transport: http(rpcUrl),
     });
 
     const account = privateKeyToAccount(formattedPrivateKey as `0x${string}`);
@@ -154,7 +155,7 @@ Deno.serve(async (req: Request) => {
     const walletClient = createWalletClient({
       account,
       chain: ARC_TESTNET,
-      transport: http("https://rpc.testnet.arc.network"),
+      transport: http(rpcUrl),
     });
 
     const txHash = await walletClient.writeContract({
@@ -176,7 +177,7 @@ Deno.serve(async (req: Request) => {
       from_token: null,
       to_token: "USDC",
       tx_hash: txHash,
-      chain_id: 333333,
+      chain_id: 5042002,
       status: "confirmed",
       confirmed_at: new Date().toISOString(),
     });
