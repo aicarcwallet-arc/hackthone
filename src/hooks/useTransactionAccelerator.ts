@@ -103,15 +103,12 @@ export function useTransactionAccelerator() {
         transport: http(chain.rpcUrls.default.http[0]),
       });
 
-      const [address] = await window.ethereum.request({
-        method: 'eth_requestAccounts',
-      }) as `0x${string}`[];
-
       const walletClient = createWalletClient({
-        account: address,
         chain,
         transport: custom(window.ethereum),
       });
+
+      const [address] = await walletClient.getAddresses();
 
       // Try to get the transaction, but if RPC doesn't have it yet, we'll work with nonce
       let originalTx: any = null;
@@ -153,7 +150,6 @@ export function useTransactionAccelerator() {
         }
 
         const replacementTx = {
-          account: address,
           to: originalTx.to,
           value: originalTx.value,
           data: originalTx.input,
@@ -175,7 +171,10 @@ export function useTransactionAccelerator() {
         console.log('New gas:', maxFeePerGas?.toString() || boostedGasPrice.toString());
         console.log('Boost:', `${gasBoostPercentage}%`);
 
-        const newTxHash = await walletClient.sendTransaction(replacementTx as any);
+        const newTxHash = await walletClient.sendTransaction({
+          ...replacementTx,
+          account: address,
+        } as any);
 
         console.log('Replacement transaction sent:', newTxHash);
 
@@ -207,7 +206,6 @@ export function useTransactionAccelerator() {
       maxFeePerGas = boostedGasPrice;
 
       const replacementTx = {
-        account: address,
         to: address, // Self-transfer as dummy transaction to push nonce forward
         value: BigInt(0),
         nonce: currentNonce > 0 ? currentNonce - 1 : currentNonce, // Try the previous nonce
@@ -221,7 +219,10 @@ export function useTransactionAccelerator() {
       console.log('New gas:', maxFeePerGas?.toString());
       console.log('Boost:', `${gasBoostPercentage}%`);
 
-      const newTxHash = await walletClient.sendTransaction(replacementTx as any);
+      const newTxHash = await walletClient.sendTransaction({
+        ...replacementTx,
+        account: address,
+      } as any);
 
       console.log('Replacement transaction sent:', newTxHash);
 
