@@ -16,6 +16,9 @@ import { CircleBanking } from './components/CircleBanking';
 import { NavigationHeader } from './components/NavigationHeader';
 import { HowItWorks } from './components/HowItWorks';
 import { WithdrawPage } from './components/WithdrawPage';
+import { USDCFaucet } from './components/USDCFaucet';
+import { ContactForm } from './components/ContactForm';
+import { WelcomeGuide } from './components/WelcomeGuide';
 import { Footer } from './components/Footer';
 import { useAICToken } from './hooks/useAICToken';
 import { Repeat, Send, Trophy, History, Flame, Zap, CreditCard, Building2 } from 'lucide-react';
@@ -30,12 +33,21 @@ function App() {
   const [connectedAddress, setConnectedAddress] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [showWelcomeGuide, setShowWelcomeGuide] = useState(false);
 
   const { usdcBalance } = useAICToken(connectedAddress || undefined);
 
   useEffect(() => {
     console.log('App mounted!');
     checkWalletConnection();
+
+    const hasSeenWelcome = localStorage.getItem('hasSeenWelcome');
+    if (!hasSeenWelcome && !connectedAddress) {
+      setTimeout(() => {
+        setShowWelcomeGuide(true);
+        localStorage.setItem('hasSeenWelcome', 'true');
+      }, 2000);
+    }
   }, []);
 
   const checkWalletConnection = async () => {
@@ -54,7 +66,7 @@ function App() {
 
   const handleConnectWallet = async () => {
     if (!window.ethereum) {
-      alert('Please install MetaMask or another Web3 wallet');
+      setShowWelcomeGuide(true);
       return;
     }
 
@@ -66,7 +78,11 @@ function App() {
       }
     } catch (err: any) {
       console.error('Failed to connect wallet:', err);
-      alert(err.message || 'Failed to connect wallet');
+      if (err.code === 4001) {
+        alert('Please connect your wallet to continue');
+      } else {
+        setShowWelcomeGuide(true);
+      }
     }
   };
 
@@ -199,6 +215,12 @@ function App() {
 
   return (
     <>
+    <WelcomeGuide
+      isOpen={showWelcomeGuide}
+      onClose={() => setShowWelcomeGuide(false)}
+      onConnectWallet={handleConnectWallet}
+    />
+
     <NavigationHeader
       currentPage={currentPage}
       onNavigate={handleNavigate}
