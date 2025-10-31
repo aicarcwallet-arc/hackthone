@@ -103,12 +103,15 @@ export function useTransactionAccelerator() {
         transport: http(chain.rpcUrls.default.http[0]),
       });
 
+      const [address] = await window.ethereum.request({
+        method: 'eth_requestAccounts',
+      }) as `0x${string}`[];
+
       const walletClient = createWalletClient({
+        account: address,
         chain,
         transport: custom(window.ethereum),
       });
-
-      const [address] = await walletClient.getAddresses();
 
       // Try to get the transaction, but if RPC doesn't have it yet, we'll work with nonce
       let originalTx: any = null;
