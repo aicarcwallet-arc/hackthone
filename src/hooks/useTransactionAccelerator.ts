@@ -142,20 +142,19 @@ export function useTransactionAccelerator() {
       }
 
       const replacementTx = {
+        account: address,
         to: originalTx.to,
         value: originalTx.value,
         data: originalTx.input,
         nonce: originalTx.nonce,
-        gasLimit: originalTx.gas,
+        gas: originalTx.gas,
         ...(originalTx.type === 'eip1559'
           ? {
               maxPriorityFeePerGas,
               maxFeePerGas,
-              type: 'eip1559' as const,
             }
           : {
               gasPrice: boostedGasPrice,
-              type: 'legacy' as const,
             }
         ),
       };
@@ -223,10 +222,11 @@ export function useTransactionAccelerator() {
       const boostedGasPrice = (gasPrice * BigInt(150)) / BigInt(100);
 
       const resetTx = {
+        account: address,
         to: address,
         value: BigInt(0),
         nonce,
-        gasLimit: BigInt(21000),
+        gas: BigInt(21000),
         gasPrice: boostedGasPrice,
       };
 
