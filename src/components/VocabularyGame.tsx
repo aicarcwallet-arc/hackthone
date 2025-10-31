@@ -148,7 +148,7 @@ export function VocabularyGame({ userId, walletAddress, onGoBack }: VocabularyGa
             <Trophy className="w-16 h-16 sm:w-20 sm:h-20 text-yellow-500 mx-auto relative" />
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-2">
-            Hackathon Word Game
+            AI Agent Blockchain Word Game
           </h2>
           <p className="text-sm sm:text-base md:text-lg text-gray-300 font-medium max-w-2xl mx-auto px-2">
             Type blockchain terms • Earn 100-500 AIC per word
