@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { ArrowDownUp, Loader2, ExternalLink, Wallet, Lock, Zap } from 'lucide-react';
+import { ArrowDownUp, Loader2, ExternalLink, Wallet, Lock, Zap, AlertTriangle } from 'lucide-react';
 import { useAICToken } from '../hooks/useAICToken';
+import { useNetworkCheck } from '../hooks/useNetworkCheck';
 import { AIC_TOKEN_ADDRESS, AIC_SWAP_ADDRESS, USDC_ADDRESS } from '../config/contracts';
 import { getActiveArcExplorerUrl } from '../config/chains';
 
@@ -16,6 +17,7 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
   const [error, setError] = useState<string>('');
 
   const { aicBalance, usdcBalance, aicPrice, loading, swapAICForUSDC, swapUSDCForAIC, getSwapQuote } = useAICToken(walletAddress);
+  const { isCorrectNetwork, switchToArcTestnet } = useNetworkCheck();
 
   const contractsDeployed = AIC_TOKEN_ADDRESS && AIC_SWAP_ADDRESS;
 
@@ -38,6 +40,11 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
 
   const handleSwap = async () => {
     console.log('Swap button clicked', { direction, fromAmount, walletAddress });
+
+    if (!isCorrectNetwork) {
+      setError('Please switch to Arc Testnet first');
+      return;
+    }
 
     if (!walletAddress) {
       setError('Please connect your wallet');
@@ -252,6 +259,26 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
           </div>
         </div>
 
+        {!isCorrectNetwork && (
+          <div className="bg-orange-900/30 border border-orange-500/50 rounded-lg p-4 backdrop-blur-sm">
+            <div className="flex items-start gap-3">
+              <AlertTriangle className="w-5 h-5 text-orange-400 flex-shrink-0 mt-0.5" />
+              <div className="flex-1">
+                <p className="text-orange-300 font-semibold mb-2">Wrong Network</p>
+                <p className="text-orange-200/90 text-sm mb-3">
+                  You must be on Arc Testnet to swap tokens.
+                </p>
+                <button
+                  onClick={switchToArcTestnet}
+                  className="bg-orange-500 hover:bg-orange-600 text-white font-medium px-4 py-2 rounded-lg transition-colors text-sm"
+                >
+                  Switch to Arc Testnet
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {error && (
           <div className="bg-red-900/30 border border-red-500/30 rounded-lg p-4 text-red-300 text-sm backdrop-blur-sm">
             {error}
@@ -309,7 +336,7 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
 
         <button
           onClick={handleSwap}
-          disabled={loading || !fromAmount || parseFloat(fromAmount) <= 0}
+          disabled={!isCorrectNetwork || loading || !fromAmount || parseFloat(fromAmount) <= 0}
           className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-700 text-white font-semibold py-4 rounded-lg transition-all shadow-[0_0_30px_rgba(34,211,238,0.5)] hover:shadow-[0_0_50px_rgba(34,211,238,0.8)] flex items-center justify-center gap-2"
         >
           {loading ? (
@@ -317,6 +344,8 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
               <Loader2 className="w-5 h-5 animate-spin" />
               <span className="text-sm sm:text-base">Sign in MetaMask</span>
             </>
+          ) : !isCorrectNetwork ? (
+            'Switch to Arc Testnet First'
           ) : (
             'Swap Tokens'
           )}
