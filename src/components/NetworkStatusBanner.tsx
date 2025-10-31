@@ -12,16 +12,20 @@ export function NetworkStatusBanner() {
   }
 
   const handleSwitch = async () => {
+    console.log('NetworkStatusBanner handleSwitch called');
     setIsSwitching(true);
     setSwitchError(null);
 
     try {
+      console.log('Calling switchToArcTestnet...');
       await switchToArcTestnet();
+      console.log('Switch completed successfully');
     } catch (err: any) {
-      setSwitchError(err.message || 'Failed to switch network');
       console.error('Network switch error:', err);
+      setSwitchError(err.message || 'Failed to switch network');
     } finally {
       setIsSwitching(false);
+      console.log('handleSwitch completed');
     }
   };
 

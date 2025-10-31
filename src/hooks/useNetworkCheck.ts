@@ -49,25 +49,36 @@ export function useNetworkCheck() {
   };
 
   const switchToArcTestnet = async () => {
+    console.log('switchToArcTestnet called');
+
     if (!window.ethereum) {
+      console.error('MetaMask not found');
       throw new Error('MetaMask not installed');
     }
 
+    const targetChainId = `0x${ARC_TESTNET_CHAIN_ID.toString(16)}`;
+    console.log('Attempting to switch to chain ID:', targetChainId, `(${ARC_TESTNET_CHAIN_ID})`);
+
     try {
+      console.log('Calling wallet_switchEthereumChain...');
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
-        params: [{ chainId: `0x${ARC_TESTNET_CHAIN_ID.toString(16)}` }],
+        params: [{ chainId: targetChainId }],
       });
+      console.log('Successfully switched to Arc Testnet');
       await checkNetwork();
       return true;
     } catch (switchError: any) {
+      console.error('Switch error:', switchError);
+
       if (switchError.code === 4902) {
+        console.log('Chain not found, attempting to add it...');
         try {
           await window.ethereum.request({
             method: 'wallet_addEthereumChain',
             params: [
               {
-                chainId: `0x${ARC_TESTNET_CHAIN_ID.toString(16)}`,
+                chainId: targetChainId,
                 chainName: 'Arc Testnet',
                 nativeCurrency: {
                   name: 'USDC',
@@ -79,13 +90,20 @@ export function useNetworkCheck() {
               },
             ],
           });
+          console.log('Successfully added Arc Testnet');
           await checkNetwork();
           return true;
         } catch (addError) {
+          console.error('Add error:', addError);
           throw new Error('Failed to add Arc Testnet to MetaMask');
         }
       }
-      throw new Error('Failed to switch to Arc Testnet');
+
+      if (switchError.code === 4001) {
+        throw new Error('User rejected the network switch');
+      }
+
+      throw new Error(switchError.message || 'Failed to switch to Arc Testnet');
     }
   };
 
