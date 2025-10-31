@@ -5,7 +5,7 @@ import { SUPPORTED_CHAINS } from '../config/chains';
 
 export function TransactionAccelerator() {
   const [txHash, setTxHash] = useState('');
-  const [selectedChain, setSelectedChain] = useState(333333);
+  const [selectedChain, setSelectedChain] = useState(11155111);
   const [gasBoost, setGasBoost] = useState(50);
   const [connectedAddress, setConnectedAddress] = useState<string | null>(null);
 
