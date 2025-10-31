@@ -61,12 +61,27 @@ export function useBridge() {
           }
         }
 
-        const kit = new BridgeKit();
+        const kit = new BridgeKit({
+          rpcConfig: {
+            timeout: 30000,
+            retryAttempts: 5,
+            retryDelay: 2000,
+          },
+          transactionConfig: {
+            maxPriorityFeePerGas: '2000000000',
+            maxFeePerGas: '100000000000',
+          },
+        });
 
         const adapter = await createAdapterFromProvider({
           provider: window.ethereum,
           capabilities: {
             addressContext: 'user-controlled',
+          },
+          config: {
+            pollingInterval: 2000,
+            blockConfirmations: 1,
+            gasEstimateMultiplier: 1.3,
           },
         });
 
@@ -79,12 +94,26 @@ export function useBridge() {
 
         console.log('Starting bridge:', { fromChain, toChain, amount });
 
+        console.log('Bridge Kit initialized with optimizations:');
+        console.log('- Extended timeout: 5 minutes');
+        console.log('- Retry attempts: 3x with 5s delay');
+        console.log('- Gas multiplier: 1.2x');
+        console.log('- RPC retry: 5 attempts');
+        console.log('- Priority gas: 2 Gwei');
+
         const result = await kit.bridge({
           from: { adapter, chain: fromChain },
           to: { adapter, chain: toChain },
           amount: amount,
           token: 'USDC',
-          config: { transferSpeed: 'FAST' },
+          config: {
+            transferSpeed: 'FAST',
+            timeout: 300000,
+            retryCount: 3,
+            retryDelay: 5000,
+            gasMultiplier: 1.2,
+            confirmationTimeout: 180000,
+          },
         });
 
         console.log('Bridge result:', result);

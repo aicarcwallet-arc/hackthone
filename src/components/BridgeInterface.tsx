@@ -441,7 +441,7 @@ export function BridgeInterface() {
         </div>
         <div className="flex items-center justify-between text-sm mt-2">
           <span className="text-gray-400">Estimated Time</span>
-          <span className="font-medium text-white">10-20 minutes</span>
+          <span className="font-medium text-white">30 sec - 3 min (Fast)</span>
         </div>
         <div className="flex items-center justify-between text-sm mt-2">
           <span className="text-gray-400">Bridge Fee</span>
