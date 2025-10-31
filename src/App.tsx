@@ -16,8 +16,6 @@ import { CircleBanking } from './components/CircleBanking';
 import { NavigationHeader } from './components/NavigationHeader';
 import { HowItWorks } from './components/HowItWorks';
 import { WithdrawPage } from './components/WithdrawPage';
-import { USDCFaucet } from './components/USDCFaucet';
-import { ContactForm } from './components/ContactForm';
 import { WelcomeGuide } from './components/WelcomeGuide';
 import { Footer } from './components/Footer';
 import { useAICToken } from './hooks/useAICToken';

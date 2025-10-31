@@ -151,10 +151,10 @@ export function VocabularyGame({ userId, walletAddress, onGoBack }: VocabularyGa
             Hackathon Word Game
           </h2>
           <p className="text-sm sm:text-base md:text-lg text-gray-300 font-medium max-w-2xl mx-auto px-2">
-            Type AI Agent, Arc, Circle, USDC & more • Earn 100-500 AIC per word
+            Type blockchain terms • Earn 100-500 AIC per word
           </p>
           <p className="text-xs sm:text-sm text-gray-400 mt-2">
-            1 AIC = 1 USDC • All rewards on Arc Testnet
+            AIC tokens minted to your wallet • Claim anytime • Arc Testnet
           </p>
         </div>
 
@@ -177,9 +177,9 @@ export function VocabularyGame({ userId, walletAddress, onGoBack }: VocabularyGa
 
           <div className="bg-gray-800/50 backdrop-blur-sm rounded-lg p-4 sm:p-6 text-center border border-cyan-500/20">
             <Coins className="w-8 h-8 sm:w-10 sm:h-10 text-yellow-400 mx-auto mb-2 sm:mb-3" />
-            <h3 className="text-sm sm:text-base font-semibold text-white mb-1 sm:mb-2">Earn Real Value</h3>
+            <h3 className="text-sm sm:text-base font-semibold text-white mb-1 sm:mb-2">Programmable Tokens</h3>
             <p className="text-xs sm:text-sm text-gray-300">
-              AIC tokens = USDC. Swap and withdraw to any chain anytime.
+              AIC tokens on Arc blockchain. Bridge, swap, and use in DeFi.
             </p>
           </div>
         </div>

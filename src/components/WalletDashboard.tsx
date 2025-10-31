@@ -3,6 +3,7 @@ import { Wallet, TrendingUp, ExternalLink, RefreshCw, Coins, LogOut } from 'luci
 import { getAICBalance, getAddressExplorerUrl, isOnArcNetwork, switchToArcNetwork } from '../lib/blockchain';
 import { useAICToken } from '../hooks/useAICToken';
 import { NetworkStatusIndicator } from './NetworkStatusBanner';
+import { ClaimAICTokens } from './ClaimAICTokens';
 import type { Address } from 'viem';
 
 interface WalletDashboardProps {
@@ -16,6 +17,7 @@ export function WalletDashboard({ walletAddress, userId, onDisconnect }: WalletD
   const [isLoading, setIsLoading] = useState(false);
   const [onArcNetwork, setOnArcNetwork] = useState(false);
   const [totalEarned, setTotalEarned] = useState<number>(0);
+  const [claimedAIC, setClaimedAIC] = useState<number>(0);
   const { aicBalance, usdcBalance, refreshBalances } = useAICToken(walletAddress);
 
   useEffect(() => {
@@ -69,13 +71,15 @@ export function WalletDashboard({ walletAddress, userId, onDisconnect }: WalletD
       const { supabase } = await import('../lib/supabase');
       const { data } = await supabase
         .from('users')
-        .select('total_aic_earned')
+        .select('total_aic_earned, claimed_aic')
         .eq('id', userId)
         .maybeSingle();
 
       if (data) {
         const earned = parseFloat(data.total_aic_earned || '0');
+        const claimed = parseFloat(data.claimed_aic || '0');
         setTotalEarned(earned);
+        setClaimedAIC(claimed);
       }
     } catch (error) {
       console.error('Failed to load user stats:', error);
@@ -109,9 +113,22 @@ export function WalletDashboard({ walletAddress, userId, onDisconnect }: WalletD
   };
 
   const usdcValue = parseFloat(aicBalance);
+  const unclaimedAmount = totalEarned - claimedAIC;
+
+  const handleClaimSuccess = async () => {
+    await loadUserStats();
+    await refreshBalances();
+  };
 
   return (
     <div className="mb-8 sm:mb-12">
+      {unclaimedAmount > 0 && (
+        <ClaimAICTokens
+          walletAddress={walletAddress}
+          unclaimedAmount={unclaimedAmount}
+          onSuccess={handleClaimSuccess}
+        />
+      )}
       <div className="bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.4)] p-6 sm:p-8 text-white">
         <div className="flex items-center justify-between mb-4 sm:mb-6 flex-wrap gap-3">
           <div className="flex items-center gap-2 sm:gap-3">
@@ -180,12 +197,12 @@ export function WalletDashboard({ walletAddress, userId, onDisconnect }: WalletD
             <div className="bg-white/10 backdrop-blur-sm rounded-lg sm:rounded-xl p-3 sm:p-4">
               <div className="flex items-center gap-1 sm:gap-2 mb-1 sm:mb-2">
                 <Coins className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-300" />
-                <p className="text-blue-200 text-xs sm:text-sm">AIC Balance</p>
+                <p className="text-blue-200 text-xs sm:text-sm">AIC Earned</p>
               </div>
               <p className="text-2xl sm:text-3xl font-bold mb-1">
                 {totalEarned.toFixed(2)}
               </p>
-              <p className="text-blue-200 text-xs sm:text-sm">≈ ${totalEarned.toFixed(2)} USDC</p>
+              <p className="text-blue-200 text-xs sm:text-sm">From Games</p>
             </div>
 
             <div className="bg-white/10 backdrop-blur-sm rounded-lg sm:rounded-xl p-3 sm:p-4">
@@ -201,13 +218,13 @@ export function WalletDashboard({ walletAddress, userId, onDisconnect }: WalletD
 
             <div className="bg-white/10 backdrop-blur-sm rounded-lg sm:rounded-xl p-3 sm:p-4">
               <div className="flex items-center gap-1 sm:gap-2 mb-1 sm:mb-2">
-                <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-blue-200" />
-                <p className="text-blue-200 text-xs sm:text-sm">Total Earned</p>
+                <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-cyan-300" />
+                <p className="text-blue-200 text-xs sm:text-sm">AIC in Wallet</p>
               </div>
               <p className="text-2xl sm:text-3xl font-bold mb-1">
-                {totalEarned.toFixed(2)}
+                {parseFloat(aicBalance || '0').toFixed(2)}
               </p>
-              <p className="text-blue-200 text-xs sm:text-sm">AIC Tokens</p>
+              <p className="text-blue-200 text-xs sm:text-sm">On-Chain Tokens</p>
             </div>
 
             <div className="bg-white/10 backdrop-blur-sm rounded-lg sm:rounded-xl p-3 sm:p-4">
@@ -233,7 +250,7 @@ export function WalletDashboard({ walletAddress, userId, onDisconnect }: WalletD
             </div>
             <div className="flex items-center gap-1">
               <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-              <span className="text-blue-100 font-medium">1 AIC = 1 USDC</span>
+              <span className="text-blue-100 font-medium">Low Gas Fees</span>
             </div>
           </div>
           <p className="text-blue-100 text-xs text-center px-2">
