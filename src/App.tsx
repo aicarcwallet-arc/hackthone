@@ -16,6 +16,7 @@ import { CircleBanking } from './components/CircleBanking';
 import { NavigationHeader } from './components/NavigationHeader';
 import { HowItWorks } from './components/HowItWorks';
 import { WithdrawPage } from './components/WithdrawPage';
+import { Footer } from './components/Footer';
 import { useAICToken } from './hooks/useAICToken';
 import { Repeat, Send, Trophy, History, Flame, Zap, CreditCard, Building2 } from 'lucide-react';
 import { supabase } from './lib/supabase';
@@ -155,6 +156,7 @@ function App() {
         <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black py-8">
           <HowItWorks />
         </div>
+        <Footer />
       </>
     );
   }
@@ -186,6 +188,7 @@ function App() {
             <WithdrawPage walletAddress={connectedAddress} usdcBalance={usdcBalance} />
           )}
         </div>
+        <Footer />
       </>
     );
   }
@@ -537,6 +540,7 @@ function App() {
           </p>
         </div>
       </div>
+      <Footer />
     </div>
     </>
   );
