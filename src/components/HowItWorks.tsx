@@ -1,4 +1,4 @@
-import { BookOpen, Trophy, Repeat, CreditCard, Building2, Send, ArrowRight } from 'lucide-react';
+import { BookOpen, Trophy, Repeat, CreditCard, Building2, Send, ArrowRight, Play } from 'lucide-react';
 
 export function HowItWorks() {
   return (
@@ -12,7 +12,7 @@ export function HowItWorks() {
           Your Complete Financial Freedom Journey
         </h2>
         <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-          From learning blockchain vocabulary to spending crypto globally - here's how AiC works
+          From learning blockchain vocabulary to spending stablecoin globally - here's how AiC works
         </p>
       </div>
 
@@ -156,6 +156,17 @@ export function HowItWorks() {
           <Trophy className="w-6 h-6" />
           <span>Welcome to the Future of Finance</span>
         </div>
+      </div>
+
+      <div className="mt-12 text-center mb-8">
+        <a
+          href="/"
+          className="inline-flex items-center gap-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-lg font-bold text-lg shadow-[0_0_30px_rgba(34,211,238,0.5)] hover:shadow-[0_0_50px_rgba(34,211,238,0.8)] transition-all"
+        >
+          <Play className="w-6 h-6" />
+          Start Playing & Earning Now
+          <ArrowRight className="w-5 h-5" />
+        </a>
       </div>
 
       <div className="mt-12 grid md:grid-cols-2 gap-6">
