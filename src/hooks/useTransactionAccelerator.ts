@@ -84,6 +84,11 @@ export function useTransactionAccelerator() {
     setState(prev => ({ ...prev, isLoading: true, status: 'accelerating', error: null }));
 
     try {
+      // Validate transaction hash format
+      if (!txHash || !txHash.startsWith('0x') || txHash.length !== 66) {
+        throw new Error('Invalid transaction hash. Please enter a valid 66-character hash starting with 0x');
+      }
+
       if (!window.ethereum) {
         throw new Error('Please install MetaMask');
       }
@@ -123,9 +128,12 @@ export function useTransactionAccelerator() {
       try {
         receipt = await publicClient.getTransactionReceipt({ hash: txHash as Hash });
         if (receipt) {
-          throw new Error('Transaction already confirmed');
+          throw new Error('Transaction already confirmed! Check your wallet or block explorer.');
         }
-      } catch (e) {
+      } catch (e: any) {
+        if (e.message?.includes('already confirmed')) {
+          throw e;
+        }
         console.log('Transaction pending - can accelerate');
       }
 
@@ -171,10 +179,29 @@ export function useTransactionAccelerator() {
         console.log('New gas:', maxFeePerGas?.toString() || boostedGasPrice.toString());
         console.log('Boost:', `${gasBoostPercentage}%`);
 
-        const newTxHash = await walletClient.sendTransaction({
-          ...replacementTx,
-          account: address,
-        } as any);
+        let newTxHash: Hash;
+        try {
+          newTxHash = await walletClient.sendTransaction({
+            ...replacementTx,
+            account: address,
+          } as any);
+        } catch (txError: any) {
+          console.error('Transaction send error:', txError);
+
+          if (txError.message?.includes('already known') || txError.message?.includes('nonce too low')) {
+            throw new Error('Transaction already confirmed or replaced. Please refresh and check your wallet.');
+          }
+
+          if (txError.message?.includes('insufficient funds')) {
+            throw new Error('Insufficient funds for gas. Add more ETH/native tokens to your wallet.');
+          }
+
+          if (txError.message?.includes('gas required exceeds')) {
+            throw new Error('Gas limit too high. The transaction may fail or is already confirmed.');
+          }
+
+          throw new Error(`RPC Error: ${txError.shortMessage || txError.message || 'Transaction rejected by network'}`);
+        }
 
         console.log('Replacement transaction sent:', newTxHash);
 
@@ -219,10 +246,29 @@ export function useTransactionAccelerator() {
       console.log('New gas:', maxFeePerGas?.toString());
       console.log('Boost:', `${gasBoostPercentage}%`);
 
-      const newTxHash = await walletClient.sendTransaction({
-        ...replacementTx,
-        account: address,
-      } as any);
+      let newTxHash: Hash;
+      try {
+        newTxHash = await walletClient.sendTransaction({
+          ...replacementTx,
+          account: address,
+        } as any);
+      } catch (txError: any) {
+        console.error('Transaction send error:', txError);
+
+        if (txError.message?.includes('already known') || txError.message?.includes('nonce too low')) {
+          throw new Error('Transaction already confirmed or replaced. Please refresh and check your wallet.');
+        }
+
+        if (txError.message?.includes('insufficient funds')) {
+          throw new Error('Insufficient funds for gas. Add more ETH/native tokens to your wallet.');
+        }
+
+        if (txError.message?.includes('gas required exceeds')) {
+          throw new Error('Gas limit too high. The transaction may fail or is already confirmed.');
+        }
+
+        throw new Error(`RPC Error: ${txError.shortMessage || txError.message || 'Transaction rejected by network'}`);
+      }
 
       console.log('Replacement transaction sent:', newTxHash);
 
