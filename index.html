@@ -105,7 +105,58 @@
     <title>AI Cognitive Token (AiC) - Learn Blockchain, Earn USDC</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div id="splash-screen" style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); font-family: system-ui, -apple-system, sans-serif;">
+        <div style="text-align: center; padding: 40px; max-width: 600px;">
+          <img src="/aic toekn  copy.png" alt="AIC Token" style="width: 100px; height: 100px; margin: 0 auto 24px; display: block; filter: drop-shadow(0 0 20px rgba(34,211,238,0.5));" />
+
+          <div style="display: inline-block; padding: 10px 24px; background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%); color: white; border-radius: 9999px; font-size: 14px; font-weight: 700; margin-bottom: 24px; box-shadow: 0 0 30px rgba(34,211,238,0.5);">
+            LIVE ON ARC TESTNET
+          </div>
+
+          <h1 style="font-size: 56px; font-weight: 800; background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #06b6d4 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 16px; line-height: 1.2;">
+            AI Cognitive Token
+          </h1>
+
+          <p style="font-size: 20px; color: #a1a1aa; margin-bottom: 32px; font-weight: 500;">
+            Learn • Earn • Swap • Bridge
+          </p>
+
+          <button id="enter-btn" style="display: inline-flex; align-items: center; gap: 12px; padding: 20px 48px; background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%); color: white; font-size: 20px; font-weight: 700; border: none; border-radius: 16px; cursor: pointer; box-shadow: 0 0 40px rgba(34,211,238,0.6); transition: all 0.3s ease; margin-bottom: 16px;">
+            <span style="font-size: 24px;">⚡</span>
+            <span>Enter Portal</span>
+            <span style="font-size: 24px;">→</span>
+          </button>
+
+          <p style="font-size: 14px; color: #71717a; animation: bounce 2s ease-in-out infinite;">
+            👆 Click to start learning and earning
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+      }
+
+      #enter-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 60px rgba(34,211,238,1);
+      }
+
+      #enter-btn:active {
+        transform: scale(0.98);
+      }
+    </style>
+
+    <script>
+      document.getElementById('enter-btn').addEventListener('click', function() {
+        document.getElementById('splash-screen').style.display = 'none';
+      });
+    </script>
+
     <script type="module" src="/src/main.tsx"></script>
     <script>
       if ('serviceWorker' in navigator) {
