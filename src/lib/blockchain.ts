@@ -1,7 +1,7 @@
 import { createPublicClient, createWalletClient, custom, http, type Address, parseUnits, formatUnits } from 'viem';
 import { ARC_TESTNET_CHAIN_ID } from '../config/chains';
 
-const AIC_TOKEN_ADDRESS = '0x394E546A782c3c196bb4a4a047F985AEAAA1489A' as const;
+const AIC_TOKEN_ADDRESS = '0x4B71cD610AfCCDf0B02d566dA0071C74444a8666' as const;
 
 const ERC20_ABI = [
   {
