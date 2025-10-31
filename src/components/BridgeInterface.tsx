@@ -3,7 +3,7 @@ import { ArrowDownUp, Loader2, CheckCircle, XCircle, ExternalLink, Repeat, Gift,
 import { useBridge } from '../hooks/useBridge';
 import { useAICToken } from '../hooks/useAICToken';
 import { SUPPORTED_CHAINS, BRIDGE_CHAIN_OPTIONS, ARC_TESTNET_CHAIN_ID } from '../config/chains';
-import { getTokenAddress, getAvailableTokensForChain } from '../config/tokens';
+import { getTokenAddress, getBridgeableTokensForChain } from '../config/tokens';
 import { supabase } from '../lib/supabase';
 
 export function BridgeInterface() {
@@ -14,7 +14,7 @@ export function BridgeInterface() {
   const [connectedAddress, setConnectedAddress] = useState<string | null>(null);
 
   const availableTokens = useMemo(
-    () => getAvailableTokensForChain(fromChain),
+    () => getBridgeableTokensForChain(fromChain),
     [fromChain]
   );
 
@@ -273,6 +273,20 @@ export function BridgeInterface() {
         </>
       )}
 
+      <div className="mb-4 p-4 bg-blue-900/30 border border-blue-500/50 rounded-lg">
+        <div className="flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+          <div className="space-y-2">
+            <p className="text-sm text-blue-200 font-medium">
+              ℹ️ Bridge USDC Only
+            </p>
+            <p className="text-xs text-gray-300">
+              Circle CCTP only supports USDC bridging between chains. To bridge AIC tokens, first convert them to USDC using the "Convert AIC to USDC" button above.
+            </p>
+          </div>
+        </div>
+      </div>
+
       <div className="space-y-3 sm:space-y-4">
         <div>
           <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
@@ -290,6 +304,9 @@ export function BridgeInterface() {
               </option>
             ))}
           </select>
+          <p className="text-xs text-gray-400 mt-1">
+            Only USDC can be bridged via Circle CCTP
+          </p>
         </div>
 
         <div>

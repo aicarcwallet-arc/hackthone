@@ -46,3 +46,9 @@ export function getTokenAddress(symbol: string, chainId: number): string | undef
 export function getAvailableTokensForChain(chainId: number): Token[] {
   return Object.values(TOKENS).filter((token) => token.addresses[chainId]);
 }
+
+export function getBridgeableTokensForChain(chainId: number): Token[] {
+  return Object.values(TOKENS).filter((token) => {
+    return token.symbol === 'USDC' && token.addresses[chainId];
+  });
+}
