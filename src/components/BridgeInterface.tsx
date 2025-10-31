@@ -188,47 +188,6 @@ export function BridgeInterface() {
           </div>
 
           <div className="mb-4 sm:mb-6 space-y-3">
-            {unclaimedAIC > 0 && (
-              <div className="p-4 bg-gradient-to-r from-yellow-900/50 to-orange-900/50 border border-yellow-500/30 rounded-lg backdrop-blur-sm space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-300">Unclaimed AIC (from game)</span>
-                  <span className="text-lg font-bold text-yellow-300">{unclaimedAIC.toFixed(2)} AIC</span>
-                </div>
-                <button
-                  onClick={handleClaimAIC}
-                  disabled={claimLoading}
-                  className="w-full bg-gradient-to-r from-yellow-500 to-orange-600 hover:from-yellow-400 hover:to-orange-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-semibold py-2.5 px-4 rounded-lg transition-all flex items-center justify-center gap-2 touch-manipulation"
-                >
-                  {claimLoading ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      <span className="text-sm">Claiming on Arc...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Gift className="w-4 h-4" />
-                      <span className="text-sm">Claim AIC Tokens to Wallet</span>
-                    </>
-                  )}
-                </button>
-                {claimSuccess && claimTxHash && (
-                  <div className="p-2 bg-green-500/20 border border-green-500/30 rounded text-center">
-                    <p className="text-xs text-green-300">✅ Claimed successfully!</p>
-                    <a
-                      href={`https://testnet.arcscan.com/tx/${claimTxHash}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-cyan-300 hover:text-cyan-200 underline inline-flex items-center gap-1 mt-1"
-                    >
-                      View on Arc Explorer
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
-                  </div>
-                )}
-                <p className="text-xs text-gray-400 text-center">Step 1: Claim your earned AIC from the game to your wallet</p>
-              </div>
-            )}
-
             <div className="p-4 bg-gradient-to-r from-blue-900/50 to-cyan-900/50 border border-cyan-500/30 rounded-lg backdrop-blur-sm space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-300">Your AIC Balance (on-chain)</span>
@@ -262,7 +221,7 @@ export function BridgeInterface() {
                     ) : (
                       <>
                         <Repeat className="w-4 h-4" />
-                        <span className="text-sm">Step 2: Convert AIC to USDC</span>
+                        <span className="text-sm">Convert AIC to USDC</span>
                       </>
                     )}
                   </button>
@@ -384,7 +343,7 @@ export function BridgeInterface() {
           ) : (
             <>
               <ArrowDownUp className="w-5 h-5" />
-              <span className="text-sm sm:text-base">Step 3: Bridge {selectedToken}</span>
+              <span className="text-sm sm:text-base">Bridge {selectedToken}</span>
             </>
           )}
         </button>
