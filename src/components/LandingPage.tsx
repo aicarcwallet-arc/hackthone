@@ -21,15 +21,15 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
             </p>
             <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 px-2 leading-tight">
               <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
-                Type <span className="text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.8)]">Blockchain</span> Words.
+                Type <span className="text-white font-bold drop-shadow-[0_0_30px_rgba(255,255,255,0.8)]">Blockchain</span> Words.
               </span>
               <br className="hidden sm:block" />
               <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
-                {' '}Earn <span className="text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.8)]">AiC</span> Tokens.
+                {' '}Earn <span className="text-white font-bold drop-shadow-[0_0_30px_rgba(255,255,255,0.8)]">AiC</span> Tokens.
               </span>
               <br className="hidden sm:block" />
               <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
-                {' '}Swap to <span className="text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.8)]">USDC</span>.
+                {' '}Swap to <span className="text-white font-bold drop-shadow-[0_0_30px_rgba(255,255,255,0.8)]">USDC</span>.
               </span>
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto px-4">
