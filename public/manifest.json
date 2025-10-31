@@ -1,7 +1,7 @@
 {
-  "name": "AIC Token - Earn & Swap",
+  "name": "AIC Token - Earn & Swap USDC",
   "short_name": "AIC Token",
-  "description": "Earn AIC tokens, swap crypto, bridge assets on Arc Testnet. Web3 rewards app with MetaMask integration.",
+  "description": "Type blockchain words and earn USDC rewards instantly. Powered by Circle and Arc Blockchain.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0a0a",
@@ -9,6 +9,9 @@
   "orientation": "portrait-primary",
   "scope": "/",
   "prefer_related_applications": false,
+  "lang": "en-US",
+  "dir": "ltr",
+  "display_override": ["standalone", "minimal-ui"],
   "icons": [
     {
       "src": "/aic toekn  copy.png",
@@ -33,15 +36,62 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    },
+    {
+      "src": "/aic toekn  copy.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/aic toekn  copy.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/aic toekn  copy.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
     }
   ],
-  "categories": ["finance", "games", "productivity"],
+  "categories": ["finance", "games", "productivity", "education"],
   "screenshots": [
     {
       "src": "/aic toekn  copy.png",
       "sizes": "540x720",
       "type": "image/png",
-      "form_factor": "narrow"
+      "form_factor": "narrow",
+      "label": "AIC Token Gameplay"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Play Game",
+      "short_name": "Play",
+      "description": "Start earning AIC tokens",
+      "url": "/?tab=game",
+      "icons": [
+        {
+          "src": "/aic toekn  copy.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Swap Tokens",
+      "short_name": "Swap",
+      "description": "Swap AIC to USDC",
+      "url": "/?tab=swap",
+      "icons": [
+        {
+          "src": "/usdc-3d-icon-download-in-png-blend-fbx-gltf-file-formats--bitcoin-logo-coin-cryptocurrency-symbol-crypto-coins-vol2-pack-science-technology-icons-7947905.webp",
+          "sizes": "96x96",
+          "type": "image/webp"
+        }
+      ]
     }
   ]
 }

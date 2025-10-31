@@ -10,40 +10,40 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-gray-950 via-gray-900 to-black">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-32 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 md:py-32 relative">
           <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-3 bg-gray-900/50 backdrop-blur-sm px-4 py-2 rounded-full mb-6 border border-cyan-500/30">
-              <img src="/aic toekn .png" alt="AiC Token Logo" className="w-10 h-10" />
-              <span className="font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">AiC Token Logo</span>
+            <div className="inline-flex items-center gap-2 sm:gap-3 bg-gray-900/50 backdrop-blur-sm px-3 sm:px-4 py-2 rounded-full mb-4 sm:mb-6 border border-cyan-500/30">
+              <img src="/aic toekn .png" alt="AiC Token Logo" className="w-8 h-8 sm:w-10 sm:h-10" />
+              <span className="text-sm sm:text-base font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">AiC Token</span>
             </div>
-            <p className="text-sm sm:text-base text-cyan-400 mb-8">
+            <p className="text-xs sm:text-sm md:text-base text-cyan-400 mb-6 sm:mb-8 px-2">
               AI Validation • Arc Blockchain • USDC Rewards
             </p>
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 px-2 leading-tight">
               <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
-                Type Blockchain Words.
+                Type <span className="text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.8)]">Blockchain</span> Words.
               </span>
-              <br />
+              <br className="hidden sm:block" />
               <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
-                Earn AiC Tokens.
+                {' '}Earn <span className="text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.8)]">AiC</span> Tokens.
               </span>
-              <br />
+              <br className="hidden sm:block" />
               <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
-                Swap to USDC.
+                {' '}Swap to <span className="text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.8)]">USDC</span>.
               </span>
             </h1>
-            <p className="text-lg sm:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto px-4">
               Learn blockchain vocabulary and earn 300-500 AiC per word
             </p>
-            <p className="text-sm text-gray-400 mb-12">
+            <p className="text-xs sm:text-sm text-gray-400 mb-8 sm:mb-12 px-4">
               AI validates • 1:1 USDC pegging • Send to Arc Testnet • Track on Arcscan Explorer
             </p>
             <button
               onClick={onGetStarted}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold px-8 py-4 rounded-lg text-lg shadow-[0_0_30px_rgba(34,211,238,0.5)] hover:shadow-[0_0_50px_rgba(34,211,238,0.8)] transition-all"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg shadow-[0_0_30px_rgba(34,211,238,0.5)] hover:shadow-[0_0_50px_rgba(34,211,238,0.8)] transition-all touch-manipulation active:scale-95"
             >
               Get Started
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </div>
 
