@@ -11,8 +11,12 @@ export function WelcomeGuide({ isOpen, onClose, onConnectWallet }: WelcomeGuideP
   const [currentStep, setCurrentStep] = useState(1);
   const [hasMetaMask, setHasMetaMask] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const checkMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    setIsMobile(checkMobile);
+
     if (typeof window.ethereum !== 'undefined') {
       setHasMetaMask(true);
       setCurrentStep(2);
@@ -138,6 +142,35 @@ export function WelcomeGuide({ isOpen, onClose, onConnectWallet }: WelcomeGuideP
                   MetaMask is a crypto wallet that lets you interact with blockchain apps. It's required to play and earn AiC tokens!
                 </p>
 
+                {isMobile && (
+                  <div className="bg-blue-500/20 border border-blue-500/30 rounded-xl p-4 mb-6">
+                    <h4 className="font-semibold text-blue-400 mb-2 flex items-center gap-2">
+                      📱 Mobile User?
+                    </h4>
+                    <p className="text-sm text-gray-300 mb-3">
+                      Download the MetaMask app, then open this website inside the MetaMask browser!
+                    </p>
+                    <div className="flex gap-2">
+                      <a
+                        href="https://apps.apple.com/us/app/metamask/id1438144202"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 bg-gray-800 hover:bg-gray-700 text-white px-3 py-2 rounded-lg text-xs font-semibold text-center transition-all"
+                      >
+                        📱 iOS App
+                      </a>
+                      <a
+                        href="https://play.google.com/store/apps/details?id=io.metamask"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 bg-gray-800 hover:bg-gray-700 text-white px-3 py-2 rounded-lg text-xs font-semibold text-center transition-all"
+                      >
+                        🤖 Android App
+                      </a>
+                    </div>
+                  </div>
+                )}
+
                 <div className="bg-gray-900/50 rounded-xl p-4 mb-6 border border-cyan-500/20">
                   <h4 className="font-semibold text-cyan-400 mb-3">Why MetaMask?</h4>
                   <ul className="space-y-2 text-sm text-gray-300">
@@ -156,16 +189,30 @@ export function WelcomeGuide({ isOpen, onClose, onConnectWallet }: WelcomeGuideP
                   </ul>
                 </div>
 
-                <a
-                  href="https://metamask.io/download/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-4 rounded-xl font-bold text-lg shadow-[0_0_30px_rgba(249,115,22,0.5)] hover:shadow-[0_0_50px_rgba(249,115,22,0.8)] transition-all flex items-center justify-center gap-3 group"
-                >
-                  <Wallet className="w-6 h-6" />
-                  <span>Download MetaMask</span>
-                  <ExternalLink className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </a>
+                {!isMobile ? (
+                  <a
+                    href="https://metamask.io/download/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-4 rounded-xl font-bold text-lg shadow-[0_0_30px_rgba(249,115,22,0.5)] hover:shadow-[0_0_50px_rgba(249,115,22,0.8)] transition-all flex items-center justify-center gap-3 group"
+                  >
+                    <Wallet className="w-6 h-6" />
+                    <span>Download MetaMask</span>
+                    <ExternalLink className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </a>
+                ) : (
+                  <button
+                    onClick={() => {
+                      const dappUrl = window.location.href.replace(/^https?:\/\//, '');
+                      window.location.href = `https://metamask.app.link/dapp/${dappUrl}`;
+                    }}
+                    className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-4 rounded-xl font-bold text-lg shadow-[0_0_30px_rgba(249,115,22,0.5)] hover:shadow-[0_0_50px_rgba(249,115,22,0.8)] transition-all flex items-center justify-center gap-3 group"
+                  >
+                    <Wallet className="w-6 h-6" />
+                    <span>Open in MetaMask App</span>
+                    <ExternalLink className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                )}
 
                 <button
                   onClick={() => {

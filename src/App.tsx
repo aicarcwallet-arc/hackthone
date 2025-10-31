@@ -63,7 +63,15 @@ function App() {
   };
 
   const handleConnectWallet = async () => {
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
     if (!window.ethereum) {
+      if (isMobile) {
+        const dappUrl = window.location.href.replace(/^https?:\/\//, '');
+        const metamaskAppDeepLink = `https://metamask.app.link/dapp/${dappUrl}`;
+        window.location.href = metamaskAppDeepLink;
+        return;
+      }
       setShowWelcomeGuide(true);
       return;
     }

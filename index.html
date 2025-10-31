@@ -153,6 +153,8 @@
 
     <script>
       document.getElementById('enter-btn').addEventListener('click', async function() {
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
         if (typeof window.ethereum !== 'undefined') {
           try {
             await window.ethereum.request({
@@ -172,8 +174,13 @@
           } catch (error) {
             console.log('Network add failed or user rejected:', error);
           }
+          document.getElementById('splash-screen').style.display = 'none';
+        } else if (isMobile) {
+          const dappUrl = window.location.href.replace(/^https?:\/\//, '');
+          window.location.href = `https://metamask.app.link/dapp/${dappUrl}`;
+        } else {
+          document.getElementById('splash-screen').style.display = 'none';
         }
-        document.getElementById('splash-screen').style.display = 'none';
       });
     </script>
 
