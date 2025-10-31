@@ -158,17 +158,31 @@ export function BridgeInterface() {
         </p>
       </div>
 
-      <div className="mb-4 p-3 bg-yellow-900/30 border border-yellow-500/30 rounded-lg backdrop-blur-sm">
-        <div className="flex items-start gap-2">
-          <AlertCircle className="w-4 h-4 text-yellow-400 flex-shrink-0 mt-0.5" />
-          <div className="text-xs text-yellow-200">
-            <p className="font-semibold mb-1">Arc Testnet Bridge Coming Soon</p>
-            <p className="text-yellow-300/80">
-              Circle CCTP is not yet deployed on Arc Testnet. Use this bridge to transfer USDC between Ethereum Sepolia, Base Sepolia, Arbitrum Sepolia, Optimism Sepolia, Polygon Amoy, and Avalanche Fuji.
-            </p>
-            <p className="mt-2 text-yellow-300/80">
-              ℹ️ You can still swap AIC to USDC on Arc Testnet above!
-            </p>
+      <div className="space-y-3 mb-4">
+        <div className="p-3 bg-green-900/30 border border-green-500/30 rounded-lg backdrop-blur-sm">
+          <div className="flex items-start gap-2">
+            <Gift className="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5" />
+            <div className="text-xs text-green-200">
+              <p className="font-semibold mb-1">🎮 Play → 💰 Earn → 🌉 Withdraw Flow</p>
+              <ol className="text-green-300/80 space-y-1 list-decimal list-inside">
+                <li>Play vocabulary game → Earn AIC tokens</li>
+                <li>Convert AIC to USDC (on Arc Testnet)</li>
+                <li>Bridge USDC to any chain OR spend with virtual card</li>
+                <li>Withdraw to bank account OR use in DeFi</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <div className="p-3 bg-yellow-900/30 border border-yellow-500/30 rounded-lg backdrop-blur-sm">
+          <div className="flex items-start gap-2">
+            <AlertCircle className="w-4 h-4 text-yellow-400 flex-shrink-0 mt-0.5" />
+            <div className="text-xs text-yellow-200">
+              <p className="font-semibold mb-1">Arc Testnet Bridge Coming Soon</p>
+              <p className="text-yellow-300/80">
+                Circle CCTP is not yet deployed on Arc Testnet. Use this bridge to transfer USDC between Ethereum Sepolia, Base Sepolia, Arbitrum Sepolia, Optimism Sepolia, Polygon Amoy, and Avalanche Fuji.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -247,7 +261,15 @@ export function BridgeInterface() {
                         const result = await response.json();
 
                         if (!response.ok) {
-                          throw new Error(result.error || 'Failed to convert AIC to USDC');
+                          let errorMsg = result.error || 'Failed to convert AIC to USDC';
+                          if (result.treasuryAddress) {
+                            errorMsg = `Treasury needs funding!\n\n` +
+                              `Required: ${result.required} USDC\n` +
+                              `Available: ${result.available} USDC\n\n` +
+                              `Please send USDC to treasury:\n${result.treasuryAddress}\n\n` +
+                              `You can get testnet USDC from Circle Faucet:\nhttps://faucet.circle.com`;
+                          }
+                          throw new Error(errorMsg);
                         }
 
                         setSwapTxHash(result.txHash);
