@@ -182,9 +182,22 @@ export function BridgeInterface() {
       ) : (
         <>
           <div className="mb-4 sm:mb-6 p-3 bg-green-500/20 border border-green-500/30 rounded-lg backdrop-blur-sm">
-            <p className="text-xs sm:text-sm text-green-300 font-medium">
-              Connected: {connectedAddress.slice(0, 6)}...{connectedAddress.slice(-4)}
-            </p>
+            <div className="flex items-center justify-between gap-2">
+              <p className="text-xs sm:text-sm text-green-300 font-medium">
+                Connected: {connectedAddress.slice(0, 6)}...{connectedAddress.slice(-4)}
+              </p>
+              <button
+                onClick={() => {
+                  setConnectedAddress(null);
+                  setSwapSuccess(false);
+                  setSwapTxHash('');
+                  setUnclaimedAIC(0);
+                }}
+                className="text-xs text-red-300 hover:text-red-200 font-semibold px-3 py-1.5 bg-red-500/20 hover:bg-red-500/40 rounded border border-red-500/50 transition-all touch-manipulation"
+              >
+                Disconnect
+              </button>
+            </div>
           </div>
 
           <div className="mb-4 sm:mb-6 space-y-3">
