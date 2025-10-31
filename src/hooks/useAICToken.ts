@@ -118,6 +118,7 @@ export function useAICToken(walletAddress?: string) {
           abi: AIC_TOKEN_ABI,
           functionName: 'approve',
           args: [AIC_SWAP_ADDRESS, amountIn],
+          gasPrice: parseUnits('2', 6),
         });
 
         await publicClient.waitForTransactionReceipt({ hash: approveHash });
@@ -128,6 +129,7 @@ export function useAICToken(walletAddress?: string) {
         abi: AIC_SWAP_ABI,
         functionName: 'swapAICForUSDC',
         args: [amountIn, minOut],
+        gasPrice: parseUnits('2', 6),
       });
 
       await publicClient.waitForTransactionReceipt({ hash: swapHash });
@@ -199,6 +201,7 @@ export function useAICToken(walletAddress?: string) {
           abi: ERC20_ABI,
           functionName: 'approve',
           args: [AIC_SWAP_ADDRESS, amountIn],
+          gasPrice: parseUnits('2', 6),
         });
 
         await publicClient.waitForTransactionReceipt({ hash: approveHash });
@@ -209,6 +212,7 @@ export function useAICToken(walletAddress?: string) {
         abi: AIC_SWAP_ABI,
         functionName: 'swapUSDCForAIC',
         args: [amountIn, minOut],
+        gasPrice: parseUnits('2', 6),
       });
 
       await publicClient.waitForTransactionReceipt({ hash: swapHash });

@@ -138,6 +138,7 @@ Deno.serve(async (req: Request) => {
       abi: AIC_TOKEN_ABI,
       functionName: "mintGameReward",
       args: [walletAddress as `0x${string}`, amountToMint, submissionId],
+      gasPrice: parseUnits("2", 6),
     });
 
     await supabase
