@@ -75,6 +75,35 @@ function App() {
       if (accounts && accounts.length > 0) {
         setConnectedAddress(accounts[0]);
         await getOrCreateUser(accounts[0]);
+
+        try {
+          const chainIdHex = '0x4CF0D2';
+          await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: chainIdHex }],
+          });
+        } catch (switchError: any) {
+          if (switchError.code === 4902) {
+            try {
+              await window.ethereum.request({
+                method: 'wallet_addEthereumChain',
+                params: [{
+                  chainId: '0x4CF0D2',
+                  chainName: 'Arc Testnet',
+                  nativeCurrency: {
+                    name: 'USDC',
+                    symbol: 'USDC',
+                    decimals: 6
+                  },
+                  rpcUrls: ['https://rpc.testnet.arc.network'],
+                  blockExplorerUrls: ['https://testnet.arcscan.app']
+                }]
+              });
+            } catch (addError) {
+              console.error('Failed to add Arc Testnet:', addError);
+            }
+          }
+        }
       }
     } catch (err: any) {
       console.error('Failed to connect wallet:', err);
