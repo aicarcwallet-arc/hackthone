@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { Trophy, Clock, Zap, Target, Coins, Play, X, ArrowLeft } from 'lucide-react';
 import { useGame } from '../hooks/useGame';
+import { useNetworkCheck } from '../hooks/useNetworkCheck';
+import { NetworkStatusBanner } from './NetworkStatusBanner';
 
 interface VocabularyGameProps {
   userId: string | null;
@@ -45,11 +47,22 @@ export function VocabularyGame({ userId, walletAddress, onGoBack }: VocabularyGa
     }
   };
 
+  const { isCorrectNetwork, switchToArcTestnet } = useNetworkCheck();
+
   const handleSubmit = async (e: React.FormEvent) => {
     console.log('Submit button clicked');
     e.preventDefault();
 
     if (!currentWord || !startTime || !typedWord.trim()) return;
+
+    if (!isCorrectNetwork) {
+      try {
+        await switchToArcTestnet();
+      } catch (err) {
+        console.error('Failed to switch network:', err);
+        return;
+      }
+    }
 
     const timeTaken = Date.now() - startTime;
     const accuracy = calculateAccuracy(currentWord.word, typedWord);
@@ -184,7 +197,9 @@ export function VocabularyGame({ userId, walletAddress, onGoBack }: VocabularyGa
   }
 
   return (
-    <div className="w-full max-w-3xl bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-4 sm:p-8">
+    <>
+      <NetworkStatusBanner />
+      <div className="w-full max-w-3xl bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-4 sm:p-8">
       <div className="flex items-center justify-between mb-4 sm:mb-6 flex-wrap gap-2">
         <div className="flex items-center gap-3 sm:gap-6">
           {onGoBack && (
@@ -354,6 +369,7 @@ export function VocabularyGame({ userId, walletAddress, onGoBack }: VocabularyGa
           <p className="text-red-300">{error}</p>
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 }

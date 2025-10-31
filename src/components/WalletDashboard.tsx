@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Wallet, TrendingUp, ExternalLink, RefreshCw, Coins, LogOut } from 'lucide-react';
 import { getAICBalance, getAddressExplorerUrl, isOnArcNetwork, switchToArcNetwork } from '../lib/blockchain';
 import { useAICToken } from '../hooks/useAICToken';
+import { NetworkStatusIndicator } from './NetworkStatusBanner';
 import type { Address } from 'viem';
 
 interface WalletDashboardProps {
@@ -131,6 +132,7 @@ export function WalletDashboard({ walletAddress, userId, onDisconnect }: WalletD
           </div>
 
           <div className="flex items-center gap-1 sm:gap-2">
+            <NetworkStatusIndicator />
             <button
               onClick={handleRefresh}
               disabled={isLoading}

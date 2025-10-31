@@ -1,8 +1,10 @@
 import { useState, useEffect, useMemo } from 'react';
 import { ArrowDownUp, Loader2, CheckCircle, XCircle, ExternalLink, Info } from 'lucide-react';
 import { useSwap } from '../hooks/useSwap';
+import { useNetworkCheck } from '../hooks/useNetworkCheck';
 import { SUPPORTED_CHAINS, ARC_TESTNET_CHAIN_ID } from '../config/chains';
 import { getAvailableTokensForChain } from '../config/tokens';
+import { NetworkStatusBanner } from './NetworkStatusBanner';
 
 export function SwapInterface() {
   const [chainId, setChainId] = useState(ARC_TESTNET_CHAIN_ID);
@@ -12,6 +14,7 @@ export function SwapInterface() {
   const [connectedAddress, setConnectedAddress] = useState<string | null>(null);
 
   const { isLoading, error, txHash, status, tokenBalances, swapTokens, getBalance, reset } = useSwap();
+  const { isCorrectNetwork, switchToArcTestnet } = useNetworkCheck();
 
   const availableTokens = useMemo(
     () => getAvailableTokensForChain(chainId),
@@ -67,6 +70,15 @@ export function SwapInterface() {
       return;
     }
 
+    if (!isCorrectNetwork) {
+      try {
+        await switchToArcTestnet();
+      } catch (err) {
+        console.error('Failed to switch network:', err);
+        return;
+      }
+    }
+
     try {
       await swapTokens(fromToken, toToken, amount, chainId);
     } catch (err: any) {
@@ -85,7 +97,9 @@ export function SwapInterface() {
   const toBalance = tokenBalances[`${toToken}-${chainId}`] || '0';
 
   return (
-    <div className="w-full max-w-md bg-white rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6">
+    <>
+      <NetworkStatusBanner />
+      <div className="w-full max-w-md bg-white rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6">
       <div className="mb-4 sm:mb-6">
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Token Swap</h2>
         <p className="text-xs sm:text-sm text-gray-600">
@@ -273,6 +287,7 @@ export function SwapInterface() {
           <span className="font-medium text-gray-900">Arc Testnet</span>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
