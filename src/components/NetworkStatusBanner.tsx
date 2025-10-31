@@ -1,12 +1,29 @@
 import { AlertTriangle, CheckCircle2, Loader2 } from 'lucide-react';
 import { useNetworkCheck } from '../hooks/useNetworkCheck';
+import { useState } from 'react';
 
 export function NetworkStatusBanner() {
   const { isCorrectNetwork, isConnected, error, switchToArcTestnet } = useNetworkCheck();
+  const [isSwitching, setIsSwitching] = useState(false);
+  const [switchError, setSwitchError] = useState<string | null>(null);
 
   if (!isConnected || isCorrectNetwork) {
     return null;
   }
+
+  const handleSwitch = async () => {
+    setIsSwitching(true);
+    setSwitchError(null);
+
+    try {
+      await switchToArcTestnet();
+    } catch (err: any) {
+      setSwitchError(err.message || 'Failed to switch network');
+      console.error('Network switch error:', err);
+    } finally {
+      setIsSwitching(false);
+    }
+  };
 
   return (
     <div className="w-full max-w-3xl mb-4 bg-orange-900/30 backdrop-blur-sm border border-orange-500/50 rounded-lg p-4 flex items-start gap-3">
@@ -16,11 +33,24 @@ export function NetworkStatusBanner() {
         <p className="text-orange-200/90 text-sm mb-3">
           {error || 'You need to switch to Arc Testnet to use this app.'}
         </p>
+        {switchError && (
+          <p className="text-red-300 text-sm mb-3 font-medium">
+            {switchError}
+          </p>
+        )}
         <button
-          onClick={switchToArcTestnet}
-          className="bg-orange-500 hover:bg-orange-600 text-white font-medium px-4 py-2 rounded-lg transition-colors text-sm touch-manipulation"
+          onClick={handleSwitch}
+          disabled={isSwitching}
+          className="bg-orange-500 hover:bg-orange-600 disabled:bg-orange-700 disabled:cursor-not-allowed text-white font-medium px-4 py-2 rounded-lg transition-colors text-sm touch-manipulation flex items-center gap-2"
         >
-          Switch to Arc Testnet
+          {isSwitching ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              Switching...
+            </>
+          ) : (
+            'Switch to Arc Testnet'
+          )}
         </button>
       </div>
     </div>
