@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { ArrowDownUp, Loader2, CheckCircle, XCircle, ExternalLink, Repeat, Gift, AlertCircle } from 'lucide-react';
+import { ArrowDownUp, Loader2, CheckCircle, XCircle, ExternalLink, Repeat, Gift, AlertCircle, RefreshCw } from 'lucide-react';
 import { useBridge } from '../hooks/useBridge';
 import { useAICToken } from '../hooks/useAICToken';
 import { SUPPORTED_CHAINS, BRIDGE_CHAIN_OPTIONS, ARC_TESTNET_CHAIN_ID } from '../config/chains';
@@ -202,6 +202,19 @@ export function BridgeInterface() {
 
           <div className="mb-4 sm:mb-6 space-y-3">
             <div className="p-4 bg-gradient-to-r from-blue-900/50 to-cyan-900/50 border border-cyan-500/30 rounded-lg backdrop-blur-sm space-y-3">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-sm font-semibold text-cyan-300">Your Balances</h3>
+                <button
+                  onClick={async () => {
+                    await refreshBalances();
+                    await checkUnclaimedAIC(connectedAddress);
+                  }}
+                  className="p-1.5 hover:bg-cyan-500/20 active:bg-cyan-500/40 rounded-lg transition-colors touch-manipulation"
+                  title="Refresh balances"
+                >
+                  <RefreshCw className="w-4 h-4 text-cyan-300" />
+                </button>
+              </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-300">Your AIC Balance (on-chain)</span>
                 <span className="text-lg font-bold text-cyan-300">{aicBalance} AIC</span>
