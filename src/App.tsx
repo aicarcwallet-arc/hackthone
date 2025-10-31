@@ -15,12 +15,13 @@ import { VirtualCard } from './components/VirtualCard';
 import { CircleBanking } from './components/CircleBanking';
 import { NavigationHeader } from './components/NavigationHeader';
 import { HowItWorks } from './components/HowItWorks';
+import { WithdrawPage } from './components/WithdrawPage';
 import { useAICToken } from './hooks/useAICToken';
 import { Repeat, Send, Trophy, History, Flame, Zap, CreditCard, Building2 } from 'lucide-react';
 import { supabase } from './lib/supabase';
 
 type Tab = 'game' | 'bridge' | 'swap' | 'burn' | 'history' | 'accelerator' | 'card' | 'banking';
-type Page = 'home' | 'play' | 'swap' | 'bridge' | 'card' | 'banking' | 'how';
+type Page = 'home' | 'play' | 'swap' | 'withdraw' | 'how';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -124,9 +125,6 @@ function App() {
     setCurrentPage(page);
     if (page === 'play') setActiveTab('game');
     if (page === 'swap') setActiveTab('swap');
-    if (page === 'bridge') setActiveTab('bridge');
-    if (page === 'card') setActiveTab('card');
-    if (page === 'banking') setActiveTab('banking');
   };
 
   console.log('Rendering App, connectedAddress:', connectedAddress);
@@ -156,6 +154,37 @@ function App() {
         />
         <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black py-8">
           <HowItWorks />
+        </div>
+      </>
+    );
+  }
+
+  if (currentPage === 'withdraw') {
+    return (
+      <>
+        <NavigationHeader
+          currentPage={currentPage}
+          onNavigate={handleNavigate}
+          walletAddress={connectedAddress || undefined}
+          onConnectWallet={handleConnectWallet}
+        />
+        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black flex items-center justify-center p-4">
+          {!connectedAddress ? (
+            <div className="text-center">
+              <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/30 max-w-md">
+                <h3 className="text-2xl font-bold text-white mb-4">Connect Your Wallet</h3>
+                <p className="text-gray-300 mb-6">Please connect your wallet to access withdrawal options</p>
+                <button
+                  onClick={handleConnectWallet}
+                  className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all"
+                >
+                  Connect Wallet
+                </button>
+              </div>
+            </div>
+          ) : (
+            <WithdrawPage walletAddress={connectedAddress} usdcBalance={usdcBalance} />
+          )}
         </div>
       </>
     );
