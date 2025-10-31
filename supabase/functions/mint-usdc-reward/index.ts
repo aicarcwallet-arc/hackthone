@@ -163,7 +163,7 @@ Deno.serve(async (req: Request) => {
       abi: USDC_ABI,
       functionName: "transfer",
       args: [walletAddress as `0x${string}`, amountToSend],
-      gasPrice: parseUnits("2", 6),
+      gasPrice: parseUnits("5", 6),
     });
 
     await supabase
