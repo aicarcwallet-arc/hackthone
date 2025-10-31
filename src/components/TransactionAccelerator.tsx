@@ -111,17 +111,34 @@ export function TransactionAccelerator() {
         </p>
       </div>
 
-      <div className="mb-4 p-3 bg-blue-900/30 border border-blue-500/30 rounded-lg backdrop-blur-sm">
-        <div className="flex items-start gap-2">
-          <AlertCircle className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
-          <div className="text-xs text-blue-200">
-            <p className="font-semibold mb-1">How It Works</p>
-            <ul className="text-blue-300/80 space-y-1 list-disc list-inside">
-              <li>Paste your pending transaction hash</li>
-              <li>Choose gas boost percentage (higher = faster)</li>
-              <li>Broadcast replacement transaction with same nonce</li>
-              <li>Miners prioritize higher gas transactions</li>
-            </ul>
+      <div className="space-y-3 mb-4">
+        <div className="p-3 bg-blue-900/30 border border-blue-500/30 rounded-lg backdrop-blur-sm">
+          <div className="flex items-start gap-2">
+            <AlertCircle className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
+            <div className="text-xs text-blue-200">
+              <p className="font-semibold mb-1">How It Works</p>
+              <ul className="text-blue-300/80 space-y-1 list-disc list-inside">
+                <li>Paste your pending transaction hash</li>
+                <li>Choose gas boost percentage (higher = faster)</li>
+                <li>Broadcast replacement transaction with same nonce</li>
+                <li>Miners prioritize higher gas transactions</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div className="p-3 bg-yellow-900/30 border border-yellow-500/30 rounded-lg backdrop-blur-sm">
+          <div className="flex items-start gap-2">
+            <AlertCircle className="w-4 h-4 text-yellow-400 flex-shrink-0 mt-0.5" />
+            <div className="text-xs text-yellow-200">
+              <p className="font-semibold mb-1">Common Issues</p>
+              <ul className="text-yellow-300/80 space-y-1 list-disc list-inside">
+                <li><span className="font-semibold">Internal Error:</span> Transaction already confirmed or wrong network</li>
+                <li><span className="font-semibold">Not Found:</span> Check you selected the correct chain</li>
+                <li><span className="font-semibold">Already Known:</span> Transaction already in mempool or mined</li>
+                <li><span className="font-semibold">Nonce Too Low:</span> Transaction completed - check explorer</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -204,7 +221,7 @@ export function TransactionAccelerator() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <button
             onClick={handleAnalyze}
             disabled={isLoading || !txHash}
@@ -213,12 +230,12 @@ export function TransactionAccelerator() {
             {status === 'analyzing' ? (
               <>
                 <Loader2 className="w-5 h-5 animate-spin" />
-                <span className="text-sm">Analyzing...</span>
+                <span className="text-sm">Checking...</span>
               </>
             ) : (
               <>
                 <RefreshCw className="w-5 h-5" />
-                <span className="text-sm">Analyze TX</span>
+                <span className="text-sm">Check Status</span>
               </>
             )}
           </button>
@@ -226,7 +243,7 @@ export function TransactionAccelerator() {
           <button
             onClick={handleAccelerate}
             disabled={isLoading || !connectedAddress || !txHash}
-            className="bg-gradient-to-r from-yellow-500 to-orange-600 hover:from-yellow-400 hover:to-orange-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-all shadow-[0_0_30px_rgba(250,204,21,0.5)] hover:shadow-[0_0_50px_rgba(250,204,21,0.8)] flex items-center justify-center gap-2 touch-manipulation"
+            className="bg-gradient-to-r from-yellow-500 to-orange-600 hover:from-yellow-400 hover:to-orange-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-all shadow-[0_0_30px_rgba(250,204,21,0.5)] hover:shadow-[0_0_50px_rgba(250,204,21,0.8)] flex items-center justify-center gap-2 touch-manipulation sm:col-span-2"
           >
             {status === 'accelerating' ? (
               <>
@@ -236,7 +253,7 @@ export function TransactionAccelerator() {
             ) : (
               <>
                 <Zap className="w-5 h-5" />
-                <span className="text-sm">Accelerate TX</span>
+                <span className="text-sm">Accelerate Transaction</span>
               </>
             )}
           </button>

@@ -119,8 +119,15 @@ export function useTransactionAccelerator() {
       let originalTx: any = null;
       try {
         originalTx = await publicClient.getTransaction({ hash: txHash as Hash });
-      } catch (e) {
-        console.log('Transaction not found in RPC mempool yet');
+      } catch (e: any) {
+        console.log('Transaction not found in RPC mempool:', e.message);
+        throw new Error(
+          'Transaction not found on this network. Please check:\n' +
+          '1. You selected the correct chain\n' +
+          '2. Transaction hash is correct\n' +
+          '3. Transaction is still pending (not already confirmed)\n' +
+          '4. RPC node is synced'
+        );
       }
 
       // Check if already confirmed
