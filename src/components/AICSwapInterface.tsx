@@ -269,7 +269,13 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
                   You must be on Arc Testnet to swap tokens.
                 </p>
                 <button
-                  onClick={switchToArcTestnet}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Swap page button clicked!');
+                    switchToArcTestnet();
+                  }}
+                  type="button"
                   className="bg-orange-500 hover:bg-orange-600 text-white font-medium px-4 py-2 rounded-lg transition-colors text-sm"
                 >
                   Switch to Arc Testnet

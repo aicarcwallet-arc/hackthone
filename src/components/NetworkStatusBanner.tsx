@@ -43,8 +43,14 @@ export function NetworkStatusBanner() {
           </p>
         )}
         <button
-          onClick={handleSwitch}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Button clicked!');
+            handleSwitch();
+          }}
           disabled={isSwitching}
+          type="button"
           className="bg-orange-500 hover:bg-orange-600 disabled:bg-orange-700 disabled:cursor-not-allowed text-white font-medium px-4 py-2 rounded-lg transition-colors text-sm touch-manipulation flex items-center gap-2"
         >
           {isSwitching ? (
