@@ -254,7 +254,7 @@ function App() {
       <div className="absolute bottom-1/3 right-20 w-8 h-8 opacity-[0.02] animate-float">
         <img src="/aic toekn  copy.png" alt="" className="w-full h-full object-contain" />
       </div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-8 sm:mb-12">
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-4 py-1 rounded-full text-xs sm:text-sm font-semibold mb-3 shadow-[0_0_20px_rgba(34,211,238,0.4)]">
             <span className="animate-pulse">🔥</span>
@@ -423,13 +423,29 @@ function App() {
           </>
         )}
 
-        <div className="max-w-4xl mx-auto">
-          {activeTab === 'game' && <VocabularyGame key={`game-${connectedAddress}`} userId={userId} walletAddress={connectedAddress} onGoBack={() => setActiveTab('game')} />}
-          {activeTab === 'bridge' && <BridgeInterface />}
-          {activeTab === 'card' && <VirtualCard walletAddress={connectedAddress || undefined} usdcBalance={usdcBalance} />}
-          {activeTab === 'banking' && <CircleBanking walletAddress={connectedAddress || undefined} usdcBalance={usdcBalance} />}
+        <div className="w-full">
+          {activeTab === 'game' && (
+            <div className="max-w-6xl mx-auto">
+              <VocabularyGame key={`game-${connectedAddress}`} userId={userId} walletAddress={connectedAddress} onGoBack={() => setActiveTab('game')} />
+            </div>
+          )}
+          {activeTab === 'bridge' && (
+            <div className="max-w-5xl mx-auto">
+              <BridgeInterface />
+            </div>
+          )}
+          {activeTab === 'card' && (
+            <div className="max-w-6xl mx-auto">
+              <VirtualCard walletAddress={connectedAddress || undefined} usdcBalance={usdcBalance} />
+            </div>
+          )}
+          {activeTab === 'banking' && (
+            <div className="max-w-6xl mx-auto">
+              <CircleBanking walletAddress={connectedAddress || undefined} usdcBalance={usdcBalance} />
+            </div>
+          )}
           {activeTab === 'swap' && (
-            <div className="space-y-6 w-full">
+            <div className="max-w-5xl mx-auto space-y-6">
               <AICSwapInterface key={`swap-${connectedAddress}-${activeTab}-${refreshKey}`} walletAddress={connectedAddress || undefined} />
 
               {parseFloat(usdcBalance) > 0 && connectedAddress && (
@@ -446,14 +462,26 @@ function App() {
               )}
             </div>
           )}
-          {activeTab === 'burn' && <BurnPegInterface walletAddress={connectedAddress || undefined} />}
-          {activeTab === 'history' && <TransactionHistory userId={userId} />}
-          {activeTab === 'accelerator' && <TransactionAccelerator />}
+          {activeTab === 'burn' && (
+            <div className="max-w-5xl mx-auto">
+              <BurnPegInterface walletAddress={connectedAddress || undefined} />
+            </div>
+          )}
+          {activeTab === 'history' && (
+            <div className="max-w-6xl mx-auto">
+              <TransactionHistory userId={userId} />
+            </div>
+          )}
+          {activeTab === 'accelerator' && (
+            <div className="max-w-5xl mx-auto">
+              <TransactionAccelerator />
+            </div>
+          )}
         </div>
 
         <InstallPrompt />
 
-        <div className="mt-12 grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <div className="mt-12 grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           <div className="bg-white rounded-lg shadow-md p-6">
             <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
               <svg
