@@ -258,10 +258,10 @@ function App() {
             AI Cognitive Token (AiC)
           </h1>
           <p className="text-sm sm:text-base md:text-lg text-gray-300 max-w-2xl mx-auto font-medium">
-            Learn Blockchain Terms • Earn USDC Rewards • Powered by AI
+            Learn <span className="text-white font-bold">Blockchain</span> Terms • Earn <span className="text-white font-bold">USDC</span> Rewards • Powered by <span className="text-white font-bold">AI</span>
           </p>
           <p className="text-xs sm:text-sm text-gray-400 mt-2">
-            OpenAI Validation • Circle Arc L1 • Programmable USDC
+            OpenAI Validation • Circle <span className="text-white font-bold">Arc</span> L1 • Programmable <span className="text-white font-bold">USDC</span>
           </p>
         </div>
 
