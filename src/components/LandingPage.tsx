@@ -13,11 +13,11 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 md:py-32 relative">
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 sm:gap-3 bg-gray-900/50 backdrop-blur-sm px-3 sm:px-4 py-2 rounded-full mb-4 sm:mb-6 border border-cyan-500/30">
-              <img src="/aic toekn .png" alt="AiC Token Logo" className="w-8 h-8 sm:w-10 sm:h-10" />
-              <span className="text-sm sm:text-base font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">AiC Token</span>
+              <img src="/aic toekn .png" alt="AI Cognitive Token Logo" className="w-8 h-8 sm:w-10 sm:h-10" />
+              <span className="text-sm sm:text-base font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">AI Cognitive Token (AiC)</span>
             </div>
             <p className="text-xs sm:text-sm md:text-base text-cyan-400 mb-6 sm:mb-8 px-2">
-              AI Validation • Arc Blockchain • USDC Rewards
+              Learn • Earn • Bridge • Built on Circle's Arc L1
             </p>
             <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 px-2 leading-tight">
               <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
@@ -33,10 +33,10 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
               </span>
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto px-4">
-              Learn blockchain vocabulary and earn 300-500 AiC per word
+              The first AI-powered cognitive token where learning blockchain terms earns you real money
             </p>
             <p className="text-xs sm:text-sm text-gray-400 mb-8 sm:mb-12 px-4">
-              AI validates • 1:1 USDC pegging • Send to Arc Testnet • Track on Arcscan Explorer
+              OpenAI validates your knowledge • Circle's USDC powers rewards • Arc L1 ensures transparency
             </p>
             <button
               onClick={onGetStarted}
@@ -104,20 +104,20 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
       {/* Scrolling Banner */}
       <section className="bg-black py-4 overflow-hidden border-y border-cyan-500/30">
         <div className="animate-scroll whitespace-nowrap">
-          <span className="inline-block text-cyan-400 font-semibold px-8">Play & Earn USDC</span>
+          <span className="inline-block text-cyan-400 font-semibold px-8">AI Cognitive Token (AiC)</span>
           <span className="inline-block text-cyan-300 px-2">•</span>
-          <span className="inline-block text-cyan-400 font-semibold px-8">Get Your AiC Arc Virtual Card</span>
+          <span className="inline-block text-white font-semibold px-8">Learn Blockchain & Earn USDC</span>
           <span className="inline-block text-cyan-300 px-2">•</span>
-          <span className="inline-block text-cyan-400 font-semibold px-8">5% Rewards on Every Purchase</span>
+          <span className="inline-block text-cyan-400 font-semibold px-8">Powered by OpenAI + Circle Arc</span>
+          <span className="inline-block text-blue-300 px-2">•</span>
+          <span className="inline-block text-white font-semibold px-8">Hackathon Project 2025</span>
+          <span className="inline-block text-blue-300 px-2">•</span>
+          <span className="inline-block text-cyan-400 font-semibold px-8">1:1 USDC Backing</span>
           <span className="inline-block text-cyan-300 px-2">•</span>
-          <span className="inline-block text-cyan-400 font-semibold px-8">Spend Anywhere Visa Accepted</span>
+          <span className="inline-block text-white font-semibold px-8">Bridge to Any Chain with CCTP</span>
           <span className="inline-block text-blue-300 px-2">•</span>
-          <span className="inline-block text-white font-semibold px-8">Circle Alliance Partner</span>
-          <span className="inline-block text-blue-300 px-2">•</span>
-          <span className="inline-block text-white font-semibold px-8">Stablecoin Finance</span>
-          <span className="inline-block text-blue-300 px-2">•</span>
-          <span className="inline-block text-white font-semibold px-8">Global Payments</span>
-          <span className="inline-block text-blue-300 px-2">•</span>
+          <span className="inline-block text-cyan-400 font-semibold px-8">Native USDC Gas Fees</span>
+          <span className="inline-block text-cyan-300 px-2">•</span>
         </div>
       </section>
 
@@ -126,51 +126,54 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-4">
-              Why AiC Token?
+              What is AI Cognitive Token (AiC)?
             </h2>
-            <p className="text-lg text-gray-300">
-              The intersection of AI, blockchain, and financial freedom
+            <p className="text-lg text-gray-300 mb-3">
+              The world's first learn-to-earn token powered by artificial intelligence
+            </p>
+            <p className="text-base text-cyan-400 max-w-3xl mx-auto">
+              AiC combines cognitive learning with blockchain rewards. Type blockchain vocabulary, get validated by OpenAI, and earn USDC-backed tokens instantly on Circle's Arc blockchain.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-12">
             <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/30 shadow-[0_0_20px_rgba(34,211,238,0.2)]">
-              <h3 className="text-2xl font-bold text-cyan-400 mb-4">Wealthy Gaming Economy</h3>
+              <h3 className="text-2xl font-bold text-cyan-400 mb-4">AI Cognitive Learning</h3>
               <ul className="space-y-3 text-gray-300">
-                <li>• Earn $300-500 USDC per blockchain word</li>
-                <li>• AI validates your knowledge instantly</li>
-                <li>• Create real income streams from learning</li>
-                <li>• Build wealth while expanding blockchain skills</li>
+                <li>• Type blockchain terms like CONSENSUS, DEFI, SMART-CONTRACT</li>
+                <li>• OpenAI validates your cognitive understanding</li>
+                <li>• Earn 300-500 AiC tokens per correct word</li>
+                <li>• No copy-paste - real learning equals real rewards</li>
               </ul>
             </div>
 
             <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/30 shadow-[0_0_20px_rgba(34,211,238,0.2)]">
-              <h3 className="text-2xl font-bold text-cyan-400 mb-4">Circle Arc Blockchain</h3>
+              <h3 className="text-2xl font-bold text-cyan-400 mb-4">Built on Circle's Arc L1</h3>
               <ul className="space-y-3 text-gray-300">
-                <li>• Built on Circle's secure Layer-1 blockchain</li>
-                <li>• Instant USDC settlements with low fees</li>
-                <li>• Enterprise-grade security and transparency</li>
-                <li>• Every transaction publicly verifiable</li>
+                <li>• Native USDC gas payments - no ETH needed</li>
+                <li>• Sub-second finality with deterministic settlement</li>
+                <li>• Circle Bridge Kit for cross-chain transfers</li>
+                <li>• Every AiC token minted is verifiable on-chain</li>
               </ul>
             </div>
 
             <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/30 shadow-[0_0_20px_rgba(34,211,238,0.2)]">
-              <h3 className="text-2xl font-bold text-cyan-400 mb-4">AI-Powered Validation</h3>
+              <h3 className="text-2xl font-bold text-cyan-400 mb-4">Hackathon Innovation</h3>
               <ul className="space-y-3 text-gray-300">
-                <li>• OpenAI validates every word submission</li>
-                <li>• Real-time accuracy checking</li>
-                <li>• Learn through AI feedback</li>
-                <li>• Contribute to next-gen AI training data</li>
+                <li>• Submission for Circle's "AI Agents on Arc with USDC" hackathon</li>
+                <li>• Demonstrates programmable USDC + AI integration</li>
+                <li>• Real-world use case: education meets DeFi</li>
+                <li>• Open-source and ready for production scaling</li>
               </ul>
             </div>
 
             <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/30 shadow-[0_0_20px_rgba(34,211,238,0.2)]">
-              <h3 className="text-2xl font-bold text-cyan-400 mb-4">Real Money, Real Freedom</h3>
+              <h3 className="text-2xl font-bold text-cyan-400 mb-4">USDC-Backed Rewards</h3>
               <ul className="space-y-3 text-gray-300">
-                <li>• 1:1 AiC to USDC conversion</li>
-                <li>• Backed by Circle's trusted stablecoin</li>
-                <li>• Withdraw to any wallet anytime</li>
-                <li>• True financial independence through crypto</li>
+                <li>• 1:1 AiC to USDC swap ratio guaranteed</li>
+                <li>• Circle's programmable USDC powers all rewards</li>
+                <li>• Bridge to Ethereum, Arbitrum, Base via Circle CCTP</li>
+                <li>• Withdraw real stablecoin earnings anytime</li>
               </ul>
             </div>
           </div>
@@ -182,16 +185,16 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-4">
-              How It Works
+              How AI Cognitive Token Works
             </h2>
             <p className="text-lg text-gray-300 mb-4">
-              Simple steps to start earning
+              5 simple steps to start learning and earning
             </p>
             <p className="text-xl font-semibold text-cyan-400">
-              Play → Earn → Swap → Withdraw
+              Connect → Learn → Validate → Swap → Bridge
             </p>
             <p className="text-sm text-gray-400 mt-2">
-              Circle SDK Wallet + Arc Testnet
+              Powered by OpenAI + Circle Arc + Programmable USDC
             </p>
           </div>
 
@@ -201,10 +204,10 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
                 01
               </div>
               <div className="flex-1">
-                <h3 className="text-2xl font-bold text-white mb-2">Sign Up & Get Your Wallet</h3>
-                <p className="text-sm text-cyan-400 font-semibold mb-3">Circle SDK In-House Wallet</p>
+                <h3 className="text-2xl font-bold text-white mb-2">Connect Your Wallet</h3>
+                <p className="text-sm text-cyan-400 font-semibold mb-3">MetaMask Integration</p>
                 <p className="text-gray-300">
-                  Create your account and get an automatic Circle SDK wallet. Your User ID persists across sessions. Secure, non-custodial, powered by Circle - no MetaMask popups needed!
+                  Connect your MetaMask wallet to Arc Testnet. Your wallet address is your unique learning profile. All AiC tokens and USDC rewards are stored securely on-chain.
                 </p>
               </div>
             </div>
@@ -214,10 +217,10 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
                 02
               </div>
               <div className="flex-1">
-                <h3 className="text-2xl font-bold text-white mb-2">Type Blockchain Vocabulary</h3>
-                <p className="text-sm text-cyan-400 font-semibold mb-3">Blockchain Education Game</p>
+                <h3 className="text-2xl font-bold text-white mb-2">Type Blockchain Terms</h3>
+                <p className="text-sm text-cyan-400 font-semibold mb-3">AI Cognitive Learning Game</p>
                 <p className="text-gray-300">
-                  Learn blockchain terms like CONSENSUS, SMART-CONTRACT, DEFI. Type manually - our AI agent detects copy-paste. Real learning = real earning!
+                  Type blockchain vocabulary like CONSENSUS, SMART-CONTRACT, LIQUIDITY. Our AI detects copy-paste to ensure genuine cognitive learning. Only authentic typing earns rewards!
                 </p>
               </div>
             </div>
@@ -227,10 +230,10 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
                 03
               </div>
               <div className="flex-1">
-                <h3 className="text-2xl font-bold text-white mb-2">AI Agent Validates & Rewards</h3>
-                <p className="text-sm text-cyan-400 font-semibold mb-3">Instant Token Rewards</p>
+                <h3 className="text-2xl font-bold text-white mb-2">OpenAI Validates Your Knowledge</h3>
+                <p className="text-sm text-cyan-400 font-semibold mb-3">AI-Powered Cognitive Assessment</p>
                 <p className="text-gray-300">
-                  OpenAI validates your work and instantly credits 300-500 AiC tokens to your Circle wallet. No popups, no delays - just pure gameplay! Track everything on Arc Explorer.
+                  OpenAI's GPT model validates your answer in real-time. Correct terms earn you 300-500 AiC tokens instantly minted to your wallet via Supabase edge functions. Every mint is recorded on Arc blockchain!
                 </p>
               </div>
             </div>
@@ -240,10 +243,10 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
                 04
               </div>
               <div className="flex-1">
-                <h3 className="text-2xl font-bold text-white mb-2">Swap to USDC Anytime</h3>
-                <p className="text-sm text-cyan-400 font-semibold mb-3">1:1 Pegging with USDC</p>
+                <h3 className="text-2xl font-bold text-white mb-2">Swap AiC for USDC</h3>
+                <p className="text-sm text-cyan-400 font-semibold mb-3">1:1 USDC-Backed Conversion</p>
                 <p className="text-gray-300">
-                  Visit the Swap page to exchange AiC for USDC at 1:1 ratio. All swaps happen on-chain via Arc Testnet. Pay ultra-low gas fees in native USDC!
+                  Convert your AI Cognitive Tokens to Circle's USDC stablecoin at a guaranteed 1:1 ratio. All swaps execute on-chain with smart contracts. Gas fees paid in USDC - no ETH needed!
                 </p>
               </div>
             </div>
@@ -253,10 +256,10 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
                 05
               </div>
               <div className="flex-1">
-                <h3 className="text-2xl font-bold text-white mb-2">Withdraw to Your Wallet</h3>
-                <p className="text-sm text-cyan-400 font-semibold mb-3">Cash Out via MetaMask</p>
+                <h3 className="text-2xl font-bold text-white mb-2">Bridge & Withdraw</h3>
+                <p className="text-sm text-cyan-400 font-semibold mb-3">Circle CCTP Cross-Chain Transfer</p>
                 <p className="text-gray-300">
-                  Ready to cash out? Use MetaMask ONLY for final withdrawal to your Arc Testnet address. All your earnings are verifiable on-chain. Build real wealth through blockchain education!
+                  Use Circle Bridge Kit to transfer USDC from Arc to Ethereum, Arbitrum, Base, or other chains. Or withdraw directly to your wallet on Arc. Your earnings, your choice!
                 </p>
               </div>
             </div>
@@ -269,39 +272,42 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-4">
-              Powered by Industry Leaders
+              Hackathon Tech Stack
             </h2>
-            <p className="text-lg text-gray-300">
-              Enterprise-grade technology stack for secure, transparent operations
+            <p className="text-lg text-gray-300 mb-2">
+              Built for Circle's "AI Agents on Arc with USDC" Hackathon
+            </p>
+            <p className="text-sm text-cyan-400">
+              Showcasing the future of AI-powered financial applications
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/30 shadow-[0_0_20px_rgba(34,211,238,0.2)]">
-              <h3 className="text-xl font-bold text-cyan-400 mb-3">Circle Arc L1</h3>
+              <h3 className="text-xl font-bold text-cyan-400 mb-3">Circle Arc Layer 1</h3>
               <p className="text-gray-300">
-                Native blockchain infrastructure built for programmable money and seamless USDC integration
+                Lightning-fast L1 blockchain with native USDC gas payments. Sub-second finality and deterministic settlement for instant reward distribution.
               </p>
             </div>
 
             <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/30 shadow-[0_0_20px_rgba(34,211,238,0.2)]">
-              <h3 className="text-xl font-bold text-cyan-400 mb-3">OpenAI API</h3>
+              <h3 className="text-xl font-bold text-cyan-400 mb-3">OpenAI GPT-4</h3>
               <p className="text-gray-300">
-                Advanced AI validation ensuring 99.8% accuracy in word verification and quality control
+                Powers the cognitive validation engine. Assesses blockchain vocabulary understanding and detects copy-paste attempts for authentic learning.
               </p>
             </div>
 
             <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/30 shadow-[0_0_20px_rgba(34,211,238,0.2)]">
-              <h3 className="text-xl font-bold text-cyan-400 mb-3">USDC Stablecoin</h3>
+              <h3 className="text-xl font-bold text-cyan-400 mb-3">Programmable USDC</h3>
               <p className="text-gray-300">
-                Fully-backed dollar stablecoin providing real value and financial stability to your earnings
+                Circle's flagship stablecoin backs all AiC token rewards. Used for gas, swaps, and cross-chain transfers via Circle CCTP.
               </p>
             </div>
 
             <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/30 shadow-[0_0_20px_rgba(34,211,238,0.2)]">
-              <h3 className="text-xl font-bold text-cyan-400 mb-3">Smart Contracts</h3>
+              <h3 className="text-xl font-bold text-cyan-400 mb-3">Supabase Edge Functions</h3>
               <p className="text-gray-300">
-                Transparent blockchain verification and automated reward distribution
+                Serverless backend handles OpenAI validation and token minting. All transactions recorded in Postgres with row-level security.
               </p>
             </div>
           </div>
@@ -312,13 +318,13 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
       <section className="py-20 bg-gradient-to-r from-cyan-500 to-blue-600 shadow-[0_0_80px_rgba(34,211,238,0.4)]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">
-            Shape the Future of Intelligent Finance
+            Start Earning AI Cognitive Tokens Today
           </h2>
           <p className="text-xl text-cyan-100 mb-4">
-            Join the AI + Arc Revolution
+            Learn Blockchain • Earn USDC • Built on Circle Arc
           </p>
           <p className="text-lg text-cyan-100 mb-8">
-            Play, earn AiC tokens, swap to USDC, and cash out - all powered by Circle SDK and Arc blockchain. No complex setup required.
+            The first educational platform where your knowledge literally becomes money. Type blockchain terms, get validated by AI, earn real USDC.
           </p>
 
           <div className="grid md:grid-cols-3 gap-6 mb-12">
@@ -375,8 +381,13 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
               </ul>
             </div>
           </div>
-          <div className="border-t border-gray-800 pt-8 text-center text-gray-400 text-sm">
-            © 2025 AiC Token Project. All rights reserved. Built for AI Agents on Arc with USDC hackathon by Shazia Sayeed
+          <div className="border-t border-gray-800 pt-8 text-center">
+            <p className="text-gray-400 text-sm mb-2">
+              <span className="font-bold text-cyan-400">AI Cognitive Token (AiC)</span> - Where Learning Becomes Earning
+            </p>
+            <p className="text-gray-500 text-xs">
+              © 2025 AiC Token Project. Built for Circle's "AI Agents on Arc with USDC" Hackathon by Shazia Sayeed
+            </p>
           </div>
         </div>
       </footer>

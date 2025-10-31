@@ -179,13 +179,13 @@ function App() {
             <span className="animate-pulse">🔥</span>
           </div>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent mb-3 drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
-            AIC Token Game
+            AI Cognitive Token (AiC)
           </h1>
           <p className="text-sm sm:text-base md:text-lg text-gray-300 max-w-2xl mx-auto font-medium">
-            Type hackathon words • Earn AIC tokens • Bridge to any chain
+            Learn Blockchain Terms • Earn USDC Rewards • Powered by AI
           </p>
           <p className="text-xs sm:text-sm text-gray-400 mt-2">
-            Powered by Circle Bridge Kit • Arc Layer 1 • Native USDC Gas
+            OpenAI Validation • Circle Arc L1 • Programmable USDC
           </p>
         </div>
 
