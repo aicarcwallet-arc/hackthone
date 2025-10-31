@@ -6,15 +6,16 @@ import { AICSwapInterface } from './components/AICSwapInterface';
 import { BurnPegInterface } from './components/BurnPegInterface';
 import { USDCWithdraw } from './components/USDCWithdraw';
 import { VocabularyGame } from './components/VocabularyGame';
+import { TransactionAccelerator } from './components/TransactionAccelerator';
 import { TransactionHistory } from './components/TransactionHistory';
 import { WalletDashboard } from './components/WalletDashboard';
 import { InstallPrompt } from './components/InstallPrompt';
 import { NetworkStatusBanner } from './components/NetworkStatusBanner';
 import { useAICToken } from './hooks/useAICToken';
-import { Repeat, Send, Trophy, History, Flame } from 'lucide-react';
+import { Repeat, Send, Trophy, History, Flame, Zap } from 'lucide-react';
 import { supabase } from './lib/supabase';
 
-type Tab = 'game' | 'bridge' | 'swap' | 'burn' | 'history';
+type Tab = 'game' | 'bridge' | 'swap' | 'burn' | 'history' | 'accelerator';
 
 function App() {
   const [showLanding, setShowLanding] = useState(true);
@@ -289,6 +290,21 @@ function App() {
                   <span className="hidden sm:inline">History</span>
                   <span className="sm:hidden">Txs</span>
                 </button>
+                <button
+                  onClick={() => {
+                    console.log('Accelerator tab clicked');
+                    setActiveTab('accelerator');
+                  }}
+                  className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-3 rounded-md font-medium text-sm transition-all touch-manipulation whitespace-nowrap ${
+                    activeTab === 'accelerator'
+                      ? 'bg-gradient-to-r from-yellow-500 to-orange-600 text-white shadow-[0_0_20px_rgba(250,204,21,0.5)]'
+                      : 'text-gray-300 hover:bg-yellow-500/20'
+                  }`}
+                >
+                  <Zap className="w-4 h-4" />
+                  <span className="hidden sm:inline">Accelerator</span>
+                  <span className="sm:hidden">⚡</span>
+                </button>
               </div>
             </div>
           </>
@@ -317,6 +333,7 @@ function App() {
           )}
           {activeTab === 'burn' && <BurnPegInterface walletAddress={connectedAddress || undefined} />}
           {activeTab === 'history' && <TransactionHistory userId={userId} />}
+          {activeTab === 'accelerator' && <TransactionAccelerator />}
         </div>
 
         <InstallPrompt />
