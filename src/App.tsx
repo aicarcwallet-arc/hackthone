@@ -13,14 +13,17 @@ import { InstallPrompt } from './components/InstallPrompt';
 import { NetworkStatusBanner } from './components/NetworkStatusBanner';
 import { VirtualCard } from './components/VirtualCard';
 import { CircleBanking } from './components/CircleBanking';
+import { NavigationHeader } from './components/NavigationHeader';
+import { HowItWorks } from './components/HowItWorks';
 import { useAICToken } from './hooks/useAICToken';
 import { Repeat, Send, Trophy, History, Flame, Zap, CreditCard, Building2 } from 'lucide-react';
 import { supabase } from './lib/supabase';
 
 type Tab = 'game' | 'bridge' | 'swap' | 'burn' | 'history' | 'accelerator' | 'card' | 'banking';
+type Page = 'home' | 'play' | 'swap' | 'bridge' | 'card' | 'banking' | 'how';
 
 function App() {
-  const [showLanding, setShowLanding] = useState(true);
+  const [currentPage, setCurrentPage] = useState<Page>('home');
   const [activeTab, setActiveTab] = useState<Tab>('game');
   const [connectedAddress, setConnectedAddress] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
@@ -117,13 +120,55 @@ function App() {
     setActiveTab('game');
   };
 
+  const handleNavigate = (page: Page) => {
+    setCurrentPage(page);
+    if (page === 'play') setActiveTab('game');
+    if (page === 'swap') setActiveTab('swap');
+    if (page === 'bridge') setActiveTab('bridge');
+    if (page === 'card') setActiveTab('card');
+    if (page === 'banking') setActiveTab('banking');
+  };
+
   console.log('Rendering App, connectedAddress:', connectedAddress);
 
-  if (showLanding) {
-    return <LandingPage onGetStarted={() => setShowLanding(false)} />;
+  if (currentPage === 'home') {
+    return (
+      <>
+        <NavigationHeader
+          currentPage={currentPage}
+          onNavigate={handleNavigate}
+          walletAddress={connectedAddress || undefined}
+          onConnectWallet={handleConnectWallet}
+        />
+        <LandingPage onGetStarted={() => setCurrentPage('play')} />
+      </>
+    );
+  }
+
+  if (currentPage === 'how') {
+    return (
+      <>
+        <NavigationHeader
+          currentPage={currentPage}
+          onNavigate={handleNavigate}
+          walletAddress={connectedAddress || undefined}
+          onConnectWallet={handleConnectWallet}
+        />
+        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black py-8">
+          <HowItWorks />
+        </div>
+      </>
+    );
   }
 
   return (
+    <>
+    <NavigationHeader
+      currentPage={currentPage}
+      onNavigate={handleNavigate}
+      walletAddress={connectedAddress || undefined}
+      onConnectWallet={handleConnectWallet}
+    />
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black flex items-center justify-center p-2 sm:p-4 relative overflow-hidden">
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
 
@@ -464,6 +509,7 @@ function App() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
