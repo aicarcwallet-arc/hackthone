@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Wallet, TrendingUp, ExternalLink, RefreshCw, Coins } from 'lucide-react';
+import { Wallet, TrendingUp, ExternalLink, RefreshCw, Coins, LogOut } from 'lucide-react';
 import { getAICBalance, getAddressExplorerUrl, isOnArcNetwork, switchToArcNetwork } from '../lib/blockchain';
 import { useAICToken } from '../hooks/useAICToken';
 import type { Address } from 'viem';
@@ -7,9 +7,10 @@ import type { Address } from 'viem';
 interface WalletDashboardProps {
   walletAddress: string;
   userId: string | null;
+  onDisconnect?: () => void;
 }
 
-export function WalletDashboard({ walletAddress, userId }: WalletDashboardProps) {
+export function WalletDashboard({ walletAddress, userId, onDisconnect }: WalletDashboardProps) {
   const [balance, setBalance] = useState<string>('0');
   const [isLoading, setIsLoading] = useState(false);
   const [onArcNetwork, setOnArcNetwork] = useState(false);
@@ -81,12 +82,14 @@ export function WalletDashboard({ walletAddress, userId }: WalletDashboardProps)
   };
 
   const handleSwitchNetwork = async () => {
+    const button = document.activeElement as HTMLElement;
+    if (button) button.blur();
+
     try {
       console.log('Attempting to switch to Arc Testnet...');
-      await switchToArcNetwork();
-      console.log('Network switch successful');
+      const result = await switchToArcNetwork();
+      console.log('Network switch result:', result);
 
-      // Wait a moment for the network to fully switch
       setTimeout(async () => {
         await checkNetwork();
         await loadBalance();
@@ -145,6 +148,18 @@ export function WalletDashboard({ walletAddress, userId }: WalletDashboardProps)
             >
               <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
             </a>
+            {onDisconnect && (
+              <button
+                onClick={() => {
+                  console.log('Disconnect button clicked');
+                  onDisconnect();
+                }}
+                className="p-1.5 sm:p-2 hover:bg-red-500/20 active:bg-red-500/30 rounded-lg transition-colors touch-manipulation"
+                title="Disconnect wallet"
+              >
+                <LogOut className="w-4 h-4 sm:w-5 sm:h-5" />
+              </button>
+            )}
           </div>
         </div>
 

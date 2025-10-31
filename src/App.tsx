@@ -106,6 +106,13 @@ function App() {
     }
   };
 
+  const handleDisconnect = () => {
+    console.log('Disconnecting wallet...');
+    setConnectedAddress(null);
+    setUserId(null);
+    setActiveTab('game');
+  };
+
   console.log('Rendering App, connectedAddress:', connectedAddress);
 
   if (showLanding) {
@@ -196,7 +203,12 @@ function App() {
 
         {connectedAddress && (
           <>
-            <WalletDashboard key={`wallet-${connectedAddress}-${activeTab}`} walletAddress={connectedAddress} userId={userId} />
+            <WalletDashboard
+              key={`wallet-${connectedAddress}-${activeTab}`}
+              walletAddress={connectedAddress}
+              userId={userId}
+              onDisconnect={handleDisconnect}
+            />
 
             <div className="flex justify-center mb-4 sm:mb-6 px-2">
               <div className="inline-flex bg-gray-800/50 backdrop-blur-sm rounded-lg shadow-[0_0_30px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-1 overflow-x-auto max-w-full">
