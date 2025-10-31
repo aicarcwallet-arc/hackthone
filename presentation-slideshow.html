@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Cognitive Token - Hackathon Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1e40af 0%, #0891b2 100%);
+        }
+
+        .slideshow {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background: linear-gradient(135deg, #1e40af 0%, #0891b2 100%);
+        }
+
+        .slide.active {
+            opacity: 1;
+            z-index: 1;
+        }
+
+        .slide h1 {
+            font-size: 5rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(to right, #ffffff, #ccfbf1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .slide h2 {
+            font-size: 3.5rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .slide h3 {
+            font-size: 2.5rem;
+            color: #ccfbf1;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .slide p {
+            font-size: 2rem;
+            color: #e0f2fe;
+            text-align: center;
+            max-width: 900px;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .slide ul {
+            list-style: none;
+            margin-top: 2rem;
+        }
+
+        .slide li {
+            font-size: 2.2rem;
+            color: white;
+            margin: 1.5rem 0;
+            padding-left: 3rem;
+            position: relative;
+        }
+
+        .slide li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #22d3ee;
+            font-weight: bold;
+            font-size: 2.5rem;
+        }
+
+        .progress-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 8px;
+            background: #22d3ee;
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+
+        .slide-number {
+            position: fixed;
+            bottom: 30px;
+            right: 50px;
+            color: white;
+            font-size: 1.5rem;
+            z-index: 1000;
+            opacity: 0.7;
+        }
+
+        .logo {
+            position: fixed;
+            top: 40px;
+            right: 50px;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: bold;
+            z-index: 1000;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .badge {
+            background: rgba(34, 211, 238, 0.2);
+            border: 2px solid #22d3ee;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            color: #ccfbf1;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 2rem;
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .big-number {
+            font-size: 8rem;
+            color: #22d3ee;
+            font-weight: bold;
+            margin: 1rem 0;
+            text-shadow: 0 4px 20px rgba(34, 211, 238, 0.5);
+        }
+
+        .highlight {
+            color: #fbbf24;
+            font-weight: bold;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .card h4 {
+            font-size: 2rem;
+            color: #22d3ee;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 100px;
+            right: 50px;
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .auto-indicator {
+            position: fixed;
+            top: 40px;
+            left: 50px;
+            color: white;
+            font-size: 1.2rem;
+            z-index: 1000;
+            opacity: 0.7;
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            color: #ccfbf1;
+            font-style: italic;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="slideshow">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>AI Cognitive Token</h1>
+            <h3>Where Learning Becomes Earning</h3>
+            <p class="subtitle">Built on Circle's Arc Network with USDC</p>
+            <div class="badge">LIVE ON ARC TESTNET</div>
+        </div>
+
+        <!-- Slide 2: Intro -->
+        <div class="slide">
+            <h2>Hi, I'm Shazia Sayeed</h2>
+            <p style="font-size: 2.5rem; margin-top: 2rem;">Founder & Developer</p>
+            <ul>
+                <li>Blockchain Developer</li>
+                <li>AI Integration Specialist</li>
+                <li>USDC Infrastructure Expert</li>
+            </ul>
+        </div>
+
+        <!-- Slide 3: The Problem -->
+        <div class="slide">
+            <h2>The Problem</h2>
+            <p style="font-size: 2.8rem; margin-top: 3rem; line-height: 1.8;">
+                Education <span class="highlight">doesn't reward</span> learners.
+            </p>
+            <p style="margin-top: 2rem;">
+                You spend hours studying blockchain, crypto, Web3...
+            </p>
+            <p style="color: #fbbf24; font-size: 2.5rem; margin-top: 2rem;">
+                But gain no tangible value.
+            </p>
+        </div>
+
+        <!-- Slide 4: The Solution -->
+        <div class="slide">
+            <h2>The Solution</h2>
+            <div class="big-number">AIC Token</div>
+            <ul>
+                <li>Type blockchain terms</li>
+                <li>OpenAI validates in real-time</li>
+                <li>Earn ERC-20 tokens instantly</li>
+            </ul>
+        </div>
+
+        <!-- Slide 5: How It Works -->
+        <div class="slide">
+            <h2>How It Works</h2>
+            <div class="grid">
+                <div class="card">
+                    <h4>1. Play Game</h4>
+                    <p>Type blockchain vocabulary words</p>
+                </div>
+                <div class="card">
+                    <h4>2. AI Validates</h4>
+                    <p>OpenAI scores accuracy & speed</p>
+                </div>
+                <div class="card">
+                    <h4>3. Earn Tokens</h4>
+                    <p>100-500 AIC per word</p>
+                </div>
+                <div class="card">
+                    <h4>4. Real Value</h4>
+                    <p>Swap, bridge, or hold</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Tech Stack -->
+        <div class="slide">
+            <h2>Powered By</h2>
+            <ul>
+                <li><span class="highlight">Circle's Arc L1</span> - Native USDC gas</li>
+                <li><span class="highlight">OpenAI API</span> - Real-time validation</li>
+                <li><span class="highlight">CCTP</span> - Cross-chain bridges</li>
+                <li><span class="highlight">Supabase</span> - Database & edge functions</li>
+            </ul>
+        </div>
+
+        <!-- Slide 7: Demo Stats -->
+        <div class="slide">
+            <h2>Live Demo Results</h2>
+            <div style="margin-top: 3rem;">
+                <p>Typed: <span class="highlight">"Blockchain"</span></p>
+                <p style="margin-top: 1rem;">Accuracy: <span class="big-number" style="font-size: 6rem;">100%</span></p>
+                <p style="margin-top: 1rem;">AI Score: <span class="highlight">95%</span></p>
+                <p style="margin-top: 1rem; font-size: 3rem; color: #22d3ee;">Earned: +450 AIC</p>
+            </div>
+        </div>
+
+        <!-- Slide 8: Features -->
+        <div class="slide">
+            <h2>Key Features</h2>
+            <ul>
+                <li>AI-powered cognitive scoring</li>
+                <li>Built-in DEX (Swap AIC ↔ USDC)</li>
+                <li>Multi-chain bridging via CCTP</li>
+                <li>Mobile-optimized PWA</li>
+                <li>Zero-gas minting</li>
+            </ul>
+        </div>
+
+        <!-- Slide 9: The Vision -->
+        <div class="slide">
+            <h2>The Vision</h2>
+            <p style="font-size: 2.5rem; margin-top: 2rem; line-height: 1.8;">
+                Imagine <span class="highlight">students worldwide</span> earning while studying...
+            </p>
+            <p style="margin-top: 1.5rem;">
+                <span class="highlight">Universities</span> rewarding learning...
+            </p>
+            <p style="margin-top: 1.5rem;">
+                <span class="highlight">Developers</span> getting paid as they code...
+            </p>
+            <p style="margin-top: 2rem; font-size: 2.8rem; color: #fbbf24;">
+                Education becomes income.
+            </p>
+        </div>
+
+        <!-- Slide 10: Why This Matters -->
+        <div class="slide">
+            <h2>Why Circle's Hackathon?</h2>
+            <ul>
+                <li><span class="highlight">AI Agents</span> - OpenAI validates every word</li>
+                <li><span class="highlight">Arc Network</span> - Native USDC gas</li>
+                <li><span class="highlight">USDC Utility</span> - Programmable dollar</li>
+                <li><span class="highlight">Real Impact</span> - Financial inclusion through education</li>
+            </ul>
+        </div>
+
+        <!-- Slide 11: Live Now -->
+        <div class="slide">
+            <h2>It's Live Right Now</h2>
+            <div class="big-number" style="font-size: 6rem;">✓</div>
+            <ul>
+                <li>Live on Arc Testnet</li>
+                <li>Fully functional</li>
+                <li>Mobile-ready</li>
+                <li>Try it yourself</li>
+            </ul>
+        </div>
+
+        <!-- Slide 12: Call to Action -->
+        <div class="slide">
+            <h1>Where Learning Becomes Earning</h1>
+            <p style="font-size: 2.5rem; margin-top: 3rem;">Built by Shazia Sayeed</p>
+            <div style="margin-top: 3rem; text-align: center;">
+                <p>Twitter: @shaziasayeed</p>
+                <p style="margin-top: 1rem;">LinkedIn: linkedin.com/in/shazia-sayeed</p>
+                <p style="margin-top: 1rem;">Email: shazia@aictoken.io</p>
+            </div>
+            <div class="badge" style="margin-top: 3rem;">THANK YOU! 🚀</div>
+        </div>
+    </div>
+
+    <div class="logo">AIC Token</div>
+    <div class="auto-indicator">Auto-advance: <span id="autoStatus">ON</span></div>
+    <div class="slide-number"><span id="currentSlide">1</span> / <span id="totalSlides">12</span></div>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="controls">
+        <button class="control-btn" onclick="prevSlide()">← Prev</button>
+        <button class="control-btn" onclick="toggleAuto()">⏸ Pause</button>
+        <button class="control-btn" onclick="nextSlide()">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        let autoPlay = true;
+        let autoPlayInterval;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const slideTime = 15000; // 15 seconds per slide
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) {
+                    slide.classList.add('active');
+                }
+            });
+
+            currentSlide = index;
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+
+            // Update progress bar
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                showSlide(currentSlide + 1);
+            } else {
+                showSlide(0); // Loop back to start
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            } else {
+                showSlide(totalSlides - 1); // Go to last slide
+            }
+        }
+
+        function toggleAuto() {
+            autoPlay = !autoPlay;
+            const autoStatus = document.getElementById('autoStatus');
+            const btn = event.target;
+
+            if (autoPlay) {
+                autoStatus.textContent = 'ON';
+                btn.textContent = '⏸ Pause';
+                startAutoPlay();
+            } else {
+                autoStatus.textContent = 'OFF';
+                btn.textContent = '▶ Play';
+                stopAutoPlay();
+            }
+        }
+
+        function startAutoPlay() {
+            if (autoPlayInterval) {
+                clearInterval(autoPlayInterval);
+            }
+            autoPlayInterval = setInterval(() => {
+                if (autoPlay) {
+                    nextSlide();
+                }
+            }, slideTime);
+        }
+
+        function stopAutoPlay() {
+            if (autoPlayInterval) {
+                clearInterval(autoPlayInterval);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            } else if (e.key === 'p' || e.key === 'P') {
+                toggleAuto();
+            }
+        });
+
+        // Start auto-play on load
+        startAutoPlay();
+
+        // Show first slide
+        showSlide(0);
+
+        // Prevent spacebar from scrolling
+        window.addEventListener('keydown', (e) => {
+            if (e.key === ' ' && e.target === document.body) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
