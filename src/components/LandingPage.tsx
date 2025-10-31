@@ -327,21 +327,26 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
             The first educational platform where your knowledge literally becomes money. Type blockchain terms, get validated by AI, earn real USDC.
           </p>
 
-          <div className="grid md:grid-cols-3 gap-6 mb-12">
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6">
-              <div className="text-4xl mb-3">🔁</div>
-              <h3 className="text-lg font-bold text-white mb-2">On-chain Actions</h3>
-              <p className="text-sm text-cyan-100">AI agents interact with DeFi</p>
+          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 hover:bg-white/20 transition-all">
+              <div className="text-4xl mb-3">💳</div>
+              <h3 className="text-lg font-bold text-white mb-2">Virtual Visa Card</h3>
+              <p className="text-sm text-cyan-100">Spend USDC anywhere globally</p>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6">
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 hover:bg-white/20 transition-all">
+              <div className="text-4xl mb-3">🏦</div>
+              <h3 className="text-lg font-bold text-white mb-2">Fintech Banking</h3>
+              <p className="text-sm text-cyan-100">ACH, Wire, Direct Deposit</p>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 hover:bg-white/20 transition-all">
               <div className="text-4xl mb-3">💰</div>
-              <h3 className="text-lg font-bold text-white mb-2">USDC Payments</h3>
-              <p className="text-sm text-cyan-100">Instant stablecoin settlement</p>
+              <h3 className="text-lg font-bold text-white mb-2">Crypto to Fiat</h3>
+              <p className="text-sm text-cyan-100">Instant USDC to USD</p>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6">
-              <div className="text-4xl mb-3">🤖</div>
-              <h3 className="text-lg font-bold text-white mb-2">AI-Native</h3>
-              <p className="text-sm text-cyan-100">Natural language to payments</p>
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 hover:bg-white/20 transition-all">
+              <div className="text-4xl mb-3">🌍</div>
+              <h3 className="text-lg font-bold text-white mb-2">Global Liquidity</h3>
+              <p className="text-sm text-cyan-100">Unified fiat-crypto flow</p>
             </div>
           </div>
 

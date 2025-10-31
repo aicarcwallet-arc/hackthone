@@ -11,11 +11,13 @@ import { TransactionHistory } from './components/TransactionHistory';
 import { WalletDashboard } from './components/WalletDashboard';
 import { InstallPrompt } from './components/InstallPrompt';
 import { NetworkStatusBanner } from './components/NetworkStatusBanner';
+import { VirtualCard } from './components/VirtualCard';
+import { CircleBanking } from './components/CircleBanking';
 import { useAICToken } from './hooks/useAICToken';
-import { Repeat, Send, Trophy, History, Flame, Zap } from 'lucide-react';
+import { Repeat, Send, Trophy, History, Flame, Zap, CreditCard, Building2 } from 'lucide-react';
 import { supabase } from './lib/supabase';
 
-type Tab = 'game' | 'bridge' | 'swap' | 'burn' | 'history' | 'accelerator';
+type Tab = 'game' | 'bridge' | 'swap' | 'burn' | 'history' | 'accelerator' | 'card' | 'banking';
 
 function App() {
   const [showLanding, setShowLanding] = useState(true);
@@ -217,7 +219,7 @@ function App() {
             />
 
             <div className="flex justify-center mb-4 sm:mb-6 px-2">
-              <div className="inline-flex bg-gray-800/50 backdrop-blur-sm rounded-lg shadow-[0_0_30px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-1 overflow-x-auto max-w-full">
+              <div className="inline-flex bg-gray-800/50 backdrop-blur-sm rounded-lg shadow-[0_0_30px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-1 overflow-x-auto max-w-full scrollbar-hide">
                 <button
                   onClick={() => {
                     console.log('Game tab clicked');
@@ -305,6 +307,36 @@ function App() {
                   <span className="hidden sm:inline">Accelerator</span>
                   <span className="sm:hidden">⚡</span>
                 </button>
+                <button
+                  onClick={() => {
+                    console.log('Card tab clicked');
+                    setActiveTab('card');
+                  }}
+                  className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-3 rounded-md font-medium text-sm transition-all touch-manipulation whitespace-nowrap ${
+                    activeTab === 'card'
+                      ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-[0_0_20px_rgba(34,211,238,0.5)]'
+                      : 'text-gray-300 hover:bg-cyan-500/20'
+                  }`}
+                >
+                  <CreditCard className="w-4 h-4" />
+                  <span className="hidden sm:inline">Virtual Card</span>
+                  <span className="sm:hidden">💳</span>
+                </button>
+                <button
+                  onClick={() => {
+                    console.log('Banking tab clicked');
+                    setActiveTab('banking');
+                  }}
+                  className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-3 rounded-md font-medium text-sm transition-all touch-manipulation whitespace-nowrap ${
+                    activeTab === 'banking'
+                      ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-[0_0_20px_rgba(59,130,246,0.5)]'
+                      : 'text-gray-300 hover:bg-blue-500/20'
+                  }`}
+                >
+                  <Building2 className="w-4 h-4" />
+                  <span className="hidden sm:inline">Banking</span>
+                  <span className="sm:hidden">🏦</span>
+                </button>
               </div>
             </div>
           </>
@@ -313,6 +345,8 @@ function App() {
         <div className="flex justify-center">
           {activeTab === 'game' && <VocabularyGame key={`game-${connectedAddress}`} userId={userId} walletAddress={connectedAddress} onGoBack={() => setActiveTab('game')} />}
           {activeTab === 'bridge' && <BridgeInterface />}
+          {activeTab === 'card' && <VirtualCard walletAddress={connectedAddress || undefined} usdcBalance={usdcBalance} />}
+          {activeTab === 'banking' && <CircleBanking walletAddress={connectedAddress || undefined} usdcBalance={usdcBalance} />}
           {activeTab === 'swap' && (
             <div className="space-y-6 w-full max-w-4xl">
               <AICSwapInterface key={`swap-${connectedAddress}-${activeTab}-${refreshKey}`} walletAddress={connectedAddress || undefined} />
