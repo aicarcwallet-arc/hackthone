@@ -245,7 +245,7 @@ export function BurnPegInterface({ walletAddress }: BurnPegInterfaceProps) {
 
   if (!contractsDeployed) {
     return (
-      <div className="w-full max-w-2xl mx-auto bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(239,68,68,0.3)] border border-red-500/30 p-6 sm:p-8">
+      <div className="w-full bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(239,68,68,0.3)] border border-red-500/30 p-6 sm:p-8">
         <div className="flex items-center gap-3 mb-6">
           <Flame className="w-8 h-8 text-red-400" />
           <div>
@@ -271,7 +271,7 @@ export function BurnPegInterface({ walletAddress }: BurnPegInterfaceProps) {
   }
 
   return (
-    <div className="w-full max-w-2xl mx-auto space-y-6">
+    <div className="w-full space-y-6">
       {/* Header Banner */}
       <div className="bg-gradient-to-r from-red-500/20 to-orange-500/20 border border-red-500/40 rounded-lg p-6">
         <div className="flex items-start gap-4">

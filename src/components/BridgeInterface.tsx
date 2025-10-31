@@ -146,7 +146,7 @@ export function BridgeInterface() {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-6 sm:p-8">
+    <div className="w-full bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-6 sm:p-8">
       <div className="mb-4 sm:mb-6">
         <h2 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-2">Circle Bridge Kit</h2>
         <p className="text-xs sm:text-sm text-gray-300 font-medium">

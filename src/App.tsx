@@ -153,8 +153,10 @@ function App() {
           walletAddress={connectedAddress || undefined}
           onConnectWallet={handleConnectWallet}
         />
-        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black py-8">
-          <HowItWorks />
+        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
+            <HowItWorks />
+          </div>
         </div>
         <Footer />
       </>
@@ -170,10 +172,11 @@ function App() {
           walletAddress={connectedAddress || undefined}
           onConnectWallet={handleConnectWallet}
         />
-        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black flex items-center justify-center p-4">
-          {!connectedAddress ? (
-            <div className="text-center">
-              <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/30 max-w-md">
+        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
+            {!connectedAddress ? (
+              <div className="text-center max-w-md mx-auto">
+                <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/30">
                 <h3 className="text-2xl font-bold text-white mb-4">Connect Your Wallet</h3>
                 <p className="text-gray-300 mb-6">Please connect your wallet to access withdrawal options</p>
                 <button
@@ -183,10 +186,11 @@ function App() {
                   Connect Wallet
                 </button>
               </div>
-            </div>
-          ) : (
-            <WithdrawPage walletAddress={connectedAddress} usdcBalance={usdcBalance} />
-          )}
+              </div>
+            ) : (
+              <WithdrawPage walletAddress={connectedAddress} usdcBalance={usdcBalance} />
+            )}
+          </div>
         </div>
         <Footer />
       </>
@@ -201,7 +205,7 @@ function App() {
       walletAddress={connectedAddress || undefined}
       onConnectWallet={handleConnectWallet}
     />
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black relative overflow-hidden py-8">
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
 
       {/* Floating Circle Logo icons */}
@@ -250,8 +254,8 @@ function App() {
       <div className="absolute bottom-1/3 right-20 w-8 h-8 opacity-[0.02] animate-float">
         <img src="/aic toekn  copy.png" alt="" className="w-full h-full object-contain" />
       </div>
-      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 py-8">
-        <div className="text-center mb-6 sm:mb-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-8 sm:mb-12">
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-4 py-1 rounded-full text-xs sm:text-sm font-semibold mb-3 shadow-[0_0_20px_rgba(34,211,238,0.4)]">
             <span className="animate-pulse">🔥</span>
             LIVE ON ARC TESTNET
@@ -269,7 +273,7 @@ function App() {
         </div>
 
         {!connectedAddress && (
-          <div className="flex justify-center mb-6 sm:mb-8">
+          <div className="flex justify-center mb-8 sm:mb-12">
             <button
               onClick={() => {
                 console.log('Connect Wallet button clicked');
@@ -284,7 +288,7 @@ function App() {
 
         {connectedAddress && (
           <>
-            <div className="mb-6">
+            <div className="mb-8">
               <NetworkStatusBanner />
             </div>
 
@@ -295,7 +299,7 @@ function App() {
               onDisconnect={handleDisconnect}
             />
 
-            <div className="flex justify-center mb-6 sm:mb-8">
+            <div className="flex justify-center mb-8 sm:mb-12">
               <div className="inline-flex bg-gray-800/50 backdrop-blur-sm rounded-lg shadow-[0_0_30px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-1 overflow-x-auto max-w-full scrollbar-hide">
                 <button
                   onClick={() => {
@@ -419,13 +423,13 @@ function App() {
           </>
         )}
 
-        <div className="flex justify-center items-start">
+        <div className="max-w-4xl mx-auto">
           {activeTab === 'game' && <VocabularyGame key={`game-${connectedAddress}`} userId={userId} walletAddress={connectedAddress} onGoBack={() => setActiveTab('game')} />}
           {activeTab === 'bridge' && <BridgeInterface />}
           {activeTab === 'card' && <VirtualCard walletAddress={connectedAddress || undefined} usdcBalance={usdcBalance} />}
           {activeTab === 'banking' && <CircleBanking walletAddress={connectedAddress || undefined} usdcBalance={usdcBalance} />}
           {activeTab === 'swap' && (
-            <div className="space-y-6 w-full max-w-2xl mx-auto">
+            <div className="space-y-6 w-full">
               <AICSwapInterface key={`swap-${connectedAddress}-${activeTab}-${refreshKey}`} walletAddress={connectedAddress || undefined} />
 
               {parseFloat(usdcBalance) > 0 && connectedAddress && (

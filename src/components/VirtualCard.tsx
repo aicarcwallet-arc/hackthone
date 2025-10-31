@@ -27,7 +27,7 @@ export function VirtualCard({ walletAddress, usdcBalance }: VirtualCardProps) {
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto">
+    <div className="w-full">
       <div className="text-center mb-8">
         <div className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-4 py-2 rounded-full text-sm font-bold mb-4 shadow-[0_0_20px_rgba(34,211,238,0.5)]">
           <CreditCard className="w-5 h-5" />

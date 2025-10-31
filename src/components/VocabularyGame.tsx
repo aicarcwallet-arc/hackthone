@@ -119,7 +119,7 @@ export function VocabularyGame({ userId, walletAddress, onGoBack }: VocabularyGa
 
   if (!walletAddress) {
     return (
-      <div className="w-full max-w-3xl mx-auto bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-6 sm:p-8">
+      <div className="w-full bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-6 sm:p-8">
         <div className="text-center">
           <div className="relative inline-block mb-4">
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full blur-lg opacity-50"></div>
@@ -141,7 +141,7 @@ export function VocabularyGame({ userId, walletAddress, onGoBack }: VocabularyGa
 
   if (!isPlaying) {
     return (
-      <div className="w-full max-w-3xl mx-auto bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-6 sm:p-8">
+      <div className="w-full bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-6 sm:p-8">
         <div className="text-center mb-6 sm:mb-8">
           <div className="relative inline-block mb-4">
             <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full blur-lg opacity-50"></div>
@@ -199,7 +199,7 @@ export function VocabularyGame({ userId, walletAddress, onGoBack }: VocabularyGa
   return (
     <>
       <NetworkStatusBanner />
-      <div className="w-full max-w-3xl mx-auto bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-6 sm:p-8">
+      <div className="w-full bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-6 sm:p-8">
       <div className="flex items-center justify-between mb-4 sm:mb-6 flex-wrap gap-2">
         <div className="flex items-center gap-3 sm:gap-6">
           {onGoBack && (

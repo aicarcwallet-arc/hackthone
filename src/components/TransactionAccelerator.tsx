@@ -95,7 +95,7 @@ export function TransactionAccelerator() {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(250,204,21,0.3)] border border-yellow-500/30 p-6 sm:p-8">
+    <div className="w-full bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(250,204,21,0.3)] border border-yellow-500/30 p-6 sm:p-8">
       <div className="mb-4 sm:mb-6">
         <div className="flex items-center gap-3 mb-2">
           <Zap className="w-7 h-7 text-yellow-400" />

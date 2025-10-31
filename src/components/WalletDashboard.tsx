@@ -111,7 +111,7 @@ export function WalletDashboard({ walletAddress, userId, onDisconnect }: WalletD
   const usdcValue = parseFloat(aicBalance);
 
   return (
-    <div className="w-full max-w-4xl mx-auto mb-6 sm:mb-8">
+    <div className="mb-8 sm:mb-12">
       <div className="bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.4)] p-6 sm:p-8 text-white">
         <div className="flex items-center justify-between mb-4 sm:mb-6 flex-wrap gap-3">
           <div className="flex items-center gap-2 sm:gap-3">

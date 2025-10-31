@@ -136,7 +136,7 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
 
   if (!contractsDeployed) {
     return (
-      <div className="w-full max-w-2xl mx-auto bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-6 sm:p-8">
+      <div className="w-full bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-6 sm:p-8">
         <h2 className="text-2xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">AIC Swap</h2>
         <div className="bg-yellow-500/20 border border-yellow-500/30 rounded-lg p-6 text-center backdrop-blur-sm">
           <p className="text-gray-300 mb-4">
@@ -156,7 +156,7 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
   }
 
   return (
-    <div className="w-full max-w-2xl mx-auto bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-6 sm:p-8">
+    <div className="w-full bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-6 sm:p-8">
       {/* Arc FX Engine Banner */}
       <div className="bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/40 rounded-lg p-4 mb-6">
         <div className="flex items-center gap-2 mb-2">
