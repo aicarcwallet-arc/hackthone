@@ -20,14 +20,14 @@ export function WelcomeGuide({ isOpen, onClose, onConnectWallet }: WelcomeGuideP
   }, []);
 
   const arcTestnetConfig = {
-    chainId: '0x4CF252',
+    chainId: '0x4CF0D2',
     chainName: 'Arc Testnet',
     nativeCurrency: {
       name: 'USDC',
       symbol: 'USDC',
       decimals: 6,
     },
-    rpcUrls: ['https://rpc-testnet.arc.network'],
+    rpcUrls: ['https://rpc.testnet.arc.network'],
     blockExplorerUrls: ['https://testnet.arcscan.app'],
   };
 
@@ -52,7 +52,7 @@ export function WelcomeGuide({ isOpen, onClose, onConnectWallet }: WelcomeGuideP
   };
 
   const handleCopyRPC = () => {
-    navigator.clipboard.writeText('https://rpc-testnet.arc.network');
+    navigator.clipboard.writeText('https://rpc.testnet.arc.network');
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };

@@ -152,7 +152,27 @@
     </style>
 
     <script>
-      document.getElementById('enter-btn').addEventListener('click', function() {
+      document.getElementById('enter-btn').addEventListener('click', async function() {
+        if (typeof window.ethereum !== 'undefined') {
+          try {
+            await window.ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [{
+                chainId: '0x4CF0D2',
+                chainName: 'Arc Testnet',
+                nativeCurrency: {
+                  name: 'USDC',
+                  symbol: 'USDC',
+                  decimals: 6
+                },
+                rpcUrls: ['https://rpc.testnet.arc.network'],
+                blockExplorerUrls: ['https://testnet.arcscan.app']
+              }]
+            });
+          } catch (error) {
+            console.log('Network add failed or user rejected:', error);
+          }
+        }
         document.getElementById('splash-screen').style.display = 'none';
       });
     </script>
