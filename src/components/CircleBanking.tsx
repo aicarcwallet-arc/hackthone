@@ -27,9 +27,13 @@ export function CircleBanking({ walletAddress, usdcBalance }: CircleBankingProps
         <h2 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-3">
           Your Personal Fintech Bank Account
         </h2>
-        <p className="text-lg text-gray-300 max-w-3xl mx-auto">
+        <p className="text-lg text-gray-300 max-w-3xl mx-auto mb-3">
           Seamlessly bridge crypto and traditional finance. Withdraw USDC to fiat instantly via ACH, Wire, or Direct Deposit.
         </p>
+        <div className="inline-flex items-center gap-2 bg-purple-500/20 px-4 py-2 rounded-lg border border-purple-500/30">
+          <img src="/circle.b8b9d808c4509a1c3043e1a2859807b7a83364094f388457832f020fa02cbc37.png" alt="Circle" className="w-5 h-5" />
+          <span className="text-purple-400 text-sm font-semibold">Powered by Circle Partner Alliance</span>
+        </div>
       </div>
 
       {/* Account Overview Card */}
@@ -327,6 +331,9 @@ export function CircleBanking({ walletAddress, usdcBalance }: CircleBankingProps
             <h4 className="text-white font-bold mb-3">Unifying Liquidity</h4>
             <p className="text-sm text-gray-300 mb-4">
               AiC-Circle Banking bridges the gap between crypto and traditional finance, creating seamless money flow across the entire fiat-to-crypto ecosystem.
+            </p>
+            <p className="text-xs text-blue-400 italic mb-4">
+              This fintech banking integration will be requested from Circle Partner Alliance to provide official ACH, Wire, and Direct Deposit capabilities
             </p>
             <div className="flex items-center justify-between text-xs">
               <span className="text-blue-400 font-semibold">USDC</span>

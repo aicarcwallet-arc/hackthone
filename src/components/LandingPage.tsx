@@ -176,6 +176,22 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
                 <li>• Withdraw real stablecoin earnings anytime</li>
               </ul>
             </div>
+
+            <div className="bg-gradient-to-br from-cyan-500/10 to-blue-600/10 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/50 shadow-[0_0_30px_rgba(34,211,238,0.3)]">
+              <div className="flex items-center gap-3 mb-4">
+                <img src="/circle.b8b9d808c4509a1c3043e1a2859807b7a83364094f388457832f020fa02cbc37.png" alt="Circle" className="w-10 h-10" />
+                <h3 className="text-2xl font-bold text-cyan-400">Circle Partner Alliance Features</h3>
+              </div>
+              <ul className="space-y-3 text-gray-300">
+                <li>• 💳 Virtual Visa Card - Spend USDC globally at 70M+ merchants</li>
+                <li>• 🏦 Fintech Banking - ACH, Wire, Direct Deposit integration</li>
+                <li>• 🌍 Fiat-to-Crypto Bridge - Seamless USD ↔ USDC conversion</li>
+                <li>• 🔐 FDIC-Insured Partners - Regulated banking infrastructure</li>
+              </ul>
+              <p className="text-sm text-cyan-400 italic mt-4">
+                These features will be requested from Circle Partner Alliance to support the complete Circle ecosystem integration
+              </p>
+            </div>
           </div>
         </div>
       </section>

@@ -1,10 +1,14 @@
-# 🎮 AIC Token Vocabulary Game - Arc Testnet Hackathon
+# 🎮 AI Cognitive Token (AiC) - Arc Testnet Hackathon
 
 ## 🏆 AI Agents on Arc with USDC Hackathon Submission
 
-**Play. Learn. Earn. Swap. Bridge.**
+**Learn. Earn. Spend. Save. Bridge.**
 
-An AI-powered vocabulary game where players earn **AIC (AI Cognitive) tokens** with a programmatic 1:1 peg to USDC on Circle's Arc blockchain. Earnings can be swapped to USDC and bridged to any chain.
+An AI-powered educational platform where users earn **AiC (AI Cognitive) tokens** with a programmatic 1:1 peg to USDC on Circle's Arc blockchain. Complete with virtual card spending and banking integration for true financial freedom.
+
+### 🤝 Circle Partner Alliance Request
+
+This project includes **Virtual Visa Card** and **Fintech Banking** features that will be requested from Circle Partner Alliance to complete the fiat-to-crypto ecosystem integration. See [CIRCLE_PARTNERSHIP_REQUEST.md](./CIRCLE_PARTNERSHIP_REQUEST.md) for details.
 
 ---
 
@@ -72,6 +76,19 @@ An AI-powered vocabulary game where players earn **AIC (AI Cognitive) tokens** w
 - Predictable, dollar-denominated fees
 - Production-ready for mainnet
 - Built on Circle's "Economic OS for the internet"
+
+### 6. **💳 Virtual Visa Card** *(Circle Partner Alliance Request)*
+- Spend USDC anywhere Visa is accepted (70M+ merchants)
+- Instant crypto-to-fiat conversion at point of sale
+- 5% AiC cashback on all purchases
+- Real-time card management and security
+
+### 7. **🏦 Fintech Banking System** *(Circle Partner Alliance Request)*
+- ACH transfers (free, 1-3 days)
+- Wire transfers (international support)
+- Instant withdrawals (seconds)
+- Direct deposit integration
+- Complete fiat on/off-ramp solution
 
 ---
 

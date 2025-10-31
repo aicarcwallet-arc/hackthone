@@ -36,9 +36,13 @@ export function VirtualCard({ walletAddress, usdcBalance }: VirtualCardProps) {
         <h2 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-3">
           Your Personalized Digital Financial Gateway
         </h2>
-        <p className="text-lg text-gray-300 max-w-3xl mx-auto">
+        <p className="text-lg text-gray-300 max-w-3xl mx-auto mb-3">
           Spend your USDC anywhere Visa is accepted. Instant conversion from crypto to fiat at the point of sale.
         </p>
+        <div className="inline-flex items-center gap-2 bg-blue-500/20 px-4 py-2 rounded-lg border border-blue-500/30">
+          <img src="/circle.b8b9d808c4509a1c3043e1a2859807b7a83364094f388457832f020fa02cbc37.png" alt="Circle" className="w-5 h-5" />
+          <span className="text-blue-400 text-sm font-semibold">Powered by Circle Partner Alliance</span>
+        </div>
       </div>
 
       <div className="grid lg:grid-cols-2 gap-8 mb-12">
@@ -224,7 +228,12 @@ export function VirtualCard({ walletAddress, usdcBalance }: VirtualCardProps) {
       </div>
 
       <div className="bg-gradient-to-r from-cyan-500/20 to-blue-600/20 rounded-2xl p-8 border border-cyan-500/30">
-        <h3 className="text-2xl font-bold text-white mb-6 text-center">How It Works</h3>
+        <div className="text-center mb-6">
+          <h3 className="text-2xl font-bold text-white mb-3">How It Works</h3>
+          <p className="text-sm text-gray-400 max-w-2xl mx-auto">
+            This feature will be requested from <span className="text-cyan-400 font-semibold">Circle Partner Alliance</span> to integrate official Visa card issuance into the Circle ecosystem
+          </p>
+        </div>
         <div className="grid md:grid-cols-4 gap-6">
           <div className="text-center">
             <div className="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-3 shadow-[0_0_20px_rgba(34,211,238,0.5)]">
