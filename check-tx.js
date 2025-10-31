@@ -1,6 +1,6 @@
-const https = require('https');
+import https from 'https';
 
-const txHash = '0xeb79cd7c44380a23f20fc12ce1f6773d6ba84d54cd56a09a4862d8516f9c5c69';
+const txHash = process.argv[2] || '0xeb79cd7c44380a23f20fc12ce1f6773d6ba84d54cd56a09a4862d8516f9c5c69';
 
 const data = JSON.stringify({
   jsonrpc: '2.0',
