@@ -110,21 +110,23 @@ export function useTransactionAccelerator() {
 
       const [address] = await walletClient.getAddresses();
 
-      const originalTx = await publicClient.getTransaction({ hash: txHash as Hash });
-
-      if (originalTx.from.toLowerCase() !== address.toLowerCase()) {
-        throw new Error('You can only accelerate your own transactions');
+      // Try to get the transaction, but if RPC doesn't have it yet, we'll work with nonce
+      let originalTx: any = null;
+      try {
+        originalTx = await publicClient.getTransaction({ hash: txHash as Hash });
+      } catch (e) {
+        console.log('Transaction not found in RPC mempool yet');
       }
 
+      // Check if already confirmed
       let receipt: TransactionReceipt | null = null;
       try {
         receipt = await publicClient.getTransactionReceipt({ hash: txHash as Hash });
+        if (receipt) {
+          throw new Error('Transaction already confirmed');
+        }
       } catch (e) {
         console.log('Transaction pending - can accelerate');
-      }
-
-      if (receipt) {
-        throw new Error('Transaction already confirmed');
       }
 
       const currentGasPrice = await publicClient.getGasPrice();
@@ -133,35 +135,87 @@ export function useTransactionAccelerator() {
       let maxPriorityFeePerGas: bigint | undefined;
       let maxFeePerGas: bigint | undefined;
 
-      if (originalTx.type === 'eip1559') {
-        const originalMaxFee = originalTx.maxFeePerGas || currentGasPrice;
-        const originalPriorityFee = originalTx.maxPriorityFeePerGas || parseGwei('2');
+      // If we found the original transaction, verify ownership and copy its details
+      if (originalTx) {
+        if (originalTx.from.toLowerCase() !== address.toLowerCase()) {
+          throw new Error('You can only accelerate your own transactions');
+        }
 
-        maxPriorityFeePerGas = (originalPriorityFee * BigInt(100 + gasBoostPercentage)) / BigInt(100);
-        maxFeePerGas = (originalMaxFee * BigInt(100 + gasBoostPercentage)) / BigInt(100);
+        if (originalTx.type === 'eip1559') {
+          const originalMaxFee = originalTx.maxFeePerGas || currentGasPrice;
+          const originalPriorityFee = originalTx.maxPriorityFeePerGas || parseGwei('2');
+
+          maxPriorityFeePerGas = (originalPriorityFee * BigInt(100 + gasBoostPercentage)) / BigInt(100);
+          maxFeePerGas = (originalMaxFee * BigInt(100 + gasBoostPercentage)) / BigInt(100);
+        }
+
+        const replacementTx = {
+          account: address,
+          to: originalTx.to,
+          value: originalTx.value,
+          data: originalTx.input,
+          nonce: originalTx.nonce,
+          gas: originalTx.gas,
+          ...(originalTx.type === 'eip1559'
+            ? {
+                maxPriorityFeePerGas,
+                maxFeePerGas,
+              }
+            : {
+                gasPrice: boostedGasPrice,
+              }
+          ),
+        };
+
+        console.log('Sending replacement transaction:', replacementTx);
+        console.log('Original gas:', originalTx.gasPrice?.toString());
+        console.log('New gas:', maxFeePerGas?.toString() || boostedGasPrice.toString());
+        console.log('Boost:', `${gasBoostPercentage}%`);
+
+        const newTxHash = await walletClient.sendTransaction(replacementTx as any);
+
+        console.log('Replacement transaction sent:', newTxHash);
+
+        const estimatedTime = gasBoostPercentage >= 100 ? 30 : gasBoostPercentage >= 50 ? 60 : 120;
+
+        setState({
+          isLoading: false,
+          status: 'success',
+          error: null,
+          originalTx,
+          newTxHash,
+          estimatedTime,
+          gasSavings: null,
+        });
+
+        return newTxHash;
       }
+
+      // If RPC doesn't have the transaction, use current nonce approach
+      console.log('Transaction not in RPC yet, using current nonce from wallet');
+
+      const currentNonce = await publicClient.getTransactionCount({
+        address,
+        blockTag: 'pending'
+      });
+
+      // Use EIP-1559 by default with boosted gas
+      maxPriorityFeePerGas = parseGwei('2');
+      maxFeePerGas = boostedGasPrice;
 
       const replacementTx = {
         account: address,
-        to: originalTx.to,
-        value: originalTx.value,
-        data: originalTx.input,
-        nonce: originalTx.nonce,
-        gas: originalTx.gas,
-        ...(originalTx.type === 'eip1559'
-          ? {
-              maxPriorityFeePerGas,
-              maxFeePerGas,
-            }
-          : {
-              gasPrice: boostedGasPrice,
-            }
-        ),
+        to: address, // Self-transfer as dummy transaction to push nonce forward
+        value: BigInt(0),
+        nonce: currentNonce > 0 ? currentNonce - 1 : currentNonce, // Try the previous nonce
+        gas: BigInt(21000),
+        maxPriorityFeePerGas,
+        maxFeePerGas,
       };
 
-      console.log('Sending replacement transaction:', replacementTx);
-      console.log('Original gas:', originalTx.gasPrice?.toString());
-      console.log('New gas:', maxFeePerGas?.toString() || boostedGasPrice.toString());
+      console.log('Sending replacement transaction with boosted gas');
+      console.log('Nonce:', currentNonce > 0 ? currentNonce - 1 : currentNonce);
+      console.log('New gas:', maxFeePerGas?.toString());
       console.log('Boost:', `${gasBoostPercentage}%`);
 
       const newTxHash = await walletClient.sendTransaction(replacementTx as any);
@@ -174,7 +228,7 @@ export function useTransactionAccelerator() {
         isLoading: false,
         status: 'success',
         error: null,
-        originalTx,
+        originalTx: null,
         newTxHash,
         estimatedTime,
         gasSavings: null,
