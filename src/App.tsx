@@ -9,6 +9,7 @@ import { VocabularyGame } from './components/VocabularyGame';
 import { TransactionHistory } from './components/TransactionHistory';
 import { WalletDashboard } from './components/WalletDashboard';
 import { InstallPrompt } from './components/InstallPrompt';
+import { NetworkStatusBanner } from './components/NetworkStatusBanner';
 import { useAICToken } from './hooks/useAICToken';
 import { Repeat, Send, Trophy, History, Flame } from 'lucide-react';
 import { supabase } from './lib/supabase';
@@ -203,6 +204,10 @@ function App() {
 
         {connectedAddress && (
           <>
+            <div className="flex flex-col items-center w-full">
+              <NetworkStatusBanner />
+            </div>
+
             <WalletDashboard
               key={`wallet-${connectedAddress}-${activeTab}`}
               walletAddress={connectedAddress}
