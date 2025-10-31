@@ -154,14 +154,12 @@ export function WalletDashboard({ walletAddress, userId, onDisconnect }: WalletD
               <button
                 onClick={() => {
                   console.log('Disconnect button clicked');
-                  if (confirm('Are you sure you want to disconnect your wallet?')) {
-                    onDisconnect();
-                  }
+                  onDisconnect();
                 }}
-                className="p-1.5 sm:p-2 bg-red-500/20 hover:bg-red-500/30 active:bg-red-500/40 rounded-lg transition-colors touch-manipulation border border-red-500/40"
+                className="p-1.5 sm:p-2 bg-red-500/30 hover:bg-green-500/40 active:bg-green-500/60 rounded-lg transition-all duration-200 touch-manipulation border-2 border-red-500/60 hover:border-green-500/80"
                 title="Disconnect wallet"
               >
-                <LogOut className="w-4 h-4 sm:w-5 sm:h-5 text-red-400" />
+                <LogOut className="w-4 h-4 sm:w-5 sm:h-5 text-red-300 hover:text-green-300 transition-colors" />
               </button>
             )}
           </div>
