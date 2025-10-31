@@ -70,7 +70,7 @@ export function TransactionHistory({ userId }: TransactionHistoryProps) {
 
   if (!userId) {
     return (
-      <div className="w-full max-w-3xl bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-4 sm:p-8">
+      <div className="w-full max-w-3xl mx-auto bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-6 sm:p-8">
         <div className="text-center text-sm sm:text-base text-gray-300">
           Connect your wallet to view transaction history
         </div>
@@ -79,7 +79,7 @@ export function TransactionHistory({ userId }: TransactionHistoryProps) {
   }
 
   return (
-    <div className="w-full max-w-4xl bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-4 sm:p-6">
+    <div className="w-full max-w-3xl mx-auto bg-gray-900/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-6 sm:p-8">
       <div className="flex items-center justify-between mb-4 sm:mb-6 flex-wrap gap-2">
         <div>
           <h2 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-1">Transaction History</h2>

@@ -18,7 +18,7 @@ export function CircleBanking({ walletAddress, usdcBalance }: CircleBankingProps
   const routingNumber = '026009593'; // Circle routing number
 
   return (
-    <div className="max-w-5xl mx-auto">
+    <div className="w-full max-w-3xl mx-auto">
       <div className="text-center mb-8">
         <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-bold mb-4 shadow-[0_0_20px_rgba(59,130,246,0.5)]">
           <Building2 className="w-5 h-5" />
