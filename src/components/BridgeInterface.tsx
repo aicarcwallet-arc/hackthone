@@ -19,9 +19,10 @@ export function BridgeInterface() {
   );
 
   const { isLoading, error, txHash, status, bridgeTokens, reset } = useBridge();
-  const { aicBalance, usdcBalance, loading: swapLoading, swapAICForUSDC, refreshBalances } = useAICToken(connectedAddress || undefined);
+  const { aicBalance, usdcBalance, refreshBalances } = useAICToken(connectedAddress || undefined);
   const [swapSuccess, setSwapSuccess] = useState(false);
   const [swapTxHash, setSwapTxHash] = useState<string>('');
+  const [swapLoading, setSwapLoading] = useState(false);
   const [claimLoading, setClaimLoading] = useState(false);
   const [claimSuccess, setClaimSuccess] = useState(false);
   const [claimTxHash, setClaimTxHash] = useState<string>('');
@@ -229,11 +230,33 @@ export function BridgeInterface() {
                     onClick={async () => {
                       try {
                         setSwapSuccess(false);
-                        const hash = await swapAICForUSDC(aicBalance);
-                        setSwapTxHash(hash);
+                        setSwapLoading(true);
+
+                        const response = await fetch(
+                          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/mint-usdc-reward`,
+                          {
+                            method: 'POST',
+                            headers: {
+                              'Content-Type': 'application/json',
+                              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+                            },
+                            body: JSON.stringify({ walletAddress: connectedAddress }),
+                          }
+                        );
+
+                        const result = await response.json();
+
+                        if (!response.ok) {
+                          throw new Error(result.error || 'Failed to convert AIC to USDC');
+                        }
+
+                        setSwapTxHash(result.txHash);
                         setSwapSuccess(true);
+                        await refreshBalances();
                       } catch (err: any) {
-                        alert(err.message || 'Swap failed');
+                        alert(err.message || 'Conversion failed');
+                      } finally {
+                        setSwapLoading(false);
                       }
                     }}
                     disabled={swapLoading}
@@ -242,28 +265,31 @@ export function BridgeInterface() {
                     {swapLoading ? (
                       <>
                         <Loader2 className="w-4 h-4 animate-spin" />
-                        <span className="text-sm">Swapping on Arc...</span>
+                        <span className="text-sm">Converting to USDC...</span>
                       </>
                     ) : (
                       <>
                         <Repeat className="w-4 h-4" />
-                        <span className="text-sm">Convert AIC to USDC</span>
+                        <span className="text-sm">Convert {aicBalance} AIC to USDC</span>
                       </>
                     )}
                   </button>
-                  <p className="text-xs text-gray-400 text-center">⚡ Low gas fees • Flash transaction on Arc Layer 1</p>
+                  <p className="text-xs text-gray-400 text-center">💰 Receive USDC directly to your wallet on Arc</p>
                 </>
               )}
               {swapSuccess && swapTxHash && (
-                <div className="p-2 bg-green-500/20 border border-green-500/30 rounded text-center">
-                  <p className="text-xs text-green-300">✅ Swap successful on Arc!</p>
+                <div className="p-3 bg-green-500/20 border border-green-500/30 rounded-lg space-y-2">
+                  <p className="text-sm text-green-300 font-semibold">✅ Conversion Successful!</p>
+                  <p className="text-xs text-gray-300">
+                    Your AIC rewards have been converted to USDC and sent to your wallet on Arc Testnet. You can now bridge it to other chains!
+                  </p>
                   <a
-                    href={`https://testnet.arcscan.com/tx/${swapTxHash}`}
+                    href={`https://testnet.arcscan.app/tx/${swapTxHash}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs text-cyan-300 hover:text-cyan-200 underline inline-flex items-center gap-1 mt-1"
+                    className="text-xs text-cyan-300 hover:text-cyan-200 underline inline-flex items-center gap-1 justify-center"
                   >
-                    View on Arc Explorer
+                    View Transaction on Arc Explorer
                     <ExternalLink className="w-3 h-3" />
                   </a>
                 </div>
