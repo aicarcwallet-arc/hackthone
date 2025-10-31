@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail, MessageSquare } from 'lucide-react';
+import { Github, Linkedin, Mail, Twitter, Heart } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -106,15 +106,15 @@ export function Footer() {
             <h3 className="text-lg font-bold mb-4 text-cyan-400">Connect With Us</h3>
             <div className="space-y-3">
               <a
-                href="https://discord.gg/your-server"
+                href="https://twitter.com/shaziasayeed"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 text-gray-400 hover:text-cyan-400 transition-colors group"
               >
                 <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
-                  <MessageSquare className="w-5 h-5" />
+                  <Twitter className="w-5 h-5" />
                 </div>
-                <span>Discord Community</span>
+                <span>Twitter / X</span>
               </a>
               <a
                 href="https://linkedin.com/in/shazia-sayeed"
@@ -128,7 +128,7 @@ export function Footer() {
                 <span>LinkedIn</span>
               </a>
               <a
-                href="https://github.com/your-repo/aic-token"
+                href="https://github.com/shaziasayeed"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 text-gray-400 hover:text-cyan-400 transition-colors group"
@@ -139,13 +139,13 @@ export function Footer() {
                 <span>GitHub</span>
               </a>
               <a
-                href="mailto:contact@aictoken.io"
+                href="mailto:shazia@aictoken.io"
                 className="flex items-center gap-3 text-gray-400 hover:text-cyan-400 transition-colors group"
               >
                 <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
                   <Mail className="w-5 h-5" />
                 </div>
-                <span>Contact Us</span>
+                <span>Email Me</span>
               </a>
             </div>
           </div>
@@ -158,40 +158,59 @@ export function Footer() {
             </p>
             <div className="flex items-center gap-4">
               <a
-                href="https://discord.gg/your-server"
+                href="https://twitter.com/shaziasayeed"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-cyan-500/20 transition-colors"
+                title="Follow on Twitter"
               >
-                <MessageSquare className="w-5 h-5 text-gray-400 hover:text-cyan-400" />
+                <Twitter className="w-5 h-5 text-gray-400 hover:text-cyan-400" />
               </a>
               <a
                 href="https://linkedin.com/in/shazia-sayeed"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-cyan-500/20 transition-colors"
+                title="Connect on LinkedIn"
               >
                 <Linkedin className="w-5 h-5 text-gray-400 hover:text-cyan-400" />
               </a>
               <a
-                href="https://github.com/your-repo/aic-token"
+                href="https://github.com/shaziasayeed"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-cyan-500/20 transition-colors"
+                title="View on GitHub"
               >
                 <Github className="w-5 h-5 text-gray-400 hover:text-cyan-400" />
               </a>
               <a
-                href="mailto:contact@aictoken.io"
+                href="mailto:shazia@aictoken.io"
                 className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-cyan-500/20 transition-colors"
+                title="Send Email"
               >
                 <Mail className="w-5 h-5 text-gray-400 hover:text-cyan-400" />
               </a>
             </div>
           </div>
-          <p className="text-gray-500 text-xs text-center mt-4">
-            © 2025 AiC Token Project. Built for Circle's "AI Agents on Arc with USDC" Hackathon by Shazia Sayeed
-          </p>
+          <div className="text-center mt-6 space-y-2">
+            <p className="text-gray-400 text-sm flex items-center justify-center gap-2">
+              <span>Designed & Developed by</span>
+              <a
+                href="https://linkedin.com/in/shazia-sayeed"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold text-cyan-400 hover:text-cyan-300 transition-colors"
+              >
+                Shazia Sayeed
+              </a>
+              <span>with</span>
+              <Heart className="w-4 h-4 text-red-500 fill-red-500 animate-pulse" />
+            </p>
+            <p className="text-gray-500 text-xs">
+              © 2025 AiC Token Project. Built for Circle's "AI Agents on Arc with USDC" Hackathon
+            </p>
+          </div>
         </div>
       </div>
     </footer>
