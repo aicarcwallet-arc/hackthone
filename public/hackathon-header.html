@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIC Hackathon Header - Download</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            color: white;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header-section h1 {
+            font-size: 42px;
+            font-weight: 900;
+            background: linear-gradient(to right, #06B6D4, #3B82F6, #8B5CF6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .header-section p {
+            font-size: 18px;
+            color: #94a3b8;
+        }
+
+        .banner-preview {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(6, 182, 212, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .banner-wrapper {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(6, 182, 212, 0.3);
+        }
+
+        .header-banner {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1000 / 220;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #4B0082 0%, #1E3A8A 25%, #3B82F6 50%, #06B6D4 75%, #8B5CF6 100%);
+        }
+
+        .gradient-overlay {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(139, 92, 246, 0.4) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 30%, rgba(59, 130, 246, 0.5) 0%, transparent 60%),
+                        radial-gradient(circle at 85% 70%, rgba(6, 182, 212, 0.3) 0%, transparent 50%);
+            mix-blend-mode: screen;
+        }
+
+        .particles {
+            position: absolute;
+            inset: 0;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        .particle:nth-child(1) {
+            width: 4px;
+            height: 4px;
+            left: 10%;
+            top: 20%;
+            animation-delay: 0s;
+        }
+
+        .particle:nth-child(2) {
+            width: 6px;
+            height: 6px;
+            left: 30%;
+            top: 60%;
+            animation-delay: 3s;
+        }
+
+        .particle:nth-child(3) {
+            width: 3px;
+            height: 3px;
+            left: 50%;
+            top: 30%;
+            animation-delay: 6s;
+        }
+
+        .particle:nth-child(4) {
+            width: 5px;
+            height: 5px;
+            left: 70%;
+            top: 70%;
+            animation-delay: 9s;
+        }
+
+        .particle:nth-child(5) {
+            width: 4px;
+            height: 4px;
+            left: 90%;
+            top: 40%;
+            animation-delay: 12s;
+        }
+
+        .particle:nth-child(6) {
+            width: 7px;
+            height: 7px;
+            left: 20%;
+            top: 80%;
+            animation-delay: 15s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 0.6;
+            }
+            25% {
+                transform: translateY(-20px) translateX(10px) scale(1.2);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translateY(-10px) translateX(-10px) scale(0.9);
+                opacity: 0.5;
+            }
+            75% {
+                transform: translateY(-30px) translateX(20px) scale(1.1);
+                opacity: 0.7;
+            }
+        }
+
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.6;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .glow-orb-1 {
+            width: 20%;
+            padding-bottom: 20%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.8) 0%, transparent 70%);
+            top: -10%;
+            right: 15%;
+        }
+
+        .glow-orb-2 {
+            width: 15%;
+            padding-bottom: 15%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.7) 0%, transparent 70%);
+            top: 50%;
+            left: 10%;
+            animation-delay: 2s;
+        }
+
+        .glow-orb-3 {
+            width: 18%;
+            padding-bottom: 18%;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.6) 0%, transparent 70%);
+            bottom: -8%;
+            right: 25%;
+            animation-delay: 1s;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.8;
+            }
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 6%;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 2%;
+            margin-bottom: 2%;
+        }
+
+        .logo {
+            width: 7%;
+            padding-bottom: 7%;
+            background: linear-gradient(135deg, #06B6D4, #3B82F6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(16px, 3.2vw, 32px);
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.6);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .logo span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .title {
+            font-size: clamp(20px, 4.8vw, 48px);
+            font-weight: 900;
+            background: linear-gradient(to right, #ffffff, #e0f2fe, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: clamp(12px, 2vw, 20px);
+            color: #e0f2fe;
+            font-weight: 600;
+            margin-bottom: 1%;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .tagline {
+            font-size: clamp(10px, 1.6vw, 16px);
+            color: #bae6fd;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 1.2%;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 0.6% 1.4%;
+            border-radius: 20px;
+            font-size: clamp(9px, 1.3vw, 13px);
+            font-weight: 700;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .sparkle {
+            color: #fbbf24;
+            animation: sparkle 1.5s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .tech-stack {
+            position: absolute;
+            bottom: 3%;
+            right: 4%;
+            display: flex;
+            gap: 1%;
+            z-index: 10;
+        }
+
+        .tech-badge {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 0.6% 1.2%;
+            border-radius: 6px;
+            font-size: clamp(8px, 1.1vw, 11px);
+            font-weight: 700;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .controls {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 40px;
+            background: linear-gradient(135deg, #06B6D4, #3B82F6);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.4);
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(6, 182, 212, 0.6);
+        }
+
+        .download-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .info-box {
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .info-box h3 {
+            color: #06B6D4;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            color: #cbd5e1;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #94a3b8;
+        }
+
+        .info-value {
+            font-weight: 700;
+            color: #06B6D4;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            margin-bottom: 20px;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        @media (max-width: 768px) {
+            .header-section h1 {
+                font-size: 32px;
+            }
+
+            .header-section p {
+                font-size: 16px;
+            }
+
+            .banner-preview {
+                padding: 20px;
+            }
+
+            .download-btn {
+                padding: 14px 30px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-btn">
+            ← Back to Home
+        </a>
+
+        <div class="header-section">
+            <h1>🎨 Hackathon Header Banner</h1>
+            <p>Download your beautiful 1000×220px header for Circle's AI Agents on Arc Hackathon</p>
+        </div>
+
+        <div class="banner-preview">
+            <div class="banner-wrapper">
+                <div class="header-banner" id="headerBanner">
+                    <div class="glow-orb glow-orb-1"></div>
+                    <div class="glow-orb glow-orb-2"></div>
+                    <div class="glow-orb glow-orb-3"></div>
+
+                    <div class="gradient-overlay"></div>
+
+                    <div class="particles">
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                    </div>
+
+                    <div class="content">
+                        <div class="logo-container">
+                            <div class="logo"><span>AiC</span></div>
+                            <div>
+                                <div class="title">AI Cognitive Token</div>
+                            </div>
+                        </div>
+                        <div class="subtitle">Learn Blockchain • Earn USDC • Powered by AI</div>
+                        <div class="tagline">
+                            <span class="badge">
+                                <span class="sparkle">✨</span>
+                                Circle's AI Agents on Arc Hackathon
+                            </span>
+                            <span style="color: rgba(255,255,255,0.6);">•</span>
+                            <span>Where Learning Becomes Earning</span>
+                        </div>
+                    </div>
+
+                    <div class="tech-stack">
+                        <div class="tech-badge">OpenAI</div>
+                        <div class="tech-badge">Circle Arc</div>
+                        <div class="tech-badge">USDC</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="download-btn" onclick="downloadBanner()">
+                📥 Download Header Image
+            </button>
+        </div>
+
+        <div class="info-box">
+            <h3>📊 Image Specifications</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Dimensions:</span>
+                    <span class="info-value">1000 × 220 px</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Format:</span>
+                    <span class="info-value">PNG</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Quality:</span>
+                    <span class="info-value">High (2x scale)</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">File Size:</span>
+                    <span class="info-value">~200 KB</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script>
+        function downloadBanner() {
+            const banner = document.getElementById('headerBanner');
+            const btn = document.querySelector('.download-btn');
+
+            btn.textContent = '⏳ Generating...';
+            btn.disabled = true;
+
+            html2canvas(banner, {
+                scale: 2,
+                backgroundColor: null,
+                logging: false,
+                width: 1000,
+                height: 220,
+                windowWidth: 1000,
+                windowHeight: 220
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'aic-hackathon-header-1000x220.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+
+                btn.innerHTML = '✅ Downloaded! Click to download again';
+                btn.disabled = false;
+
+                setTimeout(() => {
+                    btn.innerHTML = '📥 Download Header Image';
+                }, 3000);
+            }).catch(err => {
+                console.error('Download failed:', err);
+                btn.innerHTML = '❌ Failed - Try Again';
+                btn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>
