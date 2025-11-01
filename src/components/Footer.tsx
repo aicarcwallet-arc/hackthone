@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail, Twitter, Heart, Youtube, Facebook, Instagram, MessageCircle } from 'lucide-react';
+import { Github, Linkedin, Mail, Twitter, Heart } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -104,7 +104,7 @@ export function Footer() {
 
           <div>
             <h3 className="text-lg font-bold mb-4 text-cyan-400">Connect With Us</h3>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="flex flex-col gap-3">
               <a
                 href="https://twitter.com/shaziasayeed"
                 target="_blank"
@@ -137,50 +137,6 @@ export function Footer() {
                   <Github className="w-4 h-4" />
                 </div>
                 <span className="text-sm">GitHub</span>
-              </a>
-              <a
-                href="https://youtube.com/@shaziasayeed"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors group"
-              >
-                <div className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
-                  <Youtube className="w-4 h-4" />
-                </div>
-                <span className="text-sm">YouTube</span>
-              </a>
-              <a
-                href="https://facebook.com/shaziasayeed"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors group"
-              >
-                <div className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
-                  <Facebook className="w-4 h-4" />
-                </div>
-                <span className="text-sm">Facebook</span>
-              </a>
-              <a
-                href="https://instagram.com/shaziasayeed"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors group"
-              >
-                <div className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
-                  <Instagram className="w-4 h-4" />
-                </div>
-                <span className="text-sm">Instagram</span>
-              </a>
-              <a
-                href="https://t.me/shaziasayeed"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors group"
-              >
-                <div className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
-                  <MessageCircle className="w-4 h-4" />
-                </div>
-                <span className="text-sm">Telegram</span>
               </a>
               <a
                 href="mailto:shazia@aictoken.io"
@@ -227,24 +183,6 @@ export function Footer() {
                 title="View on GitHub"
               >
                 <Github className="w-5 h-5 text-gray-400 group-hover:text-cyan-400 transition-colors" />
-              </a>
-              <a
-                href="https://youtube.com/@shaziasayeed"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-cyan-500/20 transition-colors group"
-                title="Watch on YouTube"
-              >
-                <Youtube className="w-5 h-5 text-gray-400 group-hover:text-cyan-400 transition-colors" />
-              </a>
-              <a
-                href="https://instagram.com/shaziasayeed"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-cyan-500/20 transition-colors group"
-                title="Follow on Instagram"
-              >
-                <Instagram className="w-5 h-5 text-gray-400 group-hover:text-cyan-400 transition-colors" />
               </a>
               <a
                 href="mailto:shazia@aictoken.io"
