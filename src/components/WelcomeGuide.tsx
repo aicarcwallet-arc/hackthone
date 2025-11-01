@@ -191,13 +191,13 @@ export function WelcomeGuide({ isOpen, onClose, onConnectWallet }: WelcomeGuideP
 
                 {!isMobile ? (
                   <a
-                    href="https://metamask.io/download/"
+                    href="https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-4 rounded-xl font-bold text-lg shadow-[0_0_30px_rgba(249,115,22,0.5)] hover:shadow-[0_0_50px_rgba(249,115,22,0.8)] transition-all flex items-center justify-center gap-3 group"
                   >
                     <Wallet className="w-6 h-6" />
-                    <span>Download MetaMask</span>
+                    <span>Install MetaMask Extension</span>
                     <ExternalLink className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </a>
                 ) : (
