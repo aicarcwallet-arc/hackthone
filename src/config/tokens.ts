@@ -1,5 +1,9 @@
 import { ARC_TESTNET_CHAIN_ID } from './chains';
 
+// Arc uses 6-decimal USDC for everything (tokens, gas, transactions)
+export const USDC_DECIMALS = 6;
+export const AIC_DECIMALS = 6;
+
 export interface Token {
   symbol: string;
   name: string;
@@ -12,7 +16,7 @@ export const TOKENS: Record<string, Token> = {
   USDC: {
     symbol: 'USDC',
     name: 'USD Coin',
-    decimals: 6,
+    decimals: USDC_DECIMALS,
     addresses: {
       [ARC_TESTNET_CHAIN_ID]: '0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238',
       11155111: '0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238',
@@ -26,7 +30,7 @@ export const TOKENS: Record<string, Token> = {
   AIC: {
     symbol: 'AIC',
     name: 'AI Cognitive Token',
-    decimals: 6,
+    decimals: AIC_DECIMALS,
     addresses: {
       [ARC_TESTNET_CHAIN_ID]: '0x4B71cD610AfCCDf0B02d566dA0071C74444a8666',
     },

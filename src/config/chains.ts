@@ -32,6 +32,9 @@ export const SUPPORTED_CHAINS = {
     name: 'Arc Testnet',
     network: 'arc-testnet',
     nativeCurrency: {
+      // NOTE: MetaMask requires 18 decimals for nativeCurrency per EIP-1193
+      // Arc actually uses 6-decimal USDC for gas. All transaction code uses 6 decimals.
+      // This is just for wallet display compatibility.
       decimals: 18,
       name: 'USDC',
       symbol: 'USDC',
