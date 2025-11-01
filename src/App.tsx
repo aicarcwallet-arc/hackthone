@@ -90,9 +90,9 @@ function App() {
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' }) as string[];
       if (accounts && accounts.length > 0) {
         // Immediately try to switch to Arc Testnet
-        const chainIdHex = '0x4CF0D2';
+        const chainIdHex = '0x4CEF52';
         const arcNetworkConfig = {
-          chainId: '0x4CF0D2',
+          chainId: '0x4CEF52',
           chainName: 'Arc Testnet',
           nativeCurrency: {
             name: 'USDC',
@@ -121,7 +121,7 @@ function App() {
                 '🌐 Adding Arc Testnet to MetaMask\n\n' +
                 'Network Details:\n' +
                 '• Name: Arc Testnet\n' +
-                '• Chain ID: 5042002 (0x4CF0D2)\n' +
+                '• Chain ID: 5042002 (0x4CEF52)\n' +
                 '• RPC: https://rpc.testnet.arc.network\n' +
                 '• Symbol: USDC (18 decimals)\n' +
                 '• Explorer: https://testnet.arcscan.app\n\n' +

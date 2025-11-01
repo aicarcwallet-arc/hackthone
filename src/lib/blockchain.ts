@@ -105,7 +105,7 @@ export async function switchToArcNetwork() {
     throw new Error('No wallet provider found. Please install MetaMask.');
   }
 
-  const chainIdHex = `0x${ARC_TESTNET_CHAIN_ID.toString(16)}`;
+  const chainIdHex = `0x${ARC_TESTNET_CHAIN_ID.toString(16).toUpperCase()}`;
   console.log(`Switching to Arc Testnet (Chain ID: ${ARC_TESTNET_CHAIN_ID}, Hex: ${chainIdHex})`);
 
   try {
