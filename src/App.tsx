@@ -55,18 +55,22 @@ function App() {
   const handleConnectWallet = async () => {
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
+    // Check if MetaMask is NOT installed
     if (!window.ethereum) {
       if (isMobile) {
-        // Mobile: Open in MetaMask app with Arc Testnet config
+        // Mobile: Open in MetaMask app
         const dappUrl = window.location.href.replace(/^https?:\/\//, '');
         const metamaskAppDeepLink = `https://metamask.app.link/dapp/${dappUrl}`;
         window.location.href = metamaskAppDeepLink;
-        return;
+      } else {
+        // Desktop: Show install prompt
+        alert('🦊 MetaMask is not installed. Redirecting to Chrome Web Store...');
+        window.open('https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn', '_blank');
       }
-      // Desktop: Direct link to Chrome extension
-      window.open('https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn', '_blank');
       return;
     }
+
+    // MetaMask is installed - proceed with connection
 
     try {
       // First, request account access
