@@ -128,7 +128,7 @@ export function Footer() {
                 <span className="text-sm">LinkedIn</span>
               </a>
               <a
-                href="https://github.com/shaziasayeed"
+                href="https://github.com/aicarcwallet-arc"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors group"
@@ -176,7 +176,7 @@ export function Footer() {
                 <Linkedin className="w-5 h-5 text-gray-400 group-hover:text-cyan-400 transition-colors" />
               </a>
               <a
-                href="https://github.com/shaziasayeed"
+                href="https://github.com/aicarcwallet-arc"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-cyan-500/20 transition-colors group"
