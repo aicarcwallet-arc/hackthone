@@ -67,6 +67,7 @@ function App() {
 
     if (!window.ethereum) {
       if (isMobile) {
+        // Mobile: Open in MetaMask app with Arc Testnet config
         const dappUrl = window.location.href.replace(/^https?:\/\//, '');
         const metamaskAppDeepLink = `https://metamask.app.link/dapp/${dappUrl}`;
         window.location.href = metamaskAppDeepLink;
@@ -82,6 +83,17 @@ function App() {
       if (accounts && accounts.length > 0) {
         // Immediately try to switch to Arc Testnet
         const chainIdHex = '0x4CF0D2';
+        const arcNetworkConfig = {
+          chainId: '0x4CF0D2',
+          chainName: 'Arc Testnet',
+          nativeCurrency: {
+            name: 'USDC',
+            symbol: 'USDC',
+            decimals: 6
+          },
+          rpcUrls: ['https://rpc.testnet.arc.network'],
+          blockExplorerUrls: ['https://testnet.arcscan.app']
+        };
 
         try {
           // Try switching to Arc Testnet first
@@ -98,17 +110,7 @@ function App() {
             try {
               await window.ethereum.request({
                 method: 'wallet_addEthereumChain',
-                params: [{
-                  chainId: '0x4CF0D2',
-                  chainName: 'Arc Testnet',
-                  nativeCurrency: {
-                    name: 'USDC',
-                    symbol: 'USDC',
-                    decimals: 6
-                  },
-                  rpcUrls: ['https://rpc.testnet.arc.network'],
-                  blockExplorerUrls: ['https://testnet.arcscan.app']
-                }]
+                params: [arcNetworkConfig]
               });
               // After adding network, set user
               setConnectedAddress(accounts[0]);
@@ -116,12 +118,20 @@ function App() {
             } catch (addError: any) {
               console.error('Failed to add Arc Testnet:', addError);
               if (addError.code === 4001) {
-                alert('⚠️ You need to approve Arc Testnet network to play the game. Please try connecting again and approve the network.');
+                if (isMobile) {
+                  alert('📱 Please approve Arc Testnet network in MetaMask app to play the game.');
+                } else {
+                  alert('⚠️ You need to approve Arc Testnet network to play the game. Please try connecting again and approve the network.');
+                }
               }
             }
           } else if (switchError.code === 4001) {
             // User rejected the network switch
-            alert('⚠️ Please switch to Arc Testnet network in MetaMask to play the game.');
+            if (isMobile) {
+              alert('📱 Please switch to Arc Testnet in your MetaMask app to play the game.');
+            } else {
+              alert('⚠️ Please switch to Arc Testnet network in MetaMask to play the game.');
+            }
           } else {
             // Still set the address even if network switch failed
             setConnectedAddress(accounts[0]);
@@ -133,6 +143,11 @@ function App() {
       console.error('Failed to connect wallet:', err);
       if (err.code === 4001) {
         alert('⚠️ Please connect your wallet to continue');
+      } else if (isMobile) {
+        // On mobile, if connection fails, try to open MetaMask app
+        const dappUrl = window.location.href.replace(/^https?:\/\//, '');
+        const metamaskAppDeepLink = `https://metamask.app.link/dapp/${dappUrl}`;
+        window.location.href = metamaskAppDeepLink;
       } else {
         setShowWelcomeGuide(true);
       }
