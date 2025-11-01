@@ -16,7 +16,6 @@ import { CircleBanking } from './components/CircleBanking';
 import { NavigationHeader } from './components/NavigationHeader';
 import { HowItWorks } from './components/HowItWorks';
 import { WithdrawPage } from './components/WithdrawPage';
-import { WelcomeGuide } from './components/WelcomeGuide';
 import { Footer } from './components/Footer';
 import { useAICToken } from './hooks/useAICToken';
 import { Repeat, Send, Trophy, History, Flame, Zap, CreditCard, Building2 } from 'lucide-react';
@@ -31,21 +30,12 @@ function App() {
   const [connectedAddress, setConnectedAddress] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
-  const [showWelcomeGuide, setShowWelcomeGuide] = useState(false);
 
   const { usdcBalance } = useAICToken(connectedAddress || undefined);
 
   useEffect(() => {
     console.log('App mounted!');
     checkWalletConnection();
-
-    const hasSeenWelcome = localStorage.getItem('hasSeenWelcome');
-    if (!hasSeenWelcome && !connectedAddress) {
-      setTimeout(() => {
-        setShowWelcomeGuide(true);
-        localStorage.setItem('hasSeenWelcome', 'true');
-      }, 2000);
-    }
   }, []);
 
   const checkWalletConnection = async () => {
@@ -73,7 +63,8 @@ function App() {
         window.location.href = metamaskAppDeepLink;
         return;
       }
-      setShowWelcomeGuide(true);
+      // Desktop: Direct link to Chrome extension
+      window.open('https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn', '_blank');
       return;
     }
 
@@ -143,13 +134,6 @@ function App() {
       console.error('Failed to connect wallet:', err);
       if (err.code === 4001) {
         alert('⚠️ Please connect your wallet to continue');
-      } else if (isMobile) {
-        // On mobile, if connection fails, try to open MetaMask app
-        const dappUrl = window.location.href.replace(/^https?:\/\//, '');
-        const metamaskAppDeepLink = `https://metamask.app.link/dapp/${dappUrl}`;
-        window.location.href = metamaskAppDeepLink;
-      } else {
-        setShowWelcomeGuide(true);
       }
     }
   };
@@ -283,12 +267,6 @@ function App() {
 
   return (
     <>
-    <WelcomeGuide
-      isOpen={showWelcomeGuide}
-      onClose={() => setShowWelcomeGuide(false)}
-      onConnectWallet={handleConnectWallet}
-    />
-
     <NavigationHeader
       currentPage={currentPage}
       onNavigate={handleNavigate}
