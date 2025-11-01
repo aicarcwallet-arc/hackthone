@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIC Hackathon Header Generator</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #1a1a1a;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-banner {
+            width: 1000px;
+            height: 220px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #4B0082 0%, #1E3A8A 25%, #3B82F6 50%, #06B6D4 75%, #8B5CF6 100%);
+            border-radius: 0;
+        }
+
+        .gradient-overlay {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(139, 92, 246, 0.4) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 30%, rgba(59, 130, 246, 0.5) 0%, transparent 60%),
+                        radial-gradient(circle at 85% 70%, rgba(6, 182, 212, 0.3) 0%, transparent 50%);
+            mix-blend-mode: screen;
+        }
+
+        .particles {
+            position: absolute;
+            inset: 0;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        .particle:nth-child(1) {
+            width: 4px;
+            height: 4px;
+            left: 10%;
+            top: 20%;
+            animation-delay: 0s;
+        }
+
+        .particle:nth-child(2) {
+            width: 6px;
+            height: 6px;
+            left: 30%;
+            top: 60%;
+            animation-delay: 3s;
+        }
+
+        .particle:nth-child(3) {
+            width: 3px;
+            height: 3px;
+            left: 50%;
+            top: 30%;
+            animation-delay: 6s;
+        }
+
+        .particle:nth-child(4) {
+            width: 5px;
+            height: 5px;
+            left: 70%;
+            top: 70%;
+            animation-delay: 9s;
+        }
+
+        .particle:nth-child(5) {
+            width: 4px;
+            height: 4px;
+            left: 90%;
+            top: 40%;
+            animation-delay: 12s;
+        }
+
+        .particle:nth-child(6) {
+            width: 7px;
+            height: 7px;
+            left: 20%;
+            top: 80%;
+            animation-delay: 15s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 0.6;
+            }
+            25% {
+                transform: translateY(-20px) translateX(10px) scale(1.2);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translateY(-10px) translateX(-10px) scale(0.9);
+                opacity: 0.5;
+            }
+            75% {
+                transform: translateY(-30px) translateX(20px) scale(1.1);
+                opacity: 0.7;
+            }
+        }
+
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.6;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .glow-orb-1 {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.8) 0%, transparent 70%);
+            top: -50px;
+            right: 15%;
+        }
+
+        .glow-orb-2 {
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.7) 0%, transparent 70%);
+            top: 50%;
+            left: 10%;
+            animation-delay: 2s;
+        }
+
+        .glow-orb-3 {
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.6) 0%, transparent 70%);
+            bottom: -40px;
+            right: 25%;
+            animation-delay: 1s;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.8;
+            }
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 60px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .logo {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #06B6D4, #3B82F6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.6);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .title {
+            font-size: 48px;
+            font-weight: 900;
+            background: linear-gradient(to right, #ffffff, #e0f2fe, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: #e0f2fe;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .tagline {
+            font-size: 16px;
+            color: #bae6fd;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .sparkle {
+            color: #fbbf24;
+            animation: sparkle 1.5s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .tech-stack {
+            position: absolute;
+            bottom: 15px;
+            right: 40px;
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .tech-badge {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .download-btn {
+            margin-top: 20px;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #06B6D4, #3B82F6);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.4);
+            transition: all 0.3s;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(6, 182, 212, 0.6);
+        }
+
+        .instructions {
+            color: white;
+            max-width: 1000px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .instructions h3 {
+            margin-top: 0;
+            color: #06B6D4;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-banner" id="headerBanner">
+        <div class="glow-orb glow-orb-1"></div>
+        <div class="glow-orb glow-orb-2"></div>
+        <div class="glow-orb glow-orb-3"></div>
+
+        <div class="gradient-overlay"></div>
+
+        <div class="particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+
+        <div class="content">
+            <div class="logo-container">
+                <div class="logo">AiC</div>
+                <div>
+                    <div class="title">AI Cognitive Token</div>
+                </div>
+            </div>
+            <div class="subtitle">Learn Blockchain • Earn USDC • Powered by AI</div>
+            <div class="tagline">
+                <span class="badge">
+                    <span class="sparkle">✨</span>
+                    Circle's AI Agents on Arc Hackathon
+                </span>
+                <span style="color: rgba(255,255,255,0.6);">•</span>
+                <span>Where Learning Becomes Earning</span>
+            </div>
+        </div>
+
+        <div class="tech-stack">
+            <div class="tech-badge">OpenAI</div>
+            <div class="tech-badge">Circle Arc</div>
+            <div class="tech-badge">USDC</div>
+        </div>
+    </div>
+
+    <button class="download-btn" onclick="downloadBanner()">📥 Download Header (1000x220)</button>
+
+    <div class="instructions">
+        <h3>📋 Instructions</h3>
+        <p><strong>Method 1 - Screenshot (Easiest):</strong></p>
+        <ol>
+            <li>Right-click on the header banner above</li>
+            <li>Select "Save Image As..." or take a screenshot</li>
+            <li>Save as PNG format</li>
+        </ol>
+        <p><strong>Method 2 - Canvas Download:</strong></p>
+        <ol>
+            <li>Click the "Download Header" button above</li>
+            <li>The image will be saved as hackathon-header-1000x220.png</li>
+        </ol>
+        <p><strong>Dimensions:</strong> 1000px × 220px (matching your reference image)</p>
+    </div>
+
+    <script>
+        function downloadBanner() {
+            const banner = document.getElementById('headerBanner');
+
+            html2canvas(banner, {
+                scale: 2,
+                backgroundColor: null,
+                logging: false,
+                width: 1000,
+                height: 220
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'aic-hackathon-header-1000x220.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</body>
+</html>
