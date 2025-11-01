@@ -39,21 +39,21 @@ export function GasFaucetBanner({ walletAddress }: GasFaucetBannerProps) {
   const balanceInUsdc = Number(nativeBalance) / 1_000_000;
 
   return (
-    <div className="w-full max-w-3xl mb-6 bg-gradient-to-r from-blue-900/40 to-cyan-900/40 backdrop-blur-sm border-2 border-cyan-500/50 rounded-xl p-6 shadow-[0_0_30px_rgba(34,211,238,0.3)] animate-pulse-slow">
-      <div className="flex items-start gap-4">
-        <div className="flex-shrink-0 w-12 h-12 bg-cyan-500/20 rounded-full flex items-center justify-center">
-          <Fuel className="w-6 h-6 text-cyan-400" />
+    <div className="w-full max-w-3xl mb-6 bg-gradient-to-r from-blue-900/40 to-cyan-900/40 backdrop-blur-sm border-2 border-cyan-500/50 rounded-xl p-4 sm:p-6 shadow-[0_0_30px_rgba(34,211,238,0.3)] animate-pulse-slow">
+      <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
+        <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-cyan-500/20 rounded-full flex items-center justify-center">
+          <Fuel className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-400" />
         </div>
-        <div className="flex-1">
+        <div className="flex-1 w-full">
           <div className="flex items-center gap-2 mb-2">
-            <AlertCircle className="w-5 h-5 text-cyan-400" />
-            <h3 className="text-cyan-300 font-bold text-lg">Get Free Testnet USDC for Gas</h3>
+            <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400" />
+            <h3 className="text-cyan-300 font-bold text-base sm:text-lg leading-tight">Get Free Testnet USDC for Gas</h3>
           </div>
 
-          <div className="bg-black/30 rounded-lg p-3 mb-4 border border-cyan-500/30">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-gray-300 text-sm">Your Gas Balance:</span>
-              <span className="text-red-400 font-bold">{balanceInUsdc.toFixed(6)} USDC</span>
+          <div className="bg-black/30 rounded-lg p-2.5 sm:p-3 mb-3 sm:mb-4 border border-cyan-500/30">
+            <div className="flex items-center justify-between mb-2 gap-2">
+              <span className="text-gray-300 text-xs sm:text-sm">Your Gas Balance:</span>
+              <span className="text-red-400 font-bold text-sm sm:text-base">{balanceInUsdc.toFixed(6)} USDC</span>
             </div>
             <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
               <div
@@ -63,10 +63,10 @@ export function GasFaucetBanner({ walletAddress }: GasFaucetBannerProps) {
             </div>
           </div>
 
-          <div className="space-y-3 mb-4">
-            <div className="bg-cyan-500/10 rounded-lg p-3 border border-cyan-500/30">
-              <p className="text-white font-semibold text-sm mb-2">📋 Quick Start Guide:</p>
-              <ol className="text-gray-300 text-sm space-y-1.5 ml-4 list-decimal">
+          <div className="space-y-2.5 sm:space-y-3 mb-3 sm:mb-4">
+            <div className="bg-cyan-500/10 rounded-lg p-2.5 sm:p-3 border border-cyan-500/30">
+              <p className="text-white font-semibold text-xs sm:text-sm mb-1.5 sm:mb-2">📋 Quick Start Guide:</p>
+              <ol className="text-gray-300 text-xs sm:text-sm space-y-1 sm:space-y-1.5 ml-4 list-decimal">
                 <li>Visit Arc Faucet and request testnet USDC</li>
                 <li>Wait 10-30 seconds for tokens to arrive</li>
                 <li>Add AiC Token contract to track earnings</li>
@@ -75,19 +75,19 @@ export function GasFaucetBanner({ walletAddress }: GasFaucetBannerProps) {
               </ol>
             </div>
 
-            <div className="bg-yellow-500/10 rounded-lg p-3 border border-yellow-500/30">
-              <p className="text-yellow-300 text-sm">
+            <div className="bg-yellow-500/10 rounded-lg p-2.5 sm:p-3 border border-yellow-500/30">
+              <p className="text-yellow-300 text-xs sm:text-sm leading-relaxed">
                 <span className="font-bold">💡 Important:</span> Arc uses USDC as native gas (6 decimals). You need ~10 USDC for gas fees to play games, swap tokens, and make transactions.
               </p>
             </div>
           </div>
 
-          <div className="grid sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
             <a
               href="https://faucet.arc.network"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold px-4 py-3 rounded-lg transition-all shadow-[0_0_20px_rgba(34,211,238,0.5)] hover:shadow-[0_0_30px_rgba(34,211,238,0.8)] text-sm"
+              className="flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 active:from-cyan-600 active:to-blue-700 sm:hover:from-cyan-400 sm:hover:to-blue-500 text-white font-bold px-4 py-3 sm:py-3.5 rounded-lg transition-all shadow-[0_0_20px_rgba(34,211,238,0.5)] active:shadow-[0_0_25px_rgba(34,211,238,0.7)] sm:hover:shadow-[0_0_30px_rgba(34,211,238,0.8)] text-sm touch-manipulation min-h-[48px]"
             >
               <Fuel className="w-4 h-4" />
               Get Free USDC
@@ -118,7 +118,7 @@ export function GasFaucetBanner({ walletAddress }: GasFaucetBannerProps) {
                   });
                 }
               }}
-              className="flex items-center justify-center gap-2 bg-gray-800 hover:bg-gray-700 text-white font-semibold px-4 py-3 rounded-lg transition-all border border-cyan-500/30 text-sm"
+              className="flex items-center justify-center gap-2 bg-gray-800 active:bg-gray-900 sm:hover:bg-gray-700 text-white font-semibold px-4 py-3 sm:py-3.5 rounded-lg transition-all border border-cyan-500/30 text-sm touch-manipulation min-h-[48px]"
             >
               🪙 Add AiC Token
             </button>
@@ -126,7 +126,7 @@ export function GasFaucetBanner({ walletAddress }: GasFaucetBannerProps) {
 
           <button
             onClick={() => setIsDismissed(true)}
-            className="mt-3 text-cyan-400 hover:text-cyan-300 text-xs underline"
+            className="mt-2.5 sm:mt-3 text-cyan-400 active:text-cyan-500 sm:hover:text-cyan-300 text-xs underline touch-manipulation min-h-[32px]"
           >
             I already have USDC, dismiss this
           </button>

@@ -27,7 +27,7 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-lg border-b border-cyan-500/30 shadow-[0_4px_20px_rgba(34,211,238,0.15)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3 cursor-pointer" onClick={() => onNavigate('home')}>
               <img
@@ -83,7 +83,7 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
 
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="lg:hidden p-2 text-cyan-400 hover:bg-gray-800 rounded-lg transition-colors"
+                className="lg:hidden p-2 text-cyan-400 active:bg-gray-800 sm:hover:bg-gray-800 rounded-lg transition-colors touch-manipulation min-w-[44px] min-h-[44px] flex items-center justify-center"
               >
                 {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
@@ -101,10 +101,10 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
                   <button
                     key={item.id}
                     onClick={() => handleMenuClick(item.id)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all ${
+                    className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-lg font-medium transition-all touch-manipulation min-h-[52px] ${
                       isActive
                         ? 'bg-cyan-500/20 text-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.3)]'
-                        : 'text-gray-300 hover:bg-gray-800 hover:text-cyan-400'
+                        : 'text-gray-300 active:bg-gray-800 active:text-cyan-400 sm:hover:bg-gray-800 sm:hover:text-cyan-400'
                     }`}
                   >
                     <Icon className="w-5 h-5" />
@@ -127,7 +127,7 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
                       onConnectWallet();
                       setIsMobileMenuOpen(false);
                     }}
-                    className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:shadow-[0_0_20px_rgba(34,211,238,0.5)] transition-all"
+                    className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 active:from-cyan-600 active:to-blue-700 sm:hover:shadow-[0_0_20px_rgba(34,211,238,0.5)] text-white px-6 py-4 rounded-lg font-bold transition-all touch-manipulation min-h-[56px]"
                   >
                     Connect Wallet
                   </button>

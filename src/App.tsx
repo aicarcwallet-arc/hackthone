@@ -65,21 +65,16 @@ function App() {
         alert('📱 MetaMask Required\n\n1. Install MetaMask mobile app\n2. Open this website in MetaMask browser\n3. Approve Arc Testnet network when prompted\n\nRedirecting you now...');
         window.location.href = metamaskAppDeepLink;
       } else {
-        // Desktop: Show detailed install prompt
-        const shouldInstall = confirm(
+        // Desktop: Show install message but don't redirect
+        alert(
           '🦊 MetaMask Extension Required\n\n' +
           'Please follow these steps:\n' +
-          '1. Click OK to open MetaMask installation page\n' +
-          '2. Install MetaMask extension\n' +
-          '3. Create or import your wallet\n' +
-          '4. Return here and connect again\n' +
-          '5. You\'ll be prompted to add Arc Testnet\n\n' +
-          'Ready to install MetaMask?'
+          '1. Install MetaMask extension from metamask.io\n' +
+          '2. Create or import your wallet\n' +
+          '3. Return here and click Connect Wallet again\n' +
+          '4. Approve Arc Testnet network when prompted\n\n' +
+          'If you already installed MetaMask, please refresh this page.'
         );
-
-        if (shouldInstall) {
-          window.open('https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn', '_blank');
-        }
       }
       return;
     }
@@ -389,7 +384,7 @@ function App() {
       <div className="absolute bottom-1/3 right-20 w-8 h-8 opacity-[0.02] animate-float">
         <img src="/aic toekn  copy.png" alt="" className="w-full h-full object-contain" />
       </div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-8 sm:mb-12">
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-4 py-1 rounded-full text-xs sm:text-sm font-semibold mb-3 shadow-[0_0_20px_rgba(34,211,238,0.4)]">
             <span className="animate-pulse">🔥</span>
@@ -408,13 +403,13 @@ function App() {
         </div>
 
         {!connectedAddress && (
-          <div className="flex justify-center mb-8 sm:mb-12">
+          <div className="flex justify-center mb-8 sm:mb-12 px-4">
             <button
               onClick={() => {
                 console.log('Connect Wallet button clicked');
                 handleConnectWallet();
               }}
-              className="w-full sm:w-auto bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold py-3 px-8 rounded-lg transition-all shadow-[0_0_30px_rgba(34,211,238,0.5)] hover:shadow-[0_0_50px_rgba(34,211,238,0.8)] touch-manipulation z-50 relative"
+              className="w-full sm:w-auto bg-gradient-to-r from-cyan-500 to-blue-600 active:from-cyan-600 active:to-blue-700 sm:hover:from-cyan-400 sm:hover:to-blue-500 text-white font-bold text-base sm:text-lg py-4 px-8 rounded-xl transition-all shadow-[0_0_30px_rgba(34,211,238,0.5)] active:shadow-[0_0_40px_rgba(34,211,238,0.7)] sm:hover:shadow-[0_0_50px_rgba(34,211,238,0.8)] touch-manipulation z-50 relative min-h-[56px]"
             >
               Connect Wallet to Start
             </button>

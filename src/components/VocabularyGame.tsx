@@ -205,9 +205,9 @@ export function VocabularyGame({ userId, walletAddress, onGoBack }: VocabularyGa
           {onGoBack && (
             <button
               onClick={onGoBack}
-              className="flex items-center gap-1 sm:gap-2 text-cyan-400 hover:text-cyan-300 font-medium text-sm sm:text-base touch-manipulation"
+              className="flex items-center gap-1 sm:gap-2 text-cyan-400 active:text-cyan-500 sm:hover:text-cyan-300 font-medium text-sm sm:text-base touch-manipulation min-h-[44px] px-2"
             >
-              <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+              <ArrowLeft className="w-5 h-5 sm:w-5 sm:h-5" />
               <span className="hidden sm:inline">Back</span>
             </button>
           )}
@@ -222,9 +222,9 @@ export function VocabularyGame({ userId, walletAddress, onGoBack }: VocabularyGa
         </div>
         <button
           onClick={handleEndGame}
-          className="flex items-center gap-1 sm:gap-2 text-red-600 hover:text-red-700 active:text-red-800 font-medium text-sm sm:text-base touch-manipulation"
+          className="flex items-center gap-1 sm:gap-2 text-red-600 active:text-red-700 sm:hover:text-red-700 font-medium text-sm sm:text-base touch-manipulation min-h-[44px] px-2"
         >
-          <X className="w-4 h-4 sm:w-5 sm:h-5" />
+          <X className="w-5 h-5 sm:w-5 sm:h-5" />
           <span className="hidden sm:inline">End Game</span>
           <span className="sm:hidden">End</span>
         </button>
