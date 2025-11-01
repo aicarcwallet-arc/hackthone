@@ -11,6 +11,7 @@ import { TransactionHistory } from './components/TransactionHistory';
 import { WalletDashboard } from './components/WalletDashboard';
 import { InstallPrompt } from './components/InstallPrompt';
 import { NetworkStatusBanner } from './components/NetworkStatusBanner';
+import { GasFaucetBanner } from './components/GasFaucetBanner';
 import { VirtualCard } from './components/VirtualCard';
 import { CircleBanking } from './components/CircleBanking';
 import { NavigationHeader } from './components/NavigationHeader';
@@ -424,6 +425,10 @@ function App() {
           <>
             <div className="mb-8">
               <NetworkStatusBanner />
+            </div>
+
+            <div className="mb-8 flex justify-center">
+              <GasFaucetBanner walletAddress={connectedAddress} />
             </div>
 
             <WalletDashboard
