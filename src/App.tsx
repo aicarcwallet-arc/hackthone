@@ -61,11 +61,24 @@ function App() {
         // Mobile: Open in MetaMask app
         const dappUrl = window.location.href.replace(/^https?:\/\//, '');
         const metamaskAppDeepLink = `https://metamask.app.link/dapp/${dappUrl}`;
+        alert('📱 MetaMask Required\n\n1. Install MetaMask mobile app\n2. Open this website in MetaMask browser\n3. Approve Arc Testnet network when prompted\n\nRedirecting you now...');
         window.location.href = metamaskAppDeepLink;
       } else {
-        // Desktop: Show install prompt
-        alert('🦊 MetaMask is not installed. Redirecting to Chrome Web Store...');
-        window.open('https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn', '_blank');
+        // Desktop: Show detailed install prompt
+        const shouldInstall = confirm(
+          '🦊 MetaMask Extension Required\n\n' +
+          'Please follow these steps:\n' +
+          '1. Click OK to open MetaMask installation page\n' +
+          '2. Install MetaMask extension\n' +
+          '3. Create or import your wallet\n' +
+          '4. Return here and connect again\n' +
+          '5. You\'ll be prompted to add Arc Testnet\n\n' +
+          'Ready to install MetaMask?'
+        );
+
+        if (shouldInstall) {
+          window.open('https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn', '_blank');
+        }
       }
       return;
     }
@@ -103,29 +116,78 @@ function App() {
           // If network doesn't exist (error 4902), add it
           if (switchError.code === 4902) {
             try {
+              // Show network info before adding
+              alert(
+                '🌐 Adding Arc Testnet to MetaMask\n\n' +
+                'Network Details:\n' +
+                '• Name: Arc Testnet\n' +
+                '• Chain ID: 5042002 (0x4CF0D2)\n' +
+                '• RPC: https://rpc.testnet.arc.network\n' +
+                '• Symbol: USDC (18 decimals)\n' +
+                '• Explorer: https://testnet.arcscan.app\n\n' +
+                'Click "Approve" in MetaMask popup to continue.\n\n' +
+                '💰 Get Free USDC Gas:\n' +
+                'Visit https://faucet.arc.network for testnet USDC\n\n' +
+                '🪙 AiC Token Contract:\n' +
+                '0x4B71cD610AfCCDf0B02d566dA0071C74444a8666\n' +
+                'Add to MetaMask to track your AiC balance!'
+              );
+
               await window.ethereum.request({
                 method: 'wallet_addEthereumChain',
                 params: [arcNetworkConfig]
               });
+
               // After adding network, set user
               setConnectedAddress(accounts[0]);
               await getOrCreateUser(accounts[0]);
+
+              // Success message with next steps
+              alert(
+                '✅ Arc Testnet Added Successfully!\n\n' +
+                'Next Steps:\n' +
+                '1. Get free USDC for gas from faucet.arc.network\n' +
+                '2. Add AiC Token (0x4B71cD610AfCCDf0B02d566dA0071C74444a8666)\n' +
+                '3. Start playing to earn AiC tokens!\n' +
+                '4. View all transactions on testnet.arcscan.app'
+              );
             } catch (addError: any) {
               console.error('Failed to add Arc Testnet:', addError);
               if (addError.code === 4001) {
                 if (isMobile) {
-                  alert('📱 Please approve Arc Testnet network in MetaMask app to play the game.');
+                  alert(
+                    '❌ Arc Testnet Setup Cancelled\n\n' +
+                    'You need to approve Arc Testnet to use this app.\n\n' +
+                    'Try again and approve the network in MetaMask.'
+                  );
                 } else {
-                  alert('⚠️ You need to approve Arc Testnet network to play the game. Please try connecting again and approve the network.');
+                  alert(
+                    '❌ Arc Testnet Setup Cancelled\n\n' +
+                    'Arc Testnet network is required to:\n' +
+                    '• Play the vocabulary game\n' +
+                    '• Earn AiC tokens\n' +
+                    '• Swap AiC for USDC\n\n' +
+                    'Please connect again and approve the network.'
+                  );
                 }
               }
             }
           } else if (switchError.code === 4001) {
             // User rejected the network switch
             if (isMobile) {
-              alert('📱 Please switch to Arc Testnet in your MetaMask app to play the game.');
+              alert(
+                '⚠️ Network Switch Required\n\n' +
+                'Please switch to Arc Testnet in MetaMask to continue.'
+              );
             } else {
-              alert('⚠️ Please switch to Arc Testnet network in MetaMask to play the game.');
+              alert(
+                '⚠️ Network Switch Required\n\n' +
+                'You must be on Arc Testnet to use this app.\n\n' +
+                'In MetaMask:\n' +
+                '1. Click network dropdown\n' +
+                '2. Select "Arc Testnet"\n' +
+                '3. Refresh this page'
+              );
             }
           } else {
             // Still set the address even if network switch failed
