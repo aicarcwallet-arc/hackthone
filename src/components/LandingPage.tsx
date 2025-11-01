@@ -55,7 +55,7 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
                   <a
                     href="/aic-token.apk"
                     download
-                    className="group inline-flex items-center gap-2 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 text-white font-semibold px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-sm sm:text-base shadow-lg hover:shadow-green-500/50 transition-all active:scale-95"
+                    className="group inline-flex items-center gap-2 bg-[#3DDC84] hover:bg-[#34c471] text-black font-semibold px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-sm sm:text-base shadow-lg hover:shadow-[0_0_20px_rgba(61,220,132,0.5)] transition-all active:scale-95"
                   >
                     <Smartphone className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span>Android APK</span>
@@ -63,7 +63,7 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
                   <a
                     href="/aic-token.ipa"
                     download
-                    className="group inline-flex items-center gap-2 bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 text-white font-semibold px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-sm sm:text-base shadow-lg hover:shadow-gray-500/50 transition-all active:scale-95"
+                    className="group inline-flex items-center gap-2 bg-black hover:bg-gray-900 text-white font-semibold px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-sm sm:text-base shadow-lg border border-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all active:scale-95"
                   >
                     <Apple className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span>iOS IPA</span>
