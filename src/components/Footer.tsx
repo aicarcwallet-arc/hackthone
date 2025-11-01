@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail, Twitter, Heart } from 'lucide-react';
+import { Github, Linkedin, Mail, Twitter, Heart, Youtube, Facebook, Instagram, MessageCircle } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -104,48 +104,92 @@ export function Footer() {
 
           <div>
             <h3 className="text-lg font-bold mb-4 text-cyan-400">Connect With Us</h3>
-            <div className="space-y-3">
+            <div className="grid grid-cols-2 gap-3">
               <a
                 href="https://twitter.com/shaziasayeed"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 text-gray-400 hover:text-cyan-400 transition-colors group"
+                className="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors group"
               >
-                <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
-                  <Twitter className="w-5 h-5" />
+                <div className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
+                  <Twitter className="w-4 h-4" />
                 </div>
-                <span>Twitter / X</span>
+                <span className="text-sm">Twitter</span>
               </a>
               <a
                 href="https://linkedin.com/in/shazia-sayeed"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 text-gray-400 hover:text-cyan-400 transition-colors group"
+                className="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors group"
               >
-                <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
-                  <Linkedin className="w-5 h-5" />
+                <div className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
+                  <Linkedin className="w-4 h-4" />
                 </div>
-                <span>LinkedIn</span>
+                <span className="text-sm">LinkedIn</span>
               </a>
               <a
                 href="https://github.com/shaziasayeed"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 text-gray-400 hover:text-cyan-400 transition-colors group"
+                className="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors group"
               >
-                <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
-                  <Github className="w-5 h-5" />
+                <div className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
+                  <Github className="w-4 h-4" />
                 </div>
-                <span>GitHub</span>
+                <span className="text-sm">GitHub</span>
+              </a>
+              <a
+                href="https://youtube.com/@shaziasayeed"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors group"
+              >
+                <div className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
+                  <Youtube className="w-4 h-4" />
+                </div>
+                <span className="text-sm">YouTube</span>
+              </a>
+              <a
+                href="https://facebook.com/shaziasayeed"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors group"
+              >
+                <div className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
+                  <Facebook className="w-4 h-4" />
+                </div>
+                <span className="text-sm">Facebook</span>
+              </a>
+              <a
+                href="https://instagram.com/shaziasayeed"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors group"
+              >
+                <div className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
+                  <Instagram className="w-4 h-4" />
+                </div>
+                <span className="text-sm">Instagram</span>
+              </a>
+              <a
+                href="https://t.me/shaziasayeed"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors group"
+              >
+                <div className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
+                  <MessageCircle className="w-4 h-4" />
+                </div>
+                <span className="text-sm">Telegram</span>
               </a>
               <a
                 href="mailto:shazia@aictoken.io"
-                className="flex items-center gap-3 text-gray-400 hover:text-cyan-400 transition-colors group"
+                className="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors group"
               >
-                <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
-                  <Mail className="w-5 h-5" />
+                <div className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
+                  <Mail className="w-4 h-4" />
                 </div>
-                <span>Email Me</span>
+                <span className="text-sm">Email</span>
               </a>
             </div>
           </div>
@@ -156,40 +200,58 @@ export function Footer() {
             <p className="text-gray-400 text-sm text-center md:text-left">
               <span className="font-bold text-cyan-400">AI Cognitive Token (AiC)</span> - Where Learning Becomes Earning
             </p>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
               <a
                 href="https://twitter.com/shaziasayeed"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-cyan-500/20 transition-colors"
+                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-cyan-500/20 transition-colors group"
                 title="Follow on Twitter"
               >
-                <Twitter className="w-5 h-5 text-gray-400 hover:text-cyan-400" />
+                <Twitter className="w-5 h-5 text-gray-400 group-hover:text-cyan-400 transition-colors" />
               </a>
               <a
                 href="https://linkedin.com/in/shazia-sayeed"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-cyan-500/20 transition-colors"
+                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-cyan-500/20 transition-colors group"
                 title="Connect on LinkedIn"
               >
-                <Linkedin className="w-5 h-5 text-gray-400 hover:text-cyan-400" />
+                <Linkedin className="w-5 h-5 text-gray-400 group-hover:text-cyan-400 transition-colors" />
               </a>
               <a
                 href="https://github.com/shaziasayeed"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-cyan-500/20 transition-colors"
+                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-cyan-500/20 transition-colors group"
                 title="View on GitHub"
               >
-                <Github className="w-5 h-5 text-gray-400 hover:text-cyan-400" />
+                <Github className="w-5 h-5 text-gray-400 group-hover:text-cyan-400 transition-colors" />
+              </a>
+              <a
+                href="https://youtube.com/@shaziasayeed"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-cyan-500/20 transition-colors group"
+                title="Watch on YouTube"
+              >
+                <Youtube className="w-5 h-5 text-gray-400 group-hover:text-cyan-400 transition-colors" />
+              </a>
+              <a
+                href="https://instagram.com/shaziasayeed"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-cyan-500/20 transition-colors group"
+                title="Follow on Instagram"
+              >
+                <Instagram className="w-5 h-5 text-gray-400 group-hover:text-cyan-400 transition-colors" />
               </a>
               <a
                 href="mailto:shazia@aictoken.io"
-                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-cyan-500/20 transition-colors"
+                className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-cyan-500/20 transition-colors group"
                 title="Send Email"
               >
-                <Mail className="w-5 h-5 text-gray-400 hover:text-cyan-400" />
+                <Mail className="w-5 h-5 text-gray-400 group-hover:text-cyan-400 transition-colors" />
               </a>
             </div>
           </div>
