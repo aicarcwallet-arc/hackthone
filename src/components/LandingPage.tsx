@@ -1,4 +1,4 @@
-import { ArrowRight, Wallet, Brain, DollarSign, Zap, Shield, TrendingUp } from 'lucide-react';
+import { ArrowRight, Wallet, Brain, DollarSign, Zap, Shield, TrendingUp, Smartphone, Apple } from 'lucide-react';
 import { Footer } from './Footer';
 
 interface LandingPageProps {
@@ -39,7 +39,7 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
             <p className="text-xs sm:text-sm text-gray-400 mb-8 sm:mb-12 px-4">
               OpenAI validates your knowledge • Circle's USDC powers rewards • Arc L1 ensures transparency
             </p>
-            <div className="flex flex-col items-center gap-3">
+            <div className="flex flex-col items-center gap-4 sm:gap-6">
               <button
                 onClick={onGetStarted}
                 className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold px-8 sm:px-12 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl shadow-[0_0_40px_rgba(34,211,238,0.6)] hover:shadow-[0_0_60px_rgba(34,211,238,1)] transition-all touch-manipulation active:scale-95 animate-pulse-slow"
@@ -48,8 +48,31 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
                 <span>Enter Portal</span>
                 <ArrowRight className="w-6 h-6 sm:w-7 sm:h-7 group-hover:translate-x-1 transition-transform" />
               </button>
+
+              <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
+                <p className="text-xs sm:text-sm text-gray-400 text-center">Get the Native App:</p>
+                <div className="flex gap-3">
+                  <a
+                    href="/aic-token.apk"
+                    download
+                    className="group inline-flex items-center gap-2 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 text-white font-semibold px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-sm sm:text-base shadow-lg hover:shadow-green-500/50 transition-all active:scale-95"
+                  >
+                    <Smartphone className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <span>Android APK</span>
+                  </a>
+                  <a
+                    href="/aic-token.ipa"
+                    download
+                    className="group inline-flex items-center gap-2 bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 text-white font-semibold px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-sm sm:text-base shadow-lg hover:shadow-gray-500/50 transition-all active:scale-95"
+                  >
+                    <Apple className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <span>iOS IPA</span>
+                  </a>
+                </div>
+              </div>
+
               <p className="text-xs sm:text-sm text-gray-400 animate-bounce-slow">
-                👆 Click to enter the AiC ecosystem
+                👆 Choose web portal or download native app
               </p>
             </div>
           </div>
