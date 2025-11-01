@@ -77,18 +77,23 @@ function App() {
     }
 
     try {
+      // First, request account access
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' }) as string[];
       if (accounts && accounts.length > 0) {
-        setConnectedAddress(accounts[0]);
-        await getOrCreateUser(accounts[0]);
+        // Immediately try to switch to Arc Testnet
+        const chainIdHex = '0x4CF0D2';
 
         try {
-          const chainIdHex = '0x4CF0D2';
+          // Try switching to Arc Testnet first
           await window.ethereum.request({
             method: 'wallet_switchEthereumChain',
             params: [{ chainId: chainIdHex }],
           });
+          // If successful, set user and create account
+          setConnectedAddress(accounts[0]);
+          await getOrCreateUser(accounts[0]);
         } catch (switchError: any) {
+          // If network doesn't exist (error 4902), add it
           if (switchError.code === 4902) {
             try {
               await window.ethereum.request({
@@ -105,16 +110,29 @@ function App() {
                   blockExplorerUrls: ['https://testnet.arcscan.app']
                 }]
               });
-            } catch (addError) {
+              // After adding network, set user
+              setConnectedAddress(accounts[0]);
+              await getOrCreateUser(accounts[0]);
+            } catch (addError: any) {
               console.error('Failed to add Arc Testnet:', addError);
+              if (addError.code === 4001) {
+                alert('⚠️ You need to approve Arc Testnet network to play the game. Please try connecting again and approve the network.');
+              }
             }
+          } else if (switchError.code === 4001) {
+            // User rejected the network switch
+            alert('⚠️ Please switch to Arc Testnet network in MetaMask to play the game.');
+          } else {
+            // Still set the address even if network switch failed
+            setConnectedAddress(accounts[0]);
+            await getOrCreateUser(accounts[0]);
           }
         }
       }
     } catch (err: any) {
       console.error('Failed to connect wallet:', err);
       if (err.code === 4001) {
-        alert('Please connect your wallet to continue');
+        alert('⚠️ Please connect your wallet to continue');
       } else {
         setShowWelcomeGuide(true);
       }
