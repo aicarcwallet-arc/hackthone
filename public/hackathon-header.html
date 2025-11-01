@@ -13,7 +13,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            background: linear-gradient(135deg, #0a0e1a 0%, #0f172a 50%, #0a0e1a 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -35,7 +35,7 @@
         .header-section h1 {
             font-size: 42px;
             font-weight: 900;
-            background: linear-gradient(to right, #06B6D4, #3B82F6, #8B5CF6);
+            background: linear-gradient(to right, #06B6D4, #3B82F6, #06B6D4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -48,12 +48,12 @@
         }
 
         .banner-preview {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(6, 182, 212, 0.05);
             border: 2px solid rgba(6, 182, 212, 0.3);
             border-radius: 20px;
             padding: 30px;
             margin-bottom: 30px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 60px rgba(6, 182, 212, 0.2);
         }
 
         .banner-wrapper {
@@ -71,140 +71,24 @@
             aspect-ratio: 1000 / 220;
             position: relative;
             overflow: hidden;
-            background: linear-gradient(135deg, #4B0082 0%, #1E3A8A 25%, #3B82F6 50%, #06B6D4 75%, #8B5CF6 100%);
+            background: linear-gradient(135deg, #0a0e1a 0%, #1e293b 50%, #0a0e1a 100%);
         }
 
         .gradient-overlay {
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at 30% 50%, rgba(139, 92, 246, 0.4) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 30%, rgba(59, 130, 246, 0.5) 0%, transparent 60%),
-                        radial-gradient(circle at 85% 70%, rgba(6, 182, 212, 0.3) 0%, transparent 50%);
-            mix-blend-mode: screen;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%);
         }
 
-        .particles {
+        .grid-pattern {
             position: absolute;
             inset: 0;
-        }
-
-        .particle {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            animation: float 20s infinite;
-        }
-
-        .particle:nth-child(1) {
-            width: 4px;
-            height: 4px;
-            left: 10%;
-            top: 20%;
-            animation-delay: 0s;
-        }
-
-        .particle:nth-child(2) {
-            width: 6px;
-            height: 6px;
-            left: 30%;
-            top: 60%;
-            animation-delay: 3s;
-        }
-
-        .particle:nth-child(3) {
-            width: 3px;
-            height: 3px;
-            left: 50%;
-            top: 30%;
-            animation-delay: 6s;
-        }
-
-        .particle:nth-child(4) {
-            width: 5px;
-            height: 5px;
-            left: 70%;
-            top: 70%;
-            animation-delay: 9s;
-        }
-
-        .particle:nth-child(5) {
-            width: 4px;
-            height: 4px;
-            left: 90%;
-            top: 40%;
-            animation-delay: 12s;
-        }
-
-        .particle:nth-child(6) {
-            width: 7px;
-            height: 7px;
-            left: 20%;
-            top: 80%;
-            animation-delay: 15s;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) translateX(0) scale(1);
-                opacity: 0.6;
-            }
-            25% {
-                transform: translateY(-20px) translateX(10px) scale(1.2);
-                opacity: 0.8;
-            }
-            50% {
-                transform: translateY(-10px) translateX(-10px) scale(0.9);
-                opacity: 0.5;
-            }
-            75% {
-                transform: translateY(-30px) translateX(20px) scale(1.1);
-                opacity: 0.7;
-            }
-        }
-
-        .glow-orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(40px);
-            opacity: 0.6;
-            animation: pulse 4s ease-in-out infinite;
-        }
-
-        .glow-orb-1 {
-            width: 20%;
-            padding-bottom: 20%;
-            background: radial-gradient(circle, rgba(139, 92, 246, 0.8) 0%, transparent 70%);
-            top: -10%;
-            right: 15%;
-        }
-
-        .glow-orb-2 {
-            width: 15%;
-            padding-bottom: 15%;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.7) 0%, transparent 70%);
-            top: 50%;
-            left: 10%;
-            animation-delay: 2s;
-        }
-
-        .glow-orb-3 {
-            width: 18%;
-            padding-bottom: 18%;
-            background: radial-gradient(circle, rgba(6, 182, 212, 0.6) 0%, transparent 70%);
-            bottom: -8%;
-            right: 25%;
-            animation-delay: 1s;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 0.6;
-            }
-            50% {
-                transform: scale(1.2);
-                opacity: 0.8;
-            }
+            background-image:
+                linear-gradient(rgba(6, 182, 212, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
         }
 
         .content {
@@ -212,115 +96,127 @@
             z-index: 10;
             height: 100%;
             display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+        }
+
+        .left-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 3%;
+        }
+
+        .founder-section {
+            display: flex;
             flex-direction: column;
-            justify-content: center;
-            padding: 0 6%;
-        }
-
-        .logo-container {
-            display: flex;
             align-items: center;
-            gap: 2%;
-            margin-bottom: 2%;
+            gap: 8px;
         }
 
-        .logo {
-            width: 7%;
-            padding-bottom: 7%;
-            background: linear-gradient(135deg, #06B6D4, #3B82F6);
+        .founder-image {
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: clamp(16px, 3.2vw, 32px);
-            font-weight: bold;
-            color: white;
+            border: 3px solid rgba(6, 182, 212, 0.5);
             box-shadow: 0 0 30px rgba(6, 182, 212, 0.6);
-            border: 3px solid rgba(255, 255, 255, 0.2);
-            position: relative;
+            object-fit: cover;
         }
 
-        .logo span {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        .founder-title {
+            font-size: 9px;
+            color: #06B6D4;
+            font-weight: 700;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .main-content {
+            flex: 1;
+        }
+
+        .token-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .token-logo {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 20px rgba(6, 182, 212, 0.6));
         }
 
         .title {
-            font-size: clamp(20px, 4.8vw, 48px);
+            font-size: 32px;
             font-weight: 900;
-            background: linear-gradient(to right, #ffffff, #e0f2fe, #ffffff);
+            background: linear-gradient(to right, #06B6D4, #ffffff, #3B82F6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
-            letter-spacing: -1px;
-        }
-
-        .subtitle {
-            font-size: clamp(12px, 2vw, 20px);
-            color: #e0f2fe;
-            font-weight: 600;
-            margin-bottom: 1%;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            letter-spacing: -0.5px;
+            line-height: 1.1;
         }
 
         .tagline {
-            font-size: clamp(10px, 1.6vw, 16px);
-            color: #bae6fd;
+            font-size: 14px;
+            color: #06B6D4;
+            font-weight: 600;
+            margin-bottom: 6px;
+            text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+        }
+
+        .epic-tagline {
+            font-size: 11px;
+            color: #94a3b8;
             font-weight: 500;
+            font-style: italic;
+            max-width: 500px;
+        }
+
+        .right-section {
             display: flex;
-            align-items: center;
-            gap: 1.2%;
-            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 12px;
         }
 
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            padding: 0.6% 1.4%;
-            border-radius: 20px;
-            font-size: clamp(9px, 1.3vw, 13px);
-            font-weight: 700;
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .sparkle {
-            color: #fbbf24;
-            animation: sparkle 1.5s ease-in-out infinite;
-        }
-
-        @keyframes sparkle {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.2); }
-        }
-
-        .tech-stack {
-            position: absolute;
-            bottom: 3%;
-            right: 4%;
-            display: flex;
-            gap: 1%;
-            z-index: 10;
-        }
-
-        .tech-badge {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 0.6% 1.2%;
-            border-radius: 6px;
-            font-size: clamp(8px, 1.1vw, 11px);
-            font-weight: 700;
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        .partners-label {
+            font-size: 10px;
+            color: #64748b;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
+        }
+
+        .partners-logos {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .partner-logo {
+            height: 35px;
+            width: auto;
+            object-fit: contain;
+            filter: brightness(0.9) drop-shadow(0 0 10px rgba(6, 182, 212, 0.3));
+        }
+
+        .hackathon-badge {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(59, 130, 246, 0.15));
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            font-size: 10px;
+            font-weight: 700;
+            color: #06B6D4;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.2);
         }
 
         .controls {
@@ -355,7 +251,7 @@
         }
 
         .info-box {
-            background: rgba(6, 182, 212, 0.1);
+            background: rgba(6, 182, 212, 0.05);
             border: 1px solid rgba(6, 182, 212, 0.3);
             border-radius: 12px;
             padding: 20px;
@@ -379,8 +275,9 @@
             display: flex;
             justify-content: space-between;
             padding: 10px;
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(6, 182, 212, 0.05);
             border-radius: 8px;
+            border: 1px solid rgba(6, 182, 212, 0.1);
         }
 
         .info-label {
@@ -398,9 +295,9 @@
             align-items: center;
             gap: 8px;
             padding: 12px 24px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(6, 182, 212, 0.1);
+            color: #06B6D4;
+            border: 1px solid rgba(6, 182, 212, 0.3);
             border-radius: 8px;
             font-size: 16px;
             font-weight: 600;
@@ -411,7 +308,7 @@
         }
 
         .back-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(6, 182, 212, 0.15);
         }
 
         @media (max-width: 768px) {
@@ -441,50 +338,43 @@
         </a>
 
         <div class="header-section">
-            <h1>🎨 Hackathon Header Banner</h1>
-            <p>Download your beautiful 1000×220px header for Circle's AI Agents on Arc Hackathon</p>
+            <h1>AIC Token Hackathon Header</h1>
+            <p>Download your professional 1000×220px banner for Circle's AI Agents on Arc Hackathon</p>
         </div>
 
         <div class="banner-preview">
             <div class="banner-wrapper">
                 <div class="header-banner" id="headerBanner">
-                    <div class="glow-orb glow-orb-1"></div>
-                    <div class="glow-orb glow-orb-2"></div>
-                    <div class="glow-orb glow-orb-3"></div>
-
                     <div class="gradient-overlay"></div>
-
-                    <div class="particles">
-                        <div class="particle"></div>
-                        <div class="particle"></div>
-                        <div class="particle"></div>
-                        <div class="particle"></div>
-                        <div class="particle"></div>
-                        <div class="particle"></div>
-                    </div>
+                    <div class="grid-pattern"></div>
 
                     <div class="content">
-                        <div class="logo-container">
-                            <div class="logo"><span>AiC</span></div>
-                            <div>
-                                <div class="title">AI Cognitive Token</div>
+                        <div class="left-section">
+                            <div class="founder-section">
+                                <img src="/logo@2x (1).webp" alt="Founder" class="founder-image">
+                                <div class="founder-title">Solo Developer<br>Visionary & Founder</div>
+                            </div>
+
+                            <div class="main-content">
+                                <div class="token-header">
+                                    <img src="/aic toekn .png" alt="AIC Token" class="token-logo">
+                                    <div class="title">AI Cognitive Token</div>
+                                </div>
+                                <div class="tagline">Learn Blockchain • Earn USDC • Powered by AI</div>
+                                <div class="epic-tagline">"Transforming education into economic empowerment through AI-powered learning and programmable USDC rewards"</div>
                             </div>
                         </div>
-                        <div class="subtitle">Learn Blockchain • Earn USDC • Powered by AI</div>
-                        <div class="tagline">
-                            <span class="badge">
-                                <span class="sparkle">✨</span>
-                                Circle's AI Agents on Arc Hackathon
-                            </span>
-                            <span style="color: rgba(255,255,255,0.6);">•</span>
-                            <span>Where Learning Becomes Earning</span>
-                        </div>
-                    </div>
 
-                    <div class="tech-stack">
-                        <div class="tech-badge">OpenAI</div>
-                        <div class="tech-badge">Circle Arc</div>
-                        <div class="tech-badge">USDC</div>
+                        <div class="right-section">
+                            <div class="partners-label">Powered By</div>
+                            <div class="partners-logos">
+                                <img src="/sHyVRItm_400x400.jpg" alt="Arc" class="partner-logo">
+                                <img src="/circle.b8b9d808c4509a1c3043e1a2859807b7a83364094f388457832f020fa02cbc37.png" alt="Circle" class="partner-logo">
+                            </div>
+                            <div class="hackathon-badge">
+                                Circle's AI Agents on Arc<br>Hackathon 2025
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -512,8 +402,8 @@
                     <span class="info-value">High (2x scale)</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">File Size:</span>
-                    <span class="info-value">~200 KB</span>
+                    <span class="info-label">Style:</span>
+                    <span class="info-value">Cyan/Blue Theme</span>
                 </div>
             </div>
         </div>
@@ -530,7 +420,7 @@
 
             html2canvas(banner, {
                 scale: 2,
-                backgroundColor: null,
+                backgroundColor: '#0a0e1a',
                 logging: false,
                 width: 1000,
                 height: 220,
