@@ -83,7 +83,7 @@ export function useNetworkCheck() {
                 nativeCurrency: {
                   name: 'USDC',
                   symbol: 'USDC',
-                  decimals: 6,
+                  decimals: 18,
                 },
                 rpcUrls: ['https://rpc.testnet.arc.network'],
                 blockExplorerUrls: ['https://testnet.arcscan.app'],

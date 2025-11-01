@@ -32,7 +32,7 @@ export const SUPPORTED_CHAINS = {
     name: 'Arc Testnet',
     network: 'arc-testnet',
     nativeCurrency: {
-      decimals: 6,
+      decimals: 18,
       name: 'USDC',
       symbol: 'USDC',
     },
