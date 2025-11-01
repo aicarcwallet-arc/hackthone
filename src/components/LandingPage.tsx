@@ -3,9 +3,10 @@ import { Footer } from './Footer';
 
 interface LandingPageProps {
   onGetStarted: () => void;
+  onNavigate?: (page: 'home' | 'play' | 'swap' | 'withdraw' | 'how' | 'arc-updates' | 'partners' | 'chat') => void;
 }
 
-export function LandingPage({ onGetStarted }: LandingPageProps) {
+export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
   return (
     <div className="min-h-screen bg-gray-950">
       {/* Hero Section */}
@@ -406,7 +407,7 @@ export function LandingPage({ onGetStarted }: LandingPageProps) {
         </div>
       </section>
 
-      <Footer />
+      <Footer onNavigate={onNavigate} />
 
       {/* Floating Enter Portal Button */}
       <button
