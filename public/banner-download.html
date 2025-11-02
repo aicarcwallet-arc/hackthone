@@ -550,20 +550,44 @@
             document.getElementById(version + '-version').classList.add('active');
         }
 
-        function downloadBanner(version) {
+        async function loadImages(container) {
+            const images = container.querySelectorAll('img');
+            const promises = Array.from(images).map(img => {
+                return new Promise((resolve, reject) => {
+                    if (img.complete) {
+                        resolve();
+                    } else {
+                        img.onload = resolve;
+                        img.onerror = reject;
+                    }
+                });
+            });
+            await Promise.all(promises);
+        }
+
+        async function downloadBanner(version) {
             const banner = document.getElementById('banner-' + version);
             const btn = event.target;
 
-            btn.innerHTML = '⏳ Generating PNG...';
+            btn.innerHTML = '⏳ Loading images...';
             btn.disabled = true;
 
-            html2canvas(banner, {
-                scale: 2,
-                backgroundColor: '#0a0f1a',
-                logging: false,
-                width: 1920,
-                height: 1080
-            }).then(canvas => {
+            try {
+                await loadImages(banner);
+
+                btn.innerHTML = '⏳ Generating PNG...';
+
+                const canvas = await html2canvas(banner, {
+                    scale: 2,
+                    backgroundColor: '#0a0f1a',
+                    logging: false,
+                    width: 1920,
+                    height: 1080,
+                    useCORS: true,
+                    allowTaint: true,
+                    removeContainer: false
+                });
+
                 const link = document.createElement('a');
                 link.download = 'aic-hackathon-banner-' + version + '-1920x1080.png';
                 link.href = canvas.toDataURL('image/png', 1.0);
@@ -575,11 +599,11 @@
                 setTimeout(() => {
                     btn.innerHTML = '📥 Download ' + (version === 'white' ? 'White' : 'Blue') + ' Version (PNG)';
                 }, 3000);
-            }).catch(err => {
+            } catch (err) {
                 console.error('Download failed:', err);
                 btn.innerHTML = '❌ Failed - Try Again';
                 btn.disabled = false;
-            });
+            }
         }
     </script>
 </body>
