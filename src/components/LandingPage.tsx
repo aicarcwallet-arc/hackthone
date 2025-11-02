@@ -51,31 +51,39 @@ export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
                 <ArrowRight className="w-6 h-6 sm:w-7 sm:h-7 group-hover:translate-x-1 transition-transform" />
               </button>
 
-              <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
-                <p className="text-xs sm:text-sm text-gray-400 text-center">Get the Native App:</p>
-                <div className="flex gap-3">
-                  <a
-                    href="/aic-token.apk"
-                    download
-                    className="group inline-flex items-center gap-2 bg-[#3DDC84] hover:bg-[#34c471] text-black font-semibold px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-sm sm:text-base shadow-lg hover:shadow-[0_0_20px_rgba(61,220,132,0.5)] transition-all active:scale-95"
-                  >
-                    <Smartphone className="w-4 h-4 sm:w-5 sm:h-5" />
-                    <span>Android APK</span>
-                  </a>
-                  <a
-                    href="/aic-token.ipa"
-                    download
-                    className="group inline-flex items-center gap-2 bg-black hover:bg-gray-900 text-white font-semibold px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-sm sm:text-base shadow-lg border border-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all active:scale-95"
-                  >
-                    <Apple className="w-4 h-4 sm:w-5 sm:h-5" />
-                    <span>iOS IPA</span>
-                  </a>
+              <div className="flex flex-col items-center gap-4 mt-6">
+                <div className="bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-xl p-4 border border-green-500/30 max-w-md">
+                  <div className="flex items-start gap-3">
+                    <div className="bg-green-500/20 p-2 rounded-lg">
+                      <Smartphone className="w-5 h-5 text-green-400" />
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-white font-semibold text-sm mb-1">📱 Install as Mobile App (PWA)</h4>
+                      <p className="text-xs text-gray-300 mb-2">
+                        Works like a native app! Install directly from your mobile browser:
+                      </p>
+                      <div className="space-y-1.5 text-xs text-gray-400">
+                        <p className="flex items-center gap-2">
+                          <span className="text-green-400">✓</span>
+                          <span><strong>Android:</strong> Tap "Add to Home Screen" in Chrome</span>
+                        </p>
+                        <p className="flex items-center gap-2">
+                          <span className="text-green-400">✓</span>
+                          <span><strong>iOS:</strong> Tap Share → "Add to Home Screen" in Safari</span>
+                        </p>
+                        <p className="flex items-center gap-2">
+                          <span className="text-cyan-400">⚡</span>
+                          <span>Instant USDC rewards on Arc Network</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              <p className="text-xs sm:text-sm text-gray-400 animate-bounce-slow">
-                👆 Choose web portal or download native app
-              </p>
+                <p className="text-xs sm:text-sm text-gray-400">
+                  🎓 Learn blockchain anywhere, earn real USDC
+                </p>
+              </div>
             </div>
           </div>
 
