@@ -327,7 +327,7 @@ Return to landing page
 │  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━         │
 │                                             │
 │  Twitter:  @shaziasayeed                    │
-│  LinkedIn: linkedin.com/in/shazia-sayeed    │
+│  LinkedIn: www.linkedin.com/in/shazsayee    │
 │  Email:    shazia@aictoken.io               │
 │                                             │
 │  Designed by Shazia Sayeed with ❤️          │

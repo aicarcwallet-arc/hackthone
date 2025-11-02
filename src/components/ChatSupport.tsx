@@ -1,6 +1,47 @@
-import { Mail, MessageCircle, Clock, Phone, ExternalLink } from 'lucide-react';
+import { useState } from 'react';
+import { Mail, MessageCircle, Clock, Phone, ExternalLink, Bot, Send, X } from 'lucide-react';
 
 export function ChatSupport() {
+  const [showAIChat, setShowAIChat] = useState(false);
+  const [messages, setMessages] = useState<Array<{role: 'user' | 'ai', text: string}>>([
+    { role: 'ai', text: 'Hi! I\'m your AI Partner Support Agent. Ask me about AiC tokens, USDC swaps, Arc Network, or partnerships!' }
+  ]);
+  const [input, setInput] = useState('');
+
+  const handleAIResponse = (userMessage: string) => {
+    const lowerMsg = userMessage.toLowerCase();
+
+    if (lowerMsg.includes('aic') || lowerMsg.includes('token')) {
+      return 'AiC (AI Cognitive) tokens are instant rewards you earn by answering vocabulary questions correctly. Each correct answer = instant AiC tokens! You can swap them 1:1 for USDC anytime.';
+    }
+    if (lowerMsg.includes('swap') || lowerMsg.includes('usdc')) {
+      return 'Swap AiC to USDC instantly at 1:1 ratio on Arc Network. Lightning-fast transactions with minimal fees. Go to the Swap page to convert your earnings!';
+    }
+    if (lowerMsg.includes('arc') || lowerMsg.includes('network')) {
+      return 'Arc Network is a lightning-fast EVM Layer 1 with native USDC and sub-second finality. No bridging needed - USDC is native gas!';
+    }
+    if (lowerMsg.includes('partner') || lowerMsg.includes('collaborate')) {
+      return 'Interested in partnering? Email shaz@aictokenwordgame.com or connect with Shazia on LinkedIn: www.linkedin.com/in/shazsayee';
+    }
+    if (lowerMsg.includes('claim') || lowerMsg.includes('withdraw')) {
+      return 'Claim your earned AiC tokens from the dashboard. They mint instantly to your wallet. Then swap to USDC whenever you want!';
+    }
+    if (lowerMsg.includes('how') || lowerMsg.includes('work')) {
+      return 'Simple: 1) Play vocabulary game 2) Earn AiC tokens instantly 3) Claim to wallet 4) Swap to USDC anytime. All on Arc Network!';
+    }
+    return 'Great question! For detailed support, email shaz@aictokenwordgame.com or connect on LinkedIn: www.linkedin.com/in/shazsayee';
+  };
+
+  const sendMessage = () => {
+    if (!input.trim()) return;
+
+    const userMsg = { role: 'user' as const, text: input };
+    const aiResponse = { role: 'ai' as const, text: handleAIResponse(input) };
+
+    setMessages(prev => [...prev, userMsg, aiResponse]);
+    setInput('');
+  };
+
   return (
     <div className="space-y-8">
       <div className="text-center mb-12">
@@ -8,8 +49,60 @@ export function ChatSupport() {
           Chat With Us
         </h2>
         <p className="text-lg text-gray-300">
-          24/7 support for all your questions and needs
+          24/7 AI-powered support + human team
         </p>
+      </div>
+
+      <div className="bg-gradient-to-br from-purple-500/10 to-pink-600/10 rounded-2xl p-8 border border-purple-500/30 mb-8">
+        <div className="flex items-center gap-3 mb-6">
+          <Bot className="w-10 h-10 text-purple-400" />
+          <h3 className="text-2xl font-bold text-white">AI Partner Support Agent</h3>
+        </div>
+        <p className="text-gray-300 mb-6">
+          Get instant answers about AiC tokens, swaps, Arc Network, and partnerships from our intelligent AI agent trained on all platform knowledge.
+        </p>
+        <button
+          onClick={() => setShowAIChat(!showAIChat)}
+          className="w-full bg-gradient-to-r from-purple-500 to-pink-600 text-white px-8 py-4 rounded-lg font-bold hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] transition-all flex items-center justify-center gap-2"
+        >
+          <Bot className="w-5 h-5" />
+          {showAIChat ? 'Close AI Agent' : 'Chat with AI Agent'}
+        </button>
+
+        {showAIChat && (
+          <div className="mt-6 bg-gray-900/50 rounded-xl border border-purple-500/30 overflow-hidden">
+            <div className="h-96 overflow-y-auto p-4 space-y-4">
+              {messages.map((msg, idx) => (
+                <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div className={`max-w-[80%] rounded-lg p-3 ${
+                    msg.role === 'user'
+                      ? 'bg-cyan-500/20 border border-cyan-500/30 text-white'
+                      : 'bg-purple-500/20 border border-purple-500/30 text-gray-200'
+                  }`}>
+                    {msg.role === 'ai' && <Bot className="w-4 h-4 inline mr-2 text-purple-400" />}
+                    {msg.text}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="border-t border-purple-500/30 p-4 flex gap-2">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+                placeholder="Ask about AiC tokens, swaps, partnerships..."
+                className="flex-1 bg-gray-800 text-white px-4 py-3 rounded-lg border border-purple-500/30 focus:border-purple-500 focus:outline-none"
+              />
+              <button
+                onClick={sendMessage}
+                className="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-lg font-bold transition-all flex items-center gap-2"
+              >
+                <Send className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="grid md:grid-cols-2 gap-8">

@@ -65,7 +65,7 @@
 ## 📞 Connect With Me
 
 **Twitter:** @shaziasayeed
-**LinkedIn:** linkedin.com/in/shazia-sayeed
+**LinkedIn:** www.linkedin.com/in/shazsayee
 **GitHub:** github.com/shaziasayeed
 **Email:** shazia@aictoken.io
 

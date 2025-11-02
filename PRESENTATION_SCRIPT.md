@@ -366,7 +366,7 @@
 > "I'd love to hear your feedback, answer questions, or discuss collaborations. Find me at:"
 
 - "**Twitter:** @shaziasayeed"
-- "**LinkedIn:** linkedin.com/in/shazia-sayeed"
+- "**LinkedIn:** www.linkedin.com/in/shazsayee"
 - "**GitHub:** github.com/shaziasayeed"
 - "**Email:** shazia@aictoken.io"
 

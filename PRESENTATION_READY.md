@@ -140,7 +140,7 @@ I've created **3 documents** to help you nail your presentation:
 ## 📱 Your Social Links (Share These!)
 
 **Twitter:** @shaziasayeed
-**LinkedIn:** linkedin.com/in/shazia-sayeed
+**LinkedIn:** www.linkedin.com/in/shazsayee
 **GitHub:** github.com/shaziasayeed
 **Email:** shazia@aictoken.io
 
