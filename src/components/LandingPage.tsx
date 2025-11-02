@@ -20,7 +20,7 @@ export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
             </div>
             <p className="text-xs sm:text-sm md:text-base text-cyan-400 mb-6 sm:mb-8 px-2 flex items-center justify-center gap-2 flex-wrap">
               <GraduationCap className="w-4 h-4" />
-              🎓 Learn Basic Blockchain • ⚡ Earn AiC Tokens • Instant Swap to Native USDC on Arc Network Layer 1
+              🎓 Learn Blockchain Basics • ⚡ Earn Instant AiC Token Rewards • 💎 Swap to USDC Anytime
             </p>
             <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 px-2 leading-tight">
               <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
@@ -36,7 +36,7 @@ export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
               </span>
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto px-4">
-              Master blockchain fundamentals and earn <span className="text-cyan-400 font-semibold">AiC tokens</span> with every answer. Instantly swap to native USDC on Arc Network's lightning-fast Layer 1.
+              Master blockchain fundamentals and earn <span className="text-cyan-400 font-semibold">instant AiC token rewards</span> with every correct answer. Swap to USDC anytime on Arc Network's lightning-fast Layer 1.
             </p>
             <p className="text-xs sm:text-sm text-cyan-400 mb-8 sm:mb-12 px-4 font-semibold">
               🚀 Arc Network Layer 1: Native USDC • Flash-Speed Transactions • Get AiC Token Rewards

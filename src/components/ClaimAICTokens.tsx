@@ -29,7 +29,7 @@ export function ClaimAICTokens({ walletAddress, unclaimedAmount, onSuccess }: Cl
 
     try {
       const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-      const endpoint = method === 'wallet' ? 'mint-usdc-reward' : 'circle-instant-payout';
+      const endpoint = 'mint-aic-tokens';
 
       const response = await fetch(`${supabaseUrl}/functions/v1/${endpoint}`, {
         method: 'POST',
@@ -50,7 +50,7 @@ export function ClaimAICTokens({ walletAddress, unclaimedAmount, onSuccess }: Cl
       }
 
       setTxHash(data.txHash || data.transactionId);
-      setSuccessMessage(data.message || 'Rewards claimed successfully!');
+      setSuccessMessage(data.message || `${unclaimedAmount.toFixed(2)} AiC tokens claimed!`);
 
       setTimeout(() => {
         onSuccess();
@@ -79,13 +79,13 @@ export function ClaimAICTokens({ walletAddress, unclaimedAmount, onSuccess }: Cl
             <DollarSign className="w-6 h-6 text-green-400" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-white">Cash Out Your Earnings!</h3>
-            <p className="text-sm text-gray-300">Convert AIC tokens to real money</p>
+            <h3 className="text-lg font-bold text-white">Claim Your AiC Tokens!</h3>
+            <p className="text-sm text-gray-300">Instant rewards to your wallet</p>
           </div>
         </div>
         <div className="text-right">
-          <p className="text-3xl font-bold text-green-400">${usdValue} USD</p>
-          <p className="text-xs text-gray-400">{unclaimedAmount.toFixed(2)} AIC = {unclaimedAmount.toFixed(2)} USDC</p>
+          <p className="text-3xl font-bold text-green-400">{unclaimedAmount.toFixed(2)} AiC</p>
+          <p className="text-xs text-gray-400">≈ ${usdValue} USDC value</p>
         </div>
       </div>
 
@@ -117,12 +117,12 @@ export function ClaimAICTokens({ walletAddress, unclaimedAmount, onSuccess }: Cl
 
       {!showMethodSelector && !isClaiming && !txHash ? (
         <button
-          onClick={() => setShowMethodSelector(true)}
+          onClick={() => handleClaim('wallet')}
           disabled={unclaimedAmount <= 0}
           className="w-full bg-gradient-to-r from-green-500 to-cyan-600 hover:from-green-400 hover:to-cyan-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-bold py-4 px-6 rounded-lg transition-all shadow-[0_0_30px_rgba(34,211,238,0.5)] hover:shadow-[0_0_50px_rgba(34,211,238,0.8)] flex items-center justify-center gap-2 touch-manipulation"
         >
-          <DollarSign className="w-6 h-6" />
-          <span className="text-lg">Get Your ${usdValue} USD Now!</span>
+          <Coins className="w-6 h-6" />
+          <span className="text-lg">Claim {unclaimedAmount.toFixed(2)} AiC Tokens Now!</span>
         </button>
       ) : showMethodSelector && !isClaiming ? (
         <div className="space-y-3">
@@ -182,16 +182,16 @@ export function ClaimAICTokens({ walletAddress, unclaimedAmount, onSuccess }: Cl
         <div className="p-4 bg-cyan-500/20 border border-cyan-500/30 rounded-lg flex items-center gap-3">
           <Loader className="w-6 h-6 animate-spin text-cyan-400 flex-shrink-0" />
           <div className="text-sm text-cyan-300">
-            <div className="font-semibold">Processing your ${usdValue} USD payout...</div>
-            <div className="text-xs text-gray-400 mt-1">Secure, instant transfer in progress</div>
+            <div className="font-semibold">Minting {unclaimedAmount.toFixed(2)} AiC tokens...</div>
+            <div className="text-xs text-gray-400 mt-1">Instant reward in progress</div>
           </div>
         </div>
       )}
 
       {!showMethodSelector && !isClaiming && !txHash && (
         <div className="mt-4 text-xs text-gray-400 text-center">
-          <p className="font-semibold text-green-400">💰 Real money waiting for you!</p>
-          <p className="mt-1">Choose your preferred cash-out method above</p>
+          <p className="font-semibold text-green-400">💎 AiC tokens earned and ready!</p>
+          <p className="mt-1">Claim now and swap to USDC anytime</p>
         </div>
       )}
     </div>
