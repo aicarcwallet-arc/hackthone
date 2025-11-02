@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download AIC Token Banner (16:9)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1e293b 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            color: white;
+        }
+
+        .container {
+            max-width: 1600px;
+            width: 100%;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header-section h1 {
+            font-size: 42px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #06B6D4 0%, #ffffff 50%, #3B82F6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+
+        .header-section p {
+            font-size: 18px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: rgba(6, 182, 212, 0.1);
+            color: #06B6D4;
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            margin-bottom: 20px;
+        }
+
+        .back-btn:hover {
+            background: rgba(6, 182, 212, 0.15);
+        }
+
+        .banner-preview {
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px solid rgba(6, 182, 212, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(6, 182, 212, 0.3);
+        }
+
+        .banner-wrapper {
+            width: 100%;
+            max-width: 1920px;
+            margin: 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(6, 182, 212, 0.3);
+            position: relative;
+        }
+
+        .banner-image {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16 / 9;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a1f35 50%, #0f172a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gradient-overlay {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(6, 182, 212, 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 80% 50%, rgba(59, 130, 246, 0.2) 0%, transparent 40%);
+        }
+
+        .grid-pattern {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(6, 182, 212, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(6, 182, 212, 0.08) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        .content {
+            position: relative;
+            z-index: 3;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 60px 100px;
+            gap: 60px;
+        }
+
+        .left-section {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            flex: 1;
+        }
+
+        .developer-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .developer-image {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            border: 5px solid rgba(6, 182, 212, 0.8);
+            box-shadow: 0 0 60px rgba(6, 182, 212, 0.9), 0 0 40px rgba(59, 130, 246, 0.6);
+            object-fit: cover;
+        }
+
+        .developer-title {
+            font-size: 14px;
+            color: #06B6D4;
+            font-weight: 800;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            line-height: 1.5;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .token-header {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .token-logo {
+            width: 140px;
+            height: 140px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 50px rgba(6, 182, 212, 0.9));
+        }
+
+        .token-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .title {
+            font-size: 68px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #06B6D4 0%, #ffffff 50%, #3B82F6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -2px;
+            line-height: 0.95;
+        }
+
+        .subtitle {
+            font-size: 26px;
+            color: #94a3b8;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .partnership-text {
+            font-size: 20px;
+            color: #cbd5e1;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        .partnership-text strong {
+            color: #06B6D4;
+            font-weight: 900;
+        }
+
+        .right-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .partner-logos {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .partner-logo {
+            height: 70px;
+            width: auto;
+            object-fit: contain;
+            filter: brightness(1.1) drop-shadow(0 0 30px rgba(6, 182, 212, 0.7));
+        }
+
+        .hackathon-badge {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.3), rgba(59, 130, 246, 0.3));
+            backdrop-filter: blur(15px);
+            padding: 20px 40px;
+            border-radius: 30px;
+            border: 3px solid rgba(6, 182, 212, 0.6);
+            font-size: 20px;
+            font-weight: 900;
+            color: #06B6D4;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(6, 182, 212, 0.5);
+            line-height: 1.5;
+            white-space: nowrap;
+        }
+
+        .download-section {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 50px;
+            background: linear-gradient(135deg, #06B6D4, #3B82F6);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.4);
+            transition: all 0.3s;
+            text-decoration: none;
+            margin: 10px;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(6, 182, 212, 0.6);
+        }
+
+        .download-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .info-box {
+            background: rgba(6, 182, 212, 0.05);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .info-box h3 {
+            color: #06B6D4;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .info-text {
+            color: #94a3b8;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .specs {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .spec-item {
+            background: rgba(6, 182, 212, 0.1);
+            padding: 15px 25px;
+            border-radius: 8px;
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        .spec-label {
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .spec-value {
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .header-section h1 {
+                font-size: 28px;
+            }
+
+            .download-btn {
+                padding: 16px 30px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-btn">
+            ← Back to Home
+        </a>
+
+        <div class="header-section">
+            <h1>Download AIC Token Banner (16:9)</h1>
+            <p>Professional 1920×1080px banner ready for download</p>
+        </div>
+
+        <div class="banner-preview">
+            <div class="banner-wrapper">
+                <div class="banner-image">
+                    <div class="gradient-overlay"></div>
+                    <div class="grid-pattern"></div>
+
+                    <div class="content">
+                        <div class="left-section">
+                            <div class="developer-section">
+                                <img src="/1685460790070.jpeg" alt="Developer" class="developer-image">
+                                <div class="developer-title">Creative Head<br>& Sole Developer</div>
+                            </div>
+
+                            <div class="main-content">
+                                <div class="token-header">
+                                    <img src="/15f0f180-9768-4e8d-bf98-860ab77638b5.png" alt="AIC Token" class="token-logo">
+                                    <div class="token-info">
+                                        <div class="title">AI Cognitive<br>Token</div>
+                                        <div class="subtitle">Learn • Earn • Transform</div>
+                                    </div>
+                                </div>
+                                <div class="partnership-text">In Partnership with <strong>Arc</strong> and <strong>Circle</strong></div>
+                            </div>
+                        </div>
+
+                        <div class="right-section">
+                            <div class="partner-logos">
+                                <img src="/15f0f180-9768-4e8d-bf98-860ab77638b5.png" alt="Arc" class="partner-logo">
+                                <img src="/circle.b8b9d808c4509a1c3043e1a2859807b7a83364094f388457832f020fa02cbc37.png" alt="Circle" class="partner-logo">
+                            </div>
+                            <div class="hackathon-badge">
+                                Circle's AI Agents on Arc<br>Hackathon 2025
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="download-section">
+            <button class="download-btn" onclick="downloadBanner()">
+                📥 Click to Download Banner (PNG)
+            </button>
+        </div>
+
+        <div class="info-box">
+            <h3>📊 How to Download</h3>
+            <p class="info-text">
+                Click the download button above to save the banner as a PNG image.<br>
+                You can also right-click on the banner image and select "Save image as..."
+            </p>
+
+            <div class="specs">
+                <div class="spec-item">
+                    <div class="spec-label">Dimensions</div>
+                    <div class="spec-value">1920 × 1080px</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">Aspect Ratio</div>
+                    <div class="spec-value">16:9</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">Format</div>
+                    <div class="spec-value">PNG</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">Theme</div>
+                    <div class="spec-value">Cyan/Blue</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script>
+        function downloadBanner() {
+            const banner = document.querySelector('.banner-image');
+            const btn = document.querySelector('.download-btn');
+
+            btn.innerHTML = '⏳ Generating PNG...';
+            btn.disabled = true;
+
+            html2canvas(banner, {
+                scale: 2,
+                backgroundColor: '#0a0e1a',
+                logging: false,
+                width: 1920,
+                height: 1080
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'aic-hackathon-banner-1920x1080.png';
+                link.href = canvas.toDataURL('image/png', 1.0);
+                link.click();
+
+                btn.innerHTML = '✅ Downloaded! Click to download again';
+                btn.disabled = false;
+
+                setTimeout(() => {
+                    btn.innerHTML = '📥 Click to Download Banner (PNG)';
+                }, 3000);
+            }).catch(err => {
+                console.error('Download failed:', err);
+                btn.innerHTML = '❌ Failed - Try Again';
+                btn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>

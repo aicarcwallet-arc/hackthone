@@ -77,7 +77,7 @@ export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
               </p>
 
               <a
-                href="/cover-banner-generator.html"
+                href="/banner-download.html"
                 target="_blank"
                 className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 text-white font-bold px-6 py-3 rounded-xl text-sm shadow-lg hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] transition-all active:scale-95 mt-4"
               >
