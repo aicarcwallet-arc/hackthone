@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ArrowDown, Loader2, CheckCircle2, AlertCircle, ExternalLink, RefreshCw } from 'lucide-react';
 import { createPublicClient, createWalletClient, custom, http, formatUnits, parseUnits } from 'viem';
-import { SUPPORTED_CHAINS, getActiveArcExplorerUrl } from '../config/chains';
+import { SUPPORTED_CHAINS, getActiveArcExplorerUrl, getActiveArcChainId } from '../config/chains';
 import { USDC_ADDRESS, ERC20_ABI } from '../config/contracts';
 
 interface SimpleAICConverterProps {
@@ -9,7 +9,7 @@ interface SimpleAICConverterProps {
 }
 
 const AIC_TOKEN_ADDRESS = import.meta.env.VITE_AIC_TOKEN_ADDRESS as `0x${string}` | undefined;
-const CONVERSION_RATE = 100;
+const CONVERSION_RATE = 1;
 
 const SIMPLE_CONVERTER_ABI = [
   {
@@ -38,7 +38,8 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
   const [success, setSuccess] = useState(false);
   const [isLoadingBalance, setIsLoadingBalance] = useState(false);
 
-  const arcChain = SUPPORTED_CHAINS.find(c => c.id === 5042002);
+  const activeChainId = getActiveArcChainId();
+  const arcChain = Object.values(SUPPORTED_CHAINS).find(c => c.id === activeChainId);
 
   useEffect(() => {
     if (walletAddress && AIC_TOKEN_ADDRESS) {
@@ -49,7 +50,7 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
   useEffect(() => {
     if (aicAmount && !isNaN(parseFloat(aicAmount))) {
       const aic = parseFloat(aicAmount);
-      const usdc = aic / CONVERSION_RATE;
+      const usdc = aic * CONVERSION_RATE;
       setUsdcAmount(usdc.toFixed(6));
     } else {
       setUsdcAmount('0');
@@ -197,8 +198,8 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
           <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-2">
             Convert AIC to USDC
           </h2>
-          <p className="text-gray-400 text-sm">
-            Exchange Rate: 100 AIC = 1 USDC
+          <p className="text-green-400 text-base font-semibold">
+            Exchange Rate: 1 AIC = 1 USDC = $1 USD
           </p>
         </div>
 
@@ -319,14 +320,29 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
             )}
           </button>
 
-          <div className="bg-cyan-500/5 border border-cyan-500/20 rounded-lg p-4">
-            <h4 className="text-cyan-400 font-semibold mb-2 text-sm">How it works:</h4>
-            <ul className="text-gray-400 text-xs space-y-1">
-              <li>• Enter amount of AIC you want to convert</li>
-              <li>• Approve the transaction in MetaMask</li>
-              <li>• Receive USDC instantly at 100:1 ratio</li>
-              <li>• Use USDC to withdraw via Bridge, Card, or Bank</li>
+          <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4">
+            <h4 className="text-green-400 font-semibold mb-3 text-sm flex items-center gap-2">
+              💰 How to Cash Out Your Earnings:
+            </h4>
+            <ul className="text-gray-300 text-xs space-y-2">
+              <li className="flex items-start gap-2">
+                <span className="text-green-400 font-bold">1.</span>
+                <span>Play game & earn AIC (10 AIC per correct word)</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-green-400 font-bold">2.</span>
+                <span>Convert AIC to USDC at 1:1 ratio (1 AIC = $1 USD)</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-green-400 font-bold">3.</span>
+                <span>Withdraw via Bridge (to exchange), Virtual Card (spend), or Circle Bank (save)</span>
+              </li>
             </ul>
+            <div className="mt-3 pt-3 border-t border-green-500/20">
+              <p className="text-green-400 font-bold text-sm">
+                Example: 500 AIC = 500 USDC = $500 USD real money!
+              </p>
+            </div>
           </div>
         </div>
       </div>
