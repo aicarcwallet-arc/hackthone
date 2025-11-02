@@ -114,30 +114,40 @@ async function main() {
   console.log('RPC: https://rpc.testnet.arc.network');
   console.log('Constructor args: none\n');
 
-  console.log('STEP 2: Deploy AIC Swap');
+  console.log('STEP 2: Deploy AIC Converter');
   console.log('────────────────────────────');
-  console.log('File: contracts/AICSwap.sol');
+  console.log('File: contracts/AICConverter.sol');
   console.log('Network: Arc Testnet');
   console.log('Constructor args:');
   console.log('  - _aicToken: <AIC_TOKEN_ADDRESS_FROM_STEP_1>');
-  console.log('  - _usdcToken:', USDC_ADDRESS_ARC_TESTNET, '\n');
+  console.log('  - _usdcToken:', USDC_ADDRESS_ARC_TESTNET);
+  console.log('Description: Converts AIC to USDC at 1:1 ratio\n');
 
   console.log('STEP 3: Setup Permissions');
   console.log('────────────────────────────');
   console.log('Call AICToken.addMinter(<YOUR_BACKEND_ADDRESS>)');
   console.log('This allows your game backend to mint rewards\n');
 
-  console.log('STEP 4: Add Initial Liquidity');
+  console.log('STEP 4: Fund the Converter with USDC');
   console.log('────────────────────────────');
-  console.log('1. Approve AIC tokens to AICSwap');
-  console.log('2. Approve USDC tokens to AICSwap');
-  console.log('3. Call AICSwap.addLiquidity(aicAmount, usdcAmount)\n');
+  console.log('1. Get USDC from Circle Faucet (https://faucet.circle.com)');
+  console.log('2. Approve USDC to AICConverter contract');
+  console.log('3. Call AICConverter.addLiquidity(usdcAmount)');
+  console.log('   Example: addLiquidity(10000000000) = Add 10,000 USDC liquidity');
+  console.log('   Note: USDC has 6 decimals, so 1 USDC = 1000000\n');
 
   console.log('📋 Save these addresses to your .env:');
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
   console.log('VITE_AIC_TOKEN_ADDRESS=<your_aic_token_address>');
-  console.log('VITE_AIC_SWAP_ADDRESS=<your_swap_address>');
+  console.log('VITE_AIC_CONVERTER_ADDRESS=<your_converter_address>');
   console.log('VITE_USDC_ADDRESS=' + USDC_ADDRESS_ARC_TESTNET);
+  console.log('\n💡 How the System Works:');
+  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  console.log('1. Players earn AIC tokens by playing the vocabulary game');
+  console.log('2. AIC tokens have 18 decimals (standard ERC20)');
+  console.log('3. Players convert AIC → USDC at 1:1 VALUE ratio');
+  console.log('4. Conversion: 1 AIC (1e18) = 1 USDC (1e6)');
+  console.log('5. Players withdraw USDC via Bridge, Virtual Card, or Circle Bank');
   console.log('\n✅ After deployment, verify on: https://testnet.arcscan.app\n');
 }
 

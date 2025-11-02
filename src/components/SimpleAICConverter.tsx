@@ -9,6 +9,7 @@ interface SimpleAICConverterProps {
 }
 
 const AIC_TOKEN_ADDRESS = import.meta.env.VITE_AIC_TOKEN_ADDRESS as `0x${string}` | undefined;
+const AIC_CONVERTER_ADDRESS = import.meta.env.VITE_AIC_CONVERTER_ADDRESS as `0x${string}` | undefined;
 const CONVERSION_RATE = 1;
 
 const SIMPLE_CONVERTER_ABI = [
@@ -83,8 +84,8 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
   };
 
   const handleConvert = async () => {
-    if (!walletAddress || !window.ethereum || !AIC_TOKEN_ADDRESS || !arcChain) {
-      setError('Please connect your wallet first');
+    if (!walletAddress || !window.ethereum || !AIC_TOKEN_ADDRESS || !AIC_CONVERTER_ADDRESS || !arcChain) {
+      setError('Converter contract not configured. Please deploy the AICConverter contract.');
       return;
     }
 
@@ -120,7 +121,7 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
         address: AIC_TOKEN_ADDRESS,
         abi: ERC20_ABI,
         functionName: 'allowance',
-        args: [walletAddress as `0x${string}`, USDC_ADDRESS],
+        args: [walletAddress as `0x${string}`, AIC_CONVERTER_ADDRESS],
       });
 
       if ((allowance as bigint) < amountInWei) {
@@ -128,7 +129,7 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
           address: AIC_TOKEN_ADDRESS,
           abi: ERC20_ABI,
           functionName: 'approve',
-          args: [USDC_ADDRESS, amountInWei],
+          args: [AIC_CONVERTER_ADDRESS, amountInWei],
           account: walletAddress as `0x${string}`,
         });
 
@@ -136,16 +137,8 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
       }
 
       const convertHash = await walletClient.writeContract({
-        address: USDC_ADDRESS,
-        abi: [
-          {
-            inputs: [{ internalType: 'uint256', name: 'aicAmount', type: 'uint256' }],
-            name: 'convertAICToUSDC',
-            outputs: [],
-            stateMutability: 'nonpayable',
-            type: 'function',
-          },
-        ] as const,
+        address: AIC_CONVERTER_ADDRESS,
+        abi: SIMPLE_CONVERTER_ABI,
         functionName: 'convertAICToUSDC',
         args: [amountInWei],
         account: walletAddress as `0x${string}`,
