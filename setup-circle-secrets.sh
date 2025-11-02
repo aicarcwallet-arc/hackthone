@@ -1,12 +1,10 @@
 #!/bin/bash
 
-# 🔐 Supabase Circle Secrets Setup Script
-# This script helps you add the required Circle API secrets to Supabase
+# 🔵 Circle Integration - Supabase Secrets Setup
+# Run this script to configure your real Circle credentials
 
-echo "🔐 Setting up Circle API secrets for Supabase Edge Functions"
-echo ""
-echo "⚠️  IMPORTANT: These are PLACEHOLDER values until you get real Circle credentials"
-echo "   Your app will still work - it will use manual treasury as fallback"
+echo "🔵 Circle Integration Setup"
+echo "============================"
 echo ""
 
 # Check if supabase CLI is installed
@@ -14,47 +12,58 @@ if ! command -v supabase &> /dev/null
 then
     echo "❌ Supabase CLI not found!"
     echo ""
-    echo "📋 Manual Setup Required:"
+    echo "📋 Manual Setup (via Supabase Dashboard):"
     echo ""
     echo "1. Go to: https://supabase.com/dashboard"
-    echo "2. Select your project"
+    echo "2. Select your project: kujoudvjmhuypxyntrkm"
     echo "3. Navigate to: Settings → Edge Functions → Secrets"
-    echo "4. Add these three secrets:"
+    echo "4. Add these secrets with YOUR values from Circle Console:"
     echo ""
-    echo "   Name: VITE_CIRCLE_API_KEY"
-    echo "   Value: TEST_API_KEY:40958847ed77b73922de0e432f2d0753:8223290588012464cadbde454077fb10"
+    echo "   VITE_CIRCLE_API_KEY"
+    echo "   CIRCLE_WALLET_ID"
+    echo "   CIRCLE_ENTITY_SECRET"
     echo ""
-    echo "   Name: CIRCLE_WALLET_ID"
-    echo "   Value: pending-circle-approval"
-    echo ""
-    echo "   Name: CIRCLE_ENTITY_SECRET"
-    echo "   Value: pending-circle-approval"
-    echo ""
-    echo "5. Click 'Add Secret' for each one"
-    echo ""
-    echo "📖 See SUPABASE_SECRETS_SETUP.md for detailed instructions"
     exit 1
 fi
 
 echo "✅ Supabase CLI found"
 echo ""
-echo "Setting up placeholder secrets..."
+echo "You'll need these from Circle Console:"
+echo "1. API Key (TEST_API_KEY:... or LIVE_API_KEY:...)"
+echo "2. Wallet ID (018xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)"
+echo "3. Entity Secret (optional but recommended)"
 echo ""
 
-# Set VITE_CIRCLE_API_KEY (using the one from .env)
-echo "1️⃣  Setting VITE_CIRCLE_API_KEY..."
-supabase secrets set VITE_CIRCLE_API_KEY=TEST_API_KEY:40958847ed77b73922de0e432f2d0753:8223290588012464cadbde454077fb10
+# Prompt for Circle API Key
+read -p "Enter Circle API Key: " CIRCLE_API_KEY
+if [ -z "$CIRCLE_API_KEY" ]; then
+    echo "❌ API Key is required!"
+    exit 1
+fi
 
-# Set CIRCLE_WALLET_ID (placeholder)
-echo "2️⃣  Setting CIRCLE_WALLET_ID..."
-supabase secrets set CIRCLE_WALLET_ID=pending-circle-approval
+# Prompt for Circle Wallet ID
+read -p "Enter Circle Wallet ID: " CIRCLE_WALLET_ID
+if [ -z "$CIRCLE_WALLET_ID" ]; then
+    echo "❌ Wallet ID is required!"
+    exit 1
+fi
 
-# Set CIRCLE_ENTITY_SECRET (placeholder)
-echo "3️⃣  Setting CIRCLE_ENTITY_SECRET..."
-supabase secrets set CIRCLE_ENTITY_SECRET=pending-circle-approval
+# Prompt for Entity Secret (optional)
+read -p "Enter Circle Entity Secret (press Enter to skip): " CIRCLE_ENTITY_SECRET
+if [ -z "$CIRCLE_ENTITY_SECRET" ]; then
+    CIRCLE_ENTITY_SECRET="not-configured"
+fi
 
 echo ""
-echo "✅ All secrets set successfully!"
+echo "🔑 Setting Supabase Secrets..."
+
+# Set secrets in Supabase
+supabase secrets set VITE_CIRCLE_API_KEY="$CIRCLE_API_KEY"
+supabase secrets set CIRCLE_WALLET_ID="$CIRCLE_WALLET_ID"
+supabase secrets set CIRCLE_ENTITY_SECRET="$CIRCLE_ENTITY_SECRET"
+
+echo ""
+echo "✅ Circle secrets configured!"
 echo ""
 echo "🔍 Verifying secrets..."
 supabase secrets list
@@ -62,17 +71,8 @@ supabase secrets list
 echo ""
 echo "✅ Setup Complete!"
 echo ""
-echo "📊 What happens now:"
-echo "  • Your app will try to use Circle API"
-echo "  • Circle API will fail (placeholder values)"
-echo "  • System automatically falls back to manual treasury"
-echo "  • Everything still works perfectly!"
-echo ""
-echo "🎯 When you get real Circle credentials:"
-echo "  1. Run: supabase secrets set VITE_CIRCLE_API_KEY=<real-key>"
-echo "  2. Run: supabase secrets set CIRCLE_WALLET_ID=<real-wallet-id>"
-echo "  3. Run: supabase secrets set CIRCLE_ENTITY_SECRET=<real-secret>"
-echo "  4. System automatically switches to unlimited Circle minting!"
-echo ""
-echo "📖 See SUPABASE_SECRETS_SETUP.md for more details"
+echo "Next steps:"
+echo "1. Deploy edge functions: supabase functions deploy circle-instant-payout"
+echo "2. Fund Circle wallet with USDC"
+echo "3. Test the payout flow"
 echo ""
