@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Minter to AIC Contract</title>
+  <script src="https://cdn.jsdelivr.net/npm/viem@2.21.54/dist/viem.min.js"></script>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #0f172a;
+      color: white;
+    }
+    .container {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 30px;
+    }
+    h1 {
+      color: #22d3ee;
+      margin-bottom: 20px;
+    }
+    .info {
+      background: #334155;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px 0;
+      font-family: monospace;
+      font-size: 14px;
+    }
+    button {
+      background: linear-gradient(to right, #22d3ee, #3b82f6);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 20px;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+    button:disabled {
+      background: #475569;
+      cursor: not-allowed;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      display: none;
+    }
+    .success {
+      background: #166534;
+      border: 1px solid #22c55e;
+      color: #86efac;
+    }
+    .error {
+      background: #7f1d1d;
+      border: 1px solid #ef4444;
+      color: #fca5a5;
+    }
+    .warning {
+      background: #78350f;
+      border: 1px solid #f59e0b;
+      color: #fcd34d;
+    }
+    .step {
+      background: #334155;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border-left: 4px solid #22d3ee;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔑 Add Minter to AIC Token Contract</h1>
+
+    <div class="warning" style="display: block; margin-bottom: 20px;">
+      <strong>⚠️ Important:</strong> You must be the contract owner to add a minter. Make sure you're connected with the wallet that deployed the AIC token contract.
+    </div>
+
+    <div class="step">
+      <strong>Step 1:</strong> Connect your wallet (the one that deployed the AIC contract)
+    </div>
+
+    <div class="step">
+      <strong>Step 2:</strong> Make sure you're on Arc Testnet
+    </div>
+
+    <div class="step">
+      <strong>Step 3:</strong> Click "Add Minter" to authorize the game minter address
+    </div>
+
+    <div class="info">
+      <div><strong>AIC Token Contract:</strong></div>
+      <div>0x4B71cD610AfCCDf0B02d566dA0071C74444a8666</div>
+      <div style="margin-top: 15px;"><strong>Minter Address (Game Backend):</strong></div>
+      <div>0x43909cce967BE2Ba4D44836A99b67040BF53f05a</div>
+    </div>
+
+    <button id="addMinterBtn" onclick="addMinter()">Add Minter</button>
+
+    <div id="result" class="result"></div>
+  </div>
+
+  <script>
+    const AIC_TOKEN_ADDRESS = '0x4B71cD610AfCCDf0B02d566dA0071C74444a8666';
+    const MINTER_ADDRESS = '0x43909cce967BE2Ba4D44836A99b67040BF53f05a';
+
+    const AIC_TOKEN_ABI = [
+      {
+        inputs: [{ internalType: 'address', name: 'minter', type: 'address' }],
+        name: 'addMinter',
+        outputs: [],
+        stateMutability: 'nonpayable',
+        type: 'function',
+      },
+      {
+        inputs: [{ internalType: 'address', name: '', type: 'address' }],
+        name: 'minters',
+        outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+        stateMutability: 'view',
+        type: 'function',
+      },
+    ];
+
+    const ARC_TESTNET = {
+      id: 333333,
+      name: 'Arc Testnet',
+      nativeCurrency: { name: 'USDC', symbol: 'USDC', decimals: 6 },
+      rpcUrls: {
+        default: { http: ['https://rpc.testnet.arc.network'] },
+        public: { http: ['https://rpc.testnet.arc.network'] },
+      },
+      blockExplorers: {
+        default: { name: 'ArcScan', url: 'https://testnet.arcscan.com' },
+      },
+    };
+
+    function showResult(message, type) {
+      const result = document.getElementById('result');
+      result.className = `result ${type}`;
+      result.innerHTML = message;
+      result.style.display = 'block';
+    }
+
+    async function addMinter() {
+      const btn = document.getElementById('addMinterBtn');
+      btn.disabled = true;
+      btn.textContent = 'Processing...';
+
+      try {
+        if (!window.ethereum) {
+          throw new Error('MetaMask not found. Please install MetaMask.');
+        }
+
+        // Request account access
+        const accounts = await window.ethereum.request({
+          method: 'eth_requestAccounts'
+        });
+
+        if (!accounts || accounts.length === 0) {
+          throw new Error('No accounts found');
+        }
+
+        // Check network
+        const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+        if (parseInt(chainId, 16) !== 333333) {
+          showResult('⚠️ Please switch to Arc Testnet first!', 'warning');
+          btn.disabled = false;
+          btn.textContent = 'Add Minter';
+          return;
+        }
+
+        showResult('📝 Sending transaction... Please confirm in MetaMask', 'warning');
+
+        // Create wallet client
+        const walletClient = viem.createWalletClient({
+          account: accounts[0],
+          chain: ARC_TESTNET,
+          transport: viem.custom(window.ethereum),
+        });
+
+        // Call addMinter
+        const hash = await walletClient.writeContract({
+          address: AIC_TOKEN_ADDRESS,
+          abi: AIC_TOKEN_ABI,
+          functionName: 'addMinter',
+          args: [MINTER_ADDRESS],
+          gasPrice: viem.parseUnits('5', 6),
+        });
+
+        showResult(
+          `✅ Success! Minter added.<br><br>` +
+          `<strong>Transaction Hash:</strong><br>${hash}<br><br>` +
+          `<a href="https://testnet.arcscan.com/tx/${hash}" target="_blank" style="color: #86efac;">View on Explorer →</a><br><br>` +
+          `<strong>Now you can claim your AIC tokens from the Dashboard!</strong>`,
+          'success'
+        );
+
+      } catch (error) {
+        console.error('Error:', error);
+        showResult(`❌ Error: ${error.message}`, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Add Minter';
+      }
+    }
+
+    // Check if already a minter on load
+    window.addEventListener('load', async () => {
+      if (window.ethereum) {
+        try {
+          const publicClient = viem.createPublicClient({
+            chain: ARC_TESTNET,
+            transport: viem.http('https://rpc.testnet.arc.network'),
+          });
+
+          const isMinter = await publicClient.readContract({
+            address: AIC_TOKEN_ADDRESS,
+            abi: AIC_TOKEN_ABI,
+            functionName: 'minters',
+            args: [MINTER_ADDRESS],
+          });
+
+          if (isMinter) {
+            showResult(
+              '✅ Minter is already authorized! You can now claim your AIC tokens from the Dashboard.',
+              'success'
+            );
+            document.getElementById('addMinterBtn').disabled = true;
+            document.getElementById('addMinterBtn').textContent = 'Minter Already Added';
+          }
+        } catch (err) {
+          console.log('Could not check minter status:', err);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
