@@ -4,6 +4,7 @@ import { getAICBalance, getAddressExplorerUrl, isOnArcNetwork, switchToArcNetwor
 import { useAICToken } from '../hooks/useAICToken';
 import { NetworkStatusIndicator } from './NetworkStatusBanner';
 import { ClaimAICTokens } from './ClaimAICTokens';
+import { CircleDemoWidget } from './CircleDemoWidget';
 import type { Address } from 'viem';
 
 interface WalletDashboardProps {
@@ -122,6 +123,10 @@ export function WalletDashboard({ walletAddress, userId, onDisconnect }: WalletD
 
   return (
     <div className="mb-8 sm:mb-12">
+      <CircleDemoWidget
+        treasuryBalance={parseFloat(usdcBalance)}
+        pendingRequests={unclaimedAmount > 0 ? 1 : 0}
+      />
       {unclaimedAmount > 0 && (
         <ClaimAICTokens
           walletAddress={walletAddress}
