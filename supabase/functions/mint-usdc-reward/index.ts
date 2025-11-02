@@ -85,7 +85,7 @@ Deno.serve(async (req: Request) => {
       : `0x${treasuryPrivateKey}`;
 
     const rpcUrl = Deno.env.get("ARC_TESTNET_RPC_URL") || "https://rpc.testnet.arc.network";
-    const usdcTokenAddress = "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238" as `0x${string}`;
+    const usdcTokenAddress = "0x3600000000000000000000000000000000000000" as `0x${string}`;
 
     const { data: userData, error: userError } = await supabase
       .from("users")

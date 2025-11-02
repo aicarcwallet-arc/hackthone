@@ -1,6 +1,6 @@
 export const AIC_TOKEN_ADDRESS = import.meta.env.VITE_AIC_TOKEN_ADDRESS as `0x${string}`;
 export const AIC_SWAP_ADDRESS = import.meta.env.VITE_AIC_SWAP_ADDRESS as `0x${string}`;
-export const USDC_ADDRESS = import.meta.env.VITE_USDC_ADDRESS as `0x${string}` || '0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238';
+export const USDC_ADDRESS = import.meta.env.VITE_USDC_ADDRESS as `0x${string}` || '0x3600000000000000000000000000000000000000';
 
 export const AIC_TOKEN_ABI = [
   {
