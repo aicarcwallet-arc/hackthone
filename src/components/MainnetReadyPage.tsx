@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Rocket, CheckCircle, Zap, DollarSign, Globe2, Code, Heart, Users, TrendingUp, Sparkles, ArrowRight, ExternalLink } from 'lucide-react';
+import { Rocket, CheckCircle, Zap, DollarSign, Globe2, Code, Heart, Users, TrendingUp, Sparkles, ArrowRight, ExternalLink, FileText } from 'lucide-react';
 
 export function MainnetReadyPage() {
   const [activeSection, setActiveSection] = useState<'overview' | 'technical' | 'funding'>('overview');
@@ -433,15 +433,35 @@ export function MainnetReadyPage() {
             Change one variable, update addresses, redeploy contracts. Launch in minutes!
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <a
-              href="https://github.com/your-repo"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white px-8 py-4 rounded-lg font-bold transition-all shadow-[0_0_30px_rgba(34,197,94,0.5)]"
-            >
-              View Documentation
-              <ArrowRight className="w-5 h-5" />
-            </a>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <a
+                href="/ARC_MAINNET_MIGRATION.md"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white px-6 py-3 rounded-lg font-bold transition-all shadow-[0_0_30px_rgba(34,197,94,0.5)] text-sm sm:text-base"
+              >
+                <FileText className="w-4 h-4" />
+                <span>Migration Guide</span>
+              </a>
+              <a
+                href="/COMPLETE_ECOSYSTEM_SUMMARY.md"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-cyan-600 hover:from-emerald-400 hover:to-cyan-500 text-white px-6 py-3 rounded-lg font-bold transition-all shadow-[0_0_30px_rgba(16,185,129,0.5)] text-sm sm:text-base"
+              >
+                <FileText className="w-4 h-4" />
+                <span>Full Docs</span>
+              </a>
+              <a
+                href="/QUICK_START.md"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white px-6 py-3 rounded-lg font-bold transition-all shadow-[0_0_30px_rgba(34,211,238,0.5)] text-sm sm:text-base"
+              >
+                <FileText className="w-4 h-4" />
+                <span>Quick Start</span>
+              </a>
+            </div>
             <a
               href="https://testnet.arcscan.app"
               target="_blank"
