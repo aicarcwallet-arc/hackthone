@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { LandingPage } from './components/LandingPage';
 import { BridgeInterface } from './components/BridgeInterface';
 import { BurnPegInterface } from './components/BurnPegInterface';
+import { SimpleAICConverter } from './components/SimpleAICConverter';
 import { VocabularyGame } from './components/VocabularyGame';
 import { TransactionAccelerator } from './components/TransactionAccelerator';
 import { TransactionHistory } from './components/TransactionHistory';
@@ -21,10 +22,10 @@ import { ChatSupport } from './components/ChatSupport';
 import { TreasuryFunder } from './components/TreasuryFunder';
 import { MainnetReadyPage } from './components/MainnetReadyPage';
 import { useAICToken } from './hooks/useAICToken';
-import { Send, Trophy, History, Flame, Zap, CreditCard, Building2 } from 'lucide-react';
+import { Send, Trophy, History, Flame, Zap, CreditCard, Building2, ArrowRightLeft } from 'lucide-react';
 import { supabase } from './lib/supabase';
 
-type Tab = 'game' | 'bridge' | 'burn' | 'history' | 'accelerator' | 'card' | 'banking';
+type Tab = 'game' | 'bridge' | 'convert' | 'burn' | 'history' | 'accelerator' | 'card' | 'banking';
 type Page = 'home' | 'play' | 'withdraw' | 'how' | 'arc-updates' | 'partners' | 'chat' | 'fund-treasury' | 'mainnet-ready';
 
 function App() {
@@ -562,6 +563,20 @@ function App() {
                 </button>
                 <button
                   onClick={() => {
+                    console.log('Convert tab clicked');
+                    setActiveTab('convert');
+                  }}
+                  className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-3 rounded-md font-medium text-sm transition-all touch-manipulation whitespace-nowrap ${
+                    activeTab === 'convert'
+                      ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-[0_0_20px_rgba(34,197,94,0.5)]'
+                      : 'text-gray-300 hover:bg-green-500/20'
+                  }`}
+                >
+                  <ArrowRightLeft className="w-4 h-4" />
+                  <span>Convert</span>
+                </button>
+                <button
+                  onClick={() => {
                     console.log('Burn tab clicked');
                     setActiveTab('burn');
                   }}
@@ -648,6 +663,11 @@ function App() {
           {activeTab === 'bridge' && (
             <div className="max-w-5xl mx-auto">
               <BridgeInterface />
+            </div>
+          )}
+          {activeTab === 'convert' && (
+            <div className="max-w-5xl mx-auto">
+              <SimpleAICConverter walletAddress={connectedAddress || undefined} />
             </div>
           )}
           {activeTab === 'card' && (
