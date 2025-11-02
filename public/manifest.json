@@ -1,7 +1,7 @@
 {
-  "name": "AIC Token - Earn & Swap USDC",
-  "short_name": "AIC Token",
-  "description": "Type blockchain words and earn USDC rewards instantly. Powered by Circle and Arc Blockchain.",
+  "name": "AIC Token - Learn Blockchain, Earn USDC",
+  "short_name": "AIC Learn",
+  "description": "Learn blockchain fundamentals and earn instant USDC rewards on Arc Network. Lightning-fast transactions, native USDC, real digital wealth.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0a0a",
@@ -56,21 +56,21 @@
       "purpose": "any"
     }
   ],
-  "categories": ["finance", "games", "productivity", "education"],
+  "categories": ["education", "finance", "games", "productivity"],
   "screenshots": [
     {
       "src": "/aic toekn  copy.png",
       "sizes": "540x720",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "AIC Token Gameplay"
+      "label": "Learn Blockchain & Earn USDC"
     }
   ],
   "shortcuts": [
     {
-      "name": "Play Game",
-      "short_name": "Play",
-      "description": "Start earning AIC tokens",
+      "name": "Learn & Earn",
+      "short_name": "Learn",
+      "description": "Learn blockchain basics, earn USDC",
       "url": "/?tab=game",
       "icons": [
         {
@@ -81,9 +81,9 @@
       ]
     },
     {
-      "name": "Swap Tokens",
-      "short_name": "Swap",
-      "description": "Swap AIC to USDC",
+      "name": "Claim Rewards",
+      "short_name": "Claim",
+      "description": "Claim your earned USDC rewards",
       "url": "/?tab=swap",
       "icons": [
         {

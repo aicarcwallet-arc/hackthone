@@ -1,22 +1,32 @@
-# 📱 Mobile Setup Guide - MetaMask Mobile
+# 📱 Mobile Setup Guide - Learn Blockchain on the Go
 
-## ✅ What Got Fixed for Mobile
+## 🎓 Mobile Learn-to-Earn Experience
+
+### **Educational Mobile App Features**
+- 📚 Learn blockchain basics anytime, anywhere
+- ⚡ Instant USDC rewards on Arc Network
+- 💎 Lightning-fast transactions (2-3 seconds)
+- 🎮 Interactive vocabulary games
+- 💰 Track your learning progress & earnings
 
 ### **1. MetaMask Mobile Deep Linking**
 - Auto-detects mobile devices
 - Redirects to MetaMask app when not installed
 - Opens website inside MetaMask browser
+- One-tap wallet connection
 
-### **2. Mobile-Optimized UI**
-- Touch-friendly buttons (min 44px height)
-- Responsive text sizes (sm, md, lg breakpoints)
-- No zoom on input focus (16px font minimum)
+### **2. Mobile-Optimized Educational UI**
+- Touch-friendly buttons for easy learning (min 44px)
+- Readable text on all devices (responsive sizing)
+- No zoom interruptions during study
 - Safe area insets for notched devices
+- Smooth animations for progress feedback
 
 ### **3. Welcome Guide Mobile Detection**
 - Shows iOS/Android app store links
 - "Open in MetaMask App" button on mobile
 - Desktop shows regular download link
+- Educational onboarding flow
 
 ---
 
@@ -49,19 +59,22 @@ Android: https://play.google.com/store/apps/details?id=io.metamask
 
 ### **Method 2: Deep Link from Regular Browser**
 
-**Step 1: User Opens Your Site**
-- User visits site in Safari/Chrome
-- Sees "Connect Wallet" button
+**Step 1: Student Discovers Platform**
+- Student visits learning site in Safari/Chrome
+- Sees "Learn Blockchain & Earn USDC" message
+- Taps "Connect Wallet" button
 
-**Step 2: Click Connect**
+**Step 2: Auto-Redirect to MetaMask**
 - App detects mobile device
 - Redirects to MetaMask deep link
 - Format: `metamask.app.link/dapp/yoursite.com`
 
-**Step 3: Opens in MetaMask**
+**Step 3: Opens in MetaMask & Start Learning**
 - MetaMask app launches automatically
-- Loads your site inside MetaMask browser
-- Ready to connect!
+- Loads learning platform inside MetaMask browser
+- Ready to learn blockchain basics!
+- Earn first USDC in under 5 minutes
+- Lightning-fast rewards on Arc Network
 
 ---
 

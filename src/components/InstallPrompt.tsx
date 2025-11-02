@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Download, X, Smartphone } from 'lucide-react';
+import { Download, X, Smartphone, GraduationCap } from 'lucide-react';
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -75,12 +75,12 @@ export function InstallPrompt() {
 
           <div className="flex items-start gap-3">
             <div className="bg-white/20 p-2.5 rounded-lg flex-shrink-0 shadow-lg">
-              <Smartphone className="w-6 h-6 text-white" />
+              <GraduationCap className="w-6 h-6 text-white" />
             </div>
             <div className="flex-1 pr-6">
-              <h3 className="text-white font-bold mb-1.5 text-base">Install AIC Token App</h3>
+              <h3 className="text-white font-bold mb-1.5 text-base">Learn Blockchain, Earn USDC</h3>
               <p className="text-white/95 text-sm mb-3 leading-relaxed">
-                Add to your home screen for quick access and offline support
+                Install app to learn blockchain basics & earn instant USDC rewards on Arc Network
               </p>
               <div className="bg-white/20 rounded-lg p-3 text-sm text-white space-y-2 backdrop-blur-sm">
                 <p className="flex items-center gap-2">
@@ -116,12 +116,12 @@ export function InstallPrompt() {
 
         <div className="flex items-start gap-3">
           <div className="bg-white/20 p-2.5 rounded-lg flex-shrink-0 shadow-lg">
-            <Download className="w-6 h-6 text-white" />
+            <GraduationCap className="w-6 h-6 text-white" />
           </div>
           <div className="flex-1 pr-6">
-            <h3 className="text-white font-bold mb-1.5 text-base">Install AIC Token App</h3>
+            <h3 className="text-white font-bold mb-1.5 text-base">Learn Blockchain, Earn USDC</h3>
             <p className="text-white/95 text-sm mb-3 leading-relaxed">
-              Install as a native app for faster access and offline support
+              Install app to learn blockchain basics & earn instant USDC rewards on Arc Network's lightning-fast network
             </p>
             <button
               onClick={handleInstallClick}

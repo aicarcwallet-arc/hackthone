@@ -1,14 +1,15 @@
-# 📱 AIC Token PWA - Install as Native App
+# 📱 Learn Blockchain on the Go - Install Native App
 
-Your AIC Token app is now a **Progressive Web App (PWA)** that can be installed on mobile devices like a native app!
+Your AIC learning platform is now a **Progressive Web App (PWA)** - install it like a native app and learn blockchain basics anywhere!
 
-## ✨ Features
+## ✨ Educational App Features
 
-- 📲 **Install on Home Screen** - Works like a native mobile app
-- 🚀 **Fast Loading** - Cached assets for instant startup
-- 📴 **Offline Support** - Basic functionality works without internet
-- 🔔 **Full Screen Mode** - No browser UI, pure app experience
-- 💾 **Auto Updates** - Service worker updates automatically
+- 🎓 **Learn Blockchain Anytime** - Master crypto fundamentals on your phone
+- ⚡ **Instant USDC Rewards** - Earn real digital wealth as you learn
+- 🚀 **Lightning-Fast** - Arc Network: 2-3 second transactions
+- 📲 **Native App Feel** - Works like a native mobile app
+- 📴 **Learn Offline** - Study blockchain terms without internet
+- 💾 **Auto Updates** - Always get the latest educational content
 
 ## 📱 Installation Instructions
 
