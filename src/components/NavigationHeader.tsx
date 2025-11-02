@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, X, Home, Gamepad2, CreditCard, Building2, Wallet, BookOpen, Send, Download, Heart } from 'lucide-react';
+import { Menu, X, Home, Gamepad2, CreditCard, Building2, Wallet, BookOpen, Send, Download, Heart, Rocket } from 'lucide-react';
 
 interface NavigationHeaderProps {
   currentPage: string;
@@ -13,6 +13,7 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
 
   const menuItems = [
     { id: 'home', label: 'Home', icon: Home },
+    { id: 'mainnet-ready', label: 'MAINNET READY', icon: Rocket, special: true },
     { id: 'play', label: 'Play & Earn', icon: Gamepad2 },
     { id: 'swap', label: 'Swap', icon: Wallet },
     { id: 'fund-treasury', label: 'Fund Treasury', icon: Heart },
@@ -48,12 +49,17 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
               {menuItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = currentPage === item.id;
+                const isSpecial = item.special;
                 return (
                   <button
                     key={item.id}
                     onClick={() => handleMenuClick(item.id)}
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
-                      isActive
+                      isSpecial
+                        ? isActive
+                          ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-[0_0_25px_rgba(34,197,94,0.6)] animate-pulse font-black'
+                          : 'bg-gradient-to-r from-green-500/80 to-emerald-600/80 text-white shadow-[0_0_20px_rgba(34,197,94,0.4)] hover:shadow-[0_0_30px_rgba(34,197,94,0.6)] animate-pulse font-black'
+                        : isActive
                         ? 'bg-cyan-500/20 text-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.3)]'
                         : 'text-gray-300 hover:bg-gray-800 hover:text-cyan-400'
                     }`}
@@ -98,12 +104,17 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
               {menuItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = currentPage === item.id;
+                const isSpecial = item.special;
                 return (
                   <button
                     key={item.id}
                     onClick={() => handleMenuClick(item.id)}
                     className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-lg font-medium transition-all touch-manipulation min-h-[52px] ${
-                      isActive
+                      isSpecial
+                        ? isActive
+                          ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-[0_0_25px_rgba(34,197,94,0.6)] animate-pulse font-black'
+                          : 'bg-gradient-to-r from-green-500/80 to-emerald-600/80 text-white shadow-[0_0_20px_rgba(34,197,94,0.4)] animate-pulse font-black'
+                        : isActive
                         ? 'bg-cyan-500/20 text-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.3)]'
                         : 'text-gray-300 active:bg-gray-800 active:text-cyan-400 sm:hover:bg-gray-800 sm:hover:text-cyan-400'
                     }`}

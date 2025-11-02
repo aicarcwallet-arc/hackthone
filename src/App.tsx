@@ -22,12 +22,13 @@ import { ArcMainnetUpdates } from './components/ArcMainnetUpdates';
 import { PartnersPage } from './components/PartnersPage';
 import { ChatSupport } from './components/ChatSupport';
 import { TreasuryFunder } from './components/TreasuryFunder';
+import { MainnetReadyPage } from './components/MainnetReadyPage';
 import { useAICToken } from './hooks/useAICToken';
 import { Repeat, Send, Trophy, History, Flame, Zap, CreditCard, Building2 } from 'lucide-react';
 import { supabase } from './lib/supabase';
 
 type Tab = 'game' | 'bridge' | 'swap' | 'burn' | 'history' | 'accelerator' | 'card' | 'banking';
-type Page = 'home' | 'play' | 'swap' | 'withdraw' | 'how' | 'arc-updates' | 'partners' | 'chat' | 'fund-treasury';
+type Page = 'home' | 'play' | 'swap' | 'withdraw' | 'how' | 'arc-updates' | 'partners' | 'chat' | 'fund-treasury' | 'mainnet-ready';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -366,6 +367,25 @@ function App() {
         <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
             <TreasuryFunder walletAddress={connectedAddress || undefined} usdcBalance={usdcBalance} />
+          </div>
+        </div>
+        <Footer onNavigate={handleNavigate} />
+      </>
+    );
+  }
+
+  if (currentPage === 'mainnet-ready') {
+    return (
+      <>
+        <NavigationHeader
+          currentPage={currentPage}
+          onNavigate={handleNavigate}
+          walletAddress={connectedAddress || undefined}
+          onConnectWallet={handleConnectWallet}
+        />
+        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+            <MainnetReadyPage />
           </div>
         </div>
         <Footer onNavigate={handleNavigate} />
