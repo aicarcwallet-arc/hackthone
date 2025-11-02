@@ -2,6 +2,7 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
 import { createWalletClient, http, parseUnits, createPublicClient } from "npm:viem@2.21.54";
 import { privateKeyToAccount } from "npm:viem@2.21.54/accounts";
+import { randomUUID } from "node:crypto";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -44,6 +45,107 @@ const USDC_ABI = [
   },
 ] as const;
 
+async function handleCircleAPITransfer(
+  destinationAddress: string,
+  amount: number,
+  userData: any,
+  supabase: any,
+  apiKey: string,
+  walletId: string,
+  entitySecret: string | undefined
+) {
+  try {
+    const idempotencyKey = randomUUID();
+    const amountInDecimals = amount.toFixed(6);
+
+    let requestBody: any = {
+      idempotencyKey,
+      destinationAddress,
+      amounts: [amountInDecimals],
+      walletId,
+      feeLevel: "MEDIUM",
+      tokenId: "36000000-0000-0000-0000-000000000000",
+    };
+
+    if (entitySecret) {
+      requestBody.entitySecretCiphertext = entitySecret;
+    }
+
+    const circleResponse = await fetch(
+      "https://api.circle.com/v1/w3s/developer/transactions/transfer",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify(requestBody),
+      }
+    );
+
+    const circleData = await circleResponse.json();
+
+    if (!circleResponse.ok) {
+      console.error("Circle API Error:", circleData);
+      return new Response(
+        JSON.stringify({
+          error: "Circle API transfer failed",
+          details: circleData,
+          fallbackMessage: "Falling back to manual treasury. Please configure Circle Wallet ID and Entity Secret in environment variables."
+        }),
+        {
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    await supabase
+      .from("users")
+      .update({ claimed_aic: userData.total_aic_earned })
+      .eq("id", userData.id);
+
+    await supabase.from("token_transactions").insert({
+      user_id: userData.id,
+      transaction_type: "reward",
+      amount: amount,
+      from_token: null,
+      to_token: "USDC",
+      tx_hash: circleData.data?.id || "circle_pending",
+      chain_id: 5042002,
+      status: "pending",
+      confirmed_at: new Date().toISOString(),
+    });
+
+    return new Response(
+      JSON.stringify({
+        success: true,
+        transactionId: circleData.data?.id,
+        amountSent: amount,
+        currency: "USDC",
+        method: "Circle Programmable Wallets",
+        message: "USDC minted and sent via Circle! Unlimited capacity, gasless transaction.",
+        state: circleData.data?.state,
+      }),
+      {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      }
+    );
+  } catch (error: any) {
+    console.error("Circle API Error:", error);
+    return new Response(
+      JSON.stringify({
+        error: "Circle API failed",
+        details: error.message,
+      }),
+      {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      }
+    );
+  }
+}
+
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") {
     return new Response(null, {
@@ -53,7 +155,7 @@ Deno.serve(async (req: Request) => {
   }
 
   try {
-    const { walletAddress } = await req.json();
+    const { walletAddress, useCircleAPI = true } = await req.json();
 
     if (!walletAddress) {
       return new Response(
@@ -68,6 +170,10 @@ Deno.serve(async (req: Request) => {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseKey = Deno.env.get("SUPABASE_ANON_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseKey);
+
+    const circleApiKey = Deno.env.get("VITE_CIRCLE_API_KEY");
+    const circleWalletId = Deno.env.get("CIRCLE_WALLET_ID");
+    const circleEntitySecret = Deno.env.get("CIRCLE_ENTITY_SECRET");
 
     const treasuryPrivateKey = Deno.env.get("GAME_MINTER_PRIVATE_KEY");
     if (!treasuryPrivateKey) {
@@ -118,6 +224,18 @@ Deno.serve(async (req: Request) => {
           status: 400,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         }
+      );
+    }
+
+    if (useCircleAPI && circleApiKey && circleWalletId) {
+      return await handleCircleAPITransfer(
+        walletAddress,
+        unclaimedAmount,
+        userData,
+        supabase,
+        circleApiKey,
+        circleWalletId,
+        circleEntitySecret
       );
     }
 

@@ -1,10 +1,24 @@
 # 🏦 USDC Treasury Setup Guide
 
-## Treasury Wallet Information
+## ⚡ NEW: Circle Programmable Wallets (Unlimited USDC!)
+
+**We now support Circle Programmable Wallets for unlimited USDC minting!**
+
+See **[CIRCLE_WALLET_SETUP.md](./CIRCLE_WALLET_SETUP.md)** for the new setup guide.
+
+### Why Circle?
+- ✅ Unlimited USDC capacity (no pre-funding)
+- ✅ Gasless transactions
+- ✅ Professional infrastructure
+- ✅ Automatic minting on-demand
+
+---
+
+## Legacy: Manual Treasury Wallet (Old Method)
 
 **Treasury Address:** `0x97b554b7e0460b47004391a75f1561D353aA3435`
 
-This wallet is used to distribute USDC rewards to players who earn points in the word game.
+This wallet is used as a fallback when Circle API is not configured.
 
 ---
 
