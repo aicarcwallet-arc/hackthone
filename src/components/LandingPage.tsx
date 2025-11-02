@@ -1,4 +1,4 @@
-import { ArrowRight, Wallet, Brain, DollarSign, Zap, Shield, TrendingUp, Smartphone, Apple } from 'lucide-react';
+import { ArrowRight, Wallet, Brain, DollarSign, Zap, Shield, TrendingUp, Smartphone, Apple, GraduationCap } from 'lucide-react';
 import { Footer } from './Footer';
 
 interface LandingPageProps {
@@ -18,8 +18,9 @@ export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
               <img src="/aic toekn .png" alt="AI Cognitive Token Logo" className="w-8 h-8 sm:w-10 sm:h-10" />
               <span className="text-sm sm:text-base font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">AI Cognitive Token (AiC)</span>
             </div>
-            <p className="text-xs sm:text-sm md:text-base text-cyan-400 mb-6 sm:mb-8 px-2">
-              Learn • Earn • Bridge • Built on Circle's Arc L1
+            <p className="text-xs sm:text-sm md:text-base text-cyan-400 mb-6 sm:mb-8 px-2 flex items-center justify-center gap-2 flex-wrap">
+              <GraduationCap className="w-4 h-4" />
+              Learn Blockchain • Earn Digital Wealth • Lightning-Fast on Arc Network
             </p>
             <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 px-2 leading-tight">
               <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
@@ -35,10 +36,10 @@ export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
               </span>
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto px-4">
-              The first AI-powered cognitive token where learning blockchain terms earns you real money
+              Master blockchain fundamentals through interactive learning. Turn your knowledge into instant USDC rewards on Arc's lightning-fast network.
             </p>
             <p className="text-xs sm:text-sm text-gray-400 mb-8 sm:mb-12 px-4">
-              OpenAI validates your knowledge • Circle's USDC powers rewards • Arc L1 ensures transparency
+              🎓 Learn Basic Blockchain • ⚡ Earn Instant USDC • 🚀 Arc Network: Native USDC, Flash-Speed Transactions
             </p>
             <div className="flex flex-col items-center gap-4 sm:gap-6">
               <button
@@ -81,8 +82,8 @@ export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
           {/* Feature Pills */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-6xl mx-auto mt-16">
             <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-4 shadow-[0_0_20px_rgba(34,211,238,0.3)] border border-cyan-500/30 text-center hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all">
-              <Brain className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-white">AI-Powered</p>
+              <GraduationCap className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
+              <p className="text-sm font-semibold text-white">Learn Blockchain</p>
             </div>
             <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-4 shadow-[0_0_20px_rgba(34,211,238,0.3)] border border-cyan-500/30 text-center hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all">
               <Wallet className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
@@ -94,7 +95,7 @@ export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
             </div>
             <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-4 shadow-[0_0_20px_rgba(34,211,238,0.3)] border border-cyan-500/30 text-center hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all">
               <Zap className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-white">Circle SDK Powered</p>
+              <p className="text-sm font-semibold text-white">Lightning-Fast Arc</p>
             </div>
             <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-4 shadow-[0_0_20px_rgba(34,211,238,0.3)] border border-cyan-500/30 text-center hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all">
               <Shield className="w-8 h-8 text-cyan-400 mx-auto mb-2" />

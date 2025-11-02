@@ -1,4 +1,4 @@
-import { Building2, Sparkles, Infinity, Zap, TrendingUp, CheckCircle } from 'lucide-react';
+import { Building2, Sparkles, Infinity, Zap, TrendingUp, CheckCircle, GraduationCap } from 'lucide-react';
 
 interface CircleDemoWidgetProps {
   treasuryBalance?: number;
@@ -14,10 +14,13 @@ export function CircleDemoWidget({ treasuryBalance = 0, pendingRequests = 0 }: C
         </div>
         <div>
           <h3 className="text-xl font-bold text-white flex items-center gap-2">
-            Circle Programmable Wallets Demo
+            Learn & Earn on Arc Network
             <Sparkles className="w-5 h-5 text-yellow-400 animate-pulse" />
           </h3>
-          <p className="text-sm text-blue-300">Ready for Partnership Integration</p>
+          <p className="text-sm text-blue-300 flex items-center gap-2">
+            <GraduationCap className="w-4 h-4" />
+            Education Meets Digital Wealth | Lightning-Fast USDC Rewards
+          </p>
         </div>
       </div>
 
@@ -49,12 +52,11 @@ export function CircleDemoWidget({ treasuryBalance = 0, pendingRequests = 0 }: C
 
       <div className="bg-gradient-to-r from-green-500/10 to-blue-500/10 rounded-xl p-4 border border-green-500/30 mb-4">
         <div className="flex items-start gap-3">
-          <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+          <GraduationCap className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
           <div>
-            <p className="text-sm font-semibold text-green-300 mb-1">System Ready for Integration</p>
+            <p className="text-sm font-semibold text-green-300 mb-1">Learn Blockchain, Earn Real USDC</p>
             <p className="text-xs text-gray-300">
-              Our edge functions are configured to use Circle Programmable Wallets API.
-              Just need API credentials to enable unlimited USDC minting capacity.
+              Master blockchain concepts through interactive games. Earn instant USDC rewards on Arc Network where transactions are lightning-fast and USDC is native. Circle Programmable Wallets enable unlimited educational rewards at scale.
             </p>
           </div>
         </div>
@@ -62,25 +64,25 @@ export function CircleDemoWidget({ treasuryBalance = 0, pendingRequests = 0 }: C
 
       <div className="grid grid-cols-3 gap-3 mb-4">
         <div className="bg-black/20 rounded-lg p-3 text-center border border-purple-500/20">
-          <Zap className="w-4 h-4 text-purple-400 mx-auto mb-1" />
-          <p className="text-xs text-gray-400">Gasless</p>
-          <p className="text-sm font-bold text-purple-300">Users</p>
+          <GraduationCap className="w-4 h-4 text-purple-400 mx-auto mb-1" />
+          <p className="text-xs text-gray-400">Learn</p>
+          <p className="text-sm font-bold text-purple-300">Blockchain</p>
         </div>
         <div className="bg-black/20 rounded-lg p-3 text-center border border-blue-500/20">
-          <TrendingUp className="w-4 h-4 text-blue-400 mx-auto mb-1" />
-          <p className="text-xs text-gray-400">Infinite</p>
-          <p className="text-sm font-bold text-blue-300">Scalability</p>
+          <Zap className="w-4 h-4 text-blue-400 mx-auto mb-1" />
+          <p className="text-xs text-gray-400">Instant</p>
+          <p className="text-sm font-bold text-blue-300">USDC Rewards</p>
         </div>
         <div className="bg-black/20 rounded-lg p-3 text-center border border-pink-500/20">
-          <Sparkles className="w-4 h-4 text-pink-400 mx-auto mb-1" />
-          <p className="text-xs text-gray-400">Auto</p>
-          <p className="text-sm font-bold text-pink-300">Minting</p>
+          <Infinity className="w-4 h-4 text-pink-400 mx-auto mb-1" />
+          <p className="text-xs text-gray-400">Unlimited</p>
+          <p className="text-sm font-bold text-pink-300">Capacity</p>
         </div>
       </div>
 
       <div className="text-center">
         <p className="text-xs text-gray-400 mb-2">
-          Demo currently using manual treasury. With Circle API access, system enables unlimited capacity.
+          <strong className="text-blue-300">Arc Network:</strong> Lightning-fast EVM with native USDC. Learn blockchain basics, earn real digital wealth.
         </p>
         <a
           href="/CIRCLE_PARTNERSHIP_REQUEST.md"
@@ -88,7 +90,7 @@ export function CircleDemoWidget({ treasuryBalance = 0, pendingRequests = 0 }: C
           className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-all shadow-lg hover:shadow-xl"
         >
           <Building2 className="w-4 h-4" />
-          View Partnership Request
+          Learn More About Educational Rewards
         </a>
       </div>
     </div>
