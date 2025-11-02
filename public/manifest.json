@@ -1,7 +1,7 @@
 {
   "name": "AIC Token - Learn Blockchain, Earn USDC",
   "short_name": "AIC Learn",
-  "description": "Learn blockchain fundamentals and earn instant USDC rewards on Arc Network. Lightning-fast transactions, native USDC, real digital wealth.",
+  "description": "Learn blockchain fundamentals and earn instant AiC token rewards on Arc Network. Swap to USDC anytime. Lightning-fast transactions, real digital wealth.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0a0a",
@@ -70,7 +70,7 @@
     {
       "name": "Learn & Earn",
       "short_name": "Learn",
-      "description": "Learn blockchain basics, earn USDC",
+      "description": "Learn blockchain basics, earn AiC tokens",
       "url": "/?tab=game",
       "icons": [
         {
@@ -83,7 +83,7 @@
     {
       "name": "Claim Rewards",
       "short_name": "Claim",
-      "description": "Claim your earned USDC rewards",
+      "description": "Claim your earned AiC token rewards",
       "url": "/?tab=swap",
       "icons": [
         {
