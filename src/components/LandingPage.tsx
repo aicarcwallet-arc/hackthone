@@ -3,7 +3,7 @@ import { Footer } from './Footer';
 
 interface LandingPageProps {
   onGetStarted: () => void;
-  onNavigate?: (page: 'home' | 'play' | 'swap' | 'withdraw' | 'how' | 'arc-updates' | 'partners' | 'chat' | 'mainnet-ready' | 'fund-treasury') => void;
+  onNavigate?: (page: 'home' | 'play' | 'withdraw' | 'how' | 'arc-updates' | 'partners' | 'chat' | 'mainnet-ready' | 'fund-treasury') => void;
 }
 
 export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {

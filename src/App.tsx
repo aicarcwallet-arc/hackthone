@@ -1,10 +1,7 @@
 import { useState, useEffect } from 'react';
 import { LandingPage } from './components/LandingPage';
 import { BridgeInterface } from './components/BridgeInterface';
-import { SwapInterface } from './components/SwapInterface';
-import { AICSwapInterface } from './components/AICSwapInterface';
 import { BurnPegInterface } from './components/BurnPegInterface';
-import { USDCWithdraw } from './components/USDCWithdraw';
 import { VocabularyGame } from './components/VocabularyGame';
 import { TransactionAccelerator } from './components/TransactionAccelerator';
 import { TransactionHistory } from './components/TransactionHistory';
@@ -24,11 +21,11 @@ import { ChatSupport } from './components/ChatSupport';
 import { TreasuryFunder } from './components/TreasuryFunder';
 import { MainnetReadyPage } from './components/MainnetReadyPage';
 import { useAICToken } from './hooks/useAICToken';
-import { Repeat, Send, Trophy, History, Flame, Zap, CreditCard, Building2 } from 'lucide-react';
+import { Send, Trophy, History, Flame, Zap, CreditCard, Building2 } from 'lucide-react';
 import { supabase } from './lib/supabase';
 
-type Tab = 'game' | 'bridge' | 'swap' | 'burn' | 'history' | 'accelerator' | 'card' | 'banking';
-type Page = 'home' | 'play' | 'swap' | 'withdraw' | 'how' | 'arc-updates' | 'partners' | 'chat' | 'fund-treasury' | 'mainnet-ready';
+type Tab = 'game' | 'bridge' | 'burn' | 'history' | 'accelerator' | 'card' | 'banking';
+type Page = 'home' | 'play' | 'withdraw' | 'how' | 'arc-updates' | 'partners' | 'chat' | 'fund-treasury' | 'mainnet-ready';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -260,7 +257,6 @@ function App() {
   const handleNavigate = (page: Page) => {
     setCurrentPage(page);
     if (page === 'play') setActiveTab('game');
-    if (page === 'swap') setActiveTab('swap');
   };
 
   console.log('Rendering App, connectedAddress:', connectedAddress);
@@ -566,20 +562,6 @@ function App() {
                 </button>
                 <button
                   onClick={() => {
-                    console.log('Swap tab clicked');
-                    setActiveTab('swap');
-                  }}
-                  className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-3 rounded-md font-medium text-sm transition-all touch-manipulation whitespace-nowrap ${
-                    activeTab === 'swap'
-                      ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-[0_0_20px_rgba(34,211,238,0.5)]'
-                      : 'text-gray-300 hover:bg-cyan-500/20'
-                  }`}
-                >
-                  <Repeat className="w-4 h-4" />
-                  <span>Swap</span>
-                </button>
-                <button
-                  onClick={() => {
                     console.log('Burn tab clicked');
                     setActiveTab('burn');
                   }}
@@ -676,24 +658,6 @@ function App() {
           {activeTab === 'banking' && (
             <div className="max-w-6xl mx-auto">
               <CircleBanking walletAddress={connectedAddress || undefined} usdcBalance={usdcBalance} />
-            </div>
-          )}
-          {activeTab === 'swap' && (
-            <div className="max-w-5xl mx-auto space-y-6">
-              <AICSwapInterface key={`swap-${connectedAddress}-${activeTab}-${refreshKey}`} walletAddress={connectedAddress || undefined} />
-
-              {parseFloat(usdcBalance) > 0 && connectedAddress && (
-                <div className="pt-6">
-                  <h3 className="text-center text-lg font-semibold text-white mb-4">
-                    💸 Send USDC from Your Wallet
-                  </h3>
-                  <USDCWithdraw
-                    walletAddress={connectedAddress}
-                    usdcBalance={usdcBalance}
-                    onSuccess={() => setRefreshKey(prev => prev + 1)}
-                  />
-                </div>
-              )}
             </div>
           )}
           {activeTab === 'burn' && (

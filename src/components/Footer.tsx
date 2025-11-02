@@ -1,11 +1,11 @@
 import { ExternalLink } from 'lucide-react';
 
 interface FooterProps {
-  onNavigate?: (page: 'home' | 'play' | 'swap' | 'withdraw' | 'how' | 'arc-updates' | 'partners' | 'chat' | 'mainnet-ready' | 'fund-treasury') => void;
+  onNavigate?: (page: 'home' | 'play' | 'withdraw' | 'how' | 'arc-updates' | 'partners' | 'chat' | 'mainnet-ready' | 'fund-treasury') => void;
 }
 
 export function Footer({ onNavigate }: FooterProps) {
-  const handleNavClick = (e: React.MouseEvent, page: 'home' | 'play' | 'swap' | 'withdraw' | 'how' | 'arc-updates' | 'partners' | 'chat' | 'mainnet-ready' | 'fund-treasury') => {
+  const handleNavClick = (e: React.MouseEvent, page: 'home' | 'play' | 'withdraw' | 'how' | 'arc-updates' | 'partners' | 'chat' | 'mainnet-ready' | 'fund-treasury') => {
     if (onNavigate) {
       e.preventDefault();
       onNavigate(page);
