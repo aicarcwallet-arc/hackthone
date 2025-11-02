@@ -77,12 +77,12 @@ export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
               </p>
 
               <a
-                href="/banner-download.html"
+                href="/hackathon-banner-wide.html"
                 target="_blank"
                 className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 text-white font-bold px-6 py-3 rounded-xl text-sm shadow-lg hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] transition-all active:scale-95 mt-4"
               >
                 <span>🎨</span>
-                <span>Download Hackathon Banner (16:9)</span>
+                <span>Download Hackathon Banner (1200×400)</span>
               </a>
             </div>
           </div>
