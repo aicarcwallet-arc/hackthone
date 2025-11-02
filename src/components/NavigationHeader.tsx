@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, X, Home, Gamepad2, CreditCard, Building2, Wallet, BookOpen, Send, Download } from 'lucide-react';
+import { Menu, X, Home, Gamepad2, CreditCard, Building2, Wallet, BookOpen, Send, Download, Heart } from 'lucide-react';
 
 interface NavigationHeaderProps {
   currentPage: string;
@@ -15,6 +15,7 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
     { id: 'home', label: 'Home', icon: Home },
     { id: 'play', label: 'Play & Earn', icon: Gamepad2 },
     { id: 'swap', label: 'Swap', icon: Wallet },
+    { id: 'fund-treasury', label: 'Fund Treasury', icon: Heart },
     { id: 'withdraw', label: 'Withdraw', icon: Download },
     { id: 'how', label: 'How It Works', icon: BookOpen },
   ];
