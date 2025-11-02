@@ -20,26 +20,26 @@ export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
             </div>
             <p className="text-xs sm:text-sm md:text-base text-cyan-400 mb-6 sm:mb-8 px-2 flex items-center justify-center gap-2 flex-wrap">
               <GraduationCap className="w-4 h-4" />
-              Learn Blockchain • Earn Digital Wealth • Lightning-Fast on Arc Network
+              🎓 Learn Basic Blockchain • ⚡ Earn AiC Tokens • Instant Swap to Native USDC on Arc Network Layer 1
             </p>
             <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 px-2 leading-tight">
               <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
-                Type <span className="text-white font-bold drop-shadow-[0_0_30px_rgba(255,255,255,0.8)]">Blockchain</span> Words.
+                Learn. Earn <span className="text-white font-bold drop-shadow-[0_0_30px_rgba(255,255,255,0.8)]">AiC Tokens</span>.
               </span>
               <br className="hidden sm:block" />
               <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
-                {' '}Earn <span className="text-white font-bold drop-shadow-[0_0_30px_rgba(255,255,255,0.8)]">AiC</span> Tokens.
+                {' '}Swap to <span className="text-white font-bold drop-shadow-[0_0_30px_rgba(255,255,255,0.8)]">Native USDC</span>.
               </span>
               <br className="hidden sm:block" />
               <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
-                {' '}Swap to <span className="text-white font-bold drop-shadow-[0_0_30px_rgba(255,255,255,0.8)]">USDC</span>.
+                {' '}<span className="text-white font-bold drop-shadow-[0_0_30px_rgba(255,255,255,0.8)]">Flash-Speed</span> on Arc Layer 1.
               </span>
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto px-4">
-              Master blockchain fundamentals through interactive learning. Turn your knowledge into instant USDC rewards on Arc's lightning-fast network.
+              Master blockchain fundamentals and earn <span className="text-cyan-400 font-semibold">AiC tokens</span> with every answer. Instantly swap to native USDC on Arc Network's lightning-fast Layer 1.
             </p>
-            <p className="text-xs sm:text-sm text-gray-400 mb-8 sm:mb-12 px-4">
-              🎓 Learn Basic Blockchain • ⚡ Earn Instant USDC • 🚀 Arc Network: Native USDC, Flash-Speed Transactions
+            <p className="text-xs sm:text-sm text-cyan-400 mb-8 sm:mb-12 px-4 font-semibold">
+              🚀 Arc Network Layer 1: Native USDC • Flash-Speed Transactions • Get AiC Token Rewards
             </p>
             <div className="flex flex-col items-center gap-4 sm:gap-6">
               <button
@@ -47,7 +47,7 @@ export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
                 className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold px-8 sm:px-12 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl shadow-[0_0_40px_rgba(34,211,238,0.6)] hover:shadow-[0_0_60px_rgba(34,211,238,1)] transition-all touch-manipulation active:scale-95 animate-pulse-slow"
               >
                 <Zap className="w-6 h-6 sm:w-7 sm:h-7 animate-pulse" />
-                <span>Enter Portal</span>
+                <span>Get AiC Token Rewards</span>
                 <ArrowRight className="w-6 h-6 sm:w-7 sm:h-7 group-hover:translate-x-1 transition-transform" />
               </button>
 
