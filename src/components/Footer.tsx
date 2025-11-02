@@ -11,13 +11,13 @@ export function Footer({ onNavigate }: FooterProps) {
   };
 
   return (
-    <footer className="bg-gray-900 text-white py-8 border-t border-cyan-500/30">
+    <footer className="bg-gradient-to-br from-gray-900 via-slate-900 to-gray-900 text-white py-12 border-t border-cyan-500/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center gap-6">
+        <div className="flex flex-col items-center gap-8">
           <nav className="flex flex-wrap items-center justify-center gap-6 md:gap-8">
             <button
               onClick={(e) => handleNavClick(e, 'how')}
-              className="text-gray-400 hover:text-cyan-400 transition-colors text-sm md:text-base cursor-pointer"
+              className="text-gray-400 hover:text-cyan-400 transition-all duration-300 text-sm md:text-base cursor-pointer font-medium hover:scale-105"
             >
               How it works
             </button>
@@ -25,33 +25,47 @@ export function Footer({ onNavigate }: FooterProps) {
               href="https://testnet.arcscan.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 hover:text-cyan-400 transition-colors text-sm md:text-base"
+              className="text-gray-400 hover:text-cyan-400 transition-all duration-300 text-sm md:text-base font-medium hover:scale-105"
             >
               Arc Testnet Explorer
             </a>
             <button
               onClick={(e) => handleNavClick(e, 'arc-updates')}
-              className="text-gray-400 hover:text-cyan-400 transition-colors text-sm md:text-base cursor-pointer"
+              className="text-gray-400 hover:text-cyan-400 transition-all duration-300 text-sm md:text-base cursor-pointer font-medium hover:scale-105"
             >
               Arc Mainnet Updates
             </button>
             <button
               onClick={(e) => handleNavClick(e, 'partners')}
-              className="text-gray-400 hover:text-cyan-400 transition-colors text-sm md:text-base cursor-pointer"
+              className="text-gray-400 hover:text-cyan-400 transition-all duration-300 text-sm md:text-base cursor-pointer font-medium hover:scale-105"
             >
-              AIC partners on board
+              AIC Partners
             </button>
             <button
               onClick={(e) => handleNavClick(e, 'chat')}
-              className="text-gray-400 hover:text-cyan-400 transition-colors text-sm md:text-base cursor-pointer"
+              className="text-gray-400 hover:text-cyan-400 transition-all duration-300 text-sm md:text-base cursor-pointer font-medium hover:scale-105"
             >
-              Chat with us
+              Chat Support
             </button>
           </nav>
 
-          <p className="text-gray-500 text-xs text-center">
-            © 2025 AiC Token Project
-          </p>
+          <div className="flex flex-col items-center gap-4 border-t border-cyan-500/20 pt-6 w-full max-w-2xl">
+            <div className="flex flex-col items-center gap-2">
+              <p className="text-cyan-400 text-sm font-semibold tracking-wide">
+                Designed & Developed with ❤️
+              </p>
+              <p className="text-gray-300 text-base font-bold">
+                Gissioy Shazia Sayeed
+              </p>
+              <p className="text-gray-500 text-xs uppercase tracking-widest">
+                Creative Head & Visionary Founder
+              </p>
+            </div>
+
+            <p className="text-gray-500 text-xs text-center mt-2">
+              © 2025 AI Cognitive Token Project. All rights reserved.
+            </p>
+          </div>
         </div>
       </div>
     </footer>
