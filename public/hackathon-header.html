@@ -124,14 +124,13 @@
         }
 
         .founder-title {
-            font-size: 9px;
+            font-size: 8px;
             color: #06B6D4;
             font-weight: 800;
             text-align: center;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            line-height: 1.3;
-            white-space: nowrap;
+            line-height: 1.4;
         }
 
         .main-content {
@@ -375,7 +374,7 @@
                         <div class="left-section">
                             <div class="founder-section">
                                 <img src="/1685460790070.jpeg" alt="Developer" class="founder-image">
-                                <div class="founder-title">Developer</div>
+                                <div class="founder-title">Creative Head<br>& Sole Developer</div>
                             </div>
 
                             <div class="main-content">
@@ -409,7 +408,7 @@
 
         <div class="controls">
             <button class="download-btn" onclick="downloadBanner()">
-                📥 Download Header Image
+                📥 Download Banner (PNG)
             </button>
         </div>
 
@@ -463,7 +462,7 @@
                 btn.disabled = false;
 
                 setTimeout(() => {
-                    btn.innerHTML = '📥 Download Header Image';
+                    btn.innerHTML = '📥 Download Banner (PNG)';
                 }, 3000);
             }).catch(err => {
                 console.error('Download failed:', err);
