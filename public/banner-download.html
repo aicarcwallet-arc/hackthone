@@ -86,129 +86,126 @@
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 10px 40px rgba(6, 182, 212, 0.3);
-            position: relative;
         }
 
         .banner-image {
             width: 100%;
             height: auto;
             aspect-ratio: 16 / 9;
-            background: linear-gradient(135deg, #0a0e1a 0%, #1a1f35 50%, #0f172a 100%);
+            background: linear-gradient(135deg, #0a2838 0%, #0f3d4f 50%, #0a2838 100%);
             position: relative;
             overflow: hidden;
-        }
-
-        .gradient-overlay {
-            position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(circle at 20% 50%, rgba(6, 182, 212, 0.2) 0%, transparent 40%),
-                radial-gradient(circle at 80% 50%, rgba(59, 130, 246, 0.2) 0%, transparent 40%);
-        }
-
-        .grid-pattern {
-            position: absolute;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(6, 182, 212, 0.08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(6, 182, 212, 0.08) 1px, transparent 1px);
-            background-size: 60px 60px;
-        }
-
-        .content {
-            position: relative;
-            z-index: 3;
-            height: 100%;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 60px 100px;
-            gap: 60px;
+            padding: 50px 80px;
+        }
+
+        .gradient-glow-left {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.4) 0%, transparent 70%);
+            filter: blur(60px);
+        }
+
+        .gradient-glow-right {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.3) 0%, transparent 70%);
+            filter: blur(60px);
         }
 
         .left-section {
+            position: relative;
+            z-index: 2;
             display: flex;
             align-items: center;
-            gap: 50px;
-            flex: 1;
+            gap: 40px;
         }
 
         .developer-section {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
         .developer-image {
-            width: 160px;
-            height: 160px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
-            border: 5px solid rgba(6, 182, 212, 0.8);
-            box-shadow: 0 0 60px rgba(6, 182, 212, 0.9), 0 0 40px rgba(59, 130, 246, 0.6);
+            border: 4px solid rgba(6, 182, 212, 0.8);
+            box-shadow: 0 0 40px rgba(6, 182, 212, 0.8);
             object-fit: cover;
         }
 
         .developer-title {
-            font-size: 14px;
+            font-size: 11px;
             color: #06B6D4;
             font-weight: 800;
             text-align: center;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            line-height: 1.5;
+            letter-spacing: 0.5px;
+            line-height: 1.4;
         }
 
         .main-content {
-            flex: 1;
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
-            gap: 20px;
+            gap: 15px;
+        }
+
+        .introducing-text {
+            font-size: 13px;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 5px;
         }
 
         .token-header {
             display: flex;
             align-items: center;
-            gap: 30px;
+            gap: 25px;
         }
 
         .token-logo {
-            width: 140px;
-            height: 140px;
+            width: 90px;
+            height: 90px;
             object-fit: contain;
-            filter: drop-shadow(0 0 50px rgba(6, 182, 212, 0.9));
-        }
-
-        .token-info {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            filter: drop-shadow(0 0 30px rgba(6, 182, 212, 0.8));
         }
 
         .title {
-            font-size: 68px;
+            font-size: 58px;
             font-weight: 900;
-            background: linear-gradient(135deg, #06B6D4 0%, #ffffff 50%, #3B82F6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -2px;
-            line-height: 0.95;
+            color: #06B6D4;
+            letter-spacing: -1px;
+            line-height: 1;
+            margin-bottom: 8px;
         }
 
         .subtitle {
-            font-size: 26px;
+            font-size: 18px;
             color: #94a3b8;
-            font-weight: 700;
+            font-weight: 600;
             letter-spacing: 2px;
         }
 
         .partnership-text {
-            font-size: 20px;
+            font-size: 16px;
             color: #cbd5e1;
-            font-weight: 700;
-            margin-top: 10px;
+            font-weight: 600;
+            margin-top: 8px;
         }
 
         .partnership-text strong {
@@ -217,37 +214,38 @@
         }
 
         .right-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 30px;
-        }
-
-        .partner-logos {
+            position: relative;
+            z-index: 2;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 25px;
         }
 
+        .partner-logos {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
         .partner-logo {
-            height: 70px;
+            height: 60px;
             width: auto;
             object-fit: contain;
-            filter: brightness(1.1) drop-shadow(0 0 30px rgba(6, 182, 212, 0.7));
+            filter: brightness(1.1) drop-shadow(0 0 20px rgba(6, 182, 212, 0.6));
         }
 
         .hackathon-badge {
-            background: linear-gradient(135deg, rgba(6, 182, 212, 0.3), rgba(59, 130, 246, 0.3));
-            backdrop-filter: blur(15px);
-            padding: 20px 40px;
-            border-radius: 30px;
-            border: 3px solid rgba(6, 182, 212, 0.6);
-            font-size: 20px;
-            font-weight: 900;
+            background: rgba(6, 182, 212, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 16px 35px;
+            border-radius: 25px;
+            border: 2px solid rgba(6, 182, 212, 0.5);
+            font-size: 15px;
+            font-weight: 800;
             color: #06B6D4;
             text-align: center;
-            box-shadow: 0 10px 40px rgba(6, 182, 212, 0.5);
+            box-shadow: 0 8px 30px rgba(6, 182, 212, 0.4);
             line-height: 1.5;
             white-space: nowrap;
         }
@@ -345,6 +343,14 @@
                 padding: 16px 30px;
                 font-size: 16px;
             }
+
+            .banner-image {
+                padding: 30px 40px;
+            }
+
+            .title {
+                font-size: 40px;
+            }
         }
     </style>
 </head>
@@ -362,36 +368,35 @@
         <div class="banner-preview">
             <div class="banner-wrapper">
                 <div class="banner-image">
-                    <div class="gradient-overlay"></div>
-                    <div class="grid-pattern"></div>
+                    <div class="gradient-glow-left"></div>
+                    <div class="gradient-glow-right"></div>
 
-                    <div class="content">
-                        <div class="left-section">
-                            <div class="developer-section">
-                                <img src="/1685460790070.jpeg" alt="Developer" class="developer-image">
-                                <div class="developer-title">Creative Head<br>& Sole Developer</div>
-                            </div>
-
-                            <div class="main-content">
-                                <div class="token-header">
-                                    <img src="/15f0f180-9768-4e8d-bf98-860ab77638b5.png" alt="AIC Token" class="token-logo">
-                                    <div class="token-info">
-                                        <div class="title">AI Cognitive<br>Token</div>
-                                        <div class="subtitle">Learn • Earn • Transform</div>
-                                    </div>
-                                </div>
-                                <div class="partnership-text">In Partnership with <strong>Arc</strong> and <strong>Circle</strong></div>
-                            </div>
+                    <div class="left-section">
+                        <div class="developer-section">
+                            <img src="/1685460790070.jpeg" alt="Developer" class="developer-image">
+                            <div class="developer-title">CREATIVE HEAD<br>& SOLE DEVELOPER</div>
                         </div>
 
-                        <div class="right-section">
-                            <div class="partner-logos">
-                                <img src="/15f0f180-9768-4e8d-bf98-860ab77638b5.png" alt="Arc" class="partner-logo">
-                                <img src="/circle.b8b9d808c4509a1c3043e1a2859807b7a83364094f388457832f020fa02cbc37.png" alt="Circle" class="partner-logo">
+                        <div class="main-content">
+                            <div class="introducing-text">INTRODUCING</div>
+                            <div class="token-header">
+                                <img src="/15f0f180-9768-4e8d-bf98-860ab77638b5.png" alt="AIC Token" class="token-logo">
+                                <div>
+                                    <div class="title">AI Cognitive Token</div>
+                                    <div class="subtitle">Learn • Earn • Transform</div>
+                                </div>
                             </div>
-                            <div class="hackathon-badge">
-                                Circle's AI Agents on Arc<br>Hackathon 2025
-                            </div>
+                            <div class="partnership-text">In Partnership with <strong>Arc</strong> and <strong>Circle</strong></div>
+                        </div>
+                    </div>
+
+                    <div class="right-section">
+                        <div class="partner-logos">
+                            <img src="/15f0f180-9768-4e8d-bf98-860ab77638b5.png" alt="Arc" class="partner-logo">
+                            <img src="/circle.b8b9d808c4509a1c3043e1a2859807b7a83364094f388457832f020fa02cbc37.png" alt="Circle" class="partner-logo">
+                        </div>
+                        <div class="hackathon-badge">
+                            Circle's AI Agents on Arc<br>Hackathon 2025
                         </div>
                     </div>
                 </div>
@@ -426,7 +431,7 @@
                 </div>
                 <div class="spec-item">
                     <div class="spec-label">Theme</div>
-                    <div class="spec-value">Cyan/Blue</div>
+                    <div class="spec-value">Dark Teal</div>
                 </div>
             </div>
         </div>
@@ -443,7 +448,7 @@
 
             html2canvas(banner, {
                 scale: 2,
-                backgroundColor: '#0a0e1a',
+                backgroundColor: '#0a2838',
                 logging: false,
                 width: 1920,
                 height: 1080
