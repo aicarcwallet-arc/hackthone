@@ -438,7 +438,7 @@ function App() {
           walletAddress={connectedAddress || undefined}
           onConnectWallet={handleConnectWallet}
         />
-        <RewardsPage walletAddress={connectedAddress} />
+        <RewardsPage walletAddress={connectedAddress} userId={userId} />
         <Footer onNavigate={handleNavigate} />
       </>
     );

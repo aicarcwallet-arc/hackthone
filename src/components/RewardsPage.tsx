@@ -1,10 +1,51 @@
+import { useState, useEffect } from 'react';
 import { Coins, TrendingUp, Clock, CheckCircle, ExternalLink } from 'lucide-react';
+import { InternetMinutesRewardsBox } from './InternetMinutesRewardsBox';
 
 interface RewardsPageProps {
   walletAddress: string | null;
+  userId: string | null;
 }
 
-export function RewardsPage({ walletAddress }: RewardsPageProps) {
+export function RewardsPage({ walletAddress, userId }: RewardsPageProps) {
+  const [totalAICEarned, setTotalAICEarned] = useState<number>(0);
+  const [totalUSDCEarned, setTotalUSDCEarned] = useState<number>(0);
+  const [claimedUSDC, setClaimedUSDC] = useState<number>(0);
+  const [totalWords, setTotalWords] = useState<number>(0);
+
+  useEffect(() => {
+    if (userId && walletAddress) {
+      loadUserStats();
+    }
+  }, [userId, walletAddress]);
+
+  const loadUserStats = async () => {
+    if (!userId) return;
+
+    try {
+      const { supabase } = await import('../lib/supabase');
+      const { data } = await supabase
+        .from('users')
+        .select('total_aic_earned, total_usdc_earned, claimed_usdc, total_words_submitted')
+        .eq('id', userId)
+        .maybeSingle();
+
+      if (data) {
+        setTotalAICEarned(parseFloat(data.total_aic_earned || '0'));
+        setTotalUSDCEarned(parseFloat(data.total_usdc_earned || '0'));
+        setClaimedUSDC(parseFloat(data.claimed_usdc || '0'));
+        setTotalWords(data.total_words_submitted || 0);
+      }
+    } catch (error) {
+      console.error('Failed to load user stats:', error);
+    }
+  };
+
+  const handleClaimSuccess = async () => {
+    await loadUserStats();
+  };
+
+  const unclaimedUSDC = totalUSDCEarned - claimedUSDC;
   const recentEarnings = [
     { word: 'CONSENSUS', aic: 450, timestamp: '2 mins ago', txHash: '0x1234...5678' },
     { word: 'DEFI', aic: 380, timestamp: '5 mins ago', txHash: '0x8765...4321' },
@@ -34,23 +75,29 @@ export function RewardsPage({ walletAddress }: RewardsPageProps) {
           </div>
         ) : (
           <>
+            <InternetMinutesRewardsBox
+              walletAddress={walletAddress}
+              unclaimedUSDC={unclaimedUSDC}
+              onClaimSuccess={handleClaimSuccess}
+            />
+
             <div className="grid sm:grid-cols-3 gap-4 mb-8">
               <div className="bg-gradient-to-br from-green-900/30 to-emerald-900/30 backdrop-blur-sm rounded-xl p-6 border border-green-500/30">
                 <Coins className="w-8 h-8 text-green-400 mb-2" />
-                <p className="text-3xl font-bold text-white">2,160</p>
+                <p className="text-3xl font-bold text-white">{totalAICEarned.toFixed(2)}</p>
                 <p className="text-sm text-gray-400">Total AIC Earned</p>
               </div>
 
               <div className="bg-gradient-to-br from-blue-900/30 to-cyan-900/30 backdrop-blur-sm rounded-xl p-6 border border-cyan-500/30">
                 <TrendingUp className="w-8 h-8 text-cyan-400 mb-2" />
-                <p className="text-3xl font-bold text-white">12</p>
-                <p className="text-sm text-gray-400">Words Completed</p>
+                <p className="text-3xl font-bold text-white">{totalUSDCEarned.toFixed(2)}</p>
+                <p className="text-sm text-gray-400">Total USDC Earned</p>
               </div>
 
               <div className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 backdrop-blur-sm rounded-xl p-6 border border-purple-500/30">
                 <CheckCircle className="w-8 h-8 text-purple-400 mb-2" />
-                <p className="text-3xl font-bold text-white">95%</p>
-                <p className="text-sm text-gray-400">Avg Accuracy</p>
+                <p className="text-3xl font-bold text-white">{totalWords}</p>
+                <p className="text-sm text-gray-400">Words Completed</p>
               </div>
             </div>
 
