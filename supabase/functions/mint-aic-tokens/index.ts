@@ -10,7 +10,7 @@ const corsHeaders = {
 };
 
 const ARC_TESTNET = {
-  id: 333333,
+  id: 5042002,
   name: "Arc Testnet",
   network: "arc-testnet",
   nativeCurrency: {
@@ -152,7 +152,7 @@ Deno.serve(async (req: Request) => {
       from_token: null,
       to_token: "AIC",
       tx_hash: txHash,
-      chain_id: 333333,
+      chain_id: 5042002,
       status: "confirmed",
       confirmed_at: new Date().toISOString(),
     });
