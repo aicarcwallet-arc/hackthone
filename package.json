@@ -13,6 +13,7 @@
   "dependencies": {
     "@circle-fin/adapter-viem-v2": "^1.0.1",
     "@circle-fin/bridge-kit": "^1.1.0",
+    "@circle-fin/developer-controlled-wallets": "^9.2.1",
     "@supabase/supabase-js": "^2.57.4",
     "dotenv": "^17.2.3",
     "lucide-react": "^0.344.0",
