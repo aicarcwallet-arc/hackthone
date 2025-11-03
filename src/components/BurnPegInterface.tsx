@@ -320,7 +320,7 @@ export function BurnPegInterface({ walletAddress }: BurnPegInterfaceProps) {
             <TrendingUp className="w-5 h-5 text-green-400" />
             <p className="text-sm text-gray-400">Your USDC Balance</p>
           </div>
-          <p className="text-2xl font-bold text-white">{parseFloat(usdcBalance).toFixed(2)} USDC</p>
+          <p className="text-2xl font-bold text-white">{parseFloat(usdcBalance).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDC</p>
           <p className="text-xs text-gray-500 mt-1">Available to burn</p>
         </div>
       </div>

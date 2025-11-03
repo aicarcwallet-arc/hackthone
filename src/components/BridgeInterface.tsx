@@ -236,7 +236,7 @@ export function BridgeInterface() {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-300">Your USDC Balance</span>
-                <span className="text-lg font-bold text-green-300">{parseFloat(usdcBalance).toFixed(2)} USDC</span>
+                <span className="text-lg font-bold text-green-300">{parseFloat(usdcBalance).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDC</span>
               </div>
               {parseFloat(aicBalance) > 0 && (
                 <>
