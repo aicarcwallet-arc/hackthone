@@ -25,50 +25,50 @@ export function WithdrawPage({ walletAddress, usdcBalance }: WithdrawPageProps) 
         </p>
       </div>
 
-      <div className="flex justify-center mb-8">
-        <div className="inline-flex bg-gray-800/50 backdrop-blur-sm rounded-lg shadow-[0_0_30px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-1 flex-wrap sm:flex-nowrap gap-1">
+      <div className="flex justify-center mb-8 px-2">
+        <div className="inline-flex bg-gray-800/50 backdrop-blur-sm rounded-lg shadow-[0_0_30px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-1 flex-col sm:flex-row gap-1 w-full sm:w-auto max-w-full">
           <button
             onClick={() => setActiveTab('bridge')}
-            className={`flex items-center gap-2 px-4 sm:px-6 py-3 rounded-md font-medium text-sm transition-all touch-manipulation whitespace-nowrap ${
+            className={`flex items-center gap-2 px-4 sm:px-6 py-3 rounded-md font-medium text-sm transition-all touch-manipulation w-full sm:w-auto justify-start ${
               activeTab === 'bridge'
                 ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-[0_0_20px_rgba(34,211,238,0.5)]'
                 : 'text-gray-300 hover:bg-cyan-500/20'
             }`}
           >
-            <Send className="w-5 h-5" />
+            <Send className="w-5 h-5 flex-shrink-0" />
             <div className="text-left">
               <div className="font-bold">Bridge</div>
-              <div className="text-xs opacity-75 hidden sm:block">Cross-chain transfers</div>
+              <div className="text-xs opacity-75">Cross-chain transfers</div>
             </div>
           </button>
 
           <button
             onClick={() => setActiveTab('card')}
-            className={`flex items-center gap-2 px-4 sm:px-6 py-3 rounded-md font-medium text-sm transition-all touch-manipulation whitespace-nowrap ${
+            className={`flex items-center gap-2 px-4 sm:px-6 py-3 rounded-md font-medium text-sm transition-all touch-manipulation w-full sm:w-auto justify-start ${
               activeTab === 'card'
                 ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-[0_0_20px_rgba(34,211,238,0.5)]'
                 : 'text-gray-300 hover:bg-cyan-500/20'
             }`}
           >
-            <CreditCard className="w-5 h-5" />
+            <CreditCard className="w-5 h-5 flex-shrink-0" />
             <div className="text-left">
               <div className="font-bold">AiC-Arc Card</div>
-              <div className="text-xs opacity-75 hidden sm:block">Spend globally</div>
+              <div className="text-xs opacity-75">Spend globally</div>
             </div>
           </button>
 
           <button
             onClick={() => setActiveTab('bank')}
-            className={`flex items-center gap-2 px-4 sm:px-6 py-3 rounded-md font-medium text-sm transition-all touch-manipulation whitespace-nowrap ${
+            className={`flex items-center gap-2 px-4 sm:px-6 py-3 rounded-md font-medium text-sm transition-all touch-manipulation w-full sm:w-auto justify-start ${
               activeTab === 'bank'
                 ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-[0_0_20px_rgba(59,130,246,0.5)]'
                 : 'text-gray-300 hover:bg-blue-500/20'
             }`}
           >
-            <Building2 className="w-5 h-5" />
+            <Building2 className="w-5 h-5 flex-shrink-0" />
             <div className="text-left">
               <div className="font-bold">AiC-Circle Bank</div>
-              <div className="text-xs opacity-75 hidden sm:block">Save in your bank</div>
+              <div className="text-xs opacity-75">Save in your bank</div>
             </div>
           </button>
         </div>

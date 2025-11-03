@@ -322,11 +322,13 @@ function App() {
           walletAddress={connectedAddress || undefined}
           onConnectWallet={handleConnectWallet}
         />
-        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
-            <ArcMainnetUpdates />
+        <Suspense fallback={<LoadingSpinner />}>
+          <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
+              <ArcMainnetUpdates />
+            </div>
           </div>
-        </div>
+        </Suspense>
         <Footer onNavigate={handleNavigate} />
       </>
     );
@@ -341,11 +343,13 @@ function App() {
           walletAddress={connectedAddress || undefined}
           onConnectWallet={handleConnectWallet}
         />
-        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
-            <PartnersPage />
+        <Suspense fallback={<LoadingSpinner />}>
+          <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
+              <PartnersPage />
+            </div>
           </div>
-        </div>
+        </Suspense>
         <Footer onNavigate={handleNavigate} />
       </>
     );
@@ -360,11 +364,13 @@ function App() {
           walletAddress={connectedAddress || undefined}
           onConnectWallet={handleConnectWallet}
         />
-        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
-            <ChatSupport />
+        <Suspense fallback={<LoadingSpinner />}>
+          <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
+              <ChatSupport />
+            </div>
           </div>
-        </div>
+        </Suspense>
         <Footer onNavigate={handleNavigate} />
       </>
     );
@@ -379,11 +385,13 @@ function App() {
           walletAddress={connectedAddress || undefined}
           onConnectWallet={handleConnectWallet}
         />
-        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
-            <TreasuryFunder walletAddress={connectedAddress || undefined} usdcBalance={usdcBalance} />
+        <Suspense fallback={<LoadingSpinner />}>
+          <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
+              <TreasuryFunder walletAddress={connectedAddress || undefined} usdcBalance={usdcBalance} />
+            </div>
           </div>
-        </div>
+        </Suspense>
         <Footer onNavigate={handleNavigate} />
       </>
     );
@@ -398,11 +406,13 @@ function App() {
           walletAddress={connectedAddress || undefined}
           onConnectWallet={handleConnectWallet}
         />
-        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-            <MainnetReadyPage />
+        <Suspense fallback={<LoadingSpinner />}>
+          <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+              <MainnetReadyPage />
+            </div>
           </div>
-        </div>
+        </Suspense>
         <Footer onNavigate={handleNavigate} />
       </>
     );
@@ -439,7 +449,9 @@ function App() {
           walletAddress={connectedAddress || undefined}
           onConnectWallet={handleConnectWallet}
         />
-        <LeaderboardPage />
+        <Suspense fallback={<LoadingSpinner />}>
+          <LeaderboardPage />
+        </Suspense>
         <Footer onNavigate={handleNavigate} />
       </>
     );
@@ -454,7 +466,9 @@ function App() {
           walletAddress={connectedAddress || undefined}
           onConnectWallet={handleConnectWallet}
         />
-        <RewardsPage walletAddress={connectedAddress} userId={userId} />
+        <Suspense fallback={<LoadingSpinner />}>
+          <RewardsPage walletAddress={connectedAddress} userId={userId} />
+        </Suspense>
         <Footer onNavigate={handleNavigate} />
       </>
     );
@@ -485,7 +499,9 @@ function App() {
               </div>
               </div>
             ) : (
-              <WithdrawPage walletAddress={connectedAddress} usdcBalance={usdcBalance} />
+              <Suspense fallback={<LoadingSpinner />}>
+                <WithdrawPage walletAddress={connectedAddress} usdcBalance={usdcBalance} />
+              </Suspense>
             )}
           </div>
         </div>
@@ -504,11 +520,13 @@ function App() {
           walletAddress={connectedAddress || undefined}
           onConnectWallet={handleConnectWallet}
         />
-        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black py-24 px-4">
-          <div className="max-w-5xl mx-auto">
-            <SimpleAICConverter walletAddress={connectedAddress || undefined} />
+        <Suspense fallback={<LoadingSpinner />}>
+          <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black py-24 px-4">
+            <div className="max-w-5xl mx-auto">
+              <SimpleAICConverter walletAddress={connectedAddress || undefined} />
+            </div>
           </div>
-        </div>
+        </Suspense>
         <Footer onNavigate={handleNavigate} />
       </>
     );
@@ -524,11 +542,13 @@ function App() {
           walletAddress={connectedAddress || undefined}
           onConnectWallet={handleConnectWallet}
         />
-        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black py-24 px-4">
-          <div className="max-w-5xl mx-auto">
-            <BridgeInterface />
+        <Suspense fallback={<LoadingSpinner />}>
+          <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black py-24 px-4">
+            <div className="max-w-5xl mx-auto">
+              <BridgeInterface />
+            </div>
           </div>
-        </div>
+        </Suspense>
         <Footer onNavigate={handleNavigate} />
       </>
     );
@@ -544,11 +564,13 @@ function App() {
           walletAddress={connectedAddress || undefined}
           onConnectWallet={handleConnectWallet}
         />
-        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black py-24 px-4">
-          <div className="max-w-5xl mx-auto">
-            <TransactionAccelerator />
+        <Suspense fallback={<LoadingSpinner />}>
+          <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black py-24 px-4">
+            <div className="max-w-5xl mx-auto">
+              <TransactionAccelerator />
+            </div>
           </div>
-        </div>
+        </Suspense>
         <Footer onNavigate={handleNavigate} />
       </>
     );
@@ -564,11 +586,13 @@ function App() {
           walletAddress={connectedAddress || undefined}
           onConnectWallet={handleConnectWallet}
         />
-        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black py-24 px-4">
-          <div className="max-w-6xl mx-auto">
-            <TransactionHistory userId={userId} />
+        <Suspense fallback={<LoadingSpinner />}>
+          <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black py-24 px-4">
+            <div className="max-w-6xl mx-auto">
+              <TransactionHistory userId={userId} />
+            </div>
           </div>
-        </div>
+        </Suspense>
         <Footer onNavigate={handleNavigate} />
       </>
     );
@@ -584,11 +608,13 @@ function App() {
           walletAddress={connectedAddress || undefined}
           onConnectWallet={handleConnectWallet}
         />
-        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black py-24 px-4">
-          <div className="max-w-6xl mx-auto">
-            <VirtualCard walletAddress={connectedAddress || undefined} usdcBalance={usdcBalance} />
+        <Suspense fallback={<LoadingSpinner />}>
+          <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black py-24 px-4">
+            <div className="max-w-6xl mx-auto">
+              <VirtualCard walletAddress={connectedAddress || undefined} usdcBalance={usdcBalance} />
+            </div>
           </div>
-        </div>
+        </Suspense>
         <Footer onNavigate={handleNavigate} />
       </>
     );
@@ -604,11 +630,13 @@ function App() {
           walletAddress={connectedAddress || undefined}
           onConnectWallet={handleConnectWallet}
         />
-        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black py-24 px-4">
-          <div className="max-w-6xl mx-auto">
-            <CircleBanking walletAddress={connectedAddress || undefined} usdcBalance={usdcBalance} />
+        <Suspense fallback={<LoadingSpinner />}>
+          <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black py-24 px-4">
+            <div className="max-w-6xl mx-auto">
+              <CircleBanking walletAddress={connectedAddress || undefined} usdcBalance={usdcBalance} />
+            </div>
           </div>
-        </div>
+        </Suspense>
         <Footer onNavigate={handleNavigate} />
       </>
     );
@@ -622,7 +650,7 @@ function App() {
       walletAddress={connectedAddress || undefined}
       onConnectWallet={handleConnectWallet}
     />
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black relative overflow-hidden py-8 pb-24 lg:pb-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black relative overflow-hidden py-8 pb-32 lg:pb-8">
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
 
       {/* Floating Circle Logo icons */}

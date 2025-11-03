@@ -30,7 +30,7 @@ export function ArcMainnetUpdates() {
             AI Cognitive Token is currently live on Arc Testnet with full functionality. All features including learning, earning, swapping, and bridging are operational.
           </p>
           <a
-            href="https://testnet.arcscan.com"
+            href="https://testnet.arcscan.app"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors"
@@ -85,12 +85,12 @@ export function ArcMainnetUpdates() {
             <div>
               <p className="text-gray-400">Explorer</p>
               <a
-                href="https://testnet.arcscan.com"
+                href="https://testnet.arcscan.app"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-cyan-400 hover:text-cyan-300 font-mono text-xs break-all flex items-center gap-1"
               >
-                https://testnet.arcscan.com
+                https://testnet.arcscan.app
                 <ExternalLink className="w-3 h-3" />
               </a>
             </div>
@@ -246,7 +246,7 @@ export function ArcMainnetUpdates() {
 
           <div className="text-center">
             <a
-              href="https://testnet.arcscan.com"
+              href="https://testnet.arcscan.app"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-10 py-4 rounded-xl font-bold text-lg hover:shadow-[0_0_40px_rgba(34,211,238,0.6)] transition-all"
