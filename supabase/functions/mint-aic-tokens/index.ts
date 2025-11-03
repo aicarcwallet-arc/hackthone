@@ -1,6 +1,6 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
-import { createWalletClient, http, parseUnits } from "npm:viem@2.21.54";
+import { createWalletClient, createPublicClient, http, parseUnits } from "npm:viem@2.21.54";
 import { privateKeyToAccount } from "npm:viem@2.21.54/accounts";
 
 const corsHeaders = {
@@ -130,10 +130,14 @@ Deno.serve(async (req: Request) => {
       transport: http("https://rpc.testnet.arc.network"),
     });
 
+    const publicClient = createPublicClient({
+      chain: ARC_TESTNET,
+      transport: http("https://rpc.testnet.arc.network"),
+    });
+
     const amountToMint = parseUnits(unclaimedAmount.toString(), 6);
     const submissionId = `claim-${Date.now()}-${walletAddress.slice(0, 8)}`;
 
-    const publicClient = walletClient;
     const gasPrice = await publicClient.request({
       method: 'eth_gasPrice',
     });
@@ -148,6 +152,19 @@ Deno.serve(async (req: Request) => {
       gasPrice: gasPriceWithBuffer,
       gas: BigInt(100000),
     });
+
+    // Arc Network: Malachite BFT consensus provides deterministic finality
+    // Transactions are final as soon as included in a block (sub-second)
+    // Wait for 1 confirmation for absolute certainty
+    const receipt = await publicClient.waitForTransactionReceipt({
+      hash: txHash,
+      confirmations: 1, // Arc blocks finalize in <1 second
+      timeout: 10_000, // 10s timeout (generous for sub-second blocks)
+    });
+
+    if (receipt.status !== "success") {
+      throw new Error("Transaction failed on-chain");
+    }
 
     await supabase
       .from("users")
