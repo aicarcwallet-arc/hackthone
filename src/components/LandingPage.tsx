@@ -18,6 +18,9 @@ export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
               <img src="/aic toekn .png" alt="AI Cognitive Token Logo" className="w-8 h-8 sm:w-10 sm:h-10" />
               <span className="text-sm sm:text-base font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">AI Cognitive Token (AiC)</span>
             </div>
+            <p className="text-lg sm:text-xl md:text-2xl font-semibold bg-gradient-to-r from-cyan-300 via-blue-400 to-cyan-300 bg-clip-text text-transparent mb-4 sm:mb-5 px-2 drop-shadow-[0_0_20px_rgba(34,211,238,0.4)]">
+              Your Knowledge is Your Currency
+            </p>
             <p className="text-xs sm:text-sm md:text-base text-cyan-400 mb-6 sm:mb-8 px-2 flex items-center justify-center gap-2 flex-wrap">
               <GraduationCap className="w-4 h-4" />
               🎓 Learn Blockchain Basics • ⚡ Earn Instant AiC Token Rewards • 💎 Swap to USDC Anytime
