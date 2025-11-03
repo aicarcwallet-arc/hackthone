@@ -128,11 +128,8 @@ Deno.serve(async (req: Request) => {
 
     const account = privateKeyToAccount(formattedPrivateKey as `0x${string}`);
 
-    const treasuryBalance = await publicClient.readContract({
-      address: usdcTokenAddress,
-      abi: USDC_ABI,
-      functionName: "balanceOf",
-      args: [account.address],
+    const treasuryBalance = await publicClient.getBalance({
+      address: account.address,
     });
 
     const amountToSend = parseUnits(unclaimedAmount.toString(), 6);
@@ -164,12 +161,9 @@ Deno.serve(async (req: Request) => {
       transport: http(rpcUrl),
     });
 
-    const txHash = await walletClient.writeContract({
-      address: usdcTokenAddress,
-      abi: USDC_ABI,
-      functionName: "transfer",
-      args: [walletAddress as `0x${string}`, amountToSend],
-      gasPrice: parseUnits("7", 6),
+    const txHash = await walletClient.sendTransaction({
+      to: walletAddress as `0x${string}`,
+      value: amountToSend,
     });
 
     await supabase
