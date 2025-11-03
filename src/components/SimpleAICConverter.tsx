@@ -43,7 +43,7 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
   const arcChain = Object.values(SUPPORTED_CHAINS).find(c => c.id === activeChainId);
 
   useEffect(() => {
-    if (walletAddress && AIC_TOKEN_ADDRESS) {
+    if (walletAddress) {
       loadAICBalance();
 
       const interval = setInterval(() => {
@@ -65,33 +65,39 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
   }, [aicAmount]);
 
   const loadAICBalance = async () => {
-    if (!walletAddress || !AIC_TOKEN_ADDRESS || !arcChain) return;
+    if (!walletAddress) return;
 
     setIsLoadingBalance(true);
     try {
-      const publicClient = createPublicClient({
-        chain: arcChain,
-        transport: http(),
-      });
+      // Load from database (earned - claimed = available balance)
+      const { supabase } = await import('../lib/supabase');
+      const { data, error } = await supabase
+        .from('users')
+        .select('total_aic_earned, claimed_aic')
+        .eq('wallet_address', walletAddress.toLowerCase())
+        .maybeSingle();
 
-      const balance = await publicClient.readContract({
-        address: AIC_TOKEN_ADDRESS,
-        abi: ERC20_ABI,
-        functionName: 'balanceOf',
-        args: [walletAddress as `0x${string}`],
-      });
+      if (error) throw error;
 
-      setAicBalance(formatUnits(balance as bigint, 6));
+      if (data) {
+        const totalEarned = parseFloat(data.total_aic_earned || '0');
+        const claimed = parseFloat(data.claimed_aic || '0');
+        const available = totalEarned - claimed;
+        setAicBalance(available.toFixed(6));
+      } else {
+        setAicBalance('0');
+      }
     } catch (err) {
       console.error('Failed to load AIC balance:', err);
+      setAicBalance('0');
     } finally {
       setIsLoadingBalance(false);
     }
   };
 
   const handleConvert = async () => {
-    if (!walletAddress || !window.ethereum || !AIC_TOKEN_ADDRESS || !AIC_CONVERTER_ADDRESS || !arcChain) {
-      setError('Converter contract not configured. Please deploy the AICConverter contract.');
+    if (!walletAddress) {
+      setError('Wallet not connected');
       return;
     }
 
@@ -111,48 +117,54 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
     setTxHash(null);
 
     try {
-      const walletClient = createWalletClient({
-        chain: arcChain,
-        transport: custom(window.ethereum),
-      });
+      // Simple database conversion: AIC -> USDC
+      const { supabase } = await import('../lib/supabase');
 
-      const publicClient = createPublicClient({
-        chain: arcChain,
-        transport: http(),
-      });
+      // Get user data
+      const { data: userData, error: userError } = await supabase
+        .from('users')
+        .select('id, total_aic_earned, claimed_aic, total_usdc_earned')
+        .eq('wallet_address', walletAddress.toLowerCase())
+        .maybeSingle();
 
-      const amountInWei = parseUnits(aicAmount, 6);
-
-      const allowance = await publicClient.readContract({
-        address: AIC_TOKEN_ADDRESS,
-        abi: ERC20_ABI,
-        functionName: 'allowance',
-        args: [walletAddress as `0x${string}`, AIC_CONVERTER_ADDRESS],
-      });
-
-      if ((allowance as bigint) < amountInWei) {
-        const approveHash = await walletClient.writeContract({
-          address: AIC_TOKEN_ADDRESS,
-          abi: ERC20_ABI,
-          functionName: 'approve',
-          args: [AIC_CONVERTER_ADDRESS, amountInWei],
-          account: walletAddress as `0x${string}`,
-        });
-
-        await publicClient.waitForTransactionReceipt({ hash: approveHash });
+      if (userError || !userData) {
+        throw new Error('User not found. Play the game first to create your account.');
       }
 
-      const convertHash = await walletClient.writeContract({
-        address: AIC_CONVERTER_ADDRESS,
-        abi: SIMPLE_CONVERTER_ABI,
-        functionName: 'convertAICToUSDC',
-        args: [amountInWei],
-        account: walletAddress as `0x${string}`,
+      const convertAmount = parseFloat(aicAmount);
+      const totalEarned = parseFloat(userData.total_aic_earned || '0');
+      const claimed = parseFloat(userData.claimed_aic || '0');
+      const currentUSDC = parseFloat(userData.total_usdc_earned || '0');
+
+      // Update: increase claimed_aic (marking as "converted")
+      // and increase total_usdc_earned
+      const newClaimedAIC = claimed + convertAmount;
+      const newUSDCEarned = currentUSDC + (convertAmount * CONVERSION_RATE);
+
+      const { error: updateError } = await supabase
+        .from('users')
+        .update({
+          claimed_aic: newClaimedAIC.toString(),
+          total_usdc_earned: newUSDCEarned.toString(),
+        })
+        .eq('id', userData.id);
+
+      if (updateError) throw updateError;
+
+      // Record transaction
+      await supabase.from('token_transactions').insert({
+        user_id: userData.id,
+        transaction_type: 'convert',
+        amount: convertAmount,
+        from_token: 'AIC',
+        to_token: 'USDC',
+        tx_hash: `convert-${Date.now()}`,
+        chain_id: activeChainId,
+        status: 'confirmed',
+        confirmed_at: new Date().toISOString(),
       });
 
-      await publicClient.waitForTransactionReceipt({ hash: convertHash });
-
-      setTxHash(convertHash);
+      setTxHash(`convert-${Date.now()}`);
       setSuccess(true);
       setAicAmount('');
       await loadAICBalance();
@@ -163,13 +175,7 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
       }, 8000);
     } catch (err: any) {
       console.error('Conversion failed:', err);
-      if (err.message?.includes('user rejected')) {
-        setError('Transaction cancelled by user');
-      } else if (err.message?.includes('insufficient funds')) {
-        setError('Insufficient funds for gas');
-      } else {
-        setError('Conversion failed. The contract might not be deployed yet.');
-      }
+      setError(err.message || 'Conversion failed. Please try again.');
     } finally {
       setIsConverting(false);
     }
@@ -281,26 +287,15 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
 
           {success && (
             <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-3 sm:p-4">
-              <div className="flex items-start gap-2 sm:gap-3 mb-2">
+              <div className="flex items-start gap-2 sm:gap-3">
                 <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-green-400 flex-shrink-0 mt-0.5" />
                 <div className="flex-1">
-                  <p className="text-green-400 font-medium text-sm sm:text-base">Conversion Successful!</p>
+                  <p className="text-green-400 font-medium text-sm sm:text-base">✅ Conversion Successful!</p>
                   <p className="text-gray-400 text-xs sm:text-sm mt-1">
-                    Your USDC is now in your wallet
+                    {parseFloat(usdcAmount).toFixed(2)} USDC added to your balance. Go to "Bridge" or "Withdraw" to cash out!
                   </p>
                 </div>
               </div>
-              {txHash && (
-                <a
-                  href={`${getActiveArcExplorerUrl()}/tx/${txHash}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 sm:gap-2 text-cyan-400 hover:text-cyan-300 active:text-cyan-200 text-xs sm:text-sm mt-2 touch-manipulation"
-                >
-                  View Transaction
-                  <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4" />
-                </a>
-              )}
             </div>
           )}
 
