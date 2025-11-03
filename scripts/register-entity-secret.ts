@@ -1,17 +1,32 @@
 import { generateEntitySecret, registerEntitySecretCiphertext } from '@circle-fin/developer-controlled-wallets';
+import { config } from 'dotenv';
 import * as fs from 'fs';
+
+config();
 
 async function registerNewEntitySecret() {
   try {
-    console.log("Step 1: Generating new entity secret...");
-    const entitySecret = generateEntitySecret();
+    console.log("Step 1: Generating new entity secret...\n");
+    generateEntitySecret();
+
+    console.log("\n⚠️  COPY THE ENTITY SECRET SHOWN ABOVE");
+    console.log("Then paste it when prompted...\n");
+
+    // Wait for user input
+    process.stdin.resume();
+    const entitySecret = await new Promise<string>((resolve) => {
+      console.log("Paste entity secret here:");
+      process.stdin.once('data', (data) => {
+        resolve(data.toString().trim());
+        process.stdin.pause();
+      });
+    });
 
     console.log("\n===========================================");
-    console.log("ENTITY SECRET (SAVE THIS SECURELY!):");
-    console.log(entitySecret);
+    console.log("Using entity secret:", entitySecret);
     console.log("===========================================\n");
 
-    const apiKey = process.env.CIRCLE_API_KEY;
+    const apiKey = process.env.VITE_CIRCLE_API_KEY;
 
     if (!apiKey) {
       console.error("Error: CIRCLE_API_KEY environment variable not set");
@@ -33,8 +48,8 @@ async function registerNewEntitySecret() {
     }
 
     console.log("✅ Entity secret registration complete!");
-    console.log("\nNext: Add to Supabase secrets:");
-    console.log(`npx supabase secrets set CIRCLE_ENTITY_SECRET="${entitySecret}"`);
+    console.log("\nNext: Add this to your .env file:");
+    console.log(`CIRCLE_ENTITY_SECRET=${entitySecret}`);
 
   } catch (error) {
     console.error("❌ Error:", error);
