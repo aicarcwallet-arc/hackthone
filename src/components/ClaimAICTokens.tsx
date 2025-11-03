@@ -25,6 +25,10 @@ export function ClaimAICTokens({ walletAddress, unclaimedAmount, onSuccess }: Cl
     try {
       const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 
+      if (!supabaseUrl) {
+        throw new Error('Configuration error: Supabase URL not found');
+      }
+
       const response = await fetch(`${supabaseUrl}/functions/v1/mint-aic-tokens`, {
         method: 'POST',
         headers: {
@@ -37,7 +41,19 @@ export function ClaimAICTokens({ walletAddress, unclaimedAmount, onSuccess }: Cl
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to claim tokens');
+        console.error('Mint failed:', data);
+        if (data.error?.includes('Minter private key not configured')) {
+          throw new Error('⚙️ Setup Required: Run "npx supabase secrets set GAME_MINTER_PRIVATE_KEY=<your-key>" to enable claiming.');
+        } else if (data.error?.includes('AIC token address not configured')) {
+          throw new Error('⚙️ Setup Required: Deploy the AIC Token contract first and set VITE_AIC_TOKEN_ADDRESS.');
+        } else if (data.error?.includes('User not found')) {
+          throw new Error('Account not found. Please play the game first to create your account.');
+        } else if (data.error?.includes('No unclaimed AIC')) {
+          throw new Error('No unclaimed tokens available. Play the game to earn more!');
+        } else if (data.error?.includes('insufficient funds')) {
+          throw new Error('⛽ Minter wallet needs gas (USDC). Send testnet USDC to the minter address.');
+        }
+        throw new Error(data.error || 'Failed to claim tokens. Please try again.');
       }
 
       setTxHash(data.txHash);
@@ -137,9 +153,11 @@ export function ClaimAICTokens({ walletAddress, unclaimedAmount, onSuccess }: Cl
       )}
 
       {!isClaiming && !txHash && (
-        <div className="mt-4 text-xs text-gray-400 text-center">
-          <p className="font-semibold text-green-400">Click above to mint your earned tokens</p>
-          <p className="mt-1">After claiming, use "Convert to USDC" to swap</p>
+        <div className="mt-4 p-3 bg-cyan-500/10 rounded-lg border border-cyan-500/20">
+          <p className="text-xs text-cyan-400 text-center font-semibold mb-1">⚡ Gas-Free Claiming!</p>
+          <p className="text-xs text-gray-400 text-center">
+            No MetaMask signature needed - tokens are automatically minted to your wallet
+          </p>
         </div>
       )}
     </div>
