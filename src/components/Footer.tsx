@@ -79,7 +79,7 @@ export function Footer({ onNavigate }: FooterProps) {
           <div className="flex flex-col items-center gap-4 border-t border-cyan-500/20 pt-6 w-full max-w-2xl">
             <div className="flex flex-col items-center gap-2">
               <p className="text-cyan-400 text-sm font-semibold tracking-wide">
-                Designed & Developed with ❤️
+                Architecting the Future of the Internet Economy
               </p>
               <p className="text-gray-300 text-base font-bold">
                 Shazia Sayeed
