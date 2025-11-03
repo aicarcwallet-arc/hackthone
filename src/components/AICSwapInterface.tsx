@@ -391,7 +391,7 @@ export function AICSwapInterface({ walletAddress }: AICSwapInterfaceProps) {
             <div>
               <p className="text-green-400 font-semibold mb-1">✅ USDC Ready in MetaMask!</p>
               <p className="text-sm text-gray-300 mb-2">
-                Your <span className="font-bold text-white">{parseFloat(usdcBalance).toFixed(2)} USDC</span> is already deposited in your MetaMask wallet on <span className="font-semibold text-cyan-400">Arc Testnet</span>
+                Your <span className="font-bold text-white">{parseFloat(usdcBalance).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDC</span> is already deposited in your MetaMask wallet on <span className="font-semibold text-cyan-400">Arc Testnet</span>
               </p>
               <div className="text-xs text-gray-400 space-y-1 pl-4 border-l-2 border-green-500/30">
                 <p>✓ No withdrawal needed - it's already yours!</p>

@@ -61,7 +61,7 @@ export function GamePage({ userId, walletAddress, onNavigate, onConnectWallet }:
                   <div className="min-w-0">
                     <p className="text-xs sm:text-sm text-gray-400">USDC Balance</p>
                     <div className="flex items-baseline gap-1">
-                      <p className="text-xl sm:text-3xl font-bold text-blue-400 truncate">{parseFloat(usdcBalance || '0').toFixed(2)}</p>
+                      <p className="text-xl sm:text-3xl font-bold text-blue-400 truncate">{parseFloat(usdcBalance || '0').toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
                       <span className="text-xs sm:text-lg text-gray-400">USDC</span>
                     </div>
                   </div>

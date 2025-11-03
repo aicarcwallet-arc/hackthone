@@ -399,7 +399,7 @@ export function BurnPegInterface({ walletAddress }: BurnPegInterfaceProps) {
                   onClick={() => setBurnAmount(usdcBalance)}
                   className="text-sm text-cyan-400 hover:text-cyan-300"
                 >
-                  Max: {parseFloat(usdcBalance).toFixed(2)} USDC
+                  Max: {parseFloat(usdcBalance).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDC
                 </button>
               </div>
               <div className="flex items-center gap-3 bg-gray-800/50 border border-red-500/30 rounded-lg px-4 py-4">

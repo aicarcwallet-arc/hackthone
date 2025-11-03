@@ -105,7 +105,7 @@ export function VirtualCard({ walletAddress, usdcBalance }: VirtualCardProps) {
                         </div>
                         <div className="text-right">
                           <p className="text-cyan-300 text-xs mb-1">BALANCE</p>
-                          <p className="text-white text-lg sm:text-xl font-bold">${parseFloat(usdcBalance).toFixed(2)}</p>
+                          <p className="text-white text-lg sm:text-xl font-bold">${parseFloat(usdcBalance).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
                         </div>
                       </div>
                     </div>
@@ -172,7 +172,7 @@ export function VirtualCard({ walletAddress, usdcBalance }: VirtualCardProps) {
               <div className="bg-cyan-500/10 rounded-xl p-4 border border-cyan-500/30">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-gray-300">Available USDC</span>
-                  <span className="text-cyan-400 font-bold text-lg">${parseFloat(usdcBalance).toFixed(2)}</span>
+                  <span className="text-cyan-400 font-bold text-lg">${parseFloat(usdcBalance).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                 </div>
                 <div className="w-full bg-gray-700 rounded-full h-2 mt-3">
                   <div

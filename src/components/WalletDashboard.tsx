@@ -216,7 +216,7 @@ export function WalletDashboard({ walletAddress, userId, onDisconnect }: WalletD
                 <p className="text-blue-200 text-xs sm:text-sm">USDC Balance</p>
               </div>
               <p className="text-2xl sm:text-3xl font-bold mb-1">
-                {parseFloat(usdcBalance).toFixed(2)}
+                {parseFloat(usdcBalance).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </p>
               <p className="text-blue-200 text-xs sm:text-sm">In MetaMask (Arc)</p>
             </div>

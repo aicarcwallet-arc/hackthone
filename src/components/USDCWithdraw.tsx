@@ -142,7 +142,7 @@ export function USDCWithdraw({ walletAddress, usdcBalance, onSuccess }: USDCWith
                   className="text-sm text-cyan-400 hover:text-cyan-300"
                   disabled={loading}
                 >
-                  Max: {parseFloat(usdcBalance).toFixed(2)} USDC
+                  Max: {parseFloat(usdcBalance).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDC
                 </button>
               </div>
               <div className="flex items-center gap-3 bg-gray-800/50 border border-cyan-500/30 rounded-lg px-4 py-3">

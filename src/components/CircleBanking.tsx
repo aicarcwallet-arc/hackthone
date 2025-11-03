@@ -60,8 +60,8 @@ export function CircleBanking({ walletAddress, usdcBalance }: CircleBankingProps
           <div className="grid sm:grid-cols-2 gap-4 mb-6">
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
               <p className="text-blue-300 text-xs mb-1">Available Balance</p>
-              <p className="text-white text-2xl sm:text-3xl font-bold">${parseFloat(usdcBalance).toFixed(2)}</p>
-              <p className="text-blue-200 text-xs mt-1">{parseFloat(usdcBalance).toFixed(2)} USDC</p>
+              <p className="text-white text-2xl sm:text-3xl font-bold">${parseFloat(usdcBalance).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+              <p className="text-blue-200 text-xs mt-1">{parseFloat(usdcBalance).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDC</p>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
               <p className="text-blue-300 text-xs mb-1">Account Number</p>
@@ -126,7 +126,7 @@ export function CircleBanking({ walletAddress, usdcBalance }: CircleBankingProps
                     />
                   </div>
                   <p className="text-sm text-gray-400 mt-2">
-                    Available: <span className="text-blue-400 font-semibold">${parseFloat(usdcBalance).toFixed(2)}</span>
+                    Available: <span className="text-blue-400 font-semibold">${parseFloat(usdcBalance).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                   </p>
                 </div>
 

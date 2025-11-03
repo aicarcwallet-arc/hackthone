@@ -200,7 +200,7 @@ export function TreasuryFunder({ walletAddress, usdcBalance }: TreasuryFunderPro
           </div>
           <div className="flex items-center justify-between mt-2">
             <p className="text-sm text-gray-400">
-              Your balance: <span className="text-pink-400 font-semibold">{parseFloat(usdcBalance).toFixed(2)} USDC</span>
+              Your balance: <span className="text-pink-400 font-semibold">{parseFloat(usdcBalance).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDC</span>
             </p>
             <button
               onClick={() => setAmount(usdcBalance)}
