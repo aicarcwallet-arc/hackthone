@@ -154,8 +154,42 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
             <nav className="px-4 py-4 space-y-2 max-h-[calc(100vh-4rem)] overflow-y-auto">
               {menuItems.map((item) => {
                 const Icon = item.icon;
-                const isActive = currentPage === item.id;
+                const isActive = currentPage === item.id || (item.submenu && item.submenu.some(sub => sub.id === currentPage));
                 const isSpecial = item.special;
+
+                if (item.submenu) {
+                  return (
+                    <div key={item.id} className="space-y-1">
+                      <div className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium ${
+                        isActive ? 'bg-cyan-500/10 text-cyan-400' : 'text-gray-300'
+                      }`}>
+                        <Icon className="w-5 h-5" />
+                        <span className="text-sm">{item.label}</span>
+                      </div>
+                      <div className="pl-4 space-y-1">
+                        {item.submenu.map((subItem) => {
+                          const SubIcon = subItem.icon;
+                          const isSubActive = currentPage === subItem.id;
+                          return (
+                            <button
+                              key={subItem.id}
+                              onClick={() => handleMenuClick(subItem.id)}
+                              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all touch-manipulation min-h-[48px] ${
+                                isSubActive
+                                  ? 'bg-cyan-500/20 text-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.3)]'
+                                  : 'text-gray-300 active:bg-gray-800 active:text-cyan-400 sm:hover:bg-gray-800 sm:hover:text-cyan-400'
+                              }`}
+                            >
+                              <SubIcon className="w-4 h-4" />
+                              <span className="text-sm">{subItem.label}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                }
+
                 return (
                   <button
                     key={item.id}
@@ -171,7 +205,7 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
                     }`}
                   >
                     <Icon className="w-5 h-5" />
-                    <span>{item.label}</span>
+                    <span className="text-sm">{item.label}</span>
                   </button>
                 );
               })}

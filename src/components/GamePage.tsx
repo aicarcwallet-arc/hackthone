@@ -37,67 +37,68 @@ export function GamePage({ userId, walletAddress, onNavigate }: GamePageProps) {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {walletAddress && (
-          <div className="mb-6 bg-gradient-to-r from-green-900/30 to-emerald-900/30 backdrop-blur-sm rounded-2xl p-6 border border-green-500/30 shadow-[0_0_30px_rgba(34,197,94,0.3)]">
-            <div className="flex items-center justify-between flex-wrap gap-4">
-              <div className="flex items-center gap-6">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center">
-                    <Wallet className="w-6 h-6 text-green-400" />
+          <div className="mb-6 bg-gradient-to-r from-green-900/30 to-emerald-900/30 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-green-500/30 shadow-[0_0_30px_rgba(34,197,94,0.3)]">
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-3 sm:flex sm:items-center sm:gap-6">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Wallet className="w-5 h-5 sm:w-6 sm:h-6 text-green-400" />
                   </div>
-                  <div>
-                    <p className="text-sm text-gray-400">Your AIC Balance</p>
-                    <div className="flex items-center gap-2">
-                      <p className="text-3xl font-bold text-green-400">{parseFloat(aicBalance || '0').toFixed(2)}</p>
-                      <span className="text-lg text-gray-400">AIC</span>
+                  <div className="min-w-0">
+                    <p className="text-xs sm:text-sm text-gray-400">AIC Balance</p>
+                    <div className="flex items-baseline gap-1">
+                      <p className="text-xl sm:text-3xl font-bold text-green-400 truncate">{parseFloat(aicBalance || '0').toFixed(2)}</p>
+                      <span className="text-xs sm:text-lg text-gray-400">AIC</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center">
-                    <Coins className="w-6 h-6 text-blue-400" />
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Coins className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" />
                   </div>
-                  <div>
-                    <p className="text-sm text-gray-400">USDC Balance</p>
-                    <div className="flex items-center gap-2">
-                      <p className="text-3xl font-bold text-blue-400">{parseFloat(usdcBalance || '0').toFixed(2)}</p>
-                      <span className="text-lg text-gray-400">USDC</span>
+                  <div className="min-w-0">
+                    <p className="text-xs sm:text-sm text-gray-400">USDC Balance</p>
+                    <div className="flex items-baseline gap-1">
+                      <p className="text-xl sm:text-3xl font-bold text-blue-400 truncate">{parseFloat(usdcBalance || '0').toFixed(2)}</p>
+                      <span className="text-xs sm:text-lg text-gray-400">USDC</span>
                     </div>
                   </div>
                 </div>
 
                 <button
                   onClick={handleRefresh}
-                  className="p-3 bg-gray-800/50 hover:bg-gray-700/50 rounded-lg transition-colors"
+                  className="col-span-2 sm:col-span-1 p-3 bg-gray-800/50 active:bg-gray-700/50 sm:hover:bg-gray-700/50 rounded-lg transition-colors touch-manipulation min-h-[48px] sm:min-h-0"
                   title="Refresh balances"
                 >
-                  <RefreshCw className={`w-5 h-5 text-cyan-400 ${isRefreshing ? 'animate-spin' : ''}`} />
+                  <RefreshCw className={`w-5 h-5 text-cyan-400 mx-auto ${isRefreshing ? 'animate-spin' : ''}`} />
                 </button>
               </div>
 
-              <div className="flex gap-3">
+              <div className="grid grid-cols-2 gap-2 sm:flex sm:gap-3">
                 <button
                   onClick={() => setShowSwapModal(true)}
                   disabled={parseFloat(aicBalance || '0') <= 0}
-                  className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-700 text-white px-6 py-3 rounded-lg font-semibold transition-all shadow-[0_0_20px_rgba(34,211,238,0.4)]"
+                  className="flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 active:from-cyan-400 active:to-blue-500 sm:hover:from-cyan-400 sm:hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-700 text-white px-3 sm:px-6 py-3 rounded-lg font-semibold transition-all shadow-[0_0_20px_rgba(34,211,238,0.4)] touch-manipulation min-h-[48px] text-xs sm:text-base"
                 >
-                  <ArrowRightLeft className="w-5 h-5" />
-                  Convert to USDC
+                  <ArrowRightLeft className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+                  <span className="hidden sm:inline">Convert to USDC</span>
+                  <span className="sm:hidden">Convert</span>
                 </button>
 
                 <button
                   onClick={() => onNavigate?.('withdraw')}
                   disabled={parseFloat(usdcBalance || '0') <= 0}
-                  className="flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 disabled:from-gray-600 disabled:to-gray-700 text-white px-6 py-3 rounded-lg font-semibold transition-all shadow-[0_0_20px_rgba(34,197,94,0.4)]"
+                  className="flex items-center justify-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 active:from-green-400 active:to-emerald-500 sm:hover:from-green-400 sm:hover:to-emerald-500 disabled:from-gray-600 disabled:to-gray-700 text-white px-3 sm:px-6 py-3 rounded-lg font-semibold transition-all shadow-[0_0_20px_rgba(34,197,94,0.4)] touch-manipulation min-h-[48px] text-xs sm:text-base"
                 >
-                  <Download className="w-5 h-5" />
-                  Withdraw
+                  <Download className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+                  <span>Withdraw</span>
                 </button>
               </div>
             </div>
 
-            <div className="mt-4 p-4 bg-green-500/10 rounded-lg border border-green-500/20">
-              <p className="text-sm text-gray-300">
+            <div className="mt-4 p-3 sm:p-4 bg-green-500/10 rounded-lg border border-green-500/20">
+              <p className="text-xs sm:text-sm text-gray-300">
                 <span className="text-green-400 font-semibold">Tokens Added to Your Arc Testnet Wallet!</span> Every word you type correctly earns AIC tokens that are instantly minted to your wallet address. Convert them to USDC anytime or withdraw to your bank account.
               </p>
             </div>

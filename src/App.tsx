@@ -16,6 +16,7 @@ import { GasFaucetBanner } from './components/GasFaucetBanner';
 import { VirtualCard } from './components/VirtualCard';
 import { CircleBanking } from './components/CircleBanking';
 import { NavigationHeader } from './components/NavigationHeader';
+import { MobileBottomNav } from './components/MobileBottomNav';
 import { HowItWorks } from './components/HowItWorks';
 import { WithdrawPage } from './components/WithdrawPage';
 import { Footer } from './components/Footer';
@@ -484,7 +485,7 @@ function App() {
       walletAddress={connectedAddress || undefined}
       onConnectWallet={handleConnectWallet}
     />
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black relative overflow-hidden py-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black relative overflow-hidden py-8 pb-24 lg:pb-8">
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
 
       {/* Floating Circle Logo icons */}
@@ -582,8 +583,8 @@ function App() {
               onDisconnect={handleDisconnect}
             />
 
-            <div className="flex justify-center mb-8 sm:mb-12">
-              <div className="inline-flex bg-gray-800/50 backdrop-blur-sm rounded-lg shadow-[0_0_30px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-1 overflow-x-auto max-w-full scrollbar-hide">
+            <div className="flex justify-center mb-8 sm:mb-12 px-2">
+              <div className="inline-flex bg-gray-800/50 backdrop-blur-sm rounded-lg shadow-[0_0_30px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-1 overflow-x-auto max-w-full scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 <button
                   onClick={() => {
                     console.log('Game tab clicked');
@@ -844,6 +845,7 @@ function App() {
       </div>
       <Footer onNavigate={handleNavigate} />
     </div>
+    <MobileBottomNav currentPage={currentPage} onNavigate={handleNavigate} />
     </>
   );
 }
