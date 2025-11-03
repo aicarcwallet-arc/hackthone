@@ -31,7 +31,7 @@ export function CircleDemoWidget({ treasuryBalance = 0, pendingRequests = 0 }: C
             <span className="text-xs bg-red-500/20 text-red-400 px-2 py-1 rounded-full">Limited</span>
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-bold text-white">${treasuryBalance.toFixed(2)}</span>
+            <span className="text-2xl font-bold text-white">${treasuryBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
             <span className="text-sm text-gray-400">USDC</span>
           </div>
           <p className="text-xs text-gray-500 mt-2">Manual Treasury Balance</p>

@@ -42,8 +42,8 @@ export function TreasuryFunder({ walletAddress, usdcBalance }: TreasuryFunderPro
       const treasuryBal = parseInt(treasuryResult as string, 16) / 1_000_000;
       const autoFillBal = parseInt(autoFillResult as string, 16) / 1_000_000;
 
-      setTreasuryBalance(treasuryBal.toFixed(2));
-      setAutoFillBalance(autoFillBal.toFixed(2));
+      setTreasuryBalance(treasuryBal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+      setAutoFillBalance(autoFillBal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
     } catch (err) {
       console.error('Error fetching balances:', err);
     }
@@ -174,7 +174,7 @@ export function TreasuryFunder({ walletAddress, usdcBalance }: TreasuryFunderPro
             <TrendingUp className="w-6 h-6 text-green-400" />
             <span className="text-gray-300 text-sm">Rewards Paid</span>
           </div>
-          <p className="text-2xl font-bold text-white">1,153 USDC</p>
+          <p className="text-2xl font-bold text-white">1,153.00 USDC</p>
           <p className="text-xs text-gray-400 mt-1">To players via AIC</p>
         </div>
       </div>
