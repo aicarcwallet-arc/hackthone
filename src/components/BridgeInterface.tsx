@@ -7,7 +7,7 @@ import { getTokenAddress, getBridgeableTokensForChain } from '../config/tokens';
 import { supabase } from '../lib/supabase';
 
 export function BridgeInterface() {
-  const [fromChain, setFromChain] = useState(11155111); // Start with Ethereum Sepolia
+  const [fromChain, setFromChain] = useState(11155111); // Ethereum Sepolia (Circle CCTP supported)
   const [toChain, setToChain] = useState(84532); // Base Sepolia
   const [selectedToken, setSelectedToken] = useState('USDC');
   const [amount, setAmount] = useState('');
@@ -181,11 +181,54 @@ export function BridgeInterface() {
     }
 
     try {
+      // Check if wallet is on the correct chain
+      if (window.ethereum) {
+        const currentChainId = await window.ethereum.request({ method: 'eth_chainId' });
+        const currentChainIdDecimal = parseInt(currentChainId as string, 16);
+
+        if (currentChainIdDecimal !== fromChain) {
+          console.log(`Switching from chain ${currentChainIdDecimal} to ${fromChain}`);
+
+          try {
+            await window.ethereum.request({
+              method: 'wallet_switchEthereumChain',
+              params: [{ chainId: `0x${fromChain.toString(16)}` }],
+            });
+
+            // Wait a bit for the switch to complete
+            await new Promise(resolve => setTimeout(resolve, 1000));
+          } catch (switchError: any) {
+            // Chain not added to wallet, try to add it
+            if (switchError.code === 4902) {
+              const chainConfig = SUPPORTED_CHAINS[fromChain];
+              if (chainConfig) {
+                await window.ethereum.request({
+                  method: 'wallet_addEthereumChain',
+                  params: [{
+                    chainId: `0x${fromChain.toString(16)}`,
+                    chainName: chainConfig.name,
+                    nativeCurrency: chainConfig.nativeCurrency,
+                    rpcUrls: chainConfig.rpcUrls.default.http,
+                    blockExplorerUrls: chainConfig.blockExplorers?.default ? [chainConfig.blockExplorers.default.url] : undefined,
+                  }],
+                });
+
+                // Wait for the add and switch to complete
+                await new Promise(resolve => setTimeout(resolve, 1000));
+              }
+            } else {
+              throw switchError;
+            }
+          }
+        }
+      }
+
       console.log('Starting bridge:', { fromChain, toChain, amount, tokenAddress });
       await bridgeTokens(fromChain, toChain, amount, tokenAddress as `0x${string}`);
       console.log('Bridge successful');
     } catch (err: any) {
       console.error('Bridge failed:', err);
+      alert(err.message || 'Bridge failed. Please try again.');
     }
   };
 
