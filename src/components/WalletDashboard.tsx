@@ -32,6 +32,12 @@ export function WalletDashboard({ walletAddress, userId, onDisconnect }: WalletD
       loadBalance();
       loadUserStats();
 
+      const refreshInterval = setInterval(() => {
+        loadBalance();
+        loadUserStats();
+        refreshBalances();
+      }, 5000);
+
       // Listen for network changes
       const handleChainChanged = () => {
         console.log('Chain changed, rechecking network...');
@@ -45,6 +51,7 @@ export function WalletDashboard({ walletAddress, userId, onDisconnect }: WalletD
       }
 
       return () => {
+        clearInterval(refreshInterval);
         if (window.ethereum) {
           window.ethereum.removeListener('chainChanged', handleChainChanged);
         }

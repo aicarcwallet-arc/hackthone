@@ -42,20 +42,21 @@ export function ClaimAICTokens({ walletAddress, unclaimedAmount, onSuccess }: Cl
 
       setTxHash(data.txHash);
 
-      // Refresh immediately
+      // Multiple refresh cycles to ensure balance updates
+      // Immediate refresh
       await onSuccess();
 
-      // Refresh after 2s for blockchain sync
-      setTimeout(() => onSuccess(), 2000);
+      // Refresh every 2 seconds for the next 10 seconds
+      const refreshIntervals = [2000, 4000, 6000, 8000, 10000];
+      refreshIntervals.forEach(delay => {
+        setTimeout(() => onSuccess(), delay);
+      });
 
-      // Final refresh after 5s
-      setTimeout(() => onSuccess(), 5000);
-
-      // Clear after 10s
+      // Clear success message after 15s
       setTimeout(() => {
         setTxHash(null);
         setError(null);
-      }, 10000);
+      }, 15000);
     } catch (err: any) {
       console.error('Claim error:', err);
       setError(err.message || 'Failed to claim tokens');

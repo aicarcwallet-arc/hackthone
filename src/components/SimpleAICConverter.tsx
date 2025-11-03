@@ -45,6 +45,12 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
   useEffect(() => {
     if (walletAddress && AIC_TOKEN_ADDRESS) {
       loadAICBalance();
+
+      const interval = setInterval(() => {
+        loadAICBalance();
+      }, 5000);
+
+      return () => clearInterval(interval);
     }
   }, [walletAddress]);
 
