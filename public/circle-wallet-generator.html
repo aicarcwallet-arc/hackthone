@@ -59,9 +59,6 @@
   </div>
 
   <script type="module">
-    import { initiateDeveloperControlledWalletsClient } from 'https://esm.sh/@circle-fin/developer-controlled-wallets@9.2.1';
-
-    let circleClient;
     let entitySecret;
     let walletId;
     let walletAddress;
@@ -77,7 +74,7 @@
       document.getElementById('createWalletBtn').disabled = false;
     });
 
-    // Step 2: Create Wallet
+    // Step 2: Create Wallet using REST API
     document.getElementById('createWalletBtn').addEventListener('click', async () => {
       const apiKey = document.getElementById('apiKey').value.trim();
       const walletDisplay = document.getElementById('walletDisplay');
@@ -90,39 +87,59 @@
 
       try {
         btn.disabled = true;
-        btn.textContent = 'Initializing...';
-        walletDisplay.innerHTML = '<div class="text-blue-400">Step 1: Initializing Circle SDK...</div>';
+        btn.textContent = 'Creating wallet set...';
+        walletDisplay.innerHTML = '<div class="text-blue-400">Step 1: Creating wallet set...</div>';
 
-        // Initialize SDK
-        circleClient = initiateDeveloperControlledWalletsClient({
-          apiKey: apiKey,
-          entitySecret: entitySecret
+        // Create wallet set
+        const walletSetResponse = await fetch('https://api.circle.com/v1/w3s/developer/walletSets', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            name: 'AIC Wallets ' + Date.now()
+          })
         });
 
-        walletDisplay.innerHTML = '<div class="text-blue-400">Step 2: Creating wallet set...</div>';
+        const walletSetData = await walletSetResponse.json();
 
-        // Create wallet set first
-        const walletSetResponse = await circleClient.createWalletSet({
-          name: 'AIC Wallets ' + Date.now()
-        });
-
-        const walletSetId = walletSetResponse.data?.walletSet?.id;
-
-        if (!walletSetId) {
-          throw new Error('Failed to create wallet set');
+        if (!walletSetResponse.ok) {
+          throw new Error(walletSetData.message || `Failed to create wallet set: ${walletSetResponse.status}`);
         }
 
-        walletDisplay.innerHTML = '<div class="text-blue-400">Step 3: Creating wallet...</div>';
+        const walletSetId = walletSetData.data?.walletSet?.id;
+
+        if (!walletSetId) {
+          throw new Error('No wallet set ID in response');
+        }
+
+        btn.textContent = 'Creating wallet...';
+        walletDisplay.innerHTML = '<div class="text-blue-400">Step 2: Creating wallet...</div>';
 
         // Create wallet
-        const walletResponse = await circleClient.createWallets({
-          blockchains: ['ETH-SEPOLIA', 'MATIC-AMOY'],
-          count: 1,
-          walletSetId: walletSetId
+        const walletResponse = await fetch('https://api.circle.com/v1/w3s/developer/wallets', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+            'X-User-Token': entitySecret
+          },
+          body: JSON.stringify({
+            blockchains: ['ETH-SEPOLIA', 'MATIC-AMOY'],
+            count: 1,
+            walletSetId: walletSetId
+          })
         });
 
-        if (walletResponse.data?.wallets && walletResponse.data.wallets.length > 0) {
-          const wallet = walletResponse.data.wallets[0];
+        const walletData = await walletResponse.json();
+
+        if (!walletResponse.ok) {
+          throw new Error(walletData.message || `Failed to create wallet: ${walletResponse.status}`);
+        }
+
+        if (walletData.data?.wallets && walletData.data.wallets.length > 0) {
+          const wallet = walletData.data.wallets[0];
           walletId = wallet.id;
           walletAddress = wallet.address;
 
@@ -149,7 +166,7 @@ CIRCLE_WALLET_ADDRESS=${walletAddress}`;
         }
       } catch (error) {
         console.error('Full error:', error);
-        walletDisplay.innerHTML = `<div class="bg-red-900 border border-red-600 rounded p-3 text-red-300">❌ Error: ${error.message || JSON.stringify(error)}</div>`;
+        walletDisplay.innerHTML = `<div class="bg-red-900 border border-red-600 rounded p-3 text-red-300">❌ Error: ${error.message}</div>`;
         btn.disabled = false;
         btn.textContent = 'Create Wallet with Circle SDK';
       }
