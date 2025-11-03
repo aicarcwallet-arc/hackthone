@@ -44,14 +44,6 @@ const AUTO_RECHARGE_ABI = [
   },
 ] as const;
 
-/**
- * Auto-Fund Treasury Function
- * This function checks the treasury balance and automatically recharges it if needed
- * Can be triggered by:
- * 1. Cron job (every hour)
- * 2. Manual API call
- * 3. Post-reward payout check
- */
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") {
     return new Response(null, {
@@ -61,6 +53,8 @@ Deno.serve(async (req: Request) => {
   }
 
   try {
+    const { forceRefill = false } = req.method === "POST" ? await req.json().catch(() => ({})) : {};
+
     const autoRechargeAddress = Deno.env.get("AUTO_RECHARGE_CONTRACT") as `0x${string}` | undefined;
     const operatorPrivateKey = Deno.env.get("OPERATOR_PRIVATE_KEY");
 
@@ -101,7 +95,6 @@ Deno.serve(async (req: Request) => {
       transport: http(rpcUrl),
     });
 
-    // Check treasury status first
     const [needsRecharge, treasuryBalance, contractBalance] = await publicClient.readContract({
       address: autoRechargeAddress,
       abi: AUTO_RECHARGE_ABI,
@@ -116,7 +109,7 @@ Deno.serve(async (req: Request) => {
       needsRecharge,
     };
 
-    if (!needsRecharge) {
+    if (!needsRecharge && !forceRefill) {
       response.status = "healthy";
       response.message = "Treasury balance is sufficient. No recharge needed.";
 
@@ -128,7 +121,10 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    // Treasury needs recharge - trigger automatic funding
+    if (forceRefill) {
+      console.log("Force refill requested, triggering recharge regardless of balance...");
+    }
+
     const account = privateKeyToAccount(formattedPrivateKey as `0x${string}`);
 
     const walletClient = createWalletClient({
@@ -143,7 +139,6 @@ Deno.serve(async (req: Request) => {
       functionName: "checkAndRecharge",
     });
 
-    // Wait for transaction confirmation
     const receipt = await publicClient.waitForTransactionReceipt({ hash: txHash });
 
     response.status = "recharged";
@@ -152,7 +147,6 @@ Deno.serve(async (req: Request) => {
     response.blockNumber = receipt.blockNumber.toString();
     response.explorerUrl = `https://testnet.arcscan.app/tx/${txHash}`;
 
-    // Check updated balance
     const [updatedNeedsRecharge, updatedTreasuryBalance, updatedContractBalance] =
       await publicClient.readContract({
         address: autoRechargeAddress,
