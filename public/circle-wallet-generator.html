@@ -136,6 +136,12 @@
         // Create wallet
         const idempotencyKey = crypto.randomUUID();
 
+        console.log('DEBUG - Entity secret at wallet creation:', {
+          exists: !!entitySecret,
+          length: entitySecret?.length,
+          preview: entitySecret ? entitySecret.substring(0, 10) + '...' : 'NONE'
+        });
+
         const requestBody = {
           idempotencyKey: idempotencyKey,
           entitySecretCiphertext: entitySecret,
@@ -145,11 +151,7 @@
           accountType: 'SCA'
         };
 
-        console.log('Wallet request body:', {
-          ...requestBody,
-          entitySecretCiphertext: requestBody.entitySecretCiphertext ? '[PRESENT]' : '[MISSING]',
-          idempotencyKey: requestBody.idempotencyKey ? '[PRESENT]' : '[MISSING]'
-        });
+        console.log('DEBUG - Full request body being sent:', JSON.stringify(requestBody, null, 2));
 
         const walletResponse = await fetch('https://api.circle.com/v1/w3s/developer/wallets', {
           method: 'POST',
