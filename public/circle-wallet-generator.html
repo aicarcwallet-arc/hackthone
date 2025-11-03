@@ -124,6 +124,8 @@
         walletDisplay.innerHTML = '<div class="text-blue-400">Step 2: Creating wallet...</div>';
 
         // Create wallet
+        const idempotencyKey = crypto.randomUUID();
+
         const walletResponse = await fetch('https://api.circle.com/v1/w3s/developer/wallets', {
           method: 'POST',
           headers: {
@@ -131,6 +133,8 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
+            idempotencyKey: idempotencyKey,
+            entitySecretCiphertext: entitySecret,
             blockchains: ['ETH-SEPOLIA', 'MATIC-AMOY'],
             count: 1,
             walletSetId: walletSetId,
