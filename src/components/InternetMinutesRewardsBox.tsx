@@ -15,50 +15,16 @@ export function InternetMinutesRewardsBox({
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClaim = async () => {
-    setIsLoading(true);
-
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/cctp-mint-reward`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-          },
-          body: JSON.stringify({
-            walletAddress,
-            sourceChain: 'baseSepolia'
-          }),
-        }
-      );
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || 'Failed to claim USDC via CCTP');
-      }
-
-      alert(
-        `✅ Success!\n\n` +
-        `${result.message}\n\n` +
-        `Burn TX: ${result.burnTxHash.slice(0, 10)}...\n` +
-        `Fee: ${result.fee} USDC\n` +
-        `Arrival: ${result.attestation.estimatedArrival}\n\n` +
-        `USDC will arrive in your wallet in 8-20 seconds!`
-      );
-
-      onClaimSuccess();
-    } catch (err: any) {
-      console.error('CCTP Claim error:', err);
-      alert(
-        `❌ CCTP Error:\n\n${err.message}\n\n` +
-        `The treasury wallet on Base Sepolia needs USDC to process rewards.\n\n` +
-        `Get testnet USDC: https://faucet.circle.com`
-      );
-    } finally {
-      setIsLoading(false);
-    }
+    alert(
+      `🎉 Your ${unclaimedUSDC.toFixed(2)} USDC is ready!\n\n` +
+      `To cash out:\n\n` +
+      `1. Go to "Convert" page\n` +
+      `2. Convert your AIC to USDC\n` +
+      `3. Go to "Withdraw" page\n` +
+      `4. Click "Cash Out" tab\n` +
+      `5. Get your money!\n\n` +
+      `It's that simple!`
+    );
   };
 
   if (unclaimedUSDC <= 0) {
