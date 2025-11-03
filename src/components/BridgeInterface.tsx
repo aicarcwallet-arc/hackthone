@@ -27,6 +27,10 @@ export function BridgeInterface() {
   const [claimSuccess, setClaimSuccess] = useState(false);
   const [claimTxHash, setClaimTxHash] = useState<string>('');
   const [unclaimedAIC, setUnclaimedAIC] = useState<number>(0);
+  const [unclaimedUSDC, setUnclaimedUSDC] = useState<number>(0);
+  const [usdcClaimLoading, setUsdcClaimLoading] = useState(false);
+  const [usdcClaimSuccess, setUsdcClaimSuccess] = useState(false);
+  const [usdcClaimTxHash, setUsdcClaimTxHash] = useState<string>('');
 
   const handleConnectWallet = async () => {
     try {
@@ -41,7 +45,7 @@ export function BridgeInterface() {
 
       if (accounts && accounts.length > 0) {
         setConnectedAddress(accounts[0]);
-        await checkUnclaimedAIC(accounts[0]);
+        await checkUnclaimedRewards(accounts[0]);
       }
     } catch (err: any) {
       console.error('Failed to connect wallet:', err);
@@ -49,21 +53,25 @@ export function BridgeInterface() {
     }
   };
 
-  const checkUnclaimedAIC = async (address: string) => {
+  const checkUnclaimedRewards = async (address: string) => {
     try {
       const { data } = await supabase
         .from('users')
-        .select('total_aic_earned, claimed_aic')
+        .select('total_aic_earned, claimed_aic, total_usdc_earned, claimed_usdc')
         .eq('wallet_address', address.toLowerCase())
         .maybeSingle();
 
       if (data) {
-        const earned = parseFloat(data.total_aic_earned || '0');
-        const claimed = parseFloat(data.claimed_aic || '0');
-        setUnclaimedAIC(earned - claimed);
+        const aicEarned = parseFloat(data.total_aic_earned || '0');
+        const aicClaimed = parseFloat(data.claimed_aic || '0');
+        setUnclaimedAIC(aicEarned - aicClaimed);
+
+        const usdcEarned = parseFloat(data.total_usdc_earned || '0');
+        const usdcClaimed = parseFloat(data.claimed_usdc || '0');
+        setUnclaimedUSDC(usdcEarned - usdcClaimed);
       }
     } catch (err) {
-      console.error('Error checking unclaimed AIC:', err);
+      console.error('Error checking unclaimed rewards:', err);
     }
   };
 
@@ -101,6 +109,53 @@ export function BridgeInterface() {
       alert(err.message || 'Failed to claim AIC tokens');
     } finally {
       setClaimLoading(false);
+    }
+  };
+
+  const handleClaimUSDC = async () => {
+    if (!connectedAddress) return;
+
+    setUsdcClaimLoading(true);
+    setUsdcClaimSuccess(false);
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/circle-mint-demo`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          },
+          body: JSON.stringify({ walletAddress: connectedAddress }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        let errorMsg = result.error || 'Failed to claim USDC';
+        if (result.treasuryAddress) {
+          const requiredFormatted = Number(result.required).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          const availableFormatted = Number(result.available).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          errorMsg = `Treasury needs funding!\n\n` +
+            `Required: ${requiredFormatted} USDC\n` +
+            `Available: ${availableFormatted} USDC\n\n` +
+            `Please send USDC to treasury:\n${result.treasuryAddress}\n\n` +
+            `You can get testnet USDC from Circle Faucet:\nhttps://faucet.circle.com`;
+        }
+        throw new Error(errorMsg);
+      }
+
+      setUsdcClaimTxHash(result.txHash);
+      setUsdcClaimSuccess(true);
+      setUnclaimedUSDC(0);
+      await refreshBalances();
+    } catch (err: any) {
+      console.error('USDC Claim error:', err);
+      alert(err.message || 'Failed to claim USDC');
+    } finally {
+      setUsdcClaimLoading(false);
     }
   };
 
@@ -222,7 +277,7 @@ export function BridgeInterface() {
                 <button
                   onClick={async () => {
                     await refreshBalances();
-                    await checkUnclaimedAIC(connectedAddress);
+                    await checkUnclaimedRewards(connectedAddress);
                   }}
                   className="p-1.5 hover:bg-cyan-500/20 active:bg-cyan-500/40 rounded-lg transition-colors touch-manipulation"
                   title="Refresh balances"
@@ -238,6 +293,49 @@ export function BridgeInterface() {
                 <span className="text-sm text-gray-300">Your USDC Balance</span>
                 <span className="text-lg font-bold text-green-300">{parseFloat(usdcBalance).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDC</span>
               </div>
+              {unclaimedUSDC > 0 && (
+                <div className="p-3 bg-gradient-to-r from-green-900/40 to-emerald-900/40 border border-green-500/40 rounded-lg space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-medium text-green-200">🎁 Unclaimed USDC Rewards</span>
+                    <span className="text-lg font-bold text-green-300">{unclaimedUSDC.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDC</span>
+                  </div>
+                  <button
+                    onClick={handleClaimUSDC}
+                    disabled={usdcClaimLoading}
+                    className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-semibold py-2.5 px-4 rounded-lg transition-all flex items-center justify-center gap-2 touch-manipulation"
+                  >
+                    {usdcClaimLoading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span className="text-sm">Claiming USDC...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Gift className="w-4 h-4" />
+                        <span className="text-sm">Claim {unclaimedUSDC.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDC</span>
+                      </>
+                    )}
+                  </button>
+                  <p className="text-xs text-gray-400 text-center">💰 Receive USDC directly to your wallet on Arc</p>
+                </div>
+              )}
+              {usdcClaimSuccess && usdcClaimTxHash && (
+                <div className="p-3 bg-green-500/20 border border-green-500/30 rounded-lg space-y-2">
+                  <p className="text-sm text-green-300 font-semibold">✅ USDC Claimed Successfully!</p>
+                  <p className="text-xs text-gray-300">
+                    Your USDC rewards have been sent to your wallet on Arc Testnet!
+                  </p>
+                  <a
+                    href={`https://testnet.arcscan.app/tx/${usdcClaimTxHash}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-cyan-300 hover:text-cyan-200 underline inline-flex items-center gap-1 justify-center"
+                  >
+                    View Transaction on Arc Explorer
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+              )}
               {parseFloat(aicBalance) > 0 && (
                 <>
                   <button
