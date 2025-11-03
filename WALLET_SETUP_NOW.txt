@@ -1,0 +1,19 @@
+YOUR ENTITY SECRET WAS NEVER REGISTERED WITH CIRCLE!
+
+Run these commands RIGHT NOW:
+
+1. Generate and register a NEW entity secret:
+   npx tsx scripts/register-entity-secret.ts
+
+2. When you see the secret (64 hex chars), COPY IT
+
+3. Paste it when prompted
+
+4. Update .env with the NEW secret it gives you
+
+5. Then run:
+   npx tsx scripts/create-circle-wallet.ts
+
+6. Add the wallet ID to .env
+
+That's it. The HTML tool won't work because the entity secret needs Circle's encryption.
