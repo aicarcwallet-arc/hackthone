@@ -7,6 +7,7 @@ interface DirectUSDCPayoutProps {
 
 export function DirectUSDCPayout({ walletAddress }: DirectUSDCPayoutProps) {
   const [usdcBalance, setUsdcBalance] = useState<string>('0');
+  const [lifetimeEarned, setLifetimeEarned] = useState<string>('0');
   const [amount, setAmount] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -35,6 +36,7 @@ export function DirectUSDCPayout({ walletAddress }: DirectUSDCPayoutProps) {
         const claimed = parseFloat(data.claimed_usdc || '0');
         const available = totalEarned - claimed;
         setUsdcBalance(available.toFixed(2));
+        setLifetimeEarned(totalEarned.toFixed(2));
       }
     } catch (err) {
       console.error('Failed to load USDC balance:', err);
@@ -112,17 +114,30 @@ export function DirectUSDCPayout({ walletAddress }: DirectUSDCPayoutProps) {
         </div>
 
         <div className="bg-gray-900/50 rounded-xl p-4 mb-6 border border-cyan-500/20">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-gray-400 text-sm">Available Balance</span>
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-gray-400 text-sm">Available to Withdraw</span>
             <div className="flex items-center gap-2">
               <Wallet className="w-4 h-4 text-cyan-400" />
-              <span className="text-cyan-400 font-semibold">{usdcBalance} USDC</span>
+              <span className="text-cyan-400 font-bold text-lg">{usdcBalance} USDC</span>
             </div>
           </div>
-          <div className="text-right">
-            <span className="text-gray-500 text-xs">≈ ${usdcBalance} USD</span>
+          <div className="flex items-center justify-between pt-3 border-t border-gray-700/50">
+            <span className="text-gray-500 text-xs">Lifetime Earned</span>
+            <span className="text-gray-400 text-xs">{lifetimeEarned} USDC</span>
+          </div>
+          <div className="text-right mt-1">
+            <span className="text-gray-500 text-xs">≈ ${usdcBalance} USD available</span>
           </div>
         </div>
+
+        {parseFloat(usdcBalance) === 0 && (
+          <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4 mb-6">
+            <p className="text-yellow-400 text-sm font-medium mb-2">No USDC available to withdraw</p>
+            <p className="text-gray-400 text-xs">
+              Go back and click "Convert AIC to USDC" to convert your earned AIC tokens into withdrawable USDC first.
+            </p>
+          </div>
+        )}
 
         <div className="space-y-4 mb-6">
           <div>
