@@ -173,15 +173,26 @@ Deno.serve(async (req: Request) => {
     });
 
     if (receipt.status !== "success") {
-      throw new Error("Transaction failed on-chain");
+      console.error('Transaction reverted on-chain:', receipt);
+      throw new Error("Transaction failed on-chain - reverted");
     }
 
-    await supabase
+    console.log('Transaction confirmed! Updating database...');
+
+    // Update claimed amount in database
+    const { error: updateError } = await supabase
       .from("users")
       .update({ claimed_aic: totalEarned.toString() })
       .eq("id", userData.id);
 
-    await supabase.from("token_transactions").insert({
+    if (updateError) {
+      console.error('Failed to update claimed_aic:', updateError);
+      // Transaction succeeded on-chain but DB update failed
+      // User will need to manually reset claimed_aic
+    }
+
+    // Record transaction
+    const { error: txError } = await supabase.from("token_transactions").insert({
       user_id: userData.id,
       transaction_type: "mint",
       amount: unclaimedAmount,
@@ -192,6 +203,12 @@ Deno.serve(async (req: Request) => {
       status: "confirmed",
       confirmed_at: new Date().toISOString(),
     });
+
+    if (txError) {
+      console.error('Failed to record transaction:', txError);
+    }
+
+    console.log('Mint complete! TX:', txHash);
 
     return new Response(
       JSON.stringify({
