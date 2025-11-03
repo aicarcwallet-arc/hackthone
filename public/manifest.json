@@ -1,6 +1,7 @@
 {
   "name": "AIC Token - Learn Blockchain, Earn USDC",
   "short_name": "AIC Learn",
+  "version": "2.2.0",
   "description": "Learn blockchain fundamentals and earn instant AiC token rewards on Arc Network. Swap to USDC anytime. Lightning-fast transactions, real digital wealth.",
   "start_url": "/",
   "display": "standalone",
