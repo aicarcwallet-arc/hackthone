@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Wallet, TrendingUp, ExternalLink, RefreshCw, Coins, LogOut } from 'lucide-react';
+import { Wallet, TrendingUp, ExternalLink, RefreshCw, Coins, LogOut, ArrowRightLeft } from 'lucide-react';
 import { getAICBalance, getAddressExplorerUrl, isOnArcNetwork, switchToArcNetwork } from '../lib/blockchain';
 import { useAICToken } from '../hooks/useAICToken';
 import { NetworkStatusIndicator } from './NetworkStatusBanner';
 import { ClaimAICTokens } from './ClaimAICTokens';
 import { CircleDemoWidget } from './CircleDemoWidget';
 import { InternetMinutesRewardsBox } from './InternetMinutesRewardsBox';
+import { QuickSwapModal } from './QuickSwapModal';
 import type { Address } from 'viem';
 
 interface WalletDashboardProps {
@@ -22,6 +23,7 @@ export function WalletDashboard({ walletAddress, userId, onDisconnect }: WalletD
   const [claimedAIC, setClaimedAIC] = useState<number>(0);
   const [totalUSDCEarned, setTotalUSDCEarned] = useState<number>(0);
   const [claimedUSDC, setClaimedUSDC] = useState<number>(0);
+  const [showSwapModal, setShowSwapModal] = useState(false);
   const { aicBalance, usdcBalance, refreshBalances } = useAICToken(walletAddress);
 
   useEffect(() => {
@@ -150,6 +152,14 @@ export function WalletDashboard({ walletAddress, userId, onDisconnect }: WalletD
           onSuccess={handleClaimSuccess}
         />
       )}
+      {showSwapModal && (
+        <QuickSwapModal
+          walletAddress={walletAddress}
+          aicBalance={aicBalance}
+          onClose={() => setShowSwapModal(false)}
+          onSuccess={handleClaimSuccess}
+        />
+      )}
       <div className="bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl sm:rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.4)] p-6 sm:p-8 text-white">
         <div className="flex items-center justify-between mb-4 sm:mb-6 flex-wrap gap-3">
           <div className="flex items-center gap-2 sm:gap-3">
@@ -245,7 +255,14 @@ export function WalletDashboard({ walletAddress, userId, onDisconnect }: WalletD
               <p className="text-2xl sm:text-3xl font-bold mb-1">
                 {parseFloat(aicBalance || '0').toFixed(2)}
               </p>
-              <p className="text-blue-200 text-xs sm:text-sm">On-Chain Tokens</p>
+              <button
+                onClick={() => setShowSwapModal(true)}
+                disabled={parseFloat(aicBalance || '0') === 0}
+                className="mt-2 w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 disabled:from-gray-500 disabled:to-gray-600 text-white px-3 py-1.5 rounded-lg font-medium transition-all flex items-center justify-center gap-2 text-xs disabled:cursor-not-allowed"
+              >
+                <ArrowRightLeft className="w-3 h-3" />
+                Convert to USDC
+              </button>
             </div>
 
             <div className="bg-white/10 backdrop-blur-sm rounded-lg sm:rounded-xl p-3 sm:p-4">
