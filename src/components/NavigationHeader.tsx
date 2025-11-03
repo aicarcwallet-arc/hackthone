@@ -62,8 +62,9 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
 
                 if (item.submenu) {
                   return (
-                    <div key={item.id} className="relative" onMouseEnter={() => setIsPlayMenuOpen(true)} onMouseLeave={() => setIsPlayMenuOpen(false)}>
+                    <div key={item.id} className="relative">
                       <button
+                        onClick={() => setIsPlayMenuOpen(!isPlayMenuOpen)}
                         className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
                           isActive
                             ? 'bg-cyan-500/20 text-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.3)]'
@@ -72,30 +73,39 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
                       >
                         <Icon className="w-4 h-4" />
                         <span className="text-sm">{item.label}</span>
-                        <ChevronDown className="w-3 h-3" />
+                        <ChevronDown className={`w-3 h-3 transition-transform ${isPlayMenuOpen ? 'rotate-180' : ''}`} />
                       </button>
 
                       {isPlayMenuOpen && (
-                        <div className="absolute top-full left-0 mt-1 bg-gray-900 border border-cyan-500/30 rounded-lg shadow-[0_0_30px_rgba(34,211,238,0.3)] min-w-[200px] overflow-hidden">
-                          {item.submenu.map((subItem) => {
-                            const SubIcon = subItem.icon;
-                            const isSubActive = currentPage === subItem.id;
-                            return (
-                              <button
-                                key={subItem.id}
-                                onClick={() => handleMenuClick(subItem.id)}
-                                className={`w-full flex items-center gap-3 px-4 py-3 transition-colors ${
-                                  isSubActive
-                                    ? 'bg-cyan-500/20 text-cyan-400'
-                                    : 'text-gray-300 hover:bg-gray-800 hover:text-cyan-400'
-                                }`}
-                              >
-                                <SubIcon className="w-4 h-4" />
-                                <span className="text-sm">{subItem.label}</span>
-                              </button>
-                            );
-                          })}
-                        </div>
+                        <>
+                          <div
+                            className="fixed inset-0 z-30"
+                            onClick={() => setIsPlayMenuOpen(false)}
+                          />
+                          <div className="absolute top-full left-0 mt-1 bg-gray-900 border border-cyan-500/30 rounded-lg shadow-[0_0_30px_rgba(34,211,238,0.3)] min-w-[200px] overflow-hidden z-40">
+                            {item.submenu.map((subItem) => {
+                              const SubIcon = subItem.icon;
+                              const isSubActive = currentPage === subItem.id;
+                              return (
+                                <button
+                                  key={subItem.id}
+                                  onClick={() => {
+                                    handleMenuClick(subItem.id);
+                                    setIsPlayMenuOpen(false);
+                                  }}
+                                  className={`w-full flex items-center gap-3 px-4 py-3 transition-colors ${
+                                    isSubActive
+                                      ? 'bg-cyan-500/20 text-cyan-400'
+                                      : 'text-gray-300 hover:bg-gray-800 hover:text-cyan-400'
+                                  }`}
+                                >
+                                  <SubIcon className="w-4 h-4" />
+                                  <span className="text-sm">{subItem.label}</span>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </>
                       )}
                     </div>
                   );
