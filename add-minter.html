@@ -175,11 +175,50 @@
 
         // Check network
         const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-        if (parseInt(chainId, 16) !== 5042002) {
-          showResult('⚠️ Please switch to Arc Testnet (Chain ID: 5042002) first!', 'warning');
-          btn.disabled = false;
-          btn.textContent = 'Add Minter';
-          return;
+        const currentChainId = parseInt(chainId, 16);
+
+        if (currentChainId !== 5042002) {
+          showResult(`⚠️ Wrong network! You're on chain ${currentChainId}. Attempting to switch to Arc Testnet...`, 'warning');
+
+          try {
+            // Try to switch to Arc Testnet
+            await window.ethereum.request({
+              method: 'wallet_switchEthereumChain',
+              params: [{ chainId: '0x4cef52' }], // 5042002 in hex
+            });
+            showResult('✅ Switched to Arc Testnet! Click Add Minter again.', 'success');
+            btn.disabled = false;
+            btn.textContent = 'Add Minter';
+            return;
+          } catch (switchError) {
+            // If chain not added, add it
+            if (switchError.code === 4902) {
+              try {
+                await window.ethereum.request({
+                  method: 'wallet_addEthereumChain',
+                  params: [{
+                    chainId: '0x4cef52',
+                    chainName: 'Arc Testnet',
+                    nativeCurrency: {
+                      name: 'USDC',
+                      symbol: 'USDC',
+                      decimals: 6
+                    },
+                    rpcUrls: ['https://rpc.testnet.arc.network'],
+                    blockExplorerUrls: ['https://testnet.arcscan.com']
+                  }]
+                });
+                showResult('✅ Arc Testnet added! Click Add Minter again.', 'success');
+              } catch (addError) {
+                showResult(`❌ Failed to add Arc Testnet: ${addError.message}`, 'error');
+              }
+            } else {
+              showResult(`❌ Failed to switch network: ${switchError.message}`, 'error');
+            }
+            btn.disabled = false;
+            btn.textContent = 'Add Minter';
+            return;
+          }
         }
 
         showResult('📝 Sending transaction... Please confirm in MetaMask', 'warning');
