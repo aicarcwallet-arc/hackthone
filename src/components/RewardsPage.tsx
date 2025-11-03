@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Coins, TrendingUp, Clock, CheckCircle, ExternalLink } from 'lucide-react';
 import { InternetMinutesRewardsBox } from './InternetMinutesRewardsBox';
+import { ClaimAICTokens } from './ClaimAICTokens';
 
 interface RewardsPageProps {
   walletAddress: string | null;
@@ -11,6 +12,7 @@ export function RewardsPage({ walletAddress, userId }: RewardsPageProps) {
   const [totalAICEarned, setTotalAICEarned] = useState<number>(0);
   const [totalUSDCEarned, setTotalUSDCEarned] = useState<number>(0);
   const [claimedUSDC, setClaimedUSDC] = useState<number>(0);
+  const [claimedAIC, setClaimedAIC] = useState<number>(0);
   const [totalWords, setTotalWords] = useState<number>(0);
 
   useEffect(() => {
@@ -26,7 +28,7 @@ export function RewardsPage({ walletAddress, userId }: RewardsPageProps) {
       const { supabase } = await import('../lib/supabase');
       const { data } = await supabase
         .from('users')
-        .select('total_aic_earned, total_usdc_earned, claimed_usdc, total_words_submitted')
+        .select('total_aic_earned, total_usdc_earned, claimed_usdc, claimed_aic, total_words_submitted')
         .eq('id', userId)
         .maybeSingle();
 
@@ -34,6 +36,7 @@ export function RewardsPage({ walletAddress, userId }: RewardsPageProps) {
         setTotalAICEarned(parseFloat(data.total_aic_earned || '0'));
         setTotalUSDCEarned(parseFloat(data.total_usdc_earned || '0'));
         setClaimedUSDC(parseFloat(data.claimed_usdc || '0'));
+        setClaimedAIC(parseFloat(data.claimed_aic || '0'));
         setTotalWords(data.total_words_submitted || 0);
       }
     } catch (error) {
@@ -46,6 +49,7 @@ export function RewardsPage({ walletAddress, userId }: RewardsPageProps) {
   };
 
   const unclaimedUSDC = totalUSDCEarned - claimedUSDC;
+  const unclaimedAIC = totalAICEarned - claimedAIC;
   const recentEarnings = [
     { word: 'CONSENSUS', aic: 450, timestamp: '2 mins ago', txHash: '0x1234...5678' },
     { word: 'DEFI', aic: 380, timestamp: '5 mins ago', txHash: '0x8765...4321' },
@@ -75,6 +79,14 @@ export function RewardsPage({ walletAddress, userId }: RewardsPageProps) {
           </div>
         ) : (
           <>
+            {unclaimedAIC > 0 && (
+              <ClaimAICTokens
+                walletAddress={walletAddress}
+                unclaimedAmount={unclaimedAIC}
+                onSuccess={handleClaimSuccess}
+              />
+            )}
+
             <InternetMinutesRewardsBox
               walletAddress={walletAddress}
               unclaimedUSDC={unclaimedUSDC}
