@@ -65,11 +65,15 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
   }, [aicAmount]);
 
   const loadAICBalance = async () => {
-    if (!walletAddress) return;
+    if (!walletAddress) {
+      console.log('❌ No wallet connected');
+      return;
+    }
 
     setIsLoadingBalance(true);
     try {
-      // Load from database (earned - claimed = available balance)
+      console.log('🔄 Loading AIC balance for:', walletAddress);
+
       const { supabase } = await import('../lib/supabase');
       const { data, error } = await supabase
         .from('users')
@@ -77,18 +81,22 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
         .eq('wallet_address', walletAddress.toLowerCase())
         .maybeSingle();
 
+      console.log('📊 Database result:', { data, error });
+
       if (error) throw error;
 
       if (data) {
         const totalEarned = parseFloat(data.total_aic_earned || '0');
         const claimed = parseFloat(data.claimed_aic || '0');
         const available = totalEarned - claimed;
+        console.log('✅ Balance:', { totalEarned, claimed, available });
         setAicBalance(available.toFixed(6));
       } else {
+        console.log('⚠️ No user found');
         setAicBalance('0');
       }
     } catch (err) {
-      console.error('Failed to load AIC balance:', err);
+      console.error('❌ Load failed:', err);
       setAicBalance('0');
     } finally {
       setIsLoadingBalance(false);
