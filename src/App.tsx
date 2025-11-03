@@ -874,10 +874,10 @@ function App() {
         <InstallPrompt />
 
         <div className="mt-12 grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+          <div className="bg-gray-900/80 backdrop-blur-sm rounded-lg border border-cyan-500/30 shadow-[0_0_30px_rgba(34,211,238,0.2)] p-6">
+            <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mb-4">
               <svg
-                className="w-6 h-6 text-blue-600"
+                className="w-6 h-6 text-cyan-400"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -890,16 +890,16 @@ function App() {
                 />
               </svg>
             </div>
-            <h3 className="font-semibold text-gray-900 mb-2">Lightning Fast</h3>
-            <p className="text-sm text-gray-600">
+            <h3 className="font-semibold text-white mb-2">Lightning Fast</h3>
+            <p className="text-sm text-gray-300">
               Sub-second finality on Arc with deterministic settlement
             </p>
           </div>
 
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+          <div className="bg-gray-900/80 backdrop-blur-sm rounded-lg border border-green-500/30 shadow-[0_0_30px_rgba(34,197,94,0.2)] p-6">
+            <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
               <svg
-                className="w-6 h-6 text-green-600"
+                className="w-6 h-6 text-green-400"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -912,16 +912,16 @@ function App() {
                 />
               </svg>
             </div>
-            <h3 className="font-semibold text-gray-900 mb-2">Secure</h3>
-            <p className="text-sm text-gray-600">
+            <h3 className="font-semibold text-white mb-2">Secure</h3>
+            <p className="text-sm text-gray-300">
               Built on Circle's proven CCTP infrastructure with cryptographic security
             </p>
           </div>
 
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+          <div className="bg-gray-900/80 backdrop-blur-sm rounded-lg border border-orange-500/30 shadow-[0_0_30px_rgba(249,115,22,0.2)] p-6">
+            <div className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center mb-4">
               <svg
-                className="w-6 h-6 text-orange-600"
+                className="w-6 h-6 text-orange-400"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -934,21 +934,21 @@ function App() {
                 />
               </svg>
             </div>
-            <h3 className="font-semibold text-gray-900 mb-2">Low Cost</h3>
-            <p className="text-sm text-gray-600">
+            <h3 className="font-semibold text-white mb-2">Low Cost</h3>
+            <p className="text-sm text-gray-300">
               USDC as native gas on Arc with predictable, minimal fees
             </p>
           </div>
         </div>
 
         <div className="mt-8 text-center">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-400">
             Powered by{' '}
             <a
               href="https://developers.circle.com/bridge-kit"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 hover:text-blue-700 font-medium"
+              className="text-cyan-400 hover:text-cyan-300 font-medium"
             >
               Circle Bridge Kit
             </a>
@@ -957,7 +957,7 @@ function App() {
               href="https://www.circle.com/en/arc"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 hover:text-blue-700 font-medium"
+              className="text-cyan-400 hover:text-cyan-300 font-medium"
             >
               Arc Testnet
             </a>
