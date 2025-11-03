@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
-import { Coins, TrendingUp, Clock, CheckCircle, ExternalLink } from 'lucide-react';
+import { Coins, TrendingUp, Clock, CheckCircle, ExternalLink, Wallet, ArrowRight } from 'lucide-react';
 import { InternetMinutesRewardsBox } from './InternetMinutesRewardsBox';
 import { ClaimAICTokens } from './ClaimAICTokens';
 
 interface RewardsPageProps {
   walletAddress: string | null;
   userId: string | null;
+  onNavigate?: (page: string) => void;
 }
 
-export function RewardsPage({ walletAddress, userId }: RewardsPageProps) {
+export function RewardsPage({ walletAddress, userId, onNavigate }: RewardsPageProps) {
   const [totalAICEarned, setTotalAICEarned] = useState<number>(0);
   const [totalUSDCEarned, setTotalUSDCEarned] = useState<number>(0);
   const [claimedUSDC, setClaimedUSDC] = useState<number>(0);
@@ -129,10 +130,21 @@ export function RewardsPage({ walletAddress, userId }: RewardsPageProps) {
                 <p className="text-sm text-gray-400">Total AIC Earned</p>
               </div>
 
-              <div className="bg-gradient-to-br from-blue-900/30 to-cyan-900/30 backdrop-blur-sm rounded-xl p-6 border border-cyan-500/30">
+              <div className="bg-gradient-to-br from-blue-900/30 to-cyan-900/30 backdrop-blur-sm rounded-xl p-6 border border-cyan-500/30 relative overflow-hidden">
                 <TrendingUp className="w-8 h-8 text-cyan-400 mb-2" />
                 <p className="text-3xl font-bold text-white">{totalUSDCEarned.toFixed(2)}</p>
-                <p className="text-sm text-gray-400">Total USDC Earned</p>
+                <p className="text-sm text-gray-400 mb-3">Total USDC Earned</p>
+
+                {unclaimedUSDC > 0 && (
+                  <button
+                    onClick={() => onNavigate?.('withdraw')}
+                    className="w-full mt-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white font-bold py-2 px-4 rounded-lg transition-all shadow-[0_0_20px_rgba(34,197,94,0.4)] hover:shadow-[0_0_30px_rgba(34,197,94,0.6)] flex items-center justify-center gap-2 text-sm"
+                  >
+                    <Wallet className="w-4 h-4" />
+                    Withdraw ${unclaimedUSDC.toFixed(2)}
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                )}
               </div>
 
               <div className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 backdrop-blur-sm rounded-xl p-6 border border-purple-500/30">

@@ -467,7 +467,7 @@ function App() {
           onConnectWallet={handleConnectWallet}
         />
         <Suspense fallback={<LoadingSpinner />}>
-          <RewardsPage walletAddress={connectedAddress} userId={userId} />
+          <RewardsPage walletAddress={connectedAddress} userId={userId} onNavigate={handleNavigate} />
         </Suspense>
         <Footer onNavigate={handleNavigate} />
       </>
