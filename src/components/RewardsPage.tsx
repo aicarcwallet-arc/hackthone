@@ -109,48 +109,80 @@ export function RewardsPage({ walletAddress, userId, onNavigate }: RewardsPagePr
           </div>
         ) : (
           <>
-            {unclaimedAIC > 0 && (
-              <ClaimAICTokens
-                walletAddress={walletAddress}
-                unclaimedAmount={unclaimedAIC}
-                onSuccess={handleClaimSuccess}
-              />
-            )}
+            <div className="mb-8">
+              <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                Active Claimable Rewards
+              </h2>
 
-            <InternetMinutesRewardsBox
-              walletAddress={walletAddress}
-              unclaimedUSDC={unclaimedUSDC}
-              onClaimSuccess={handleClaimSuccess}
-            />
+              {unclaimedAIC === 0 && unclaimedUSDC === 0 ? (
+                <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-8 border border-gray-700/50 text-center">
+                  <Coins className="w-12 h-12 text-gray-600 mx-auto mb-3" />
+                  <p className="text-gray-400 text-sm">No unclaimed rewards right now</p>
+                  <p className="text-gray-500 text-xs mt-1">Play more games to earn new AIC tokens!</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {unclaimedAIC > 0 && (
+                    <ClaimAICTokens
+                      walletAddress={walletAddress}
+                      unclaimedAmount={unclaimedAIC}
+                      onSuccess={handleClaimSuccess}
+                    />
+                  )}
 
-            <div className="grid sm:grid-cols-3 gap-4 mb-8">
-              <div className="bg-gradient-to-br from-green-900/30 to-emerald-900/30 backdrop-blur-sm rounded-xl p-6 border border-green-500/30">
-                <Coins className="w-8 h-8 text-green-400 mb-2" />
-                <p className="text-3xl font-bold text-white">{totalAICEarned.toFixed(2)}</p>
-                <p className="text-sm text-gray-400">Total AIC Earned</p>
-              </div>
+                  {unclaimedUSDC > 0 && (
+                    <div className="bg-gradient-to-br from-green-900/40 to-emerald-900/40 backdrop-blur-sm rounded-xl p-6 border-2 border-green-500/50 shadow-[0_0_30px_rgba(34,197,94,0.3)]">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-3">
+                          <div className="bg-green-500/20 p-3 rounded-full">
+                            <Wallet className="w-6 h-6 text-green-400" />
+                          </div>
+                          <div>
+                            <p className="text-2xl font-bold text-white">{unclaimedUSDC.toFixed(2)} USDC</p>
+                            <p className="text-sm text-green-400">Ready to Withdraw</p>
+                          </div>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => onNavigate?.('withdraw')}
+                        className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white font-bold py-3 px-6 rounded-lg transition-all shadow-[0_0_20px_rgba(34,197,94,0.4)] hover:shadow-[0_0_30px_rgba(34,197,94,0.6)] flex items-center justify-center gap-2"
+                      >
+                        <Wallet className="w-5 h-5" />
+                        Withdraw ${unclaimedUSDC.toFixed(2)} USD
+                        <ArrowRight className="w-5 h-5" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
 
-              <div className="bg-gradient-to-br from-blue-900/30 to-cyan-900/30 backdrop-blur-sm rounded-xl p-6 border border-cyan-500/30 relative overflow-hidden">
-                <TrendingUp className="w-8 h-8 text-cyan-400 mb-2" />
-                <p className="text-3xl font-bold text-white">{totalUSDCEarned.toFixed(2)}</p>
-                <p className="text-sm text-gray-400 mb-3">Total USDC Earned</p>
+            <div className="mb-8">
+              <h2 className="text-xl font-bold text-gray-400 mb-4 flex items-center gap-2">
+                <TrendingUp className="w-5 h-5" />
+                Game Statistics (All-Time)
+              </h2>
+              <div className="grid sm:grid-cols-3 gap-4">
+                <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50">
+                  <Coins className="w-8 h-8 text-gray-500 mb-2" />
+                  <p className="text-3xl font-bold text-white">{totalAICEarned.toFixed(2)}</p>
+                  <p className="text-sm text-gray-500">Total AIC Earned</p>
+                  <p className="text-xs text-gray-600 mt-1">Claimed: {claimedAIC.toFixed(2)}</p>
+                </div>
 
-                {unclaimedUSDC > 0 && (
-                  <button
-                    onClick={() => onNavigate?.('withdraw')}
-                    className="w-full mt-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white font-bold py-2 px-4 rounded-lg transition-all shadow-[0_0_20px_rgba(34,197,94,0.4)] hover:shadow-[0_0_30px_rgba(34,197,94,0.6)] flex items-center justify-center gap-2 text-sm"
-                  >
-                    <Wallet className="w-4 h-4" />
-                    Withdraw ${unclaimedUSDC.toFixed(2)}
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                )}
-              </div>
+                <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50">
+                  <TrendingUp className="w-8 h-8 text-gray-500 mb-2" />
+                  <p className="text-3xl font-bold text-white">{totalUSDCEarned.toFixed(2)}</p>
+                  <p className="text-sm text-gray-500">Total USDC Earned</p>
+                  <p className="text-xs text-gray-600 mt-1">Withdrawn: {claimedUSDC.toFixed(2)}</p>
+                </div>
 
-              <div className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 backdrop-blur-sm rounded-xl p-6 border border-purple-500/30">
-                <CheckCircle className="w-8 h-8 text-purple-400 mb-2" />
-                <p className="text-3xl font-bold text-white">{totalWords}</p>
-                <p className="text-sm text-gray-400">Words Completed</p>
+                <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50">
+                  <CheckCircle className="w-8 h-8 text-gray-500 mb-2" />
+                  <p className="text-3xl font-bold text-white">{totalWords}</p>
+                  <p className="text-sm text-gray-500">Words Completed</p>
+                </div>
               </div>
             </div>
 
