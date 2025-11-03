@@ -3,7 +3,7 @@ import { privateKeyToAccount } from 'viem/accounts';
 import { defineChain } from 'viem';
 
 const arcTestnet = defineChain({
-  id: 462,
+  id: 5042002,
   name: 'Arc Testnet',
   network: 'arc-testnet',
   nativeCurrency: {
@@ -13,14 +13,24 @@ const arcTestnet = defineChain({
   },
   rpcUrls: {
     default: {
-      http: ['https://rpc-test.arcfx.app'],
+      http: [
+        'https://rpc.testnet.arc.network',
+        'https://rpc.blockdaemon.testnet.arc.network',
+        'https://rpc.drpc.testnet.arc.network',
+        'https://rpc.quicknode.testnet.arc.network'
+      ],
     },
     public: {
-      http: ['https://rpc-test.arcfx.app'],
+      http: [
+        'https://rpc.testnet.arc.network',
+        'https://rpc.blockdaemon.testnet.arc.network',
+        'https://rpc.drpc.testnet.arc.network',
+        'https://rpc.quicknode.testnet.arc.network'
+      ],
     },
   },
   blockExplorers: {
-    default: { name: 'Explorer', url: 'https://explorer-test.arcfx.app' },
+    default: { name: 'Arc Explorer', url: 'https://testnet.arcscan.app' },
   },
 });
 
@@ -128,7 +138,7 @@ async function main() {
     console.log('✅ Contract deployed successfully!\n');
     console.log('📍 Contract Address:', receipt.contractAddress);
     console.log('⛽ Gas Used:', receipt.gasUsed.toString());
-    console.log('🔗 Explorer:', `https://explorer-test.arcfx.app/address/${receipt.contractAddress}`);
+    console.log('🔗 Explorer:', `https://testnet.arcscan.app/address/${receipt.contractAddress}`);
     console.log('\n📝 Add this to your .env file:');
     console.log(`VITE_AIC_PROGRAMMATIC_POOL_ADDRESS=${receipt.contractAddress}`);
   } else {
