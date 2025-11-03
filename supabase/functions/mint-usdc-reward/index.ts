@@ -102,7 +102,7 @@ async function handleCircleAPITransfer(
 
     await supabase
       .from("users")
-      .update({ claimed_aic: userData.total_aic_earned })
+      .update({ claimed_usdc: userData.total_usdc_earned })
       .eq("id", userData.id);
 
     await supabase.from("token_transactions").insert({
@@ -195,7 +195,7 @@ Deno.serve(async (req: Request) => {
 
     const { data: userData, error: userError } = await supabase
       .from("users")
-      .select("id, total_aic_earned, claimed_aic")
+      .select("id, total_usdc_earned, claimed_usdc")
       .eq("wallet_address", walletAddress.toLowerCase())
       .maybeSingle();
 
@@ -209,8 +209,8 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    const totalEarned = parseFloat(userData.total_aic_earned || "0");
-    const alreadyClaimed = parseFloat(userData.claimed_aic || "0");
+    const totalEarned = parseFloat(userData.total_usdc_earned || "0");
+    const alreadyClaimed = parseFloat(userData.claimed_usdc || "0");
     const unclaimedAmount = totalEarned - alreadyClaimed;
 
     if (unclaimedAmount <= 0) {
@@ -350,7 +350,7 @@ Deno.serve(async (req: Request) => {
 
     await supabase
       .from("users")
-      .update({ claimed_aic: totalEarned.toString() })
+      .update({ claimed_usdc: totalEarned.toString() })
       .eq("id", userData.id);
 
     await supabase.from("token_transactions").insert({
