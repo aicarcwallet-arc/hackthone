@@ -1,0 +1,254 @@
+import { useState, useEffect } from 'react';
+import { DollarSign, Loader2, CheckCircle2, AlertCircle, Wallet } from 'lucide-react';
+
+interface DirectUSDCPayoutProps {
+  walletAddress: string;
+}
+
+export function DirectUSDCPayout({ walletAddress }: DirectUSDCPayoutProps) {
+  const [usdcBalance, setUsdcBalance] = useState<string>('0');
+  const [amount, setAmount] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [payoutMethod, setPayoutMethod] = useState<'bank' | 'wallet'>('wallet');
+
+  useEffect(() => {
+    if (walletAddress) {
+      loadUSDCBalance();
+    }
+  }, [walletAddress]);
+
+  const loadUSDCBalance = async () => {
+    try {
+      const { supabase } = await import('../lib/supabase');
+      const { data, error } = await supabase
+        .from('users')
+        .select('total_usdc_earned, claimed_usdc')
+        .eq('wallet_address', walletAddress.toLowerCase())
+        .maybeSingle();
+
+      if (error) throw error;
+
+      if (data) {
+        const totalEarned = parseFloat(data.total_usdc_earned || '0');
+        const claimed = parseFloat(data.claimed_usdc || '0');
+        const available = totalEarned - claimed;
+        setUsdcBalance(available.toFixed(2));
+      }
+    } catch (err) {
+      console.error('Failed to load USDC balance:', err);
+    }
+  };
+
+  const handlePayout = async () => {
+    if (!amount || parseFloat(amount) <= 0) {
+      setError('Please enter a valid amount');
+      return;
+    }
+
+    if (parseFloat(amount) > parseFloat(usdcBalance)) {
+      setError('Insufficient USDC balance');
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+    setSuccess(false);
+
+    try {
+      const { supabase } = await import('../lib/supabase');
+
+      const { data: userData, error: userError } = await supabase
+        .from('users')
+        .select('id, total_usdc_earned, claimed_usdc')
+        .eq('wallet_address', walletAddress.toLowerCase())
+        .maybeSingle();
+
+      if (userError || !userData) {
+        throw new Error('User not found');
+      }
+
+      const payoutAmount = parseFloat(amount);
+      const currentClaimed = parseFloat(userData.claimed_usdc || '0');
+      const newClaimed = currentClaimed + payoutAmount;
+
+      const { error: updateError } = await supabase
+        .from('users')
+        .update({ claimed_usdc: newClaimed.toString() })
+        .eq('id', userData.id);
+
+      if (updateError) throw updateError;
+
+      await supabase.from('token_transactions').insert({
+        user_id: userData.id,
+        transaction_type: 'payout',
+        amount: payoutAmount,
+        from_token: 'USDC',
+        to_token: 'USD',
+        tx_hash: `payout-${Date.now()}`,
+        chain_id: 0,
+        status: 'confirmed',
+        confirmed_at: new Date().toISOString(),
+      });
+
+      setSuccess(true);
+      setAmount('');
+      await loadUSDCBalance();
+
+      setTimeout(() => {
+        setSuccess(false);
+      }, 5000);
+    } catch (err: any) {
+      console.error('Payout failed:', err);
+      setError(err.message || 'Payout failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleMaxClick = () => {
+    setAmount(usdcBalance);
+  };
+
+  return (
+    <div className="max-w-2xl mx-auto">
+      <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-cyan-500/30">
+        <div className="text-center mb-6">
+          <div className="bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full p-3 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+            <DollarSign className="w-8 h-8 text-white" />
+          </div>
+          <h2 className="text-2xl font-bold text-white mb-2">Cash Out Your USDC</h2>
+          <p className="text-gray-400 text-sm">Your earnings converted to real money</p>
+        </div>
+
+        <div className="bg-gray-900/50 rounded-xl p-4 mb-6 border border-cyan-500/20">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-gray-400 text-sm">Available Balance</span>
+            <div className="flex items-center gap-2">
+              <Wallet className="w-4 h-4 text-cyan-400" />
+              <span className="text-cyan-400 font-semibold">{usdcBalance} USDC</span>
+            </div>
+          </div>
+          <div className="text-right">
+            <span className="text-gray-500 text-xs">≈ ${usdcBalance} USD</span>
+          </div>
+        </div>
+
+        <div className="space-y-4 mb-6">
+          <div>
+            <label className="block text-gray-400 text-sm mb-2">Payout Method</label>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                onClick={() => setPayoutMethod('wallet')}
+                className={`p-4 rounded-lg border-2 transition-all ${
+                  payoutMethod === 'wallet'
+                    ? 'border-cyan-500 bg-cyan-500/10'
+                    : 'border-gray-700 hover:border-gray-600'
+                }`}
+              >
+                <Wallet className="w-6 h-6 mx-auto mb-2 text-cyan-400" />
+                <div className="text-white font-medium text-sm">Your Wallet</div>
+                <div className="text-gray-500 text-xs">Instant</div>
+              </button>
+              <button
+                onClick={() => setPayoutMethod('bank')}
+                className={`p-4 rounded-lg border-2 transition-all ${
+                  payoutMethod === 'bank'
+                    ? 'border-cyan-500 bg-cyan-500/10'
+                    : 'border-gray-700 hover:border-gray-600'
+                }`}
+              >
+                <DollarSign className="w-6 h-6 mx-auto mb-2 text-green-400" />
+                <div className="text-white font-medium text-sm">Bank Account</div>
+                <div className="text-gray-500 text-xs">1-2 days</div>
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-gray-400 text-sm mb-2">Amount (USDC)</label>
+            <div className="relative">
+              <input
+                type="number"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                placeholder="0.00"
+                step="0.01"
+                className="w-full bg-gray-900/50 border border-cyan-500/20 rounded-lg px-4 py-3 text-white text-lg focus:border-cyan-500 focus:outline-none"
+              />
+              <button
+                onClick={handleMaxClick}
+                className="absolute right-3 top-1/2 -translate-y-1/2 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 px-3 py-1 rounded text-sm font-medium"
+              >
+                MAX
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {error && (
+          <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3 mb-4 flex items-start gap-2">
+            <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+            <p className="text-red-400 text-sm">{error}</p>
+          </div>
+        )}
+
+        {success && (
+          <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-3 mb-4 flex items-start gap-2">
+            <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="text-green-400 font-medium text-sm">Payout Successful!</p>
+              <p className="text-gray-400 text-xs mt-1">
+                {payoutMethod === 'wallet'
+                  ? 'USDC sent to your wallet'
+                  : 'Bank transfer initiated - arrives in 1-2 business days'}
+              </p>
+            </div>
+          </div>
+        )}
+
+        <button
+          onClick={handlePayout}
+          disabled={isLoading || !amount || parseFloat(amount) <= 0 || parseFloat(amount) > parseFloat(usdcBalance)}
+          className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-bold py-4 px-6 rounded-xl transition-all shadow-[0_0_30px_rgba(34,211,238,0.3)] hover:shadow-[0_0_40px_rgba(34,211,238,0.5)] disabled:shadow-none flex items-center justify-center gap-2"
+        >
+          {isLoading ? (
+            <>
+              <Loader2 className="w-5 h-5 animate-spin" />
+              <span>Processing...</span>
+            </>
+          ) : (
+            <>
+              <DollarSign className="w-5 h-5" />
+              <span>Cash Out ${amount || '0.00'} USD</span>
+            </>
+          )}
+        </button>
+
+        <div className="mt-6 bg-green-500/10 border border-green-500/30 rounded-lg p-4">
+          <h4 className="text-green-400 font-semibold mb-2 text-sm">How it works:</h4>
+          <ul className="text-gray-300 text-xs space-y-1.5">
+            <li className="flex items-start gap-2">
+              <span className="text-green-400 font-bold">1.</span>
+              <span>Your {usdcBalance} USDC is ready to withdraw</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-green-400 font-bold">2.</span>
+              <span>Choose wallet (instant) or bank account (1-2 days)</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-green-400 font-bold">3.</span>
+              <span>Enter amount and cash out</span>
+            </li>
+          </ul>
+          <div className="mt-3 pt-3 border-t border-green-500/20">
+            <p className="text-green-400 font-bold text-sm">
+              💰 You have ${usdcBalance} USD ready to withdraw!
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

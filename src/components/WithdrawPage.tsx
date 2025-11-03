@@ -1,18 +1,19 @@
 import { useState } from 'react';
-import { Send, CreditCard, Building2 } from 'lucide-react';
+import { Send, CreditCard, Building2, DollarSign } from 'lucide-react';
 import { BridgeInterface } from './BridgeInterface';
 import { VirtualCard } from './VirtualCard';
 import { CircleBanking } from './CircleBanking';
+import { DirectUSDCPayout } from './DirectUSDCPayout';
 
 interface WithdrawPageProps {
   walletAddress?: string;
   usdcBalance: string;
 }
 
-type WithdrawTab = 'bridge' | 'card' | 'bank';
+type WithdrawTab = 'payout' | 'bridge' | 'card' | 'bank';
 
 export function WithdrawPage({ walletAddress, usdcBalance }: WithdrawPageProps) {
-  const [activeTab, setActiveTab] = useState<WithdrawTab>('bridge');
+  const [activeTab, setActiveTab] = useState<WithdrawTab>('payout');
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-6">
@@ -28,6 +29,21 @@ export function WithdrawPage({ walletAddress, usdcBalance }: WithdrawPageProps) 
       <div className="flex justify-center mb-8 px-2">
         <div className="inline-flex bg-gray-800/50 backdrop-blur-sm rounded-lg shadow-[0_0_30px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-1 flex-col sm:flex-row gap-1 w-full sm:w-auto max-w-full">
           <button
+            onClick={() => setActiveTab('payout')}
+            className={`flex items-center gap-2 px-4 sm:px-6 py-3 rounded-md font-medium text-sm transition-all touch-manipulation w-full sm:w-auto justify-start ${
+              activeTab === 'payout'
+                ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-[0_0_20px_rgba(34,197,94,0.5)]'
+                : 'text-gray-300 hover:bg-green-500/20'
+            }`}
+          >
+            <DollarSign className="w-5 h-5 flex-shrink-0" />
+            <div className="text-left">
+              <div className="font-bold">Cash Out</div>
+              <div className="text-xs opacity-75">Get your money</div>
+            </div>
+          </button>
+
+          <button
             onClick={() => setActiveTab('bridge')}
             className={`flex items-center gap-2 px-4 sm:px-6 py-3 rounded-md font-medium text-sm transition-all touch-manipulation w-full sm:w-auto justify-start ${
               activeTab === 'bridge'
@@ -38,7 +54,7 @@ export function WithdrawPage({ walletAddress, usdcBalance }: WithdrawPageProps) 
             <Send className="w-5 h-5 flex-shrink-0" />
             <div className="text-left">
               <div className="font-bold">Bridge</div>
-              <div className="text-xs opacity-75">Cross-chain transfers</div>
+              <div className="text-xs opacity-75">Cross-chain</div>
             </div>
           </button>
 
@@ -52,8 +68,8 @@ export function WithdrawPage({ walletAddress, usdcBalance }: WithdrawPageProps) 
           >
             <CreditCard className="w-5 h-5 flex-shrink-0" />
             <div className="text-left">
-              <div className="font-bold">AiC-Arc Card</div>
-              <div className="text-xs opacity-75">Spend globally</div>
+              <div className="font-bold">Card</div>
+              <div className="text-xs opacity-75">Spend</div>
             </div>
           </button>
 
@@ -67,14 +83,18 @@ export function WithdrawPage({ walletAddress, usdcBalance }: WithdrawPageProps) 
           >
             <Building2 className="w-5 h-5 flex-shrink-0" />
             <div className="text-left">
-              <div className="font-bold">AiC-Circle Bank</div>
-              <div className="text-xs opacity-75">Save in your bank</div>
+              <div className="font-bold">Bank</div>
+              <div className="text-xs opacity-75">Save</div>
             </div>
           </button>
         </div>
       </div>
 
       <div className="flex justify-center">
+        {activeTab === 'payout' && walletAddress && (
+          <DirectUSDCPayout walletAddress={walletAddress} />
+        )}
+
         {activeTab === 'bridge' && (
           <div className="w-full">
             <div className="mb-6 bg-cyan-500/10 border border-cyan-500/30 rounded-lg p-4">
