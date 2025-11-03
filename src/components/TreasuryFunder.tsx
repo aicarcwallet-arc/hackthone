@@ -13,8 +13,8 @@ export function TreasuryFunder({ walletAddress, usdcBalance }: TreasuryFunderPro
   const [txHash, setTxHash] = useState('');
   const [error, setError] = useState('');
 
+  const treasuryAutoFillAddress = '0x119A6733EA1033DB1A39bc079Fc3134B06B98C8D';
   const treasuryAddress = '0x43909cce967BE2a4448336a0ad95A99b7040BF05';
-  const treasuryFunderAddress = '0xYourTreasuryFunderContract'; // Deploy and update this
 
   const handleFund = async () => {
     if (!walletAddress) {
@@ -69,11 +69,11 @@ export function TreasuryFunder({ walletAddress, usdcBalance }: TreasuryFunderPro
       // Convert amount to proper decimals (6 for USDC)
       const amountInWei = (parseFloat(amount) * 1_000_000).toString();
 
-      // Direct transfer to treasury (gasless via Arc's USDC)
+      // Transfer to TreasuryAutoFill contract (gasless via Arc's USDC)
       const transferData = {
         from: walletAddress,
         to: usdcAddress,
-        data: `0xa9059cbb${treasuryAddress.slice(2).padStart(64, '0')}${BigInt(amountInWei).toString(16).padStart(64, '0')}`
+        data: `0xa9059cbb${treasuryAutoFillAddress.slice(2).padStart(64, '0')}${BigInt(amountInWei).toString(16).padStart(64, '0')}`
       };
 
       const hash = await provider.request({
@@ -268,8 +268,8 @@ export function TreasuryFunder({ walletAddress, usdcBalance }: TreasuryFunderPro
               <span className="text-pink-400 font-bold">1</span>
             </div>
             <div>
-              <p className="text-white font-semibold mb-1">Send USDC to Treasury</p>
-              <p className="text-sm text-gray-400">Your USDC is sent directly to the game treasury wallet</p>
+              <p className="text-white font-semibold mb-1">Send USDC to Auto-Fill Contract</p>
+              <p className="text-sm text-gray-400">Your USDC funds the TreasuryAutoFill contract</p>
             </div>
           </div>
 
@@ -289,7 +289,7 @@ export function TreasuryFunder({ walletAddress, usdcBalance }: TreasuryFunderPro
             </div>
             <div>
               <p className="text-white font-semibold mb-1">Convert AIC to USDC</p>
-              <p className="text-sm text-gray-400">Treasury sends USDC to players when they convert their AIC rewards</p>
+              <p className="text-sm text-gray-400">Contract auto-refills treasury when low, enabling instant payouts</p>
             </div>
           </div>
 
@@ -305,10 +305,18 @@ export function TreasuryFunder({ walletAddress, usdcBalance }: TreasuryFunderPro
         </div>
       </div>
 
-      {/* Treasury Address */}
-      <div className="mt-6 p-4 bg-gray-800/50 rounded-lg border border-gray-700">
-        <p className="text-xs text-gray-400 mb-1">Treasury Address:</p>
-        <p className="text-sm font-mono text-gray-300 break-all">{treasuryAddress}</p>
+      {/* Contract Addresses */}
+      <div className="mt-6 space-y-3">
+        <div className="p-4 bg-gray-800/50 rounded-lg border border-gray-700">
+          <p className="text-xs text-gray-400 mb-1">TreasuryAutoFill Contract:</p>
+          <p className="text-sm font-mono text-gray-300 break-all">{treasuryAutoFillAddress}</p>
+          <p className="text-xs text-blue-400 mt-2">← Send USDC here to fund auto-refill system</p>
+        </div>
+        <div className="p-4 bg-gray-800/50 rounded-lg border border-gray-700">
+          <p className="text-xs text-gray-400 mb-1">Treasury Wallet:</p>
+          <p className="text-sm font-mono text-gray-300 break-all">{treasuryAddress}</p>
+          <p className="text-xs text-green-400 mt-2">← Auto-refilled by contract when balance drops below 100 USDC</p>
+        </div>
       </div>
     </div>
   );
