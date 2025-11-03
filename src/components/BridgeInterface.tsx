@@ -356,13 +356,7 @@ export function BridgeInterface() {
                         if (!response.ok) {
                           let errorMsg = result.error || 'Failed to convert AIC to USDC';
                           if (result.treasuryAddress) {
-                            const requiredFormatted = Number(result.required).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                            const availableFormatted = Number(result.available).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                            errorMsg = `Treasury needs funding!\n\n` +
-                              `Required: ${requiredFormatted} USDC\n` +
-                              `Available: ${availableFormatted} USDC\n\n` +
-                              `Please send USDC to treasury:\n${result.treasuryAddress}\n\n` +
-                              `You can get testnet USDC from Circle Faucet:\nhttps://faucet.circle.com`;
+                            errorMsg = `⏳ System is refilling treasury. Please try again in a few moments.\n\nThe auto-refill process is running in the background.`;
                           }
                           throw new Error(errorMsg);
                         }
