@@ -11,6 +11,7 @@ interface NavigationHeaderProps {
 export function NavigationHeader({ currentPage, onNavigate, walletAddress, onConnectWallet }: NavigationHeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isPlayMenuOpen, setIsPlayMenuOpen] = useState(false);
+  const [isRewardsMenuOpen, setIsRewardsMenuOpen] = useState(false);
   const [isWalletMenuOpen, setIsWalletMenuOpen] = useState(false);
   const [isToolsMenuOpen, setIsToolsMenuOpen] = useState(false);
 
@@ -18,24 +19,32 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
     { id: 'home', label: 'Home', icon: Home },
     {
       id: 'play',
-      label: 'Play',
+      label: '1. Play & Earn',
       icon: Gamepad2,
       submenu: [
-        { id: 'play', label: 'Game', icon: Gamepad2 },
-        { id: 'leaderboard', label: 'Leaderboard', icon: Trophy },
-        { id: 'rewards', label: 'My Rewards', icon: Coins }
+        { id: 'play', label: 'Play Game', icon: Gamepad2 },
+        { id: 'leaderboard', label: 'Leaderboard', icon: Trophy }
+      ]
+    },
+    {
+      id: 'rewards',
+      label: '2. My Rewards',
+      icon: Coins,
+      submenu: [
+        { id: 'rewards', label: 'Claim Rewards', icon: Coins },
+        { id: 'history', label: 'History', icon: History }
       ]
     },
     {
       id: 'wallet',
-      label: 'Wallet',
-      icon: Coins,
+      label: '3. Wallet & Cash Out',
+      icon: CreditCard,
       submenu: [
-        { id: 'swap', label: 'Convert AIC', icon: ArrowRightLeft },
-        { id: 'bridge', label: 'Bridge', icon: Send },
-        { id: 'withdraw', label: 'Withdraw', icon: Download },
-        { id: 'card', label: 'Virtual Card', icon: CreditCard },
-        { id: 'history', label: 'History', icon: History }
+        { id: 'swap', label: 'Convert AIC to USDC', icon: ArrowRightLeft },
+        { id: 'accelerator', label: 'Speed Up TX', icon: Zap },
+        { id: 'bridge', label: 'Bridge to Exchange', icon: Send },
+        { id: 'withdraw', label: 'Instant Withdraw', icon: Download },
+        { id: 'card', label: 'Virtual Card', icon: CreditCard }
       ]
     },
     {
@@ -84,6 +93,9 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
                   if (item.id === 'play') {
                     isMenuOpen = isPlayMenuOpen;
                     setMenuOpen = setIsPlayMenuOpen;
+                  } else if (item.id === 'rewards') {
+                    isMenuOpen = isRewardsMenuOpen;
+                    setMenuOpen = setIsRewardsMenuOpen;
                   } else if (item.id === 'wallet') {
                     isMenuOpen = isWalletMenuOpen;
                     setMenuOpen = setIsWalletMenuOpen;
