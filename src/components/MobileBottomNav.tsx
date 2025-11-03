@@ -1,4 +1,4 @@
-import { Home, Gamepad2, Download, Rocket, BookOpen } from 'lucide-react';
+import { Home, Gamepad2, Download, Rocket, Heart } from 'lucide-react';
 
 interface MobileBottomNavProps {
   currentPage: string;
@@ -10,8 +10,8 @@ export function MobileBottomNav({ currentPage, onNavigate }: MobileBottomNavProp
     { id: 'home', icon: Home, label: 'Home' },
     { id: 'play', icon: Gamepad2, label: 'Play' },
     { id: 'mainnet-ready', icon: Rocket, label: 'Ready', special: true },
-    { id: 'withdraw', icon: Download, label: 'Withdraw' },
-    { id: 'how', icon: BookOpen, label: 'Guide' },
+    { id: 'fund-treasury', icon: Heart, label: 'Fund' },
+    { id: 'withdraw', icon: Download, label: 'Cash Out' },
   ];
 
   return (

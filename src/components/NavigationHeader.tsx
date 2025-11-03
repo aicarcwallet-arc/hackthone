@@ -27,7 +27,6 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
     },
     { id: 'fund-treasury', label: 'Fund Treasury', icon: Heart },
     { id: 'withdraw', label: 'Withdraw', icon: Download },
-    { id: 'how', label: 'How It Works', icon: BookOpen },
   ];
 
   const handleMenuClick = (pageId: string) => {
