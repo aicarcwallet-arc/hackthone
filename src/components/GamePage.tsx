@@ -15,15 +15,23 @@ export function GamePage({ userId, walletAddress, onNavigate, onConnectWallet }:
   const { aicBalance, usdcBalance, refreshBalances } = useAICToken(walletAddress || undefined);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [showSwapModal, setShowSwapModal] = useState(false);
+  const [totalAICEarned, setTotalAICEarned] = useState<number>(0);
+  const [claimedAIC, setClaimedAIC] = useState<number>(0);
 
   useEffect(() => {
     if (walletAddress) {
       refreshBalances();
+      loadUserStats();
+
+      const interval = setInterval(() => {
+        loadUserStats();
+      }, 5000);
 
       // Refresh balances when page becomes visible
       const handleVisibilityChange = () => {
         if (document.visibilityState === 'visible' && walletAddress) {
           refreshBalances();
+          loadUserStats();
         }
       };
 
@@ -33,17 +41,39 @@ export function GamePage({ userId, walletAddress, onNavigate, onConnectWallet }:
       const handleFocus = () => {
         if (walletAddress) {
           refreshBalances();
+          loadUserStats();
         }
       };
 
       window.addEventListener('focus', handleFocus);
 
       return () => {
+        clearInterval(interval);
         document.removeEventListener('visibilitychange', handleVisibilityChange);
         window.removeEventListener('focus', handleFocus);
       };
     }
-  }, [walletAddress]);
+  }, [walletAddress, userId]);
+
+  const loadUserStats = async () => {
+    if (!userId || !walletAddress) return;
+
+    try {
+      const { supabase } = await import('../lib/supabase');
+      const { data } = await supabase
+        .from('users')
+        .select('total_aic_earned, claimed_aic')
+        .eq('wallet_address', walletAddress.toLowerCase())
+        .maybeSingle();
+
+      if (data) {
+        setTotalAICEarned(parseFloat(data.total_aic_earned || '0'));
+        setClaimedAIC(parseFloat(data.claimed_aic || '0'));
+      }
+    } catch (error) {
+      console.error('Failed to load user stats:', error);
+    }
+  };
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
@@ -55,11 +85,41 @@ export function GamePage({ userId, walletAddress, onNavigate, onConnectWallet }:
     refreshBalances();
   };
 
+  const unclaimedAIC = totalAICEarned - claimedAIC;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-cyan-900/20 via-transparent to-transparent"></div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {walletAddress && unclaimedAIC > 0 && (
+          <div className="mb-6 bg-gradient-to-r from-orange-900/40 to-yellow-900/40 backdrop-blur-sm rounded-2xl p-5 sm:p-6 border-2 border-yellow-500/50 shadow-[0_0_40px_rgba(234,179,8,0.5)] animate-pulse">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-3 sm:gap-4">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 bg-yellow-500/30 rounded-full flex items-center justify-center flex-shrink-0 animate-bounce">
+                  <Coins className="w-7 h-7 sm:w-8 sm:h-8 text-yellow-400" />
+                </div>
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-black text-yellow-400 mb-1">
+                    {unclaimedAIC.toFixed(2)} AIC Tokens Earned!
+                  </h3>
+                  <p className="text-sm sm:text-base text-yellow-200 font-semibold">
+                    🎉 Click below to mint tokens to your wallet on-chain
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => onNavigate?.('rewards')}
+                className="w-full sm:w-auto bg-gradient-to-r from-yellow-500 to-orange-600 hover:from-yellow-400 hover:to-orange-500 text-white font-black px-6 sm:px-8 py-4 rounded-xl shadow-[0_0_30px_rgba(234,179,8,0.6)] hover:shadow-[0_0_50px_rgba(234,179,8,0.8)] transition-all text-base sm:text-lg flex items-center justify-center gap-2 touch-manipulation min-h-[56px]"
+              >
+                <Zap className="w-6 h-6 animate-pulse" />
+                <span>CLAIM NOW!</span>
+                <Zap className="w-6 h-6 animate-pulse" />
+              </button>
+            </div>
+          </div>
+        )}
+
         {walletAddress && (
           <div className="mb-6 bg-gradient-to-r from-green-900/30 to-emerald-900/30 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-green-500/30 shadow-[0_0_30px_rgba(34,197,94,0.3)]">
             <div className="space-y-4">
