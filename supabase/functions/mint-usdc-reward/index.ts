@@ -255,8 +255,11 @@ Deno.serve(async (req: Request) => {
 
     const amountToSend = parseUnits(unclaimedAmount.toString(), 6);
 
+    let finalTreasuryBalance = treasuryBalance;
+
     if (treasuryBalance < amountToSend) {
       try {
+        console.log("Treasury balance low, triggering auto-refill...");
         const autoFundResponse = await fetch(
           `${supabaseUrl}/functions/v1/auto-fund-treasury`,
           {
@@ -272,6 +275,7 @@ Deno.serve(async (req: Request) => {
         const autoFundResult = await autoFundResponse.json();
 
         if (autoFundResponse.ok && autoFundResult.status === "recharged") {
+          console.log("Treasury refilled successfully, checking new balance...");
           const updatedBalance = await publicClient.readContract({
             address: usdcTokenAddress,
             abi: USDC_ABI,
@@ -279,10 +283,12 @@ Deno.serve(async (req: Request) => {
             args: [account.address],
           });
 
+          finalTreasuryBalance = updatedBalance;
+
           if (updatedBalance < amountToSend) {
             return new Response(
               JSON.stringify({
-                error: "Treasury refilled but still insufficient. Please try again or contact support.",
+                error: "Treasury refilled but still insufficient. The auto-recharge contract may need more funds.",
                 required: unclaimedAmount,
                 available: Number(updatedBalance) / 1e6,
               }),
@@ -292,10 +298,12 @@ Deno.serve(async (req: Request) => {
               }
             );
           }
+
+          console.log("Treasury now has sufficient balance, proceeding with transaction...");
         } else {
           return new Response(
             JSON.stringify({
-              error: "Treasury needs funding. Auto-refill system is processing. Please try again in 30 seconds.",
+              error: "Auto-refill in progress. Please try again in a moment.",
               required: unclaimedAmount,
               available: Number(treasuryBalance) / 1e6,
               autoFillStatus: autoFundResult.message || "Processing",
@@ -310,9 +318,10 @@ Deno.serve(async (req: Request) => {
         console.error("Auto-fund treasury failed:", autoFundError);
         return new Response(
           JSON.stringify({
-            error: "Treasury balance low. Auto-refill attempted but failed. Please try again shortly.",
+            error: "Treasury auto-refill failed. Please try again.",
             required: unclaimedAmount,
             available: Number(treasuryBalance) / 1e6,
+            details: autoFundError.message,
           }),
           {
             status: 503,
