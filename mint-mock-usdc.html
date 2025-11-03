@@ -85,7 +85,7 @@
         <h3 class="font-semibold text-gray-900 mb-2">Contract Info</h3>
         <div class="space-y-1 text-sm">
           <p><span class="text-gray-600">Network:</span> <span class="font-mono text-blue-600">Arc Testnet</span></p>
-          <p><span class="text-gray-600">Chain ID:</span> <span class="font-mono">1967</span></p>
+          <p><span class="text-gray-600">Chain ID:</span> <span class="font-mono">58516529</span></p>
           <p><span class="text-gray-600">MockUSDC:</span> <span class="font-mono text-xs break-all" id="mockAddress">Loading...</span></p>
         </div>
       </div>
@@ -102,15 +102,14 @@
 
   <script type="module">
     const ARC_TESTNET = {
-      chainId: '0x7AF', // 1967
+      chainId: '0x37E9D91', // 58516529
       chainName: 'Arc Testnet',
       nativeCurrency: { name: 'ARC', symbol: 'ARC', decimals: 18 },
-      rpcUrls: ['https://rpc-testnet.arcscan.net'],
-      blockExplorerUrls: ['https://testnet.arcscan.net']
+      rpcUrls: ['https://rpc-testnet.arcnetwork.io'],
+      blockExplorerUrls: ['https://testnet.arcscan.io']
     };
 
-    // You'll need to deploy MockUSDC first or use existing deployment
-    const MOCK_USDC_ADDRESS = '0xYOUR_MOCK_USDC_ADDRESS'; // UPDATE THIS!
+    const MOCK_USDC_ADDRESS = '0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238';
 
     const MOCK_USDC_ABI = [
       {
