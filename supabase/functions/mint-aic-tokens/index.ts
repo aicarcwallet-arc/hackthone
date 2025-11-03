@@ -133,11 +133,20 @@ Deno.serve(async (req: Request) => {
     const amountToMint = parseUnits(unclaimedAmount.toString(), 6);
     const submissionId = `claim-${Date.now()}-${walletAddress.slice(0, 8)}`;
 
+    const publicClient = walletClient;
+    const gasPrice = await publicClient.request({
+      method: 'eth_gasPrice',
+    });
+
+    const gasPriceWithBuffer = BigInt(gasPrice) * BigInt(120) / BigInt(100);
+
     const txHash = await walletClient.writeContract({
       address: aicTokenAddress,
       abi: AIC_TOKEN_ABI,
       functionName: "mintGameReward",
       args: [walletAddress as `0x${string}`, amountToMint, submissionId],
+      gasPrice: gasPriceWithBuffer,
+      gas: BigInt(100000),
     });
 
     await supabase
