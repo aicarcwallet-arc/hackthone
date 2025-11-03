@@ -1,226 +1,119 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mint MockUSDC - Treasury Fund</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Mint AIC Tokens Manually</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #0f172a;
+      color: white;
+    }
+    .card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    button {
+      background: linear-gradient(135deg, #10b981, #06b6d4);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      background: #0f172a;
+      color: white;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+    .success {
+      background: #065f46;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 12px;
+    }
+    .error {
+      background: #7f1d1d;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 12px;
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 via-white to-green-50 min-h-screen p-8">
-  <div class="max-w-2xl mx-auto">
-    <div class="bg-white rounded-2xl shadow-xl p-8 border-2 border-blue-100">
-      <div class="flex items-center gap-3 mb-6">
-        <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
-          <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-          </svg>
-        </div>
-        <div>
-          <h1 class="text-2xl font-bold text-gray-900">Mint MockUSDC</h1>
-          <p class="text-sm text-gray-600">Fund your treasury wallet for testing</p>
-        </div>
-      </div>
-
-      <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
-        <div class="flex">
-          <div class="flex-shrink-0">
-            <svg class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-            </svg>
-          </div>
-          <div class="ml-3">
-            <p class="text-sm text-yellow-700">
-              <strong>Testnet Only!</strong> This mints fake USDC for testing. Use Arc Testnet.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div id="status" class="mb-6 hidden"></div>
-
-      <div class="space-y-4">
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Recipient Address</label>
-          <input
-            type="text"
-            id="recipientAddress"
-            placeholder="0x..."
-            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
-          <p class="text-xs text-gray-500 mt-1">Your treasury wallet address</p>
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Amount (USDC)</label>
-          <div class="relative">
-            <input
-              type="number"
-              id="amount"
-              value="1000"
-              step="100"
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-              <span class="text-gray-500 text-sm">USDC</span>
-            </div>
-          </div>
-        </div>
-
-        <button
-          id="connectBtn"
-          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-lg transition-colors shadow-lg"
-        >
-          Connect Wallet
-        </button>
-
-        <button
-          id="mintBtn"
-          class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-4 rounded-lg transition-colors shadow-lg hidden"
-        >
-          Mint MockUSDC
-        </button>
-      </div>
-
-      <div class="mt-6 p-4 bg-gray-50 rounded-lg">
-        <h3 class="font-semibold text-gray-900 mb-2">Contract Info</h3>
-        <div class="space-y-1 text-sm">
-          <p><span class="text-gray-600">Network:</span> <span class="font-mono text-blue-600">Arc Testnet</span></p>
-          <p><span class="text-gray-600">Chain ID:</span> <span class="font-mono">5042002</span></p>
-          <p><span class="text-gray-600">MockUSDC:</span> <span class="font-mono text-xs break-all" id="mockAddress">Loading...</span></p>
-        </div>
-      </div>
-    </div>
-
-    <div class="mt-6 text-center">
-      <p class="text-sm text-gray-600">
-        After minting, check your balance in MetaMask
-        <br>
-        <span class="text-xs text-gray-500">Add token with address shown above</span>
-      </p>
-    </div>
+<body>
+  <div class="card">
+    <h1>🪙 Mint AIC Tokens</h1>
+    <p>Mint your earned AIC tokens to your wallet</p>
+    
+    <input type="text" id="amount" placeholder="Amount to mint (e.g. 8045)" value="8045">
+    <button onclick="mintTokens()">Mint Tokens</button>
+    
+    <div id="status"></div>
   </div>
 
-  <script type="module">
-    const ARC_TESTNET = {
-      chainId: '0x4CEF52', // 5042002
-      chainName: 'Arc Testnet',
-      nativeCurrency: { name: 'USDC', symbol: 'USDC', decimals: 18 },
-      rpcUrls: ['https://rpc.testnet.arc.network'],
-      blockExplorerUrls: ['https://testnet.arcscan.app']
-    };
-
-    const MOCK_USDC_ADDRESS = '0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238';
-
-    const MOCK_USDC_ABI = [
-      {
-        inputs: [
-          { internalType: 'address', name: 'to', type: 'address' },
-          { internalType: 'uint256', name: 'amount', type: 'uint256' }
-        ],
-        name: 'mint',
-        outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
-        stateMutability: 'nonpayable',
-        type: 'function'
-      },
-      {
-        inputs: [{ internalType: 'address', name: 'account', type: 'address' }],
-        name: 'balanceOf',
-        outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-        stateMutability: 'view',
-        type: 'function'
-      },
-      {
-        inputs: [],
-        name: 'decimals',
-        outputs: [{ internalType: 'uint8', name: '', type: 'uint8' }],
-        stateMutability: 'view',
-        type: 'function'
-      }
-    ];
-
-    let provider, signer, account;
-
-    document.getElementById('mockAddress').textContent = MOCK_USDC_ADDRESS;
-
-    function showStatus(message, type = 'info') {
+  <script>
+    const AIC_TOKEN = '0x4B71cD610AfCCDf0B02d566dA0071C74444a8666';
+    
+    async function mintTokens() {
       const status = document.getElementById('status');
-      status.className = `mb-6 p-4 rounded-lg ${
-        type === 'error' ? 'bg-red-50 text-red-700 border border-red-200' :
-        type === 'success' ? 'bg-green-50 text-green-700 border border-green-200' :
-        'bg-blue-50 text-blue-700 border border-blue-200'
-      }`;
-      status.textContent = message;
-      status.classList.remove('hidden');
+      const amount = document.getElementById('amount').value;
+      
+      if (!window.ethereum) {
+        status.innerHTML = '<div class="error">Please install MetaMask</div>';
+        return;
+      }
+      
+      try {
+        status.innerHTML = '<div>Minting ' + amount + ' AIC tokens...</div>';
+        
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const account = accounts[0];
+        
+        // Mint function: mint(address to, uint256 amount)
+        const amountWei = (parseFloat(amount) * 1e6).toString(16);
+        const data = '0x40c10f19' + // mint(address,uint256)
+          account.slice(2).padStart(64, '0') +
+          amountWei.padStart(64, '0');
+        
+        const txHash = await window.ethereum.request({
+          method: 'eth_sendTransaction',
+          params: [{
+            from: account,
+            to: AIC_TOKEN,
+            data: data,
+            gas: '0x186a0', // 100000
+          }]
+        });
+        
+        status.innerHTML = `<div class="success">
+          ✅ Minted ${amount} AIC tokens!<br>
+          <a href="https://testnet.arcscan.com/tx/${txHash}" target="_blank" style="color: #22d3ee">View Transaction</a>
+        </div>`;
+        
+      } catch (error) {
+        status.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+      }
     }
-
-    document.getElementById('connectBtn').onclick = async () => {
-      try {
-        if (!window.ethereum) {
-          showStatus('MetaMask not found! Please install MetaMask.', 'error');
-          return;
-        }
-
-        const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-        account = accounts[0];
-
-        try {
-          await ethereum.request({
-            method: 'wallet_switchEthereumChain',
-            params: [{ chainId: ARC_TESTNET.chainId }],
-          });
-        } catch (switchError) {
-          if (switchError.code === 4902) {
-            await ethereum.request({
-              method: 'wallet_addEthereumChain',
-              params: [ARC_TESTNET],
-            });
-          } else {
-            throw switchError;
-          }
-        }
-
-        document.getElementById('recipientAddress').value = account;
-        document.getElementById('connectBtn').classList.add('hidden');
-        document.getElementById('mintBtn').classList.remove('hidden');
-        showStatus(`Connected: ${account.slice(0, 6)}...${account.slice(-4)}`, 'success');
-
-      } catch (error) {
-        showStatus(`Error: ${error.message}`, 'error');
-      }
-    };
-
-    document.getElementById('mintBtn').onclick = async () => {
-      try {
-        const recipientAddress = document.getElementById('recipientAddress').value;
-        const amount = document.getElementById('amount').value;
-
-        if (!recipientAddress || !amount) {
-          showStatus('Please enter recipient address and amount', 'error');
-          return;
-        }
-
-        showStatus('Minting MockUSDC... Please confirm in MetaMask', 'info');
-
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        const contract = new ethers.Contract(MOCK_USDC_ADDRESS, MOCK_USDC_ABI, signer);
-
-        const amountInDecimals = ethers.utils.parseUnits(amount, 6); // USDC has 6 decimals
-        const tx = await contract.mint(recipientAddress, amountInDecimals);
-
-        showStatus(`Transaction sent! Hash: ${tx.hash}`, 'info');
-        await tx.wait();
-
-        const balance = await contract.balanceOf(recipientAddress);
-        const balanceFormatted = ethers.utils.formatUnits(balance, 6);
-
-        showStatus(`Success! Minted ${amount} USDC. New balance: ${balanceFormatted} USDC`, 'success');
-
-      } catch (error) {
-        showStatus(`Error: ${error.message}`, 'error');
-      }
-    };
   </script>
-  <script src="https://cdn.ethers.io/lib/ethers-5.7.umd.min.js"></script>
 </body>
 </html>

@@ -1,42 +1,23 @@
-import https from 'https';
+import { createPublicClient, http } from 'viem';
 
-const txHash = process.argv[2] || '0xeb79cd7c44380a23f20fc12ce1f6773d6ba84d54cd56a09a4862d8516f9c5c69';
-
-const data = JSON.stringify({
-  jsonrpc: '2.0',
-  method: 'eth_getTransactionReceipt',
-  params: [txHash],
-  id: 1
+const publicClient = createPublicClient({
+  transport: http('https://rpc.testnet.arc.network')
 });
 
-const options = {
-  hostname: 'rpc.testnet.arc.network',
-  port: 443,
-  path: '/',
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'Content-Length': data.length
-  }
-};
+const AIC_TOKEN = '0x4B71cD610AfCCDf0B02d566dA0071C74444a8666';
+const WALLET = '0x996a7ac2e9f37173f2b2131fa720f04fdacbb0cd';
 
-const req = https.request(options, (res) => {
-  let body = '';
-  res.on('data', (chunk) => body += chunk);
-  res.on('end', () => {
-    const response = JSON.parse(body);
-    if (response.result === null) {
-      console.log('STATUS: PENDING - Transaction not yet mined');
-    } else {
-      console.log('STATUS:', response.result.status === '0x1' ? 'SUCCESS' : 'FAILED');
-      console.log('Block:', parseInt(response.result.blockNumber, 16));
-      console.log('Gas Used:', parseInt(response.result.gasUsed, 16));
-      console.log('From:', response.result.from);
-      console.log('To:', response.result.to);
-    }
+const ABI = [{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}];
+
+async function checkBalance() {
+  const balance = await publicClient.readContract({
+    address: AIC_TOKEN,
+    abi: ABI,
+    functionName: 'balanceOf',
+    args: [WALLET]
   });
-});
+  
+  console.log('On-chain AIC balance:', (Number(balance) / 1e6).toFixed(2), 'AIC');
+}
 
-req.on('error', (e) => console.error('Error:', e.message));
-req.write(data);
-req.end();
+checkBalance();
