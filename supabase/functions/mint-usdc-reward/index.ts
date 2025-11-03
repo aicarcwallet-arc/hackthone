@@ -256,18 +256,70 @@ Deno.serve(async (req: Request) => {
     const amountToSend = parseUnits(unclaimedAmount.toString(), 6);
 
     if (treasuryBalance < amountToSend) {
-      return new Response(
-        JSON.stringify({
-          error: "Insufficient treasury balance. Please fund the treasury wallet with USDC.",
-          required: unclaimedAmount,
-          available: Number(treasuryBalance) / 1e6,
-          treasuryAddress: account.address,
-        }),
-        {
-          status: 500,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
+      try {
+        const autoFundResponse = await fetch(
+          `${supabaseUrl}/functions/v1/auto-fund-treasury`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${supabaseKey}`,
+            },
+            body: JSON.stringify({}),
+          }
+        );
+
+        const autoFundResult = await autoFundResponse.json();
+
+        if (autoFundResponse.ok && autoFundResult.status === "recharged") {
+          const updatedBalance = await publicClient.readContract({
+            address: usdcTokenAddress,
+            abi: USDC_ABI,
+            functionName: "balanceOf",
+            args: [account.address],
+          });
+
+          if (updatedBalance < amountToSend) {
+            return new Response(
+              JSON.stringify({
+                error: "Treasury refilled but still insufficient. Please try again or contact support.",
+                required: unclaimedAmount,
+                available: Number(updatedBalance) / 1e6,
+              }),
+              {
+                status: 500,
+                headers: { ...corsHeaders, "Content-Type": "application/json" },
+              }
+            );
+          }
+        } else {
+          return new Response(
+            JSON.stringify({
+              error: "Treasury needs funding. Auto-refill system is processing. Please try again in 30 seconds.",
+              required: unclaimedAmount,
+              available: Number(treasuryBalance) / 1e6,
+              autoFillStatus: autoFundResult.message || "Processing",
+            }),
+            {
+              status: 503,
+              headers: { ...corsHeaders, "Content-Type": "application/json" },
+            }
+          );
         }
-      );
+      } catch (autoFundError: any) {
+        console.error("Auto-fund treasury failed:", autoFundError);
+        return new Response(
+          JSON.stringify({
+            error: "Treasury balance low. Auto-refill attempted but failed. Please try again shortly.",
+            required: unclaimedAmount,
+            available: Number(treasuryBalance) / 1e6,
+          }),
+          {
+            status: 503,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          }
+        );
+      }
     }
 
     const walletClient = createWalletClient({

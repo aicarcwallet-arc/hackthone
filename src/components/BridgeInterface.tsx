@@ -354,10 +354,12 @@ export function BridgeInterface() {
                         const result = await response.json();
 
                         if (!response.ok) {
-                          let errorMsg = result.error || 'Failed to convert AIC to USDC';
-                          if (result.treasuryAddress) {
-                            errorMsg = `⏳ System is refilling treasury. Please try again in a few moments.\n\nThe auto-refill process is running in the background.`;
+                          if (response.status === 503) {
+                            alert('⏳ Treasury is refilling automatically!\n\nPlease wait 30 seconds and try again.\n\nThe system is working in the background to process your request.');
+                            return;
                           }
+
+                          const errorMsg = result.error || 'Failed to convert AIC to USDC';
                           throw new Error(errorMsg);
                         }
 
