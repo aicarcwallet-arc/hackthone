@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head><title>Test Mint</title></head>
+<body>
+  <h1>Testing Mint Function</h1>
+  <button onclick="testMint()">Test Mint Now</button>
+  <pre id="result"></pre>
+  
+  <script>
+    async function testMint() {
+      const output = document.getElementById('result');
+      output.textContent = 'Calling mint function...';
+      
+      try {
+        const response = await fetch('https://kujoudvjmhuypxyntrkm.supabase.co/functions/v1/mint-aic-tokens', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1am91ZHZqbWh1eXB4eW50cmttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3NzgyNjYsImV4cCI6MjA3NzM1NDI2Nn0.M1SNleJq6W-vYGok6ZS18oPKIbmKBqXdM17iksYHVy0'
+          },
+          body: JSON.stringify({ 
+            walletAddress: '0x996a7ac2e9f37173f2b2131fa720f04fdacbb0cd'
+          })
+        });
+        
+        const data = await response.json();
+        output.textContent = JSON.stringify(data, null, 2);
+        console.log('MINT RESULT:', data);
+      } catch (err) {
+        output.textContent = 'ERROR: ' + err.message;
+        console.error('MINT ERROR:', err);
+      }
+    }
+  </script>
+</body>
+</html>
