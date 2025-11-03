@@ -15,16 +15,66 @@ export function InternetMinutesRewardsBox({
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClaim = async () => {
-    alert(
-      `🎉 Your ${unclaimedUSDC.toFixed(2)} USDC is ready!\n\n` +
-      `To cash out:\n\n` +
-      `1. Go to "Convert" page\n` +
-      `2. Convert your AIC to USDC\n` +
-      `3. Go to "Withdraw" page\n` +
-      `4. Click "Cash Out" tab\n` +
-      `5. Get your money!\n\n` +
-      `It's that simple!`
-    );
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/cctp-mint-reward`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          },
+          body: JSON.stringify({
+            walletAddress,
+            sourceChain: 'baseSepolia'
+          }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to claim USDC via CCTP');
+      }
+
+      alert(
+        `✅ Success!\n\n` +
+        `${result.message}\n\n` +
+        `Burn TX: ${result.burnTxHash.slice(0, 10)}...\n` +
+        `Fee: ${result.fee} USDC\n` +
+        `Arrival: ${result.attestation.estimatedArrival}\n\n` +
+        `USDC will arrive in your wallet in 8-20 seconds!\n\n` +
+        `Check on explorer: ${result.explorerUrl}`
+      );
+
+      onClaimSuccess();
+    } catch (err: any) {
+      console.error('CCTP Claim error:', err);
+
+      const errorMsg = err.message || 'Unknown error';
+
+      if (errorMsg.includes('Insufficient USDC balance')) {
+        alert(
+          `❌ Treasury Needs Funding!\n\n` +
+          `The treasury wallet needs USDC on Base Sepolia:\n` +
+          `Address: 0x43909cce967BE2Ba4D44836A99b67040BF53f05a\n\n` +
+          `Get testnet USDC: https://faucet.circle.com\n\n` +
+          `Then send it to the treasury address above.`
+        );
+      } else {
+        alert(
+          `❌ CCTP Error:\n\n${errorMsg}\n\n` +
+          `Make sure:\n` +
+          `1. Treasury has USDC on Base Sepolia\n` +
+          `2. CCTP_TREASURY_PRIVATE_KEY is set in Supabase\n\n` +
+          `Get testnet USDC: https://faucet.circle.com`
+        );
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (unclaimedUSDC <= 0) {
