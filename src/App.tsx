@@ -1,33 +1,43 @@
-import { useState, useEffect } from 'react';
-import { LandingPage } from './components/LandingPage';
-import { BridgeInterface } from './components/BridgeInterface';
-import { BurnPegInterface } from './components/BurnPegInterface';
-import { SimpleAICConverter } from './components/SimpleAICConverter';
-import { VocabularyGame } from './components/VocabularyGame';
-import { GamePage } from './components/GamePage';
-import { LeaderboardPage } from './components/LeaderboardPage';
-import { RewardsPage } from './components/RewardsPage';
-import { TransactionAccelerator } from './components/TransactionAccelerator';
-import { TransactionHistory } from './components/TransactionHistory';
+import { useState, useEffect, lazy, Suspense } from 'react';
+import { NavigationHeader } from './components/NavigationHeader';
+import { MobileBottomNav } from './components/MobileBottomNav';
+import { Footer } from './components/Footer';
 import { WalletDashboard } from './components/WalletDashboard';
 import { InstallPrompt } from './components/InstallPrompt';
 import { NetworkStatusBanner } from './components/NetworkStatusBanner';
 import { GasFaucetBanner } from './components/GasFaucetBanner';
-import { VirtualCard } from './components/VirtualCard';
-import { CircleBanking } from './components/CircleBanking';
-import { NavigationHeader } from './components/NavigationHeader';
-import { MobileBottomNav } from './components/MobileBottomNav';
-import { HowItWorks } from './components/HowItWorks';
-import { WithdrawPage } from './components/WithdrawPage';
-import { Footer } from './components/Footer';
-import { ArcMainnetUpdates } from './components/ArcMainnetUpdates';
-import { PartnersPage } from './components/PartnersPage';
-import { ChatSupport } from './components/ChatSupport';
-import { TreasuryFunder } from './components/TreasuryFunder';
-import { MainnetReadyPage } from './components/MainnetReadyPage';
 import { useAICToken } from './hooks/useAICToken';
 import { Send, Trophy, History, Flame, Zap, CreditCard, Building2, ArrowRightLeft } from 'lucide-react';
 import { supabase } from './lib/supabase';
+
+const LandingPage = lazy(() => import('./components/LandingPage').then(m => ({ default: m.LandingPage })));
+const BridgeInterface = lazy(() => import('./components/BridgeInterface').then(m => ({ default: m.BridgeInterface })));
+const BurnPegInterface = lazy(() => import('./components/BurnPegInterface').then(m => ({ default: m.BurnPegInterface })));
+const SimpleAICConverter = lazy(() => import('./components/SimpleAICConverter').then(m => ({ default: m.SimpleAICConverter })));
+const VocabularyGame = lazy(() => import('./components/VocabularyGame').then(m => ({ default: m.VocabularyGame })));
+const GamePage = lazy(() => import('./components/GamePage').then(m => ({ default: m.GamePage })));
+const LeaderboardPage = lazy(() => import('./components/LeaderboardPage').then(m => ({ default: m.LeaderboardPage })));
+const RewardsPage = lazy(() => import('./components/RewardsPage').then(m => ({ default: m.RewardsPage })));
+const TransactionAccelerator = lazy(() => import('./components/TransactionAccelerator').then(m => ({ default: m.TransactionAccelerator })));
+const TransactionHistory = lazy(() => import('./components/TransactionHistory').then(m => ({ default: m.TransactionHistory })));
+const VirtualCard = lazy(() => import('./components/VirtualCard').then(m => ({ default: m.VirtualCard })));
+const CircleBanking = lazy(() => import('./components/CircleBanking').then(m => ({ default: m.CircleBanking })));
+const HowItWorks = lazy(() => import('./components/HowItWorks').then(m => ({ default: m.HowItWorks })));
+const WithdrawPage = lazy(() => import('./components/WithdrawPage').then(m => ({ default: m.WithdrawPage })));
+const ArcMainnetUpdates = lazy(() => import('./components/ArcMainnetUpdates').then(m => ({ default: m.ArcMainnetUpdates })));
+const PartnersPage = lazy(() => import('./components/PartnersPage').then(m => ({ default: m.PartnersPage })));
+const ChatSupport = lazy(() => import('./components/ChatSupport').then(m => ({ default: m.ChatSupport })));
+const TreasuryFunder = lazy(() => import('./components/TreasuryFunder').then(m => ({ default: m.TreasuryFunder })));
+const MainnetReadyPage = lazy(() => import('./components/MainnetReadyPage').then(m => ({ default: m.MainnetReadyPage })));
+
+const LoadingSpinner = () => (
+  <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black flex items-center justify-center">
+    <div className="text-center">
+      <div className="w-16 h-16 border-4 border-cyan-500/30 border-t-cyan-500 rounded-full animate-spin mx-auto mb-4"></div>
+      <p className="text-gray-400">Loading...</p>
+    </div>
+  </div>
+);
 
 type Tab = 'game' | 'bridge' | 'convert' | 'burn' | 'history' | 'accelerator' | 'card' | 'banking';
 type Page = 'home' | 'play' | 'leaderboard' | 'rewards' | 'withdraw' | 'how' | 'arc-updates' | 'partners' | 'chat' | 'fund-treasury' | 'mainnet-ready' | 'swap' | 'bridge' | 'accelerator' | 'history' | 'card' | 'banking';
@@ -275,7 +285,9 @@ function App() {
           walletAddress={connectedAddress || undefined}
           onConnectWallet={handleConnectWallet}
         />
-        <LandingPage onGetStarted={() => setCurrentPage('play')} onNavigate={handleNavigate} />
+        <Suspense fallback={<LoadingSpinner />}>
+          <LandingPage onGetStarted={() => setCurrentPage('play')} onNavigate={handleNavigate} />
+        </Suspense>
       </>
     );
   }
@@ -289,11 +301,13 @@ function App() {
           walletAddress={connectedAddress || undefined}
           onConnectWallet={handleConnectWallet}
         />
-        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
-            <HowItWorks />
+        <Suspense fallback={<LoadingSpinner />}>
+          <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
+              <HowItWorks />
+            </div>
           </div>
-        </div>
+        </Suspense>
         <Footer onNavigate={handleNavigate} />
       </>
     );
@@ -403,12 +417,14 @@ function App() {
           walletAddress={connectedAddress || undefined}
           onConnectWallet={handleConnectWallet}
         />
-        <GamePage
-          userId={userId}
-          walletAddress={connectedAddress}
-          onNavigate={handleNavigate}
-          onConnectWallet={handleConnectWallet}
-        />
+        <Suspense fallback={<LoadingSpinner />}>
+          <GamePage
+            userId={userId}
+            walletAddress={connectedAddress}
+            onNavigate={handleNavigate}
+            onConnectWallet={handleConnectWallet}
+          />
+        </Suspense>
         <Footer onNavigate={handleNavigate} />
       </>
     );
@@ -829,46 +845,48 @@ function App() {
         )}
 
         <div className="w-full">
-          {activeTab === 'game' && (
-            <div className="max-w-6xl mx-auto">
-              <VocabularyGame key={`game-${connectedAddress}`} userId={userId} walletAddress={connectedAddress} onGoBack={() => setActiveTab('game')} onConnectWallet={handleConnectWallet} />
-            </div>
-          )}
-          {activeTab === 'bridge' && (
-            <div className="max-w-5xl mx-auto">
-              <BridgeInterface />
-            </div>
-          )}
-          {activeTab === 'convert' && (
-            <div className="max-w-5xl mx-auto">
-              <SimpleAICConverter walletAddress={connectedAddress || undefined} />
-            </div>
-          )}
-          {activeTab === 'card' && (
-            <div className="max-w-6xl mx-auto">
-              <VirtualCard walletAddress={connectedAddress || undefined} usdcBalance={usdcBalance} />
-            </div>
-          )}
-          {activeTab === 'banking' && (
-            <div className="max-w-6xl mx-auto">
-              <CircleBanking walletAddress={connectedAddress || undefined} usdcBalance={usdcBalance} />
-            </div>
-          )}
-          {activeTab === 'burn' && (
-            <div className="max-w-5xl mx-auto">
-              <BurnPegInterface walletAddress={connectedAddress || undefined} />
-            </div>
-          )}
-          {activeTab === 'history' && (
-            <div className="max-w-6xl mx-auto">
-              <TransactionHistory userId={userId} />
-            </div>
-          )}
-          {activeTab === 'accelerator' && (
-            <div className="max-w-5xl mx-auto">
-              <TransactionAccelerator />
-            </div>
-          )}
+          <Suspense fallback={<LoadingSpinner />}>
+            {activeTab === 'game' && (
+              <div className="max-w-6xl mx-auto">
+                <VocabularyGame key={`game-${connectedAddress}`} userId={userId} walletAddress={connectedAddress} onGoBack={() => setActiveTab('game')} onConnectWallet={handleConnectWallet} />
+              </div>
+            )}
+            {activeTab === 'bridge' && (
+              <div className="max-w-5xl mx-auto">
+                <BridgeInterface />
+              </div>
+            )}
+            {activeTab === 'convert' && (
+              <div className="max-w-5xl mx-auto">
+                <SimpleAICConverter walletAddress={connectedAddress || undefined} />
+              </div>
+            )}
+            {activeTab === 'card' && (
+              <div className="max-w-6xl mx-auto">
+                <VirtualCard walletAddress={connectedAddress || undefined} usdcBalance={usdcBalance} />
+              </div>
+            )}
+            {activeTab === 'banking' && (
+              <div className="max-w-6xl mx-auto">
+                <CircleBanking walletAddress={connectedAddress || undefined} usdcBalance={usdcBalance} />
+              </div>
+            )}
+            {activeTab === 'burn' && (
+              <div className="max-w-5xl mx-auto">
+                <BurnPegInterface walletAddress={connectedAddress || undefined} />
+              </div>
+            )}
+            {activeTab === 'history' && (
+              <div className="max-w-6xl mx-auto">
+                <TransactionHistory userId={userId} />
+              </div>
+            )}
+            {activeTab === 'accelerator' && (
+              <div className="max-w-5xl mx-auto">
+                <TransactionAccelerator />
+              </div>
+            )}
+          </Suspense>
         </div>
 
         <InstallPrompt />
