@@ -59,38 +59,27 @@ export function DirectUSDCPayout({ walletAddress }: DirectUSDCPayoutProps) {
     try {
       const { supabase } = await import('../lib/supabase');
 
-      const { data: userData, error: userError } = await supabase
-        .from('users')
-        .select('id, total_usdc_earned, claimed_usdc')
-        .eq('wallet_address', walletAddress.toLowerCase())
-        .maybeSingle();
+      // Call edge function to send real USDC on-chain
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/mint-usdc-reward`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          },
+          body: JSON.stringify({
+            walletAddress: walletAddress,
+            useCircleAPI: true,
+          }),
+        }
+      );
 
-      if (userError || !userData) {
-        throw new Error('User not found');
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to send USDC');
       }
-
-      const payoutAmount = parseFloat(amount);
-      const currentClaimed = parseFloat(userData.claimed_usdc || '0');
-      const newClaimed = currentClaimed + payoutAmount;
-
-      const { error: updateError } = await supabase
-        .from('users')
-        .update({ claimed_usdc: newClaimed.toString() })
-        .eq('id', userData.id);
-
-      if (updateError) throw updateError;
-
-      await supabase.from('token_transactions').insert({
-        user_id: userData.id,
-        transaction_type: 'payout',
-        amount: payoutAmount,
-        from_token: 'USDC',
-        to_token: 'USD',
-        tx_hash: `payout-${Date.now()}`,
-        chain_id: 0,
-        status: 'confirmed',
-        confirmed_at: new Date().toISOString(),
-      });
 
       setSuccess(true);
       setAmount('');
