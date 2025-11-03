@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, X, Home, Gamepad2, CreditCard, Building2, BookOpen, Send, Download, Heart, Rocket, Trophy, Coins, ChevronDown, Zap, ArrowRightLeft, Flame, History, Wrench } from 'lucide-react';
+import { Menu, X, Home, Gamepad2, CreditCard, Building2, BookOpen, Send, Download, Heart, Rocket, Trophy, Coins, ChevronDown, Zap, ArrowRightLeft, Flame, History, Wrench, Landmark } from 'lucide-react';
 
 interface NavigationHeaderProps {
   currentPage: string;
@@ -44,7 +44,8 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
         { id: 'accelerator', label: 'Speed Up TX', icon: Zap },
         { id: 'bridge', label: 'Bridge to Exchange', icon: Send },
         { id: 'withdraw', label: 'Instant Withdraw', icon: Download },
-        { id: 'card', label: 'Virtual Card', icon: CreditCard }
+        { id: 'card', label: 'Virtual Card', icon: CreditCard },
+        { id: 'banking', label: 'Fintech Banking', icon: Landmark }
       ]
     },
     {
