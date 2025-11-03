@@ -38,9 +38,14 @@ export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
             <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto px-4">
               Master blockchain fundamentals and earn <span className="text-cyan-400 font-semibold">instant AiC token rewards</span> with every correct answer. Swap to USDC anytime on Arc Network's lightning-fast Layer 1.
             </p>
-            <p className="text-xs sm:text-sm text-cyan-400 mb-8 sm:mb-12 px-4 font-semibold">
-              🚀 Arc Network Layer 1: Native USDC • Flash-Speed Transactions • Get AiC Token Rewards
-            </p>
+            <div className="mb-8 sm:mb-12 px-4">
+              <p className="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-300 bg-clip-text text-transparent mb-3 drop-shadow-[0_0_20px_rgba(34,211,238,0.6)]">
+                Architecting the Future of the Internet Economy
+              </p>
+              <p className="text-xs sm:text-sm text-cyan-400 font-semibold">
+                🚀 Arc Network Layer 1: Native USDC • Flash-Speed Transactions • Get AiC Token Rewards
+              </p>
+            </div>
             <div className="flex flex-col items-center gap-4 sm:gap-6">
               <button
                 onClick={onGetStarted}
