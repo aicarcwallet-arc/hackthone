@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual AIC Token Mint</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        p {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 8px;
+            display: none;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+        .status.loading {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+            display: block;
+        }
+        a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🪙 Mint Your AIC Tokens</h1>
+        <p>This page will mint your earned AIC tokens directly to your wallet on Arc Testnet.</p>
+
+        <div class="input-group">
+            <label for="wallet">Your Wallet Address</label>
+            <input type="text" id="wallet" placeholder="0x..." value="0x996a7ac2e9f37173f2b2131fa720f04fdacbb0cd">
+        </div>
+
+        <button id="mintBtn" onclick="mintTokens()">Mint 3184 AIC Tokens Now</button>
+
+        <div id="status" class="status"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/viem@2.21.54/dist/viem.global.js"></script>
+    <script>
+        const ARC_TESTNET = {
+            id: 5042002,
+            name: 'Arc Testnet',
+            network: 'arc-testnet',
+            nativeCurrency: {
+                decimals: 6,
+                name: 'USDC',
+                symbol: 'USDC',
+            },
+            rpcUrls: {
+                default: { http: ['https://rpc.testnet.arc.network'] },
+                public: { http: ['https://rpc.testnet.arc.network'] },
+            },
+        };
+
+        const AIC_TOKEN_ADDRESS = '0x4B71cD610AfCCDf0B02d566dA0071C74444a8666';
+        const MINTER_PRIVATE_KEY = '0x90e5340c08b03769795bdf15a0cf5f2f9f32090c650275ac9399bf7541819e61';
+
+        const AIC_TOKEN_ABI = [{
+            inputs: [
+                { internalType: "address", name: "player", type: "address" },
+                { internalType: "uint256", name: "amount", type: "uint256" },
+                { internalType: "string", name: "submissionId", type: "string" },
+            ],
+            name: "mintGameReward",
+            outputs: [{ internalType: "bool", name: "", type: "bool" }],
+            stateMutability: "nonpayable",
+            type: "function",
+        }];
+
+        async function mintTokens() {
+            const walletAddress = document.getElementById('wallet').value.trim();
+            const statusDiv = document.getElementById('status');
+            const mintBtn = document.getElementById('mintBtn');
+
+            if (!walletAddress.startsWith('0x') || walletAddress.length !== 42) {
+                statusDiv.className = 'status error';
+                statusDiv.textContent = '❌ Invalid wallet address';
+                return;
+            }
+
+            try {
+                mintBtn.disabled = true;
+                statusDiv.className = 'status loading';
+                statusDiv.textContent = '⏳ Minting tokens on Arc Testnet...';
+
+                const { createWalletClient, createPublicClient, http, parseUnits } = viem;
+                const { privateKeyToAccount } = viem.accounts;
+
+                const account = privateKeyToAccount(MINTER_PRIVATE_KEY);
+                const walletClient = createWalletClient({
+                    account,
+                    chain: ARC_TESTNET,
+                    transport: http('https://rpc.testnet.arc.network'),
+                });
+
+                const publicClient = createPublicClient({
+                    chain: ARC_TESTNET,
+                    transport: http('https://rpc.testnet.arc.network'),
+                });
+
+                const amountToMint = parseUnits('3184', 6);
+                const submissionId = `manual-${Date.now()}-${walletAddress.slice(0, 8)}`;
+
+                const gasPrice = await publicClient.request({
+                    method: 'eth_gasPrice',
+                });
+
+                const gasPriceWithBuffer = BigInt(gasPrice) * BigInt(120) / BigInt(100);
+
+                statusDiv.textContent = '⏳ Sending transaction...';
+
+                const txHash = await walletClient.writeContract({
+                    address: AIC_TOKEN_ADDRESS,
+                    abi: AIC_TOKEN_ABI,
+                    functionName: 'mintGameReward',
+                    args: [walletAddress, amountToMint, submissionId],
+                    gasPrice: gasPriceWithBuffer,
+                    gas: BigInt(100000),
+                });
+
+                statusDiv.textContent = '⏳ Waiting for confirmation...';
+
+                const receipt = await publicClient.waitForTransactionReceipt({
+                    hash: txHash,
+                    confirmations: 1,
+                    timeout: 10000,
+                });
+
+                if (receipt.status === 'success') {
+                    // Update database
+                    await fetch('https://kujoudvjmhuypxyntrkm.supabase.co/rest/v1/users?wallet_address=eq.' + walletAddress.toLowerCase(), {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1am91ZHZqbWh1eXB4eW50cmttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3NzgyNjYsImV4cCI6MjA3NzM1NDI2Nn0.M1SNleJq6W-vYGok6ZS18oPKIbmKBqXdM17iksYHVy0',
+                            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1am91ZHZqbWh1eXB4eW50cmttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3NzgyNjYsImV4cCI6MjA3NzM1NDI2Nn0.M1SNleJq6W-vYGok6ZS18oPKIbmKBqXdM17iksYHVy0'
+                        },
+                        body: JSON.stringify({ claimed_aic: '3184' })
+                    });
+
+                    statusDiv.className = 'status success';
+                    statusDiv.innerHTML = `
+                        ✅ Success! 3184 AIC tokens minted!<br><br>
+                        <strong>Transaction:</strong><br>
+                        <a href="https://testnet.arcscan.com/tx/${txHash}" target="_blank">${txHash.slice(0, 20)}...</a><br><br>
+                        <strong>Next steps:</strong><br>
+                        1. Go to your app's Convert or Bridge page<br>
+                        2. You'll now see 3184 AIC in your balance!<br>
+                        3. You can convert to USDC or bridge to other chains
+                    `;
+                } else {
+                    throw new Error('Transaction failed');
+                }
+
+            } catch (error) {
+                console.error('Mint error:', error);
+                statusDiv.className = 'status error';
+                statusDiv.textContent = '❌ Error: ' + (error.message || 'Mint failed');
+                mintBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
