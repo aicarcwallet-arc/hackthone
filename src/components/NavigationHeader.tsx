@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, X, Home, Gamepad2, CreditCard, Building2, BookOpen, Send, Download, Heart, Rocket, Trophy, Coins, ChevronDown } from 'lucide-react';
+import { Menu, X, Home, Gamepad2, CreditCard, Building2, BookOpen, Send, Download, Heart, Rocket, Trophy, Coins, ChevronDown, Zap, ArrowRightLeft, Flame, History, Wrench } from 'lucide-react';
 
 interface NavigationHeaderProps {
   currentPage: string;
@@ -11,6 +11,7 @@ interface NavigationHeaderProps {
 export function NavigationHeader({ currentPage, onNavigate, walletAddress, onConnectWallet }: NavigationHeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isPlayMenuOpen, setIsPlayMenuOpen] = useState(false);
+  const [isToolsMenuOpen, setIsToolsMenuOpen] = useState(false);
 
   const menuItems = [
     { id: 'home', label: 'Home', icon: Home },
@@ -23,6 +24,19 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
         { id: 'play', label: 'Game', icon: Gamepad2 },
         { id: 'leaderboard', label: 'Leaderboard', icon: Trophy },
         { id: 'rewards', label: 'My Rewards', icon: Coins }
+      ]
+    },
+    {
+      id: 'tools',
+      label: 'Tools & Features',
+      icon: Wrench,
+      submenu: [
+        { id: 'swap', label: 'Convert AIC to USDC', icon: ArrowRightLeft },
+        { id: 'bridge', label: 'Bridge Tokens', icon: Send },
+        { id: 'accelerator', label: 'Transaction Accelerator', icon: Zap },
+        { id: 'history', label: 'Transaction History', icon: History },
+        { id: 'card', label: 'Virtual Card', icon: CreditCard },
+        { id: 'banking', label: 'Circle Banking', icon: Building2 }
       ]
     },
     { id: 'fund-treasury', label: 'Fund Treasury', icon: Heart },
@@ -60,10 +74,13 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
                 const isSpecial = item.special;
 
                 if (item.submenu) {
+                  const isMenuOpen = item.id === 'play' ? isPlayMenuOpen : isToolsMenuOpen;
+                  const setMenuOpen = item.id === 'play' ? setIsPlayMenuOpen : setIsToolsMenuOpen;
+
                   return (
                     <div key={item.id} className="relative">
                       <button
-                        onClick={() => setIsPlayMenuOpen(!isPlayMenuOpen)}
+                        onClick={() => setMenuOpen(!isMenuOpen)}
                         className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
                           isActive
                             ? 'bg-cyan-500/20 text-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.3)]'
@@ -72,14 +89,14 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
                       >
                         <Icon className="w-4 h-4" />
                         <span className="text-sm">{item.label}</span>
-                        <ChevronDown className={`w-3 h-3 transition-transform ${isPlayMenuOpen ? 'rotate-180' : ''}`} />
+                        <ChevronDown className={`w-3 h-3 transition-transform ${isMenuOpen ? 'rotate-180' : ''}`} />
                       </button>
 
-                      {isPlayMenuOpen && (
+                      {isMenuOpen && (
                         <>
                           <div
                             className="fixed inset-0 z-30"
-                            onClick={() => setIsPlayMenuOpen(false)}
+                            onClick={() => setMenuOpen(false)}
                           />
                           <div className="absolute top-full left-0 mt-1 bg-gray-900 border border-cyan-500/30 rounded-lg shadow-[0_0_30px_rgba(34,211,238,0.3)] min-w-[200px] overflow-hidden z-40">
                             {item.submenu.map((subItem) => {
@@ -90,7 +107,7 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
                                   key={subItem.id}
                                   onClick={() => {
                                     handleMenuClick(subItem.id);
-                                    setIsPlayMenuOpen(false);
+                                    setMenuOpen(false);
                                   }}
                                   className={`w-full flex items-center gap-3 px-4 py-3 transition-colors ${
                                     isSubActive

@@ -30,7 +30,7 @@ import { Send, Trophy, History, Flame, Zap, CreditCard, Building2, ArrowRightLef
 import { supabase } from './lib/supabase';
 
 type Tab = 'game' | 'bridge' | 'convert' | 'burn' | 'history' | 'accelerator' | 'card' | 'banking';
-type Page = 'home' | 'play' | 'leaderboard' | 'rewards' | 'withdraw' | 'how' | 'arc-updates' | 'partners' | 'chat' | 'fund-treasury' | 'mainnet-ready';
+type Page = 'home' | 'play' | 'leaderboard' | 'rewards' | 'withdraw' | 'how' | 'arc-updates' | 'partners' | 'chat' | 'fund-treasury' | 'mainnet-ready' | 'swap' | 'bridge' | 'accelerator' | 'history' | 'card' | 'banking';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -471,6 +471,126 @@ function App() {
             ) : (
               <WithdrawPage walletAddress={connectedAddress} usdcBalance={usdcBalance} />
             )}
+          </div>
+        </div>
+        <Footer onNavigate={handleNavigate} />
+      </>
+    );
+  }
+
+  // Convert AIC to USDC page
+  if (currentPage === 'swap') {
+    return (
+      <>
+        <NavigationHeader
+          currentPage={currentPage}
+          onNavigate={handleNavigate}
+          walletAddress={connectedAddress || undefined}
+          onConnectWallet={handleConnectWallet}
+        />
+        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black py-24 px-4">
+          <div className="max-w-5xl mx-auto">
+            <SimpleAICConverter walletAddress={connectedAddress || undefined} />
+          </div>
+        </div>
+        <Footer onNavigate={handleNavigate} />
+      </>
+    );
+  }
+
+  // Bridge Tokens page
+  if (currentPage === 'bridge') {
+    return (
+      <>
+        <NavigationHeader
+          currentPage={currentPage}
+          onNavigate={handleNavigate}
+          walletAddress={connectedAddress || undefined}
+          onConnectWallet={handleConnectWallet}
+        />
+        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black py-24 px-4">
+          <div className="max-w-5xl mx-auto">
+            <BridgeInterface />
+          </div>
+        </div>
+        <Footer onNavigate={handleNavigate} />
+      </>
+    );
+  }
+
+  // Transaction Accelerator page
+  if (currentPage === 'accelerator') {
+    return (
+      <>
+        <NavigationHeader
+          currentPage={currentPage}
+          onNavigate={handleNavigate}
+          walletAddress={connectedAddress || undefined}
+          onConnectWallet={handleConnectWallet}
+        />
+        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black py-24 px-4">
+          <div className="max-w-5xl mx-auto">
+            <TransactionAccelerator />
+          </div>
+        </div>
+        <Footer onNavigate={handleNavigate} />
+      </>
+    );
+  }
+
+  // Transaction History page
+  if (currentPage === 'history') {
+    return (
+      <>
+        <NavigationHeader
+          currentPage={currentPage}
+          onNavigate={handleNavigate}
+          walletAddress={connectedAddress || undefined}
+          onConnectWallet={handleConnectWallet}
+        />
+        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black py-24 px-4">
+          <div className="max-w-6xl mx-auto">
+            <TransactionHistory userId={userId} />
+          </div>
+        </div>
+        <Footer onNavigate={handleNavigate} />
+      </>
+    );
+  }
+
+  // Virtual Card page
+  if (currentPage === 'card') {
+    return (
+      <>
+        <NavigationHeader
+          currentPage={currentPage}
+          onNavigate={handleNavigate}
+          walletAddress={connectedAddress || undefined}
+          onConnectWallet={handleConnectWallet}
+        />
+        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black py-24 px-4">
+          <div className="max-w-6xl mx-auto">
+            <VirtualCard walletAddress={connectedAddress || undefined} usdcBalance={usdcBalance} />
+          </div>
+        </div>
+        <Footer onNavigate={handleNavigate} />
+      </>
+    );
+  }
+
+  // Circle Banking page
+  if (currentPage === 'banking') {
+    return (
+      <>
+        <NavigationHeader
+          currentPage={currentPage}
+          onNavigate={handleNavigate}
+          walletAddress={connectedAddress || undefined}
+          onConnectWallet={handleConnectWallet}
+        />
+        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black py-24 px-4">
+          <div className="max-w-6xl mx-auto">
+            <CircleBanking walletAddress={connectedAddress || undefined} usdcBalance={usdcBalance} />
           </div>
         </div>
         <Footer onNavigate={handleNavigate} />
