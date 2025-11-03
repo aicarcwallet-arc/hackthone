@@ -52,11 +52,24 @@ export function ClaimAICTokens({ walletAddress, unclaimedAmount, onSuccess }: Cl
       setTxHash(data.txHash || data.transactionId);
       setSuccessMessage(data.message || `${unclaimedAmount.toFixed(2)} AiC tokens claimed!`);
 
+      // Immediate callback
+      await onSuccess();
+
+      // Refresh again after 2 seconds to ensure blockchain state is synced
+      setTimeout(async () => {
+        await onSuccess();
+      }, 2000);
+
+      // Final refresh after 5 seconds
+      setTimeout(async () => {
+        await onSuccess();
+      }, 5000);
+
+      // Clear success message after 8 seconds
       setTimeout(() => {
-        onSuccess();
         setTxHash(null);
         setSuccessMessage('');
-      }, 5000);
+      }, 8000);
     } catch (err: any) {
       console.error('Claim error:', err);
       setError(err.message || 'Failed to claim rewards');

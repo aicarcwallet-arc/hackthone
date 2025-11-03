@@ -19,6 +19,29 @@ export function GamePage({ userId, walletAddress, onNavigate, onConnectWallet }:
   useEffect(() => {
     if (walletAddress) {
       refreshBalances();
+
+      // Refresh balances when page becomes visible
+      const handleVisibilityChange = () => {
+        if (document.visibilityState === 'visible' && walletAddress) {
+          refreshBalances();
+        }
+      };
+
+      document.addEventListener('visibilitychange', handleVisibilityChange);
+
+      // Also refresh when window regains focus
+      const handleFocus = () => {
+        if (walletAddress) {
+          refreshBalances();
+        }
+      };
+
+      window.addEventListener('focus', handleFocus);
+
+      return () => {
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
+        window.removeEventListener('focus', handleFocus);
+      };
     }
   }, [walletAddress]);
 

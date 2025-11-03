@@ -45,7 +45,18 @@ export function RewardsPage({ walletAddress, userId }: RewardsPageProps) {
   };
 
   const handleClaimSuccess = async () => {
+    // Refresh immediately
     await loadUserStats();
+
+    // Refresh again after 2 seconds
+    setTimeout(async () => {
+      await loadUserStats();
+    }, 2000);
+
+    // Final refresh after 5 seconds
+    setTimeout(async () => {
+      await loadUserStats();
+    }, 5000);
   };
 
   const unclaimedUSDC = totalUSDCEarned - claimedUSDC;

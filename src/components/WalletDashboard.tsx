@@ -126,6 +126,7 @@ export function WalletDashboard({ walletAddress, userId, onDisconnect }: WalletD
 
   const handleClaimSuccess = async () => {
     await loadUserStats();
+    await loadBalance();
     await refreshBalances();
   };
 
