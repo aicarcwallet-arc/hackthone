@@ -49,6 +49,8 @@ Deno.serve(async (req: Request) => {
   try {
     const { walletAddress } = await req.json();
 
+    console.log('Mint request received for wallet:', walletAddress);
+
     if (!walletAddress) {
       return new Response(
         JSON.stringify({ error: "Wallet address required" }),
@@ -109,9 +111,11 @@ Deno.serve(async (req: Request) => {
     const alreadyClaimed = parseFloat(userData.claimed_aic || "0");
     const unclaimedAmount = totalEarned - alreadyClaimed;
 
+    console.log('User stats:', { totalEarned, alreadyClaimed, unclaimedAmount });
+
     if (unclaimedAmount <= 0) {
       return new Response(
-        JSON.stringify({ 
+        JSON.stringify({
           error: "No unclaimed AIC tokens",
           totalEarned,
           alreadyClaimed,
@@ -138,11 +142,15 @@ Deno.serve(async (req: Request) => {
     const amountToMint = parseUnits(unclaimedAmount.toString(), 6);
     const submissionId = `claim-${Date.now()}-${walletAddress.slice(0, 8)}`;
 
+    console.log('Preparing to mint:', { amountToMint: amountToMint.toString(), submissionId, to: walletAddress });
+
     const gasPrice = await publicClient.request({
       method: 'eth_gasPrice',
     });
 
     const gasPriceWithBuffer = BigInt(gasPrice) * BigInt(120) / BigInt(100);
+
+    console.log('Sending transaction with gas price:', gasPriceWithBuffer.toString());
 
     const txHash = await walletClient.writeContract({
       address: aicTokenAddress,
@@ -152,6 +160,8 @@ Deno.serve(async (req: Request) => {
       gasPrice: gasPriceWithBuffer,
       gas: BigInt(100000),
     });
+
+    console.log('Transaction sent:', txHash);
 
     // Arc Network: Malachite BFT consensus provides deterministic finality
     // Transactions are final as soon as included in a block (sub-second)
@@ -196,8 +206,16 @@ Deno.serve(async (req: Request) => {
     );
   } catch (error: any) {
     console.error("Mint error:", error);
+    console.error("Error details:", {
+      message: error.message,
+      cause: error.cause,
+      stack: error.stack,
+    });
     return new Response(
-      JSON.stringify({ error: error.message || "Mint failed" }),
+      JSON.stringify({
+        error: error.message || "Mint failed",
+        details: error.cause?.toString() || error.toString(),
+      }),
       {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },

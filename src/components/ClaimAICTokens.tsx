@@ -41,19 +41,25 @@ export function ClaimAICTokens({ walletAddress, unclaimedAmount, onSuccess }: Cl
       const data = await response.json();
 
       if (!response.ok) {
-        console.error('Mint failed:', data);
+        console.error('Mint failed - Status:', response.status);
+        console.error('Mint failed - Data:', data);
+
         if (data.error?.includes('Minter private key not configured')) {
-          throw new Error('⚙️ Setup Required: Run "npx supabase secrets set GAME_MINTER_PRIVATE_KEY=<your-key>" to enable claiming.');
+          throw new Error('⚙️ Setup Required: Minting key not configured in Supabase secrets.');
         } else if (data.error?.includes('AIC token address not configured')) {
-          throw new Error('⚙️ Setup Required: Deploy the AIC Token contract first and set VITE_AIC_TOKEN_ADDRESS.');
+          throw new Error('⚙️ Setup Required: AIC Token contract address not set.');
         } else if (data.error?.includes('User not found')) {
-          throw new Error('Account not found. Please play the game first to create your account.');
+          throw new Error('Account not found. Play the game first to create your account.');
         } else if (data.error?.includes('No unclaimed AIC')) {
           throw new Error('No unclaimed tokens available. Play the game to earn more!');
-        } else if (data.error?.includes('insufficient funds')) {
-          throw new Error('⛽ Minter wallet needs gas (USDC). Send testnet USDC to the minter address.');
+        } else if (data.error?.includes('insufficient funds') || data.error?.includes('insufficient balance')) {
+          throw new Error('⛽ Minter wallet needs gas (USDC). The backend wallet has no funds to pay for transactions.');
+        } else if (data.error?.includes('reverted') || data.error?.includes('execution reverted')) {
+          throw new Error('🔧 Smart contract error: Transaction reverted. Check if minter has MINTER_ROLE permission on the contract.');
         }
-        throw new Error(data.error || 'Failed to claim tokens. Please try again.');
+
+        const errorMsg = data.details ? `${data.error}\n\nTechnical details: ${data.details}` : data.error;
+        throw new Error(errorMsg || 'Failed to claim tokens. Check browser console for details.');
       }
 
       setTxHash(data.txHash);
