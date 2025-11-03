@@ -108,6 +108,8 @@
       <div>0x97b554b7e0460b47004391a75f1561d353aa3435</div>
     </div>
 
+    <div id="networkInfo" class="info" style="background: #1e3a5f;"></div>
+
     <button id="addMinterBtn" onclick="addMinter()">Add Minter</button>
 
     <div id="result" class="result"></div>
@@ -152,6 +154,44 @@
       result.className = `result ${type}`;
       result.innerHTML = message;
       result.style.display = 'block';
+    }
+
+    async function checkNetwork() {
+      if (!window.ethereum) {
+        document.getElementById('networkInfo').innerHTML = '❌ <strong>MetaMask not detected!</strong> Please install MetaMask.';
+        return;
+      }
+
+      try {
+        const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+        const currentChainId = parseInt(chainId, 16);
+        const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+
+        let networkName = 'Unknown';
+        if (currentChainId === 5042002) {
+          networkName = '✅ Arc Testnet';
+          document.getElementById('networkInfo').style.background = '#1e5a3f';
+        } else {
+          networkName = `❌ Wrong Network (Chain ID: ${currentChainId})`;
+          document.getElementById('networkInfo').style.background = '#5a1e1e';
+        }
+
+        document.getElementById('networkInfo').innerHTML = `
+          <strong>Current Network:</strong> ${networkName}<br>
+          <strong>Connected Wallet:</strong> ${accounts[0] || 'Not connected'}
+        `;
+      } catch (error) {
+        document.getElementById('networkInfo').innerHTML = '⚠️ <strong>Error checking network</strong>';
+      }
+    }
+
+    // Check network on page load
+    window.addEventListener('load', checkNetwork);
+
+    // Listen for network changes
+    if (window.ethereum) {
+      window.ethereum.on('chainChanged', checkNetwork);
+      window.ethereum.on('accountsChanged', checkNetwork);
     }
 
     async function addMinter() {

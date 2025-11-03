@@ -105,8 +105,10 @@
       <div><strong>AIC Token Contract:</strong></div>
       <div>0x4B71cD610AfCCDf0B02d566dA0071C74444a8666</div>
       <div style="margin-top: 15px;"><strong>Minter Address (Game Backend):</strong></div>
-      <div>0x43909cce967BE2Ba4D44836A99b67040BF53f05a</div>
+      <div>0x97b554b7e0460b47004391a75f1561d353aa3435</div>
     </div>
+
+    <div id="networkInfo" class="info" style="background: #1e3a5f;"></div>
 
     <button id="addMinterBtn" onclick="addMinter()">Add Minter</button>
 
@@ -115,7 +117,7 @@
 
   <script>
     const AIC_TOKEN_ADDRESS = '0x4B71cD610AfCCDf0B02d566dA0071C74444a8666';
-    const MINTER_ADDRESS = '0x43909cce967BE2Ba4D44836A99b67040BF53f05a';
+    const MINTER_ADDRESS = '0x97b554b7e0460b47004391a75f1561d353aa3435';
 
     const AIC_TOKEN_ABI = [
       {
@@ -135,7 +137,7 @@
     ];
 
     const ARC_TESTNET = {
-      id: 333333,
+      id: 5042002,
       name: 'Arc Testnet',
       nativeCurrency: { name: 'USDC', symbol: 'USDC', decimals: 6 },
       rpcUrls: {
@@ -152,6 +154,44 @@
       result.className = `result ${type}`;
       result.innerHTML = message;
       result.style.display = 'block';
+    }
+
+    async function checkNetwork() {
+      if (!window.ethereum) {
+        document.getElementById('networkInfo').innerHTML = '❌ <strong>MetaMask not detected!</strong> Please install MetaMask.';
+        return;
+      }
+
+      try {
+        const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+        const currentChainId = parseInt(chainId, 16);
+        const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+
+        let networkName = 'Unknown';
+        if (currentChainId === 5042002) {
+          networkName = '✅ Arc Testnet';
+          document.getElementById('networkInfo').style.background = '#1e5a3f';
+        } else {
+          networkName = `❌ Wrong Network (Chain ID: ${currentChainId})`;
+          document.getElementById('networkInfo').style.background = '#5a1e1e';
+        }
+
+        document.getElementById('networkInfo').innerHTML = `
+          <strong>Current Network:</strong> ${networkName}<br>
+          <strong>Connected Wallet:</strong> ${accounts[0] || 'Not connected'}
+        `;
+      } catch (error) {
+        document.getElementById('networkInfo').innerHTML = '⚠️ <strong>Error checking network</strong>';
+      }
+    }
+
+    // Check network on page load
+    window.addEventListener('load', checkNetwork);
+
+    // Listen for network changes
+    if (window.ethereum) {
+      window.ethereum.on('chainChanged', checkNetwork);
+      window.ethereum.on('accountsChanged', checkNetwork);
     }
 
     async function addMinter() {
@@ -175,11 +215,50 @@
 
         // Check network
         const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-        if (parseInt(chainId, 16) !== 333333) {
-          showResult('⚠️ Please switch to Arc Testnet first!', 'warning');
-          btn.disabled = false;
-          btn.textContent = 'Add Minter';
-          return;
+        const currentChainId = parseInt(chainId, 16);
+
+        if (currentChainId !== 5042002) {
+          showResult(`⚠️ Wrong network! You're on chain ${currentChainId}. Attempting to switch to Arc Testnet...`, 'warning');
+
+          try {
+            // Try to switch to Arc Testnet
+            await window.ethereum.request({
+              method: 'wallet_switchEthereumChain',
+              params: [{ chainId: '0x4cef52' }], // 5042002 in hex
+            });
+            showResult('✅ Switched to Arc Testnet! Click Add Minter again.', 'success');
+            btn.disabled = false;
+            btn.textContent = 'Add Minter';
+            return;
+          } catch (switchError) {
+            // If chain not added, add it
+            if (switchError.code === 4902) {
+              try {
+                await window.ethereum.request({
+                  method: 'wallet_addEthereumChain',
+                  params: [{
+                    chainId: '0x4cef52',
+                    chainName: 'Arc Testnet',
+                    nativeCurrency: {
+                      name: 'USDC',
+                      symbol: 'USDC',
+                      decimals: 6
+                    },
+                    rpcUrls: ['https://rpc.testnet.arc.network'],
+                    blockExplorerUrls: ['https://testnet.arcscan.com']
+                  }]
+                });
+                showResult('✅ Arc Testnet added! Click Add Minter again.', 'success');
+              } catch (addError) {
+                showResult(`❌ Failed to add Arc Testnet: ${addError.message}`, 'error');
+              }
+            } else {
+              showResult(`❌ Failed to switch network: ${switchError.message}`, 'error');
+            }
+            btn.disabled = false;
+            btn.textContent = 'Add Minter';
+            return;
+          }
         }
 
         showResult('📝 Sending transaction... Please confirm in MetaMask', 'warning');
