@@ -15,10 +15,9 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
 
   const menuItems = [
     { id: 'home', label: 'Home', icon: Home },
-    { id: 'mainnet-ready', label: 'MAINNET READY', icon: Rocket, special: true },
     {
       id: 'play',
-      label: 'Play & Earn',
+      label: 'Play',
       icon: Gamepad2,
       submenu: [
         { id: 'play', label: 'Game', icon: Gamepad2 },
@@ -27,20 +26,19 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
       ]
     },
     {
-      id: 'tools',
-      label: 'Tools & Features',
-      icon: Wrench,
+      id: 'wallet',
+      label: 'Wallet',
+      icon: Coins,
       submenu: [
-        { id: 'swap', label: 'Convert AIC to USDC', icon: ArrowRightLeft },
-        { id: 'bridge', label: 'Bridge Tokens', icon: Send },
-        { id: 'accelerator', label: 'Transaction Accelerator', icon: Zap },
-        { id: 'history', label: 'Transaction History', icon: History },
+        { id: 'swap', label: 'Convert AIC', icon: ArrowRightLeft },
+        { id: 'bridge', label: 'Bridge', icon: Send },
+        { id: 'withdraw', label: 'Withdraw', icon: Download },
         { id: 'card', label: 'Virtual Card', icon: CreditCard },
-        { id: 'banking', label: 'Circle Banking', icon: Building2 }
+        { id: 'history', label: 'History', icon: History }
       ]
     },
-    { id: 'fund-treasury', label: 'Fund Treasury', icon: Heart },
-    { id: 'withdraw', label: 'Withdraw', icon: Download },
+    { id: 'mainnet-ready', label: 'Mainnet', icon: Rocket, special: true },
+    { id: 'fund-treasury', label: 'Treasury', icon: Heart }
   ];
 
   const handleMenuClick = (pageId: string) => {
@@ -52,18 +50,18 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
     <>
       <header className="fixed top-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-lg border-b border-cyan-500/30 shadow-[0_4px_20px_rgba(34,211,238,0.15)]">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-3 cursor-pointer" onClick={() => onNavigate('home')}>
+          <div className="flex items-center justify-between h-16 gap-4">
+            <div className="flex items-center gap-2 cursor-pointer flex-shrink-0" onClick={() => onNavigate('home')}>
               <img
                 src="/aic toekn .png"
                 alt="AiC Logo"
                 className="w-10 h-10 rounded-full shadow-[0_0_15px_rgba(34,211,238,0.5)]"
               />
-              <div className="hidden sm:block">
-                <h1 className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                  AI Cognitive Token
+              <div className="hidden md:block">
+                <h1 className="text-lg font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent leading-tight">
+                  AiC Token
                 </h1>
-                <p className="text-xs text-gray-400">Learn • Earn • Freedom</p>
+                <p className="text-xs text-gray-400">Learn • Earn</p>
               </div>
             </div>
 
