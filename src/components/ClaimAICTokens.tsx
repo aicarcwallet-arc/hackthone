@@ -29,6 +29,9 @@ export function ClaimAICTokens({ walletAddress, unclaimedAmount, onSuccess }: Cl
         throw new Error('Configuration error: Supabase URL not found');
       }
 
+      console.log('Starting mint for wallet:', walletAddress);
+      console.log('Unclaimed amount:', unclaimedAmount);
+
       const response = await fetch(`${supabaseUrl}/functions/v1/mint-aic-tokens`, {
         method: 'POST',
         headers: {
@@ -38,7 +41,10 @@ export function ClaimAICTokens({ walletAddress, unclaimedAmount, onSuccess }: Cl
         body: JSON.stringify({ walletAddress }),
       });
 
+      console.log('Response status:', response.status);
+
       const data = await response.json();
+      console.log('Response data:', data);
 
       if (!response.ok) {
         console.error('Mint failed - Status:', response.status);
@@ -153,7 +159,8 @@ export function ClaimAICTokens({ walletAddress, unclaimedAmount, onSuccess }: Cl
           <Loader className="w-6 h-6 animate-spin text-cyan-400 flex-shrink-0" />
           <div className="text-sm text-cyan-300">
             <div className="font-semibold">Minting {unclaimedAmount.toFixed(2)} AiC tokens...</div>
-            <div className="text-xs text-gray-400 mt-1">This will add tokens to your wallet balance</div>
+            <div className="text-xs text-gray-400 mt-1">This may take 10-30 seconds. Please wait...</div>
+            <div className="text-xs text-cyan-400 mt-2">Check browser console (F12) for progress</div>
           </div>
         </div>
       )}
