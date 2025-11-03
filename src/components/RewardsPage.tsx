@@ -14,10 +14,12 @@ export function RewardsPage({ walletAddress, userId }: RewardsPageProps) {
   const [claimedUSDC, setClaimedUSDC] = useState<number>(0);
   const [claimedAIC, setClaimedAIC] = useState<number>(0);
   const [totalWords, setTotalWords] = useState<number>(0);
+  const [recentTransactions, setRecentTransactions] = useState<any[]>([]);
 
   useEffect(() => {
     if (userId && walletAddress) {
       loadUserStats();
+      loadRecentTransactions();
     }
   }, [userId, walletAddress]);
 
@@ -44,30 +46,46 @@ export function RewardsPage({ walletAddress, userId }: RewardsPageProps) {
     }
   };
 
+  const loadRecentTransactions = async () => {
+    if (!userId) return;
+
+    try {
+      const { supabase } = await import('../lib/supabase');
+      const { data } = await supabase
+        .from('token_transactions')
+        .select('*')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false })
+        .limit(10);
+
+      if (data) {
+        setRecentTransactions(data);
+      }
+    } catch (error) {
+      console.error('Failed to load transactions:', error);
+    }
+  };
+
   const handleClaimSuccess = async () => {
     // Refresh immediately
     await loadUserStats();
+    await loadRecentTransactions();
 
     // Refresh again after 2 seconds
     setTimeout(async () => {
       await loadUserStats();
+      await loadRecentTransactions();
     }, 2000);
 
     // Final refresh after 5 seconds
     setTimeout(async () => {
       await loadUserStats();
+      await loadRecentTransactions();
     }, 5000);
   };
 
   const unclaimedUSDC = totalUSDCEarned - claimedUSDC;
   const unclaimedAIC = totalAICEarned - claimedAIC;
-  const recentEarnings = [
-    { word: 'CONSENSUS', aic: 450, timestamp: '2 mins ago', txHash: '0x1234...5678' },
-    { word: 'DEFI', aic: 380, timestamp: '5 mins ago', txHash: '0x8765...4321' },
-    { word: 'SMART-CONTRACT', aic: 500, timestamp: '8 mins ago', txHash: '0xabcd...ef01' },
-    { word: 'LIQUIDITY', aic: 420, timestamp: '12 mins ago', txHash: '0x2468...1357' },
-    { word: 'VALIDATOR', aic: 410, timestamp: '15 mins ago', txHash: '0x9876...5432' },
-  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black py-8">
@@ -126,50 +144,83 @@ export function RewardsPage({ walletAddress, userId }: RewardsPageProps) {
 
             <div className="bg-gray-900/80 backdrop-blur-sm rounded-2xl border border-cyan-500/30 overflow-hidden">
               <div className="p-6 border-b border-cyan-500/20">
-                <h2 className="text-xl font-bold text-cyan-400">Recent Earnings</h2>
+                <h2 className="text-xl font-bold text-cyan-400">Recent Transactions</h2>
               </div>
 
-              <div className="divide-y divide-gray-800">
-                {recentEarnings.map((earning, index) => (
-                  <div
-                    key={index}
-                    className="p-6 hover:bg-cyan-500/5 transition-colors"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center">
-                          <Coins className="w-6 h-6 text-green-400" />
-                        </div>
+              {recentTransactions.length > 0 ? (
+                <>
+                  <div className="divide-y divide-gray-800">
+                    {recentTransactions.map((tx, index) => {
+                      const txDate = new Date(tx.created_at);
+                      const now = new Date();
+                      const diffMs = now.getTime() - txDate.getTime();
+                      const diffMins = Math.floor(diffMs / 60000);
+                      const timeAgo = diffMins < 1 ? 'Just now' :
+                                     diffMins < 60 ? `${diffMins} min${diffMins > 1 ? 's' : ''} ago` :
+                                     diffMins < 1440 ? `${Math.floor(diffMins / 60)} hr${Math.floor(diffMins / 60) > 1 ? 's' : ''} ago` :
+                                     `${Math.floor(diffMins / 1440)} day${Math.floor(diffMins / 1440) > 1 ? 's' : ''} ago`;
 
-                        <div>
-                          <p className="font-semibold text-white">{earning.word}</p>
-                          <div className="flex items-center gap-2 text-sm text-gray-400">
-                            <Clock className="w-3 h-3" />
-                            <span>{earning.timestamp}</span>
+                      return (
+                        <div
+                          key={index}
+                          className="p-6 hover:bg-cyan-500/5 transition-colors"
+                        >
+                          <div className="flex items-center justify-between flex-wrap gap-3">
+                            <div className="flex items-center gap-4">
+                              <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                                tx.transaction_type === 'mint' ? 'bg-green-500/20' :
+                                tx.transaction_type === 'swap' ? 'bg-blue-500/20' :
+                                'bg-purple-500/20'
+                              }`}>
+                                <Coins className={`w-6 h-6 ${
+                                  tx.transaction_type === 'mint' ? 'text-green-400' :
+                                  tx.transaction_type === 'swap' ? 'text-blue-400' :
+                                  'text-purple-400'
+                                }`} />
+                              </div>
+
+                              <div>
+                                <p className="font-semibold text-white capitalize">{tx.transaction_type}</p>
+                                <div className="flex items-center gap-2 text-sm text-gray-400">
+                                  <Clock className="w-3 h-3" />
+                                  <span>{timeAgo}</span>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="text-right">
+                              <p className="text-lg font-bold text-green-400">
+                                {tx.from_token ? `${tx.from_token} → ${tx.to_token}` : tx.to_token}
+                              </p>
+                              <p className="text-sm text-gray-400">{tx.amount.toFixed(2)} {tx.to_token}</p>
+                              {tx.tx_hash && (
+                                <a
+                                  href={`https://testnet.arcscan.app/tx/${tx.tx_hash}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-xs text-cyan-400 hover:text-cyan-300 inline-flex items-center gap-1 mt-1"
+                                >
+                                  View TX
+                                  <ExternalLink className="w-3 h-3" />
+                                </a>
+                              )}
+                            </div>
                           </div>
                         </div>
-                      </div>
-
-                      <div className="text-right">
-                        <p className="text-xl font-bold text-green-400">+{earning.aic} AIC</p>
-                        <a
-                          href={`https://testnet.arcscan.net/tx/${earning.txHash}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs text-cyan-400 hover:text-cyan-300 inline-flex items-center gap-1"
-                        >
-                          View TX
-                          <ExternalLink className="w-3 h-3" />
-                        </a>
-                      </div>
-                    </div>
+                      );
+                    })}
                   </div>
-                ))}
-              </div>
-
-              <div className="p-6 text-center border-t border-cyan-500/20">
-                <p className="text-sm text-gray-400">All rewards are minted directly to your wallet on Arc Testnet</p>
-              </div>
+                  <div className="p-6 text-center border-t border-cyan-500/20">
+                    <p className="text-sm text-gray-400">All transactions are recorded on Arc Testnet blockchain</p>
+                  </div>
+                </>
+              ) : (
+                <div className="p-12 text-center">
+                  <Coins className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+                  <h3 className="text-xl font-bold text-white mb-2">No Transactions Yet</h3>
+                  <p className="text-gray-400">Start playing to earn AIC tokens and see your transaction history here</p>
+                </div>
+              )}
             </div>
 
             <div className="mt-8 bg-gradient-to-r from-cyan-900/20 to-blue-900/20 backdrop-blur-sm rounded-xl p-6 border border-cyan-500/20">
