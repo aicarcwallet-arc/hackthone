@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Circle Wallet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 p-8">
+  <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6">
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">Create Circle Wallet</h1>
+
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Circle API Key</label>
+        <input
+          type="text"
+          id="apiKey"
+          placeholder="TEST_API_KEY:..."
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Entity Secret</label>
+        <input
+          type="text"
+          id="entitySecret"
+          placeholder="8badc5d66273d5428a72b6b6a267724a470b30f4d439ab63f3b4731c2e7cdabd"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        />
+      </div>
+
+      <button
+        id="createBtn"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+      >
+        Create Wallet
+      </button>
+    </div>
+
+    <div id="result" class="mt-6 hidden">
+      <div class="bg-green-50 border-l-4 border-green-400 p-4">
+        <p class="font-bold text-green-800 mb-2">✅ Wallet Created Successfully!</p>
+        <div id="resultContent" class="text-sm text-green-700"></div>
+      </div>
+    </div>
+
+    <div id="error" class="mt-6 hidden">
+      <div class="bg-red-50 border-l-4 border-red-400 p-4">
+        <p class="font-bold text-red-800 mb-2">❌ Error</p>
+        <div id="errorContent" class="text-sm text-red-700"></div>
+      </div>
+    </div>
+
+    <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+      <p class="text-sm text-blue-800 font-semibold mb-2">📋 Instructions:</p>
+      <ol class="text-xs text-blue-700 space-y-1 list-decimal list-inside">
+        <li>Paste your Circle API key</li>
+        <li>Paste the entity secret you just generated</li>
+        <li>Click "Create Wallet"</li>
+        <li>Copy the wallet ID and add it to your .env file</li>
+      </ol>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('createBtn').addEventListener('click', async () => {
+      const apiKey = document.getElementById('apiKey').value.trim();
+      const entitySecret = document.getElementById('entitySecret').value.trim();
+      const resultDiv = document.getElementById('result');
+      const errorDiv = document.getElementById('error');
+      const resultContent = document.getElementById('resultContent');
+      const errorContent = document.getElementById('errorContent');
+      const btn = document.getElementById('createBtn');
+
+      resultDiv.classList.add('hidden');
+      errorDiv.classList.add('hidden');
+
+      if (!apiKey || !entitySecret) {
+        errorDiv.classList.remove('hidden');
+        errorContent.innerHTML = 'Please fill in all fields';
+        return;
+      }
+
+      try {
+        btn.disabled = true;
+        btn.innerHTML = 'Creating wallet...';
+
+        const response = await fetch('https://api.circle.com/v1/w3s/wallets', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            idempotencyKey: crypto.randomUUID(),
+            entitySecretCiphertext: entitySecret,
+            blockchains: ['ETH-SEPOLIA', 'MATIC-AMOY'],
+            count: 1,
+            walletSetId: 'default'
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || `API Error: ${response.status} - ${JSON.stringify(data)}`);
+        }
+
+        if (data.data?.wallets && data.data.wallets.length > 0) {
+          const wallet = data.data.wallets[0];
+
+          resultContent.innerHTML = `
+            <div class="space-y-3">
+              <div>
+                <p class="font-semibold">Wallet ID:</p>
+                <code class="block bg-white p-2 rounded border border-green-300 mt-1 break-all">${wallet.id}</code>
+              </div>
+              <div>
+                <p class="font-semibold">Address:</p>
+                <code class="block bg-white p-2 rounded border border-green-300 mt-1 break-all">${wallet.address}</code>
+              </div>
+              <div class="bg-yellow-50 border border-yellow-300 rounded p-3 mt-4">
+                <p class="font-semibold text-yellow-800 mb-2">🔧 Update .env:</p>
+                <code class="block bg-white p-2 rounded text-xs border border-yellow-400">
+CIRCLE_WALLET_ID=${wallet.id}
+                </code>
+              </div>
+            </div>
+          `;
+          resultDiv.classList.remove('hidden');
+        } else {
+          throw new Error('No wallet created in response');
+        }
+
+        btn.disabled = false;
+        btn.innerHTML = 'Create Wallet';
+
+      } catch (error) {
+        errorDiv.classList.remove('hidden');
+        errorContent.innerHTML = `<pre class="whitespace-pre-wrap text-xs">${error.message}</pre>`;
+        btn.disabled = false;
+        btn.innerHTML = 'Create Wallet';
+      }
+    });
+  </script>
+</body>
+</html>
