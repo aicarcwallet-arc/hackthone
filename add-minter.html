@@ -105,7 +105,7 @@
       <div><strong>AIC Token Contract:</strong></div>
       <div>0x4B71cD610AfCCDf0B02d566dA0071C74444a8666</div>
       <div style="margin-top: 15px;"><strong>Minter Address (Game Backend):</strong></div>
-      <div>0x43909cce967BE2Ba4D44836A99b67040BF53f05a</div>
+      <div>0x97b554b7e0460b47004391a75f1561d353aa3435</div>
     </div>
 
     <button id="addMinterBtn" onclick="addMinter()">Add Minter</button>
@@ -115,7 +115,7 @@
 
   <script>
     const AIC_TOKEN_ADDRESS = '0x4B71cD610AfCCDf0B02d566dA0071C74444a8666';
-    const MINTER_ADDRESS = '0x43909cce967BE2Ba4D44836A99b67040BF53f05a';
+    const MINTER_ADDRESS = '0x97b554b7e0460b47004391a75f1561d353aa3435';
 
     const AIC_TOKEN_ABI = [
       {
@@ -135,7 +135,7 @@
     ];
 
     const ARC_TESTNET = {
-      id: 333333,
+      id: 5042002,
       name: 'Arc Testnet',
       nativeCurrency: { name: 'USDC', symbol: 'USDC', decimals: 6 },
       rpcUrls: {
@@ -175,8 +175,8 @@
 
         // Check network
         const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-        if (parseInt(chainId, 16) !== 333333) {
-          showResult('⚠️ Please switch to Arc Testnet first!', 'warning');
+        if (parseInt(chainId, 16) !== 5042002) {
+          showResult('⚠️ Please switch to Arc Testnet (Chain ID: 5042002) first!', 'warning');
           btn.disabled = false;
           btn.textContent = 'Add Minter';
           return;
