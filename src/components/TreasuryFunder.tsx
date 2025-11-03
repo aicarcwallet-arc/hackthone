@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Heart, Loader2, CheckCircle, DollarSign, Users, TrendingUp, Zap, ExternalLink } from 'lucide-react';
 
 interface TreasuryFunderProps {
@@ -12,9 +12,48 @@ export function TreasuryFunder({ walletAddress, usdcBalance }: TreasuryFunderPro
   const [success, setSuccess] = useState(false);
   const [txHash, setTxHash] = useState('');
   const [error, setError] = useState('');
+  const [treasuryBalance, setTreasuryBalance] = useState('0');
+  const [autoFillBalance, setAutoFillBalance] = useState('0');
 
   const treasuryAutoFillAddress = '0x119A6733EA1033DB1A39bc079Fc3134B06B98C8D';
   const treasuryAddress = '0x43909cce967BE2a4448336a0ad95A99b7040BF05';
+
+  const fetchBalances = async () => {
+    try {
+      if (!window.ethereum) return;
+
+      const usdcAddress = '0x3600000000000000000000000000000000000000';
+
+      // Encode balanceOf call for treasury
+      const treasuryData = '0x70a08231' + treasuryAddress.slice(2).padStart(64, '0');
+      const treasuryResult = await window.ethereum.request({
+        method: 'eth_call',
+        params: [{ to: usdcAddress, data: treasuryData }, 'latest']
+      });
+
+      // Encode balanceOf call for autoFill contract
+      const autoFillData = '0x70a08231' + treasuryAutoFillAddress.slice(2).padStart(64, '0');
+      const autoFillResult = await window.ethereum.request({
+        method: 'eth_call',
+        params: [{ to: usdcAddress, data: autoFillData }, 'latest']
+      });
+
+      // Convert from hex and format (6 decimals for USDC)
+      const treasuryBal = parseInt(treasuryResult as string, 16) / 1_000_000;
+      const autoFillBal = parseInt(autoFillResult as string, 16) / 1_000_000;
+
+      setTreasuryBalance(treasuryBal.toFixed(2));
+      setAutoFillBalance(autoFillBal.toFixed(2));
+    } catch (err) {
+      console.error('Error fetching balances:', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchBalances();
+    const interval = setInterval(fetchBalances, 10000); // Refresh every 10s
+    return () => clearInterval(interval);
+  }, []);
 
   const handleFund = async () => {
     if (!walletAddress) {
@@ -84,6 +123,9 @@ export function TreasuryFunder({ walletAddress, usdcBalance }: TreasuryFunderPro
       setTxHash(hash as string);
       setSuccess(true);
       setAmount('');
+
+      // Refresh balances after successful transaction
+      setTimeout(fetchBalances, 2000);
     } catch (err: any) {
       console.error('Funding error:', err);
       setError(err.message || 'Failed to fund treasury');
@@ -114,17 +156,17 @@ export function TreasuryFunder({ walletAddress, usdcBalance }: TreasuryFunderPro
             <DollarSign className="w-6 h-6 text-cyan-400" />
             <span className="text-gray-300 text-sm">Treasury Balance</span>
           </div>
-          <p className="text-2xl font-bold text-white">7.04 USDC</p>
+          <p className="text-2xl font-bold text-white">{treasuryBalance} USDC</p>
           <p className="text-xs text-gray-400 mt-1">Available for rewards</p>
         </div>
 
         <div className="bg-gradient-to-br from-purple-900/50 to-pink-900/50 rounded-xl p-6 border border-pink-500/30">
           <div className="flex items-center gap-3 mb-2">
-            <Users className="w-6 h-6 text-pink-400" />
-            <span className="text-gray-300 text-sm">Total Contributors</span>
+            <Zap className="w-6 h-6 text-pink-400" />
+            <span className="text-gray-300 text-sm">AutoFill Balance</span>
           </div>
-          <p className="text-2xl font-bold text-white">12</p>
-          <p className="text-xs text-gray-400 mt-1">Community supporters</p>
+          <p className="text-2xl font-bold text-white">{autoFillBalance} USDC</p>
+          <p className="text-xs text-gray-400 mt-1">Auto-refill reserves</p>
         </div>
 
         <div className="bg-gradient-to-br from-green-900/50 to-emerald-900/50 rounded-xl p-6 border border-green-500/30">
