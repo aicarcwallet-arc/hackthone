@@ -5,6 +5,7 @@ import { useAICToken } from '../hooks/useAICToken';
 import { NetworkStatusIndicator } from './NetworkStatusBanner';
 import { ClaimAICTokens } from './ClaimAICTokens';
 import { CircleDemoWidget } from './CircleDemoWidget';
+import { InternetMinutesRewardsBox } from './InternetMinutesRewardsBox';
 import type { Address } from 'viem';
 
 interface WalletDashboardProps {
@@ -19,6 +20,8 @@ export function WalletDashboard({ walletAddress, userId, onDisconnect }: WalletD
   const [onArcNetwork, setOnArcNetwork] = useState(false);
   const [totalEarned, setTotalEarned] = useState<number>(0);
   const [claimedAIC, setClaimedAIC] = useState<number>(0);
+  const [totalUSDCEarned, setTotalUSDCEarned] = useState<number>(0);
+  const [claimedUSDC, setClaimedUSDC] = useState<number>(0);
   const { aicBalance, usdcBalance, refreshBalances } = useAICToken(walletAddress);
 
   useEffect(() => {
@@ -72,7 +75,7 @@ export function WalletDashboard({ walletAddress, userId, onDisconnect }: WalletD
       const { supabase } = await import('../lib/supabase');
       const { data } = await supabase
         .from('users')
-        .select('total_aic_earned, claimed_aic')
+        .select('total_aic_earned, claimed_aic, total_usdc_earned, claimed_usdc')
         .eq('id', userId)
         .maybeSingle();
 
@@ -81,6 +84,11 @@ export function WalletDashboard({ walletAddress, userId, onDisconnect }: WalletD
         const claimed = parseFloat(data.claimed_aic || '0');
         setTotalEarned(earned);
         setClaimedAIC(claimed);
+
+        const usdcEarned = parseFloat(data.total_usdc_earned || '0');
+        const usdcClaimed = parseFloat(data.claimed_usdc || '0');
+        setTotalUSDCEarned(usdcEarned);
+        setClaimedUSDC(usdcClaimed);
       }
     } catch (error) {
       console.error('Failed to load user stats:', error);
@@ -121,8 +129,15 @@ export function WalletDashboard({ walletAddress, userId, onDisconnect }: WalletD
     await refreshBalances();
   };
 
+  const unclaimedUSDC = totalUSDCEarned - claimedUSDC;
+
   return (
     <div className="mb-8 sm:mb-12">
+      <InternetMinutesRewardsBox
+        walletAddress={walletAddress}
+        unclaimedUSDC={unclaimedUSDC}
+        onClaimSuccess={handleClaimSuccess}
+      />
       <CircleDemoWidget
         treasuryBalance={parseFloat(usdcBalance)}
         pendingRequests={unclaimedAmount > 0 ? 1 : 0}
