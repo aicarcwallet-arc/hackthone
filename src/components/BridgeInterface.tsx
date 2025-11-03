@@ -120,40 +120,35 @@ export function BridgeInterface() {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/circle-mint-demo`,
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/cctp-mint-reward`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
           },
-          body: JSON.stringify({ walletAddress: connectedAddress }),
+          body: JSON.stringify({
+            walletAddress: connectedAddress,
+            sourceChain: 'baseSepolia'
+          }),
         }
       );
 
       const result = await response.json();
 
       if (!response.ok) {
-        let errorMsg = result.error || 'Failed to claim USDC';
-        if (result.treasuryAddress) {
-          const requiredFormatted = Number(result.required).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-          const availableFormatted = Number(result.available).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-          errorMsg = `Treasury needs funding!\n\n` +
-            `Required: ${requiredFormatted} USDC\n` +
-            `Available: ${availableFormatted} USDC\n\n` +
-            `Please send USDC to treasury:\n${result.treasuryAddress}\n\n` +
-            `You can get testnet USDC from Circle Faucet:\nhttps://faucet.circle.com`;
-        }
-        throw new Error(errorMsg);
+        throw new Error(result.error || 'Failed to claim USDC via CCTP');
       }
 
-      setUsdcClaimTxHash(result.txHash);
+      setUsdcClaimTxHash(result.burnTxHash);
       setUsdcClaimSuccess(true);
       setUnclaimedUSDC(0);
       await refreshBalances();
+
+      alert(`✅ Success!\n\n${result.message}\n\nBurn TX: ${result.burnTxHash.slice(0, 10)}...\nFee: ${result.fee} USDC\nArrival: ${result.attestation.estimatedArrival}`);
     } catch (err: any) {
-      console.error('USDC Claim error:', err);
-      alert(err.message || 'Failed to claim USDC');
+      console.error('CCTP Claim error:', err);
+      alert(`❌ CCTP Error:\n\n${err.message}\n\nMake sure the CCTP treasury wallet on Base Sepolia has USDC!\n\nGet testnet USDC: https://faucet.circle.com`);
     } finally {
       setUsdcClaimLoading(false);
     }
