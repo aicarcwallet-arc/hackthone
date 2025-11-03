@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, X, Home, Gamepad2, CreditCard, Building2, BookOpen, Send, Download, Heart, Rocket } from 'lucide-react';
+import { Menu, X, Home, Gamepad2, CreditCard, Building2, BookOpen, Send, Download, Heart, Rocket, Trophy, Coins, ChevronDown } from 'lucide-react';
 
 interface NavigationHeaderProps {
   currentPage: string;
@@ -10,11 +10,21 @@ interface NavigationHeaderProps {
 
 export function NavigationHeader({ currentPage, onNavigate, walletAddress, onConnectWallet }: NavigationHeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isPlayMenuOpen, setIsPlayMenuOpen] = useState(false);
 
   const menuItems = [
     { id: 'home', label: 'Home', icon: Home },
     { id: 'mainnet-ready', label: 'MAINNET READY', icon: Rocket, special: true },
-    { id: 'play', label: 'Play & Earn', icon: Gamepad2 },
+    {
+      id: 'play',
+      label: 'Play & Earn',
+      icon: Gamepad2,
+      submenu: [
+        { id: 'play', label: 'Game', icon: Gamepad2 },
+        { id: 'leaderboard', label: 'Leaderboard', icon: Trophy },
+        { id: 'rewards', label: 'My Rewards', icon: Coins }
+      ]
+    },
     { id: 'fund-treasury', label: 'Fund Treasury', icon: Heart },
     { id: 'withdraw', label: 'Withdraw', icon: Download },
     { id: 'how', label: 'How It Works', icon: BookOpen },
@@ -47,8 +57,50 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
             <nav className="hidden lg:flex items-center gap-1">
               {menuItems.map((item) => {
                 const Icon = item.icon;
-                const isActive = currentPage === item.id;
+                const isActive = currentPage === item.id || (item.submenu && item.submenu.some(sub => sub.id === currentPage));
                 const isSpecial = item.special;
+
+                if (item.submenu) {
+                  return (
+                    <div key={item.id} className="relative" onMouseEnter={() => setIsPlayMenuOpen(true)} onMouseLeave={() => setIsPlayMenuOpen(false)}>
+                      <button
+                        className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
+                          isActive
+                            ? 'bg-cyan-500/20 text-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.3)]'
+                            : 'text-gray-300 hover:bg-gray-800 hover:text-cyan-400'
+                        }`}
+                      >
+                        <Icon className="w-4 h-4" />
+                        <span className="text-sm">{item.label}</span>
+                        <ChevronDown className="w-3 h-3" />
+                      </button>
+
+                      {isPlayMenuOpen && (
+                        <div className="absolute top-full left-0 mt-1 bg-gray-900 border border-cyan-500/30 rounded-lg shadow-[0_0_30px_rgba(34,211,238,0.3)] min-w-[200px] overflow-hidden">
+                          {item.submenu.map((subItem) => {
+                            const SubIcon = subItem.icon;
+                            const isSubActive = currentPage === subItem.id;
+                            return (
+                              <button
+                                key={subItem.id}
+                                onClick={() => handleMenuClick(subItem.id)}
+                                className={`w-full flex items-center gap-3 px-4 py-3 transition-colors ${
+                                  isSubActive
+                                    ? 'bg-cyan-500/20 text-cyan-400'
+                                    : 'text-gray-300 hover:bg-gray-800 hover:text-cyan-400'
+                                }`}
+                              >
+                                <SubIcon className="w-4 h-4" />
+                                <span className="text-sm">{subItem.label}</span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+
                 return (
                   <button
                     key={item.id}

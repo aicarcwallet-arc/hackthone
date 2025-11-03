@@ -4,6 +4,9 @@ import { BridgeInterface } from './components/BridgeInterface';
 import { BurnPegInterface } from './components/BurnPegInterface';
 import { SimpleAICConverter } from './components/SimpleAICConverter';
 import { VocabularyGame } from './components/VocabularyGame';
+import { GamePage } from './components/GamePage';
+import { LeaderboardPage } from './components/LeaderboardPage';
+import { RewardsPage } from './components/RewardsPage';
 import { TransactionAccelerator } from './components/TransactionAccelerator';
 import { TransactionHistory } from './components/TransactionHistory';
 import { WalletDashboard } from './components/WalletDashboard';
@@ -26,7 +29,7 @@ import { Send, Trophy, History, Flame, Zap, CreditCard, Building2, ArrowRightLef
 import { supabase } from './lib/supabase';
 
 type Tab = 'game' | 'bridge' | 'convert' | 'burn' | 'history' | 'accelerator' | 'card' | 'banking';
-type Page = 'home' | 'play' | 'withdraw' | 'how' | 'arc-updates' | 'partners' | 'chat' | 'fund-treasury' | 'mainnet-ready';
+type Page = 'home' | 'play' | 'leaderboard' | 'rewards' | 'withdraw' | 'how' | 'arc-updates' | 'partners' | 'chat' | 'fund-treasury' | 'mainnet-ready';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -385,6 +388,55 @@ function App() {
             <MainnetReadyPage />
           </div>
         </div>
+        <Footer onNavigate={handleNavigate} />
+      </>
+    );
+  }
+
+  if (currentPage === 'play') {
+    return (
+      <>
+        <NavigationHeader
+          currentPage={currentPage}
+          onNavigate={handleNavigate}
+          walletAddress={connectedAddress || undefined}
+          onConnectWallet={handleConnectWallet}
+        />
+        <GamePage
+          userId={userId}
+          walletAddress={connectedAddress}
+          onNavigate={handleNavigate}
+        />
+        <Footer onNavigate={handleNavigate} />
+      </>
+    );
+  }
+
+  if (currentPage === 'leaderboard') {
+    return (
+      <>
+        <NavigationHeader
+          currentPage={currentPage}
+          onNavigate={handleNavigate}
+          walletAddress={connectedAddress || undefined}
+          onConnectWallet={handleConnectWallet}
+        />
+        <LeaderboardPage />
+        <Footer onNavigate={handleNavigate} />
+      </>
+    );
+  }
+
+  if (currentPage === 'rewards') {
+    return (
+      <>
+        <NavigationHeader
+          currentPage={currentPage}
+          onNavigate={handleNavigate}
+          walletAddress={connectedAddress || undefined}
+          onConnectWallet={handleConnectWallet}
+        />
+        <RewardsPage walletAddress={connectedAddress} />
         <Footer onNavigate={handleNavigate} />
       </>
     );
