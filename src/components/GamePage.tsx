@@ -94,26 +94,26 @@ export function GamePage({ userId, walletAddress, onNavigate, onConnectWallet }:
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {walletAddress && unclaimedAIC > 0 && (
           <div className="mb-6 bg-gradient-to-r from-orange-900/40 to-yellow-900/40 backdrop-blur-sm rounded-2xl p-5 sm:p-6 border-2 border-yellow-500/50 shadow-[0_0_40px_rgba(234,179,8,0.5)] animate-pulse">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex flex-col gap-4">
               <div className="flex items-center gap-3 sm:gap-4">
                 <div className="w-14 h-14 sm:w-16 sm:h-16 bg-yellow-500/30 rounded-full flex items-center justify-center flex-shrink-0 animate-bounce">
                   <Coins className="w-7 h-7 sm:w-8 sm:h-8 text-yellow-400" />
                 </div>
-                <div>
+                <div className="flex-1">
                   <h3 className="text-xl sm:text-2xl font-black text-yellow-400 mb-1">
-                    {unclaimedAIC.toFixed(2)} AIC Tokens Earned!
+                    {unclaimedAIC.toFixed(2)} AIC Ready to Claim!
                   </h3>
                   <p className="text-sm sm:text-base text-yellow-200 font-semibold">
-                    🎉 Click below to mint tokens to your wallet on-chain
+                    Claim your earned tokens and they'll appear in your wallet
                   </p>
                 </div>
               </div>
               <button
                 onClick={() => onNavigate?.('rewards')}
-                className="w-full sm:w-auto bg-gradient-to-r from-yellow-500 to-orange-600 hover:from-yellow-400 hover:to-orange-500 text-white font-black px-6 sm:px-8 py-4 rounded-xl shadow-[0_0_30px_rgba(234,179,8,0.6)] hover:shadow-[0_0_50px_rgba(234,179,8,0.8)] transition-all text-base sm:text-lg flex items-center justify-center gap-2 touch-manipulation min-h-[56px]"
+                className="w-full bg-gradient-to-r from-yellow-500 to-orange-600 hover:from-yellow-400 hover:to-orange-500 text-white font-black px-6 py-4 rounded-xl shadow-[0_0_30px_rgba(234,179,8,0.6)] hover:shadow-[0_0_50px_rgba(234,179,8,0.8)] transition-all text-base sm:text-lg flex items-center justify-center gap-2 touch-manipulation"
               >
                 <Zap className="w-6 h-6 animate-pulse" />
-                <span>CLAIM NOW!</span>
+                <span>CLAIM {unclaimedAIC.toFixed(2)} AIC NOW!</span>
                 <Zap className="w-6 h-6 animate-pulse" />
               </button>
             </div>
