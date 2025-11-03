@@ -8,9 +8,10 @@ interface GamePageProps {
   userId: string | null;
   walletAddress: string | null;
   onNavigate?: (page: string) => void;
+  onConnectWallet?: () => void;
 }
 
-export function GamePage({ userId, walletAddress, onNavigate }: GamePageProps) {
+export function GamePage({ userId, walletAddress, onNavigate, onConnectWallet }: GamePageProps) {
   const { aicBalance, usdcBalance, refreshBalances } = useAICToken(walletAddress || undefined);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [showSwapModal, setShowSwapModal] = useState(false);
@@ -161,6 +162,7 @@ export function GamePage({ userId, walletAddress, onNavigate }: GamePageProps) {
               <VocabularyGame
                 userId={userId}
                 walletAddress={walletAddress}
+                onConnectWallet={onConnectWallet}
               />
             </div>
           </div>

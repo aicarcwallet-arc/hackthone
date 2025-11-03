@@ -8,9 +8,10 @@ interface VocabularyGameProps {
   userId: string | null;
   walletAddress: string | null;
   onGoBack?: () => void;
+  onConnectWallet?: () => void;
 }
 
-export function VocabularyGame({ userId, walletAddress, onGoBack }: VocabularyGameProps) {
+export function VocabularyGame({ userId, walletAddress, onGoBack, onConnectWallet }: VocabularyGameProps) {
   const {
     isLoading,
     error,
@@ -128,12 +129,20 @@ export function VocabularyGame({ userId, walletAddress, onGoBack }: VocabularyGa
           <h2 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-2">
             Connect Wallet to Play
           </h2>
-          <p className="text-sm sm:text-base text-gray-300 font-medium">
+          <p className="text-sm sm:text-base text-gray-300 font-medium mb-6">
             Start earning AIC tokens by typing hackathon words!
           </p>
-          <p className="text-xs sm:text-sm text-gray-400 mt-2">
+          <p className="text-xs sm:text-sm text-gray-400 mb-6">
             All transactions visible on Arc Testnet Explorer
           </p>
+          {onConnectWallet && (
+            <button
+              onClick={onConnectWallet}
+              className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:shadow-[0_0_20px_rgba(34,211,238,0.5)] transition-all"
+            >
+              Connect Wallet to Start Playing
+            </button>
+          )}
         </div>
       </div>
     );

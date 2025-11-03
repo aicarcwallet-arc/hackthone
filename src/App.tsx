@@ -407,6 +407,7 @@ function App() {
           userId={userId}
           walletAddress={connectedAddress}
           onNavigate={handleNavigate}
+          onConnectWallet={handleConnectWallet}
         />
         <Footer onNavigate={handleNavigate} />
       </>
@@ -710,7 +711,7 @@ function App() {
         <div className="w-full">
           {activeTab === 'game' && (
             <div className="max-w-6xl mx-auto">
-              <VocabularyGame key={`game-${connectedAddress}`} userId={userId} walletAddress={connectedAddress} onGoBack={() => setActiveTab('game')} />
+              <VocabularyGame key={`game-${connectedAddress}`} userId={userId} walletAddress={connectedAddress} onGoBack={() => setActiveTab('game')} onConnectWallet={handleConnectWallet} />
             </div>
           )}
           {activeTab === 'bridge' && (
