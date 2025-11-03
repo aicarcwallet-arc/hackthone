@@ -1,4 +1,4 @@
-import { Home, Gamepad2, Download, Rocket, Heart } from 'lucide-react';
+import { Home, Gamepad2, Coins, CreditCard, Wrench } from 'lucide-react';
 
 interface MobileBottomNavProps {
   currentPage: string;
@@ -9,9 +9,9 @@ export function MobileBottomNav({ currentPage, onNavigate }: MobileBottomNavProp
   const navItems = [
     { id: 'home', icon: Home, label: 'Home' },
     { id: 'play', icon: Gamepad2, label: 'Play' },
-    { id: 'mainnet-ready', icon: Rocket, label: 'Ready', special: true },
-    { id: 'fund-treasury', icon: Heart, label: 'Fund' },
-    { id: 'withdraw', icon: Download, label: 'Cash Out' },
+    { id: 'rewards', icon: Coins, label: 'Rewards' },
+    { id: 'withdraw', icon: CreditCard, label: 'Wallet' },
+    { id: 'fund-treasury', icon: Wrench, label: 'Tools' },
   ];
 
   return (
@@ -20,24 +20,19 @@ export function MobileBottomNav({ currentPage, onNavigate }: MobileBottomNavProp
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = currentPage === item.id;
-          const isSpecial = item.special;
 
           return (
             <button
               key={item.id}
               onClick={() => onNavigate(item.id)}
               className={`flex flex-col items-center justify-center gap-1 py-2 px-1 rounded-lg transition-all touch-manipulation min-h-[56px] ${
-                isSpecial
-                  ? isActive
-                    ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-[0_0_15px_rgba(34,197,94,0.6)] animate-pulse'
-                    : 'bg-gradient-to-r from-green-500/80 to-emerald-600/80 text-white shadow-[0_0_10px_rgba(34,197,94,0.4)] animate-pulse'
-                  : isActive
+                isActive
                   ? 'bg-cyan-500/20 text-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.3)]'
                   : 'text-gray-400 active:bg-gray-800 active:text-cyan-400'
               }`}
             >
-              <Icon className={`w-5 h-5 ${isSpecial ? '' : ''}`} />
-              <span className={`text-[10px] font-medium truncate max-w-full ${isSpecial ? 'font-bold' : ''}`}>
+              <Icon className="w-5 h-5" />
+              <span className="text-[10px] font-medium truncate max-w-full">
                 {item.label}
               </span>
             </button>
