@@ -1,4 +1,4 @@
-const CACHE_NAME = 'aic-learn-v2';
+const CACHE_NAME = 'aic-learn-v2.1.0';
 const urlsToCache = [
   '/',
   '/index.html',
