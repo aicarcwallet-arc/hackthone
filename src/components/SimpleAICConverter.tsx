@@ -75,7 +75,7 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
         args: [walletAddress as `0x${string}`],
       });
 
-      setAicBalance(formatUnits(balance as bigint, 18));
+      setAicBalance(formatUnits(balance as bigint, 6));
     } catch (err) {
       console.error('Failed to load AIC balance:', err);
     } finally {
@@ -115,7 +115,7 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
         transport: http(),
       });
 
-      const amountInWei = parseUnits(aicAmount, 18);
+      const amountInWei = parseUnits(aicAmount, 6);
 
       const allowance = await publicClient.readContract({
         address: AIC_TOKEN_ADDRESS,
