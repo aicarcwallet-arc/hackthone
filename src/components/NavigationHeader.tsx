@@ -11,6 +11,7 @@ interface NavigationHeaderProps {
 export function NavigationHeader({ currentPage, onNavigate, walletAddress, onConnectWallet }: NavigationHeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isPlayMenuOpen, setIsPlayMenuOpen] = useState(false);
+  const [isWalletMenuOpen, setIsWalletMenuOpen] = useState(false);
   const [isToolsMenuOpen, setIsToolsMenuOpen] = useState(false);
 
   const menuItems = [
@@ -37,8 +38,15 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
         { id: 'history', label: 'History', icon: History }
       ]
     },
-    { id: 'mainnet-ready', label: 'Mainnet', icon: Rocket, special: true },
-    { id: 'fund-treasury', label: 'Treasury', icon: Heart }
+    {
+      id: 'tools',
+      label: 'Tools & Resources',
+      icon: Wrench,
+      submenu: [
+        { id: 'fund-treasury', label: 'Treasury', icon: Heart },
+        { id: 'mainnet-ready', label: 'Mainnet Info', icon: Rocket }
+      ]
+    }
   ];
 
   const handleMenuClick = (pageId: string) => {
@@ -72,8 +80,17 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
                 const isSpecial = item.special;
 
                 if (item.submenu) {
-                  const isMenuOpen = item.id === 'play' ? isPlayMenuOpen : isToolsMenuOpen;
-                  const setMenuOpen = item.id === 'play' ? setIsPlayMenuOpen : setIsToolsMenuOpen;
+                  let isMenuOpen, setMenuOpen;
+                  if (item.id === 'play') {
+                    isMenuOpen = isPlayMenuOpen;
+                    setMenuOpen = setIsPlayMenuOpen;
+                  } else if (item.id === 'wallet') {
+                    isMenuOpen = isWalletMenuOpen;
+                    setMenuOpen = setIsWalletMenuOpen;
+                  } else {
+                    isMenuOpen = isToolsMenuOpen;
+                    setMenuOpen = setIsToolsMenuOpen;
+                  }
 
                   return (
                     <div key={item.id} className="relative">
