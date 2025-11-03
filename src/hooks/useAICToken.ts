@@ -68,7 +68,10 @@ export function useAICToken(walletAddress?: string) {
   };
 
   const fetchPrice = async () => {
-    if (!AIC_SWAP_ADDRESS) return;
+    if (!AIC_SWAP_ADDRESS) {
+      setAicPrice('1.00');
+      return;
+    }
 
     try {
       const price = await publicClient.readContract({
@@ -80,6 +83,7 @@ export function useAICToken(walletAddress?: string) {
       setAicPrice(formatUnits(price as bigint, 6));
     } catch (error) {
       console.error('Error fetching price:', error);
+      setAicPrice('1.00');
     }
   };
 
