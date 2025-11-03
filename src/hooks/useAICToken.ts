@@ -39,7 +39,6 @@ export function useAICToken(walletAddress?: string) {
       if (userData) {
         const earnedBalance = parseFloat(userData.total_aic_earned || '0');
         setDbBalance(earnedBalance);
-        setAicBalance(earnedBalance.toFixed(2));
       }
     } catch (error) {
       console.error('Error fetching database balance:', error);
@@ -50,18 +49,27 @@ export function useAICToken(walletAddress?: string) {
     if (!walletAddress) return;
 
     try {
-      await fetchDatabaseBalance();
-
       if (AIC_TOKEN_ADDRESS && USDC_ADDRESS) {
-        const usdc = await publicClient.readContract({
-          address: USDC_ADDRESS,
-          abi: ERC20_ABI,
-          functionName: 'balanceOf',
-          args: [walletAddress as `0x${string}`],
-        });
+        const [aic, usdc] = await Promise.all([
+          publicClient.readContract({
+            address: AIC_TOKEN_ADDRESS,
+            abi: ERC20_ABI,
+            functionName: 'balanceOf',
+            args: [walletAddress as `0x${string}`],
+          }),
+          publicClient.readContract({
+            address: USDC_ADDRESS,
+            abi: ERC20_ABI,
+            functionName: 'balanceOf',
+            args: [walletAddress as `0x${string}`],
+          }),
+        ]);
 
+        setAicBalance(formatUnits(aic as bigint, 6));
         setUsdcBalance(formatUnits(usdc as bigint, 6));
       }
+
+      await fetchDatabaseBalance();
     } catch (error) {
       console.error('Error fetching balances:', error);
     }
