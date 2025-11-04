@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { DollarSign, Loader2, CheckCircle2, AlertCircle, Wallet } from 'lucide-react';
+import { DollarSign, Loader2, CheckCircle2, AlertCircle, Wallet, Zap } from 'lucide-react';
 
 interface DirectUSDCPayoutProps {
   walletAddress: string;
@@ -61,9 +61,9 @@ export function DirectUSDCPayout({ walletAddress }: DirectUSDCPayoutProps) {
     try {
       const { supabase } = await import('../lib/supabase');
 
-      // Call edge function to send real USDC on-chain
+      // Call instant payout with accelerated nonce system
       const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/mint-usdc-reward`,
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/circle-instant-payout`,
         {
           method: 'POST',
           headers: {
@@ -72,7 +72,9 @@ export function DirectUSDCPayout({ walletAddress }: DirectUSDCPayoutProps) {
           },
           body: JSON.stringify({
             walletAddress: walletAddress,
-            useCircleAPI: false,
+            amount: amount,
+            useAcceleratedNonce: true,
+            crossChain: true,
           }),
         }
       );
@@ -82,6 +84,15 @@ export function DirectUSDCPayout({ walletAddress }: DirectUSDCPayoutProps) {
       if (!response.ok) {
         throw new Error(result.error || 'Failed to send USDC');
       }
+
+      // Update database to mark USDC as claimed
+      await supabase
+        .from('users')
+        .update({
+          claimed_usdc: parseFloat(usdcBalance),
+          updated_at: new Date().toISOString(),
+        })
+        .eq('wallet_address', walletAddress.toLowerCase());
 
       setSuccess(true);
       setAmount('');
@@ -151,9 +162,12 @@ export function DirectUSDCPayout({ walletAddress }: DirectUSDCPayoutProps) {
                     : 'border-gray-700 hover:border-gray-600'
                 }`}
               >
-                <Wallet className="w-6 h-6 mx-auto mb-2 text-cyan-400" />
+                <div className="flex items-center justify-center gap-1 mb-2">
+                  <Wallet className="w-6 h-6 text-cyan-400" />
+                  <Zap className="w-4 h-4 text-yellow-400" />
+                </div>
                 <div className="text-white font-medium text-sm">Your Wallet</div>
-                <div className="text-gray-500 text-xs">Instant</div>
+                <div className="text-green-400 text-xs font-semibold">Instant (&lt; 3s)</div>
               </button>
               <button
                 onClick={() => setPayoutMethod('bank')}
@@ -215,20 +229,27 @@ export function DirectUSDCPayout({ walletAddress }: DirectUSDCPayoutProps) {
         <button
           onClick={handlePayout}
           disabled={isLoading || !amount || parseFloat(amount) <= 0 || parseFloat(amount) > parseFloat(usdcBalance)}
-          className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-bold py-4 px-6 rounded-xl transition-all shadow-[0_0_30px_rgba(34,211,238,0.3)] hover:shadow-[0_0_40px_rgba(34,211,238,0.5)] disabled:shadow-none flex items-center justify-center gap-2"
+          className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-bold py-4 px-6 rounded-xl transition-all shadow-[0_0_30px_rgba(34,197,94,0.3)] hover:shadow-[0_0_40px_rgba(34,197,94,0.5)] disabled:shadow-none flex items-center justify-center gap-2"
         >
           {isLoading ? (
             <>
               <Loader2 className="w-5 h-5 animate-spin" />
-              <span>Processing...</span>
+              <span>Instant Transfer...</span>
             </>
           ) : (
             <>
-              <DollarSign className="w-5 h-5" />
-              <span>Cash Out ${amount || '0.00'} USD</span>
+              <Zap className="w-5 h-5" />
+              <span>Instant Cash Out ${amount || '0.00'} USD</span>
             </>
           )}
         </button>
+
+        <div className="mt-3 p-3 bg-cyan-500/10 rounded-lg border border-cyan-500/20">
+          <p className="text-xs text-gray-300 text-center flex items-center justify-center gap-2">
+            <Zap className="w-4 h-4 text-yellow-400" />
+            Using accelerated nonce system for instant USDC delivery via Circle infrastructure
+          </p>
+        </div>
 
         <div className="mt-6 bg-green-500/10 border border-green-500/30 rounded-lg p-4">
           <h4 className="text-green-400 font-semibold mb-2 text-sm">How it works:</h4>
