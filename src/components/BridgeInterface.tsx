@@ -244,10 +244,10 @@ export function BridgeInterface() {
       <div className="mb-4 sm:mb-6">
         <h2 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-2">Circle Bridge Kit</h2>
         <p className="text-xs sm:text-sm text-gray-300 font-medium">
-          Bridge USDC across 6 testnet chains
+          Bridge USDC to <span className="text-blue-400 font-semibold">Ethereum Sepolia</span> and 5 other chains
         </p>
         <p className="text-xs text-gray-400 mt-1">
-          Powered by Circle CCTP Protocol
+          Powered by Circle's Cross-Chain Transfer Protocol (CCTP)
         </p>
       </div>
 
@@ -328,9 +328,32 @@ export function BridgeInterface() {
                 <span className="text-lg font-bold text-cyan-300">{aicBalance} AIC</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-300">Your USDC Balance</span>
+                <span className="text-sm text-gray-300">Your USDC Balance (Arc Testnet)</span>
                 <span className="text-lg font-bold text-green-300">{parseFloat(usdcBalance).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDC</span>
               </div>
+              {parseFloat(usdcBalance) > 0 && (
+                <div className="mt-3 p-3 bg-gradient-to-r from-blue-900/40 to-indigo-900/40 border border-blue-500/40 rounded-lg">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-medium text-blue-200">💡 Quick Bridge to Ethereum</span>
+                  </div>
+                  <button
+                    onClick={() => {
+                      // Default: bridge from current testnet to Ethereum Sepolia
+                      setToChain(11155111);
+                      setAmount(parseFloat(usdcBalance).toFixed(2));
+                      const bridgeSection = document.getElementById('bridge-form');
+                      if (bridgeSection) {
+                        bridgeSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }
+                    }}
+                    className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white font-semibold py-2.5 px-4 rounded-lg transition-all flex items-center justify-center gap-2 touch-manipulation"
+                  >
+                    <ArrowDownUp className="w-4 h-4" />
+                    <span className="text-sm">Bridge {parseFloat(usdcBalance).toFixed(2)} USDC to Ethereum Sepolia</span>
+                  </button>
+                  <p className="text-xs text-gray-400 text-center mt-2">Or scroll down to choose any of 6 chains</p>
+                </div>
+              )}
               {unclaimedUSDC > 0 && (
                 <div className="p-3 bg-gradient-to-r from-green-900/40 to-emerald-900/40 border border-green-500/40 rounded-lg space-y-2">
                   <div className="flex items-center justify-between">
@@ -450,6 +473,28 @@ export function BridgeInterface() {
         </>
       )}
 
+      {parseFloat(usdcBalance) > 0 && (
+        <div className="mb-4 p-4 bg-gradient-to-r from-green-900/40 to-emerald-900/40 border border-green-500/50 rounded-lg">
+          <div className="flex items-start gap-3">
+            <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+            <div className="space-y-2">
+              <p className="text-sm text-green-200 font-medium">
+                ✅ Ready to Bridge! You have {parseFloat(usdcBalance).toFixed(2)} USDC
+              </p>
+              <p className="text-xs text-gray-300">
+                Bridge your USDC to <span className="text-green-400 font-semibold">Ethereum Sepolia</span> or any of the 6 supported chains using Circle's Cross-Chain Transfer Protocol below.
+              </p>
+              <div className="flex flex-wrap gap-2 mt-2">
+                <span className="text-xs px-2 py-1 bg-blue-500/20 border border-blue-500/30 rounded text-blue-300">Ethereum Sepolia</span>
+                <span className="text-xs px-2 py-1 bg-gray-700/50 border border-gray-600 rounded text-gray-300">Base Sepolia</span>
+                <span className="text-xs px-2 py-1 bg-gray-700/50 border border-gray-600 rounded text-gray-300">Arbitrum Sepolia</span>
+                <span className="text-xs px-2 py-1 bg-gray-700/50 border border-gray-600 rounded text-gray-300">+3 more</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="mb-4 p-4 bg-blue-900/30 border border-blue-500/50 rounded-lg">
         <div className="flex items-start gap-3">
           <AlertCircle className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
@@ -464,7 +509,7 @@ export function BridgeInterface() {
         </div>
       </div>
 
-      <div className="space-y-3 sm:space-y-4">
+      <div id="bridge-form" className="space-y-3 sm:space-y-4">
         <div>
           <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-2">
             Token
