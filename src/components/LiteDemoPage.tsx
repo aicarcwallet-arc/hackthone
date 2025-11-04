@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import {
   Play, Coins, DollarSign, CheckCircle2, Loader2,
-  Trophy, Zap, TrendingUp, ArrowRight, Wallet, CreditCard, Download, Smartphone, Home, ArrowLeft
+  Trophy, Zap, TrendingUp, ArrowRight, Wallet, CreditCard, Download, Smartphone, Home, ArrowLeft,
+  Target, Star, Brain, Award, ArrowRightLeft, RefreshCw
 } from 'lucide-react';
 
 interface LiteDemoPageProps {
@@ -317,31 +318,139 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
 
   if (step === 'playing') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4">
-        <div className="max-w-3xl w-full bg-gray-800/50 backdrop-blur-sm rounded-3xl shadow-[0_0_80px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-8 relative">
-          {onBackToHome && (
-            <button
-              onClick={onBackToHome}
-              className="absolute top-6 left-6 flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors group"
-            >
-              <Home className="w-5 h-5 group-hover:scale-110 transition-transform" />
-              <span className="text-sm font-medium">Home</span>
-            </button>
-          )}
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center gap-6">
-              <div className="flex items-center gap-2">
-                <Trophy className="w-5 h-5 text-yellow-400" />
-                <span className="text-white font-semibold">{stats.wordsCompleted}/3</span>
+      <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-cyan-900/20 via-transparent to-transparent"></div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Balance Panel */}
+          <div className="mb-6 bg-gradient-to-r from-green-900/30 to-emerald-900/30 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-green-500/30 shadow-[0_0_30px_rgba(34,197,94,0.3)]">
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-3 sm:flex sm:items-center sm:gap-6">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Wallet className="w-5 h-5 sm:w-6 sm:h-6 text-green-400" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs sm:text-sm text-gray-400">AIC Balance</p>
+                    <div className="flex items-baseline gap-1">
+                      <p className="text-xl sm:text-3xl font-bold text-green-400 truncate">{stats.aicEarned.toFixed(2)}</p>
+                      <span className="text-xs sm:text-lg text-gray-400">AIC</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Coins className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs sm:text-sm text-gray-400">USDC Balance</p>
+                    <div className="flex items-baseline gap-1">
+                      <p className="text-xl sm:text-3xl font-bold text-blue-400 truncate">{stats.usdcEarned.toFixed(2)}</p>
+                      <span className="text-xs sm:text-lg text-gray-400">USDC</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Coins className="w-5 h-5 text-green-400" />
-                <span className="text-white font-semibold">{stats.aicEarned} AIC</span>
+
+              <div className="grid grid-cols-2 gap-2 sm:flex sm:gap-3">
+                <button
+                  onClick={() => setStep('convert')}
+                  disabled={stats.aicEarned <= 0}
+                  className="flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 active:from-cyan-400 active:to-blue-500 sm:hover:from-cyan-400 sm:hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-700 text-white px-3 sm:px-6 py-3 rounded-lg font-semibold transition-all shadow-[0_0_20px_rgba(34,211,238,0.4)] touch-manipulation min-h-[48px] text-xs sm:text-base"
+                >
+                  <ArrowRightLeft className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+                  <span className="hidden sm:inline">Convert to USDC</span>
+                  <span className="sm:hidden">Convert</span>
+                </button>
+
+                <button
+                  onClick={() => setStep('withdraw')}
+                  disabled={stats.usdcEarned <= 0}
+                  className="flex items-center justify-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 active:from-green-400 active:to-emerald-500 sm:hover:from-green-400 sm:hover:to-emerald-500 disabled:from-gray-600 disabled:to-gray-700 text-white px-3 sm:px-6 py-3 rounded-lg font-semibold transition-all shadow-[0_0_20px_rgba(34,197,94,0.4)] touch-manipulation min-h-[48px] text-xs sm:text-base"
+                >
+                  <Download className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+                  <span>Withdraw</span>
+                </button>
+              </div>
+            </div>
+
+            <div className="mt-4 p-3 sm:p-4 bg-green-500/10 rounded-lg border border-green-500/20">
+              <p className="text-xs sm:text-sm text-gray-300">
+                <span className="text-green-400 font-semibold">Tokens Added to Your Wallet!</span> Every word you type correctly earns AIC tokens instantly. Convert them to USDC anytime or withdraw to your wallet.
+              </p>
+            </div>
+          </div>
+
+          {/* Game Stats */}
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center gap-3 bg-gradient-to-r from-cyan-500/20 to-blue-600/20 backdrop-blur-sm px-6 py-3 rounded-full mb-6 border border-cyan-500/30 shadow-[0_0_30px_rgba(34,211,238,0.3)]">
+              <Brain className="w-8 h-8 text-cyan-400 animate-pulse" />
+              <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-300 bg-clip-text text-transparent">
+                Play & Earn AIC Tokens
+              </h1>
+              <Trophy className="w-8 h-8 text-yellow-400 animate-bounce" />
+            </div>
+
+            <p className="text-lg text-gray-300 max-w-3xl mx-auto mb-8 px-4">
+              Learn blockchain vocabulary and earn real AIC tokens instantly. Every correct answer is validated and rewarded.
+            </p>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mb-8">
+              <div className="bg-gradient-to-br from-cyan-900/30 to-blue-900/30 backdrop-blur-sm rounded-xl p-4 border border-cyan-500/30 hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] transition-all">
+                <Target className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
+                <p className="text-sm font-semibold text-white">Words</p>
+                <p className="text-xs text-gray-400">{stats.wordsCompleted}/6</p>
+              </div>
+
+              <div className="bg-gradient-to-br from-green-900/30 to-emerald-900/30 backdrop-blur-sm rounded-xl p-4 border border-green-500/30 hover:shadow-[0_0_30px_rgba(34,197,94,0.4)] transition-all">
+                <Zap className="w-8 h-8 text-green-400 mx-auto mb-2" />
+                <p className="text-sm font-semibold text-white">AIC Earned</p>
+                <p className="text-xs text-gray-400">{stats.aicEarned} AIC</p>
+              </div>
+
+              <div className="bg-gradient-to-br from-yellow-900/30 to-orange-900/30 backdrop-blur-sm rounded-xl p-4 border border-yellow-500/30 hover:shadow-[0_0_30px_rgba(234,179,8,0.4)] transition-all">
+                <Coins className="w-8 h-8 text-yellow-400 mx-auto mb-2" />
+                <p className="text-sm font-semibold text-white">USDC Value</p>
+                <p className="text-xs text-gray-400">${(stats.aicEarned / 2).toFixed(2)}</p>
+              </div>
+
+              <div className="bg-gradient-to-br from-blue-900/30 to-cyan-900/30 backdrop-blur-sm rounded-xl p-4 border border-blue-500/30 hover:shadow-[0_0_30px_rgba(59,130,246,0.4)] transition-all">
+                <Award className="w-8 h-8 text-blue-400 mx-auto mb-2" />
+                <p className="text-sm font-semibold text-white">Real Rewards</p>
+                <p className="text-xs text-gray-400">Instant</p>
               </div>
             </div>
           </div>
 
-          {showReward ? (
+          {/* Game Arena Container */}
+          <div className="mb-8">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-600/20 rounded-3xl blur-xl"></div>
+              <div className="relative bg-gray-900/80 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-cyan-500/30 shadow-[0_0_50px_rgba(34,211,238,0.3)]">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                  <div className="bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-2 rounded-full border-2 border-cyan-400 shadow-[0_0_30px_rgba(34,211,238,0.6)]">
+                    <div className="flex items-center gap-2">
+                      <Star className="w-5 h-5 text-white animate-spin" style={{ animationDuration: '3s' }} />
+                      <span className="text-white font-bold text-sm">GAME ARENA</span>
+                      <Star className="w-5 h-5 text-white animate-spin" style={{ animationDuration: '3s' }} />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Game Content */}
+                <div className="pt-8">
+                  {onBackToHome && (
+                    <button
+                      onClick={onBackToHome}
+                      className="mb-6 flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors group"
+                    >
+                      <Home className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                      <span className="text-sm font-medium">Back to Home</span>
+                    </button>
+                  )}
+
+                  {showReward ? (
             <div className="text-center py-12">
               <CheckCircle2 className="w-24 h-24 text-green-400 mx-auto mb-6" />
               <h2 className="text-4xl font-bold text-green-400 mb-2">Correct!</h2>
@@ -398,8 +507,12 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
                   </>
                 )}
               </button>
-            </>
-          )}
+                  </>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
