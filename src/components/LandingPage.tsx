@@ -49,57 +49,48 @@ export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
                 🔗 Powered by Arc Network Layer 1 • Circle USDC • Educational Portal
               </p>
             </div>
-            <div className="flex flex-col items-center gap-4 sm:gap-6">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
               <button
                 onClick={onGetStarted}
-                className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold px-8 sm:px-12 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl shadow-[0_0_40px_rgba(34,211,238,0.6)] hover:shadow-[0_0_60px_rgba(34,211,238,1)] transition-all touch-manipulation active:scale-95 animate-pulse-slow"
+                className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold px-6 py-3 rounded-lg text-base shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105"
               >
-                <Zap className="w-6 h-6 sm:w-7 sm:h-7 animate-pulse" />
-                <span>Get AiC Token Rewards</span>
-                <ArrowRight className="w-6 h-6 sm:w-7 sm:h-7 group-hover:translate-x-1 transition-transform" />
+                <span>Get Started</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
 
               {onNavigate && (
                 <button
                   onClick={() => onNavigate('lite-demo')}
-                  className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-400 hover:to-rose-500 text-white font-bold px-8 sm:px-12 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl shadow-[0_0_40px_rgba(236,72,153,0.6)] hover:shadow-[0_0_60px_rgba(236,72,153,1)] transition-all touch-manipulation active:scale-95 animate-pulse-slow border-2 border-pink-400/30"
+                  className="group relative inline-flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-cyan-400 font-semibold px-6 py-3 rounded-lg text-base border border-cyan-500/30 hover:border-cyan-400/50 shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
                 >
-                  <Trophy className="w-6 h-6 sm:w-7 sm:h-7 animate-bounce" />
-                  <span>🎮 Click Here to Enter Game Launchpad</span>
-                  <ArrowRight className="w-6 h-6 sm:w-7 sm:h-7 group-hover:translate-x-2 transition-transform" />
+                  <Trophy className="w-4 h-4" />
+                  <span>Try Demo</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
               )}
 
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+              <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
                 <a
                   href={window.location.origin}
                   download
-                  className="group flex items-center gap-3 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 text-white font-bold px-6 py-3 rounded-xl shadow-[0_0_20px_rgba(34,197,94,0.4)] hover:shadow-[0_0_30px_rgba(34,197,94,0.6)] transition-all"
+                  className="group inline-flex items-center gap-2 bg-gray-800/50 hover:bg-gray-800 text-gray-300 hover:text-white font-medium px-4 py-2 rounded-lg text-sm border border-gray-700 hover:border-gray-600 transition-all duration-200"
                 >
-                  <Smartphone className="w-5 h-5" />
-                  <div className="flex flex-col items-start">
-                    <span className="text-xs opacity-80">Download for</span>
-                    <span className="text-sm font-bold">Android APK</span>
-                  </div>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <Smartphone className="w-4 h-4" />
+                  <span>Android APK</span>
                 </a>
 
                 <a
                   href={window.location.origin}
                   download
-                  className="group flex items-center gap-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 text-white font-bold px-6 py-3 rounded-xl shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] transition-all"
+                  className="group inline-flex items-center gap-2 bg-gray-800/50 hover:bg-gray-800 text-gray-300 hover:text-white font-medium px-4 py-2 rounded-lg text-sm border border-gray-700 hover:border-gray-600 transition-all duration-200"
                 >
-                  <Apple className="w-5 h-5" />
-                  <div className="flex flex-col items-start">
-                    <span className="text-xs opacity-80">Install on</span>
-                    <span className="text-sm font-bold">iOS (PWA)</span>
-                  </div>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <Apple className="w-4 h-4" />
+                  <span>iOS (PWA)</span>
                 </a>
               </div>
 
-              <p className="text-xs sm:text-sm text-gray-400 mt-4">
-                📱 Install native app with AiC logo on your home screen
+              <p className="text-xs text-gray-500 mt-3">
+                📱 Install app on your device
               </p>
             </div>
           </div>
