@@ -17,11 +17,30 @@ export function DirectUSDCPayout({ walletAddress }: DirectUSDCPayoutProps) {
   useEffect(() => {
     if (walletAddress) {
       loadUSDCBalance();
+
+      // Listen for USDC balance updates from other components
+      const handleBalanceUpdate = () => {
+        console.log('🔄 USDC balance update event received, refreshing...');
+        loadUSDCBalance();
+      };
+
+      window.addEventListener('usdcBalanceUpdated', handleBalanceUpdate);
+
+      // Also refresh every 5 seconds
+      const interval = setInterval(() => {
+        loadUSDCBalance();
+      }, 5000);
+
+      return () => {
+        window.removeEventListener('usdcBalanceUpdated', handleBalanceUpdate);
+        clearInterval(interval);
+      };
     }
   }, [walletAddress]);
 
   const loadUSDCBalance = async () => {
     try {
+      console.log('🔄 Loading USDC balance for:', walletAddress);
       const { supabase } = await import('../lib/supabase');
       const { data, error } = await supabase
         .from('users')
@@ -35,11 +54,18 @@ export function DirectUSDCPayout({ walletAddress }: DirectUSDCPayoutProps) {
         const totalEarned = parseFloat(data.total_usdc_earned || '0');
         const claimed = parseFloat(data.claimed_usdc || '0');
         const available = totalEarned - claimed;
+        console.log('✅ USDC Balance loaded:', {
+          totalEarned,
+          claimed,
+          available
+        });
         setUsdcBalance(available.toFixed(2));
         setLifetimeEarned(totalEarned.toFixed(2));
+      } else {
+        console.log('⚠️ No user data found');
       }
     } catch (err) {
-      console.error('Failed to load USDC balance:', err);
+      console.error('❌ Failed to load USDC balance:', err);
     }
   };
 

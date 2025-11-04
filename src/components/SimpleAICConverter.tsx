@@ -177,6 +177,11 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
       setAicAmount('');
       await loadAICBalance();
 
+      // Dispatch custom event to notify other components
+      window.dispatchEvent(new CustomEvent('usdcBalanceUpdated', {
+        detail: { newBalance: newUSDCEarned }
+      }));
+
       setTimeout(() => {
         setSuccess(false);
         setTxHash(null);
