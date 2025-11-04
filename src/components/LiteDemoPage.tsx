@@ -107,7 +107,10 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
       return;
     }
 
-    if (typedWord.trim().toUpperCase() !== currentWord.toUpperCase()) {
+    const normalizedTyped = typedWord.trim().toUpperCase();
+    const normalizedTarget = currentWord.toUpperCase();
+
+    if (normalizedTyped !== normalizedTarget) {
       alert('Try again! Type the word exactly as shown.');
       setTypedWord('');
       return;
@@ -119,42 +122,55 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
     try {
       const { supabase } = await import('../lib/supabase');
 
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/validate-word`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-          },
-          body: JSON.stringify({
-            word: currentWord,
-            typed_word: typedWord,
-            wallet_address: walletAddress,
-            time_taken: 3000,
-          }),
-        }
-      );
+      // Update user stats directly in Supabase
+      const { data: userData, error: fetchError } = await supabase
+        .from('users')
+        .select('wallet_balance, total_words_validated')
+        .eq('wallet_address', walletAddress?.toLowerCase())
+        .maybeSingle();
 
-      if (response.ok) {
-        setStats(prev => ({
-          ...prev,
-          wordsCompleted: prev.wordsCompleted + 1,
-          aicEarned: prev.aicEarned + reward,
-        }));
-        setShowReward(true);
-        setTimeout(() => {
-          setShowReward(false);
-          if (stats.wordsCompleted + 1 >= 3) {
-            setStep('convert');
-          } else {
-            setCurrentWord(demoWords[(stats.wordsCompleted + 1) % demoWords.length].word);
-          }
-          setTypedWord('');
-        }, 2000);
+      if (fetchError) {
+        console.error('Error fetching user:', fetchError);
       }
+
+      const currentBalance = parseFloat(userData?.wallet_balance || '0');
+      const currentWords = parseInt(userData?.total_words_validated || '0');
+
+      const { error: updateError } = await supabase
+        .from('users')
+        .update({
+          wallet_balance: currentBalance + reward,
+          total_words_validated: currentWords + 1,
+        })
+        .eq('wallet_address', walletAddress?.toLowerCase());
+
+      if (updateError) {
+        console.error('Error updating user:', updateError);
+        alert('Failed to save progress. Please try again.');
+        setIsLoading(false);
+        return;
+      }
+
+      // Update local stats
+      setStats(prev => ({
+        ...prev,
+        wordsCompleted: prev.wordsCompleted + 1,
+        aicEarned: prev.aicEarned + reward,
+      }));
+
+      setShowReward(true);
+      setTimeout(() => {
+        setShowReward(false);
+        if (stats.wordsCompleted + 1 >= 3) {
+          setStep('convert');
+        } else {
+          setCurrentWord(demoWords[(stats.wordsCompleted + 1) % demoWords.length].word);
+        }
+        setTypedWord('');
+      }, 2000);
     } catch (err) {
       console.error('Submit failed:', err);
+      alert('An error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
