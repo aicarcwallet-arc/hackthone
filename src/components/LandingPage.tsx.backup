@@ -8,65 +8,47 @@ interface LandingPageProps {
 
 export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-gradient-to-b from-white via-purple-50/30 to-white">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-gray-950 via-gray-900 to-black">
-        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+      <section className="relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 md:py-32 relative">
           <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-2 sm:gap-3 bg-gray-900/50 backdrop-blur-sm px-3 sm:px-4 py-2 rounded-full mb-4 sm:mb-6 border border-cyan-500/30">
+            <div className="inline-flex items-center gap-2 sm:gap-3 bg-white/80 backdrop-blur-sm px-4 sm:px-5 py-2.5 rounded-full mb-6 sm:mb-8 border border-purple-200 shadow-sm">
               <img src="/aic toekn .png" alt="AI Cognitive Token Logo" className="w-8 h-8 sm:w-10 sm:h-10" />
-              <span className="text-sm sm:text-base font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">AI Cognitive Token (AiC)</span>
+              <span className="text-sm sm:text-base font-semibold bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">AI Cognitive Token</span>
             </div>
-            <p className="text-lg sm:text-xl md:text-2xl font-semibold bg-gradient-to-r from-cyan-300 via-blue-400 to-cyan-300 bg-clip-text text-transparent mb-4 sm:mb-5 px-2 drop-shadow-[0_0_20px_rgba(34,211,238,0.4)]">
-              Your Knowledge is Your Currency
-            </p>
-            <p className="text-xs sm:text-sm md:text-base text-cyan-400 mb-6 sm:mb-8 px-2 flex items-center justify-center gap-2 flex-wrap">
-              <GraduationCap className="w-4 h-4" />
-              Learn Blockchain Vocabulary • Get AIC Rewards • Earn Real USDC
-            </p>
-            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 px-2 leading-tight">
-              <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
-                Learn Blockchain Vocabulary.
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-8 px-2 leading-tight tracking-tight">
+              <span className="bg-gradient-to-r from-gray-900 via-purple-800 to-gray-900 bg-clip-text text-transparent">
+                Learn vocabulary.
               </span>
-              <br className="hidden sm:block" />
-              <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
-                Get <span className="text-white font-bold drop-shadow-[0_0_30px_rgba(255,255,255,0.8)]">AIC Rewards</span>.
-              </span>
-              <br className="hidden sm:block" />
-              <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
-                Earn <span className="text-white font-bold drop-shadow-[0_0_30px_rgba(255,255,255,0.8)]">Real USDC</span>.
+              <br />
+              <span className="bg-gradient-to-r from-purple-600 via-blue-500 to-cyan-500 bg-clip-text text-transparent">
+                Earn real USDC.
               </span>
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto px-4">
-              Check out our live blockchain vocab dictionary — learn, write, and earn real USDC. Portal to earning education powered by Circle & Arc.
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-4 max-w-3xl mx-auto px-4 leading-relaxed font-light">
+              Your knowledge is your currency. Learn blockchain vocabulary, earn AIC tokens, and convert to real USDC instantly.
             </p>
-            <div className="mb-8 sm:mb-12 px-4">
-              <p className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-3">
-                Because Your Knowledge is Your Currency
-              </p>
-              <p className="text-xs sm:text-sm text-cyan-400 font-semibold">
-                🔗 Powered by Arc Network Layer 1 • Circle USDC • Educational Portal
-              </p>
-            </div>
+            <p className="text-sm sm:text-base text-gray-500 mb-10 sm:mb-12 max-w-2xl mx-auto px-4">
+              Powered by <span className="font-semibold text-purple-600">Circle</span> and <span className="font-semibold text-blue-600">Arc Network</span>
+            </p>
             <div className="flex flex-col items-center gap-4 sm:gap-6">
               <button
                 onClick={onGetStarted}
-                className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold px-8 sm:px-12 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl shadow-[0_0_40px_rgba(34,211,238,0.6)] hover:shadow-[0_0_60px_rgba(34,211,238,1)] transition-all touch-manipulation active:scale-95 animate-pulse-slow"
+                className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold px-8 sm:px-10 py-4 sm:py-4.5 rounded-full text-base sm:text-lg shadow-lg hover:shadow-xl transition-all duration-300 touch-manipulation hover:scale-105"
               >
-                <Zap className="w-6 h-6 sm:w-7 sm:h-7 animate-pulse" />
-                <span>Get AiC Token Rewards</span>
-                <ArrowRight className="w-6 h-6 sm:w-7 sm:h-7 group-hover:translate-x-1 transition-transform" />
+                <span>Get started</span>
+                <ArrowRight className="w-5 h-5 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
               </button>
 
               {onNavigate && (
                 <button
                   onClick={() => onNavigate('lite-demo')}
-                  className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-400 hover:to-rose-500 text-white font-bold px-8 sm:px-12 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl shadow-[0_0_40px_rgba(236,72,153,0.6)] hover:shadow-[0_0_60px_rgba(236,72,153,1)] transition-all touch-manipulation active:scale-95 animate-pulse-slow border-2 border-pink-400/30"
+                  className="group relative inline-flex items-center gap-3 bg-white hover:bg-gray-50 text-purple-600 font-semibold px-8 sm:px-10 py-4 sm:py-4.5 rounded-full text-base sm:text-lg border-2 border-purple-200 hover:border-purple-300 shadow-md hover:shadow-lg transition-all duration-300 touch-manipulation hover:scale-105"
                 >
-                  <Trophy className="w-6 h-6 sm:w-7 sm:h-7 animate-bounce" />
-                  <span>🎮 Click Here to Enter Game Launchpad</span>
-                  <ArrowRight className="w-6 h-6 sm:w-7 sm:h-7 group-hover:translate-x-2 transition-transform" />
+                  <Trophy className="w-5 h-5 sm:w-5 sm:h-5" />
+                  <span>Try demo</span>
+                  <ArrowRight className="w-5 h-5 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
               )}
 
@@ -105,54 +87,54 @@ export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
           </div>
 
           {/* Feature Pills */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-6xl mx-auto mt-16">
-            <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-4 shadow-[0_0_20px_rgba(34,211,238,0.3)] border border-cyan-500/30 text-center hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all">
-              <GraduationCap className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-white">Learn Blockchain</p>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 max-w-6xl mx-auto mt-16">
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-sm border border-purple-100 text-center hover:shadow-md hover:border-purple-200 transition-all duration-300">
+              <GraduationCap className="w-7 h-7 text-purple-600 mx-auto mb-2" />
+              <p className="text-xs sm:text-sm font-medium text-gray-700">Learn vocabulary</p>
             </div>
-            <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-4 shadow-[0_0_20px_rgba(34,211,238,0.3)] border border-cyan-500/30 text-center hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all">
-              <Wallet className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-white">In-House Wallet</p>
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-sm border border-blue-100 text-center hover:shadow-md hover:border-blue-200 transition-all duration-300">
+              <Wallet className="w-7 h-7 text-blue-600 mx-auto mb-2" />
+              <p className="text-xs sm:text-sm font-medium text-gray-700">Built-in wallet</p>
             </div>
-            <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-4 shadow-[0_0_20px_rgba(34,211,238,0.3)] border border-cyan-500/30 text-center hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all">
-              <DollarSign className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-white">1:1 USDC Pegging</p>
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-sm border border-cyan-100 text-center hover:shadow-md hover:border-cyan-200 transition-all duration-300">
+              <DollarSign className="w-7 h-7 text-cyan-600 mx-auto mb-2" />
+              <p className="text-xs sm:text-sm font-medium text-gray-700">Real USDC</p>
             </div>
-            <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-4 shadow-[0_0_20px_rgba(34,211,238,0.3)] border border-cyan-500/30 text-center hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all">
-              <Zap className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-white">Lightning-Fast Arc</p>
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-sm border border-purple-100 text-center hover:shadow-md hover:border-purple-200 transition-all duration-300">
+              <Zap className="w-7 h-7 text-purple-600 mx-auto mb-2" />
+              <p className="text-xs sm:text-sm font-medium text-gray-700">Instant rewards</p>
             </div>
-            <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-4 shadow-[0_0_20px_rgba(34,211,238,0.3)] border border-cyan-500/30 text-center hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all">
-              <Shield className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-white">Arc Testnet Verified</p>
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-sm border border-blue-100 text-center hover:shadow-md hover:border-blue-200 transition-all duration-300">
+              <Shield className="w-7 h-7 text-blue-600 mx-auto mb-2" />
+              <p className="text-xs sm:text-sm font-medium text-gray-700">Blockchain verified</p>
             </div>
-            <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-4 shadow-[0_0_20px_rgba(34,211,238,0.3)] border border-cyan-500/30 text-center hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all">
-              <TrendingUp className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-white">Live Explorer Tracking</p>
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-sm border border-cyan-100 text-center hover:shadow-md hover:border-cyan-200 transition-all duration-300">
+              <TrendingUp className="w-7 h-7 text-cyan-600 mx-auto mb-2" />
+              <p className="text-xs sm:text-sm font-medium text-gray-700">Live tracking</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="bg-gradient-to-r from-cyan-500 to-blue-600 py-12 shadow-[0_0_50px_rgba(34,211,238,0.3)]">
+      <section className="bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-500 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-white mb-1">$300-500</div>
-              <div className="text-sm text-cyan-100">USDC Per Word</div>
+              <div className="text-3xl sm:text-4xl font-bold text-white mb-2">$300-500</div>
+              <div className="text-sm sm:text-base text-purple-100 font-light">USDC per word</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-white mb-1">&lt;1s</div>
-              <div className="text-sm text-cyan-100">Settlement Time</div>
+              <div className="text-3xl sm:text-4xl font-bold text-white mb-2">&lt;1s</div>
+              <div className="text-sm sm:text-base text-purple-100 font-light">Settlement time</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-white mb-1">$0.01</div>
-              <div className="text-sm text-cyan-100">Gas Fees</div>
+              <div className="text-3xl sm:text-4xl font-bold text-white mb-2">$0.01</div>
+              <div className="text-sm sm:text-base text-purple-100 font-light">Gas fees</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-white mb-1">100%</div>
-              <div className="text-sm text-cyan-100">Blockchain Verified</div>
+              <div className="text-3xl sm:text-4xl font-bold text-white mb-2">100%</div>
+              <div className="text-sm sm:text-base text-purple-100 font-light">Verified</div>
             </div>
           </div>
         </div>
