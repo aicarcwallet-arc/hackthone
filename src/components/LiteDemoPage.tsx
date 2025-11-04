@@ -221,11 +221,11 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full blur-2xl opacity-50"></div>
               <Trophy className="w-20 h-20 sm:w-24 sm:h-24 text-cyan-400 mx-auto relative" />
             </div>
-            <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent mb-4 px-4">
-              AI Cognitive Token
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-semibold bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent mb-4 px-4">
+              AI Cognitive Game
             </h1>
             <p className="text-lg sm:text-2xl text-gray-300 font-medium mb-2 px-4">
-              Learn English • Earn Real USDC
+              Learn Vocabulary • Earn Real USDC
             </p>
             <p className="text-base sm:text-lg text-gray-400 px-4">
               Built on Arc Network with Circle
@@ -245,8 +245,8 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
               <p className="text-sm sm:text-base text-gray-300 text-center">AIC → USDC instantly</p>
             </div>
 
-            <div className="bg-gradient-to-br from-purple-500/10 to-pink-600/10 rounded-2xl p-4 sm:p-6 border border-purple-500/30">
-              <DollarSign className="w-10 h-10 sm:w-12 sm:h-12 text-purple-400 mb-3 sm:mb-4 mx-auto" />
+            <div className="bg-gradient-to-br from-green-500/10 to-emerald-600/10 rounded-2xl p-4 sm:p-6 border border-green-500/30">
+              <DollarSign className="w-10 h-10 sm:w-12 sm:h-12 text-green-400 mb-3 sm:mb-4 mx-auto" />
               <h3 className="text-lg sm:text-xl font-bold text-white text-center mb-2">3. Cash Out</h3>
               <p className="text-sm sm:text-base text-gray-300 text-center">Real USDC in your wallet</p>
             </div>
@@ -254,7 +254,7 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
 
           <button
             onClick={handleStartPlaying}
-            className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-lg sm:text-xl font-bold py-4 sm:py-6 px-6 sm:px-8 rounded-2xl transition-all shadow-[0_0_40px_rgba(34,211,238,0.5)] hover:shadow-[0_0_60px_rgba(34,211,238,0.8)] active:scale-95 flex items-center justify-center gap-3 touch-manipulation"
+            className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-lg sm:text-xl font-semibold py-4 sm:py-5 px-6 sm:px-8 rounded-xl transition-all shadow-lg hover:shadow-xl active:scale-95 flex items-center justify-center gap-3 touch-manipulation"
           >
             <Play className="w-5 h-5 sm:w-6 sm:h-6" />
             {walletAddress ? 'Start Earning USDC' : 'Connect Wallet to Start'}
@@ -281,7 +281,8 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
               onClick={onBackToHome}
               className="absolute top-6 left-6 flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors group"
             >
-              <Home className="w-5 h-5" />
+              <Home className="w-5 h-5 group-hover:scale-110 transition-transform" />
+              <span className="text-sm font-medium">Home</span>
             </button>
           )}
           <div className="flex items-center justify-between mb-8">
@@ -334,7 +335,7 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
               <button
                 onClick={handleSubmitWord}
                 disabled={isLoading || !typedWord.trim()}
-                className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white text-lg sm:text-xl font-bold py-4 sm:py-5 px-6 sm:px-8 rounded-xl transition-all shadow-[0_0_30px_rgba(34,211,238,0.5)] hover:shadow-[0_0_50px_rgba(34,211,238,0.8)] active:scale-95 flex items-center justify-center gap-2 touch-manipulation"
+                className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white text-lg sm:text-xl font-semibold py-4 sm:py-5 px-6 sm:px-8 rounded-xl transition-all shadow-lg hover:shadow-xl active:scale-95 flex items-center justify-center gap-2 touch-manipulation"
               >
                 {isLoading ? (
                   <>
@@ -365,7 +366,8 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
               onClick={onBackToHome}
               className="absolute top-6 left-6 flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors group"
             >
-              <Home className="w-5 h-5" />
+              <Home className="w-5 h-5 group-hover:scale-110 transition-transform" />
+              <span className="text-sm font-medium">Home</span>
             </button>
           )}
           <div className="text-center mb-6 sm:mb-8 pt-8 sm:pt-0">
@@ -399,7 +401,7 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
           <button
             onClick={handleConvertToUSDC}
             disabled={isLoading}
-            className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white text-lg sm:text-xl font-bold py-4 sm:py-5 px-6 sm:px-8 rounded-xl transition-all shadow-[0_0_30px_rgba(34,197,94,0.5)] hover:shadow-[0_0_50px_rgba(34,197,94,0.8)] active:scale-95 flex items-center justify-center gap-2 touch-manipulation"
+            className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white text-lg sm:text-xl font-semibold py-4 sm:py-5 px-6 sm:px-8 rounded-xl transition-all shadow-lg hover:shadow-xl active:scale-95 flex items-center justify-center gap-2 touch-manipulation"
           >
             {isLoading ? (
               <>
@@ -427,16 +429,17 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
               onClick={onBackToHome}
               className="absolute top-6 left-6 flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors group"
             >
-              <Home className="w-5 h-5" />
+              <Home className="w-5 h-5 group-hover:scale-110 transition-transform" />
+              <span className="text-sm font-medium">Home</span>
             </button>
           )}
           <div className="text-center mb-6 sm:mb-8 pt-8 sm:pt-0">
-            <DollarSign className="w-16 h-16 sm:w-20 sm:h-20 text-purple-400 mx-auto mb-4" />
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Ready to Cash Out!</h2>
+            <DollarSign className="w-16 h-16 sm:w-20 sm:h-20 text-green-400 mx-auto mb-4" />
+            <h2 className="text-3xl sm:text-4xl font-semibold text-white mb-4">Ready to Cash Out!</h2>
             <p className="text-lg sm:text-xl text-gray-300">Choose your withdrawal method</p>
           </div>
 
-          <div className="bg-gradient-to-r from-purple-500/20 to-pink-600/20 rounded-2xl p-8 mb-8 border border-purple-500/30">
+          <div className="bg-gradient-to-r from-green-500/20 to-emerald-600/20 rounded-2xl p-8 mb-8 border border-green-500/30">
             <div className="text-center mb-6">
               <p className="text-gray-400 text-sm mb-2">Available to Withdraw</p>
               <p className="text-5xl font-bold text-white mb-2">{stats.usdcEarned.toFixed(2)} USDC</p>
@@ -448,11 +451,11 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
                 onClick={() => setWithdrawMethod('wallet')}
                 className={`p-6 rounded-xl border-2 transition-all ${
                   withdrawMethod === 'wallet'
-                    ? 'border-purple-500 bg-purple-500/20 shadow-[0_0_20px_rgba(168,85,247,0.4)]'
-                    : 'border-gray-600 hover:border-purple-500/50'
+                    ? 'border-green-500 bg-green-500/20 shadow-[0_0_20px_rgba(34,197,94,0.4)]'
+                    : 'border-gray-600 hover:border-green-500/50'
                 }`}
               >
-                <Wallet className="w-10 h-10 mx-auto mb-3 text-purple-400" />
+                <Wallet className="w-10 h-10 mx-auto mb-3 text-green-400" />
                 <div className="text-white font-bold text-lg mb-1">Arc Wallet</div>
                 <div className="text-gray-400 text-sm">Direct to wallet</div>
                 <div className="text-green-400 text-xs mt-2 font-semibold">Instant</div>
@@ -462,11 +465,11 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
                 onClick={() => setWithdrawMethod('card')}
                 className={`p-6 rounded-xl border-2 transition-all ${
                   withdrawMethod === 'card'
-                    ? 'border-purple-500 bg-purple-500/20 shadow-[0_0_20px_rgba(168,85,247,0.4)]'
-                    : 'border-gray-600 hover:border-purple-500/50'
+                    ? 'border-cyan-500 bg-cyan-500/20 shadow-[0_0_20px_rgba(34,211,238,0.4)]'
+                    : 'border-gray-600 hover:border-cyan-500/50'
                 }`}
               >
-                <CreditCard className="w-10 h-10 mx-auto mb-3 text-pink-400" />
+                <CreditCard className="w-10 h-10 mx-auto mb-3 text-cyan-400" />
                 <div className="text-white font-bold text-lg mb-1">Virtual Card</div>
                 <div className="text-gray-400 text-sm">Spend anywhere</div>
                 <div className="text-green-400 text-xs mt-2 font-semibold">Instant</div>
@@ -474,12 +477,12 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
             </div>
 
             {withdrawMethod === 'wallet' ? (
-              <div className="bg-gray-900/50 rounded-xl p-4 border border-purple-500/20">
+              <div className="bg-gray-900/50 rounded-xl p-4 border border-green-500/20">
                 <p className="text-xs text-gray-400 mb-1">Sending to Arc Wallet:</p>
                 <p className="text-white font-mono text-sm break-all">{walletAddress}</p>
               </div>
             ) : (
-              <div className="bg-gray-900/50 rounded-xl p-4 border border-pink-500/20">
+              <div className="bg-gray-900/50 rounded-xl p-4 border border-cyan-500/20">
                 <p className="text-xs text-gray-400 mb-1">Card Deposit Method:</p>
                 <p className="text-white text-sm">Instant deposit to Circle virtual card</p>
                 <p className="text-gray-400 text-xs mt-2">Spend at any merchant accepting Mastercard</p>
@@ -490,7 +493,7 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
           <button
             onClick={handleWithdraw}
             disabled={isLoading}
-            className="w-full bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-400 hover:to-pink-500 disabled:from-gray-600 disabled:to-gray-700 text-white text-xl font-bold py-4 px-8 rounded-xl transition-all shadow-[0_0_30px_rgba(168,85,247,0.5)] hover:shadow-[0_0_50px_rgba(168,85,247,0.8)] flex items-center justify-center gap-2"
+            className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 disabled:from-gray-600 disabled:to-gray-700 text-white text-xl font-semibold py-4 px-8 rounded-xl transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
           >
             {isLoading ? (
               <>
@@ -522,7 +525,8 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
               onClick={onBackToHome}
               className="absolute top-6 left-6 flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors group"
             >
-              <Home className="w-5 h-5" />
+              <Home className="w-5 h-5 group-hover:scale-110 transition-transform" />
+              <span className="text-sm font-medium">Home</span>
             </button>
           )}
           <div className="text-center">
@@ -531,7 +535,7 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
               <CheckCircle2 className="w-32 h-32 text-green-400 mx-auto relative" />
             </div>
 
-            <h2 className="text-5xl font-bold text-white mb-4">Success!</h2>
+            <h2 className="text-5xl font-semibold text-white mb-4">Success!</h2>
             <p className="text-2xl text-gray-300 mb-8">USDC is now in your wallet</p>
 
             <div className="bg-green-500/10 rounded-2xl p-6 border border-green-500/30 mb-8">
