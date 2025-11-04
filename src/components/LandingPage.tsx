@@ -14,17 +14,22 @@ export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 md:py-32 relative">
           <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-2 sm:gap-3 bg-gray-900/50 backdrop-blur-sm px-3 sm:px-4 py-2 rounded-full mb-6 sm:mb-8 border border-cyan-500/30">
-              <img src="/aic toekn .png" alt="AI Cognitive Token Logo" className="w-8 h-8 sm:w-10 sm:h-10" />
-              <span className="text-sm sm:text-base font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">AI Cognitive Token</span>
+            <div className="mb-6 sm:mb-8">
+              <img src="/aic toekn .png" alt="AI Cognitive Token Logo" className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 mx-auto" />
+            </div>
+            <div className="inline-flex items-center gap-2 sm:gap-3 bg-gray-900/50 backdrop-blur-sm px-4 sm:px-5 py-2.5 rounded-full mb-6 sm:mb-8 border border-cyan-500/30">
+              <span className="text-base sm:text-lg font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">AI Cognitive Token (AiC)</span>
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-8 px-2 leading-tight">
               <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
-                Learn. Earn. Grow.
+                Earn AiC Rewards
               </span>
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-10 sm:mb-12 max-w-2xl mx-auto px-4">
-              Master blockchain vocabulary and earn real USDC rewards. Your knowledge becomes currency on Arc Network.
+            <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-4 max-w-2xl mx-auto px-4">
+              World's first AI cognitive knowledge-based game where your knowledge becomes currency in terms of USDC on Arc Network.
+            </p>
+            <p className="text-sm text-cyan-400 mb-10 sm:mb-12 max-w-xl mx-auto px-4">
+              Powered by Circle USDC • Arc Network Layer 1 • OpenAI
             </p>
             <div className="flex flex-col items-center gap-3">
               <button
