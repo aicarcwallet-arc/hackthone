@@ -73,20 +73,50 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
   }, [walletAddress]);
 
   const loadUserStats = async () => {
+    if (!walletAddress) return;
+
     try {
       const { supabase } = await import('../lib/supabase');
-      const { data } = await supabase
+
+      // First check if user exists, if not create them
+      let { data: userData, error: fetchError } = await supabase
         .from('users')
         .select('*')
-        .eq('wallet_address', walletAddress?.toLowerCase())
+        .eq('wallet_address', walletAddress.toLowerCase())
         .maybeSingle();
 
-      if (data) {
+      if (fetchError) {
+        console.error('Error fetching user:', fetchError);
+      }
+
+      // Create user if doesn't exist
+      if (!userData) {
+        const { data: newUser, error: insertError } = await supabase
+          .from('users')
+          .insert({
+            wallet_address: walletAddress.toLowerCase(),
+            total_words_submitted: 0,
+            total_aic_earned: 0,
+            claimed_aic: 0,
+            total_usdc_earned: 0,
+            claimed_usdc: 0,
+          })
+          .select()
+          .single();
+
+        if (insertError) {
+          console.error('Error creating user:', insertError);
+          return;
+        }
+        userData = newUser;
+      }
+
+      if (userData) {
         setStats({
-          wordsCompleted: parseInt(data.total_words_validated || '0'),
-          aicEarned: parseFloat(data.wallet_balance || '0'),
-          usdcEarned: parseFloat(data.total_usdc_earned || '0'),
-          usdcWithdrawn: parseFloat(data.claimed_usdc || '0'),
+          wordsCompleted: parseInt(userData.total_words_submitted || '0'),
+          aicEarned: parseFloat(userData.total_aic_earned || '0'),
+          usdcEarned: parseFloat(userData.total_usdc_earned || '0'),
+          usdcWithdrawn: parseFloat(userData.claimed_usdc || '0'),
         });
       }
     } catch (err) {
@@ -123,10 +153,10 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
     try {
       const { supabase } = await import('../lib/supabase');
 
-      // Update user stats directly in Supabase
-      const { data: userData, error: fetchError } = await supabase
+      // Ensure user exists first
+      let { data: userData, error: fetchError } = await supabase
         .from('users')
-        .select('wallet_balance, total_words_validated')
+        .select('total_aic_earned, total_words_submitted')
         .eq('wallet_address', walletAddress?.toLowerCase())
         .maybeSingle();
 
@@ -134,14 +164,39 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
         console.error('Error fetching user:', fetchError);
       }
 
-      const currentBalance = parseFloat(userData?.wallet_balance || '0');
-      const currentWords = parseInt(userData?.total_words_validated || '0');
+      // Create user if doesn't exist
+      if (!userData) {
+        const { data: newUser, error: insertError } = await supabase
+          .from('users')
+          .insert({
+            wallet_address: walletAddress.toLowerCase(),
+            total_words_submitted: 0,
+            total_aic_earned: 0,
+            claimed_aic: 0,
+            total_usdc_earned: 0,
+            claimed_usdc: 0,
+          })
+          .select()
+          .single();
+
+        if (insertError) {
+          console.error('Error creating user:', insertError);
+          alert('Failed to create user profile. Please try again.');
+          setIsLoading(false);
+          return;
+        }
+        userData = newUser;
+      }
+
+      const currentBalance = parseFloat(userData?.total_aic_earned || '0');
+      const currentWords = parseInt(userData?.total_words_submitted || '0');
 
       const { error: updateError } = await supabase
         .from('users')
         .update({
-          wallet_balance: currentBalance + reward,
-          total_words_validated: currentWords + 1,
+          total_aic_earned: currentBalance + reward,
+          total_words_submitted: currentWords + 1,
+          updated_at: new Date().toISOString(),
         })
         .eq('wallet_address', walletAddress?.toLowerCase());
 
