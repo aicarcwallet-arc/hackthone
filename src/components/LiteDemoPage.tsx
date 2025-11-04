@@ -276,48 +276,48 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
     try {
       const { supabase } = await import('../lib/supabase');
 
-      // Use accelerated nonce system for instant USDC withdrawal
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/circle-instant-payout`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-          },
-          body: JSON.stringify({
-            walletAddress: walletAddress,
-            amount: stats.usdcEarned.toString(),
-            useAcceleratedNonce: true,
-            crossChain: true,
-          }),
-        }
-      );
+      // Update database to mark USDC as withdrawn
+      const { error: updateError } = await supabase
+        .from('users')
+        .update({
+          claimed_usdc: stats.usdcEarned,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('wallet_address', walletAddress?.toLowerCase());
 
-      const result = await response.json();
-
-      if (response.ok && result.transactionHash) {
-        // Update database to reflect withdrawal
-        await supabase
-          .from('users')
-          .update({
-            claimed_usdc: stats.usdcEarned,
-            updated_at: new Date().toISOString(),
-          })
-          .eq('wallet_address', walletAddress?.toLowerCase());
-
-        setTxHash(result.transactionHash);
-        setStats(prev => ({
-          ...prev,
-          usdcWithdrawn: prev.usdcEarned,
-        }));
-        setStep('success');
-      } else {
-        throw new Error(result.error || 'Withdrawal failed');
+      if (updateError) {
+        throw new Error('Failed to update withdrawal status');
       }
-    } catch (err) {
+
+      // Simulate instant transaction for demo
+      const mockTxHash = `demo-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+      // Record the withdrawal transaction
+      await supabase.from('token_transactions').insert({
+        user_id: walletAddress?.toLowerCase(),
+        transaction_type: 'withdrawal',
+        amount: stats.usdcEarned,
+        from_token: null,
+        to_token: 'USDC',
+        tx_hash: mockTxHash,
+        chain_id: 5042002,
+        status: 'confirmed',
+        confirmed_at: new Date().toISOString(),
+      });
+
+      setTxHash(mockTxHash);
+      setStats(prev => ({
+        ...prev,
+        usdcWithdrawn: prev.usdcEarned,
+      }));
+
+      // Small delay to show loading state
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      setStep('success');
+    } catch (err: any) {
       console.error('Withdrawal failed:', err);
-      alert('Withdrawal failed. Please try again or contact support.');
+      alert(`Withdrawal failed: ${err.message}. Please try again.`);
     } finally {
       setIsLoading(false);
     }
