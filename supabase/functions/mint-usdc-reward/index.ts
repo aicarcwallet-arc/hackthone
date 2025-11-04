@@ -255,83 +255,20 @@ Deno.serve(async (req: Request) => {
 
     const amountToSend = parseUnits(unclaimedAmount.toString(), 6);
 
-    let finalTreasuryBalance = treasuryBalance;
-
     if (treasuryBalance < amountToSend) {
-      try {
-        console.log("Treasury balance low, triggering FORCED auto-refill...");
-        const autoFundResponse = await fetch(
-          `${supabaseUrl}/functions/v1/auto-fund-treasury`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${supabaseKey}`,
-            },
-            body: JSON.stringify({ forceRefill: true }),
-          }
-        );
-
-        const autoFundResult = await autoFundResponse.json();
-
-        if (autoFundResponse.ok && (autoFundResult.status === "recharged" || autoFundResult.status === "healthy")) {
-          console.log(`Treasury status: ${autoFundResult.status}, checking balance...`);
-          const updatedBalance = await publicClient.readContract({
-            address: usdcTokenAddress,
-            abi: USDC_ABI,
-            functionName: "balanceOf",
-            args: [account.address],
-          });
-
-          finalTreasuryBalance = updatedBalance;
-
-          if (updatedBalance < amountToSend) {
-            return new Response(
-              JSON.stringify({
-                error: "Treasury balance insufficient. The auto-recharge contract needs to be funded with at least 5000 USDC.",
-                required: unclaimedAmount,
-                available: Number(updatedBalance) / 1e6,
-                treasuryBalance: Number(autoFundResult.treasuryBalance || 0),
-                contractBalance: Number(autoFundResult.contractBalance || 0),
-                action: "Please fund the TreasuryAutoRecharge contract",
-              }),
-              {
-                status: 500,
-                headers: { ...corsHeaders, "Content-Type": "application/json" },
-              }
-            );
-          }
-
-          console.log("Treasury has sufficient balance, proceeding with transaction...");
-        } else {
-          return new Response(
-            JSON.stringify({
-              error: "Treasury refill failed. System may be temporarily unavailable.",
-              required: unclaimedAmount,
-              available: Number(treasuryBalance) / 1e6,
-              details: autoFundResult.error || autoFundResult.message || "Unknown error",
-            }),
-            {
-              status: 503,
-              headers: { ...corsHeaders, "Content-Type": "application/json" },
-            }
-          );
+      return new Response(
+        JSON.stringify({
+          error: "Treasury needs funding",
+          required: unclaimedAmount,
+          available: Number(treasuryBalance) / 1e6,
+          treasuryAddress: account.address,
+          message: "Please send USDC to the treasury wallet to process payouts. Get testnet USDC from Arc faucet or fund manually.",
+        }),
+        {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
         }
-      } catch (autoFundError: any) {
-        console.error("Auto-fund treasury failed:", autoFundError);
-        return new Response(
-          JSON.stringify({
-            error: "Treasury auto-refill failed. Please try again.",
-            required: unclaimedAmount,
-            available: Number(treasuryBalance) / 1e6,
-            details: autoFundError.message,
-          }),
-          {
-            status: 503,
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
-          }
-        );
-      }
+      );
     }
 
     const walletClient = createWalletClient({
