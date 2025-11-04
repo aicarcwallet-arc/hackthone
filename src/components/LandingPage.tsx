@@ -14,69 +14,35 @@ export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 md:py-32 relative">
           <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-2 sm:gap-3 bg-gray-900/50 backdrop-blur-sm px-3 sm:px-4 py-2 rounded-full mb-4 sm:mb-6 border border-cyan-500/30">
+            <div className="inline-flex items-center gap-2 sm:gap-3 bg-gray-900/50 backdrop-blur-sm px-3 sm:px-4 py-2 rounded-full mb-6 sm:mb-8 border border-cyan-500/30">
               <img src="/aic toekn .png" alt="AI Cognitive Token Logo" className="w-8 h-8 sm:w-10 sm:h-10" />
-              <span className="text-sm sm:text-base font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">AI Cognitive Token (AiC)</span>
+              <span className="text-sm sm:text-base font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">AI Cognitive Token</span>
             </div>
-            <p className="text-lg sm:text-xl md:text-2xl font-semibold bg-gradient-to-r from-cyan-300 via-blue-400 to-cyan-300 bg-clip-text text-transparent mb-4 sm:mb-5 px-2 drop-shadow-[0_0_20px_rgba(34,211,238,0.4)]">
-              Your Knowledge is Your Currency
-            </p>
-            <p className="text-xs sm:text-sm md:text-base text-cyan-400 mb-6 sm:mb-8 px-2 flex items-center justify-center gap-2 flex-wrap">
-              <GraduationCap className="w-4 h-4" />
-              Learn Blockchain Vocabulary • Get AIC Rewards • Earn Real USDC
-            </p>
-            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 px-2 leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-8 px-2 leading-tight">
               <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
-                Learn Blockchain Vocabulary.
-              </span>
-              <br className="hidden sm:block" />
-              <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
-                Get <span className="text-white font-bold drop-shadow-[0_0_30px_rgba(255,255,255,0.8)]">AIC Rewards</span>.
-              </span>
-              <br className="hidden sm:block" />
-              <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
-                Earn <span className="text-white font-bold drop-shadow-[0_0_30px_rgba(255,255,255,0.8)]">Real USDC</span>.
+                Learn. Earn. Grow.
               </span>
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto px-4">
-              Check out our live blockchain vocab dictionary — learn, write, and earn real USDC. Portal to earning education powered by Circle & Arc.
+            <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-10 sm:mb-12 max-w-2xl mx-auto px-4">
+              Master blockchain vocabulary and earn real USDC rewards. Your knowledge becomes currency on Arc Network.
             </p>
-            <div className="mb-8 sm:mb-12 px-4">
-              <p className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-3">
-                Because Your Knowledge is Your Currency
-              </p>
-              <p className="text-xs sm:text-sm text-cyan-400 font-semibold">
-                🔗 Powered by Arc Network Layer 1 • Circle USDC • Educational Portal
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+            <div className="flex flex-col items-center gap-3">
               <button
                 onClick={onGetStarted}
-                className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold px-6 py-3 rounded-lg text-base shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105"
+                className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold px-8 py-3 rounded-lg text-base shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105"
               >
-                <span>Get Started</span>
+                <span>Start Learning</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
 
-              {onNavigate && (
-                <button
-                  onClick={() => onNavigate('lite-demo')}
-                  className="group relative inline-flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-cyan-400 font-semibold px-6 py-3 rounded-lg text-base border border-cyan-500/30 hover:border-cyan-400/50 shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
-                >
-                  <Trophy className="w-4 h-4" />
-                  <span>Try Demo</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </button>
-              )}
-
-              <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
+              <div className="flex flex-wrap items-center justify-center gap-2 mt-4">
                 <a
                   href={window.location.origin}
                   download
                   className="group inline-flex items-center gap-2 bg-gray-800/50 hover:bg-gray-800 text-gray-300 hover:text-white font-medium px-4 py-2 rounded-lg text-sm border border-gray-700 hover:border-gray-600 transition-all duration-200"
                 >
                   <Smartphone className="w-4 h-4" />
-                  <span>Android APK</span>
+                  <span>Android</span>
                 </a>
 
                 <a
@@ -85,13 +51,9 @@ export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
                   className="group inline-flex items-center gap-2 bg-gray-800/50 hover:bg-gray-800 text-gray-300 hover:text-white font-medium px-4 py-2 rounded-lg text-sm border border-gray-700 hover:border-gray-600 transition-all duration-200"
                 >
                   <Apple className="w-4 h-4" />
-                  <span>iOS (PWA)</span>
+                  <span>iOS</span>
                 </a>
               </div>
-
-              <p className="text-xs text-gray-500 mt-3">
-                📱 Install app on your device
-              </p>
             </div>
           </div>
 
