@@ -425,6 +425,7 @@ function App() {
         <LiteDemoPage
           walletAddress={connectedAddress}
           onConnectWallet={handleConnectWallet}
+          onBackToHome={() => setCurrentPage('home')}
         />
       </Suspense>
     );

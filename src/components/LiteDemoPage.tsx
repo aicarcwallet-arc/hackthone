@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import {
   Play, Coins, DollarSign, CheckCircle2, Loader2,
-  Trophy, Zap, TrendingUp, ArrowRight, Wallet, CreditCard, Download, Smartphone
+  Trophy, Zap, TrendingUp, ArrowRight, Wallet, CreditCard, Download, Smartphone, Home, ArrowLeft
 } from 'lucide-react';
 
 interface LiteDemoPageProps {
   walletAddress: string | null;
   onConnectWallet: () => void;
+  onBackToHome?: () => void;
 }
 
 interface GameStats {
@@ -16,7 +17,7 @@ interface GameStats {
   usdcWithdrawn: number;
 }
 
-export function LiteDemoPage({ walletAddress, onConnectWallet }: LiteDemoPageProps) {
+export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: LiteDemoPageProps) {
   const [step, setStep] = useState<'welcome' | 'playing' | 'convert' | 'withdraw' | 'success'>('welcome');
   const [stats, setStats] = useState<GameStats>({
     wordsCompleted: 0,
@@ -200,7 +201,16 @@ export function LiteDemoPage({ walletAddress, onConnectWallet }: LiteDemoPagePro
   if (step === 'welcome') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4">
-        <div className="max-w-4xl w-full bg-gray-800/50 backdrop-blur-sm rounded-3xl shadow-[0_0_80px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-8 md:p-12">
+        <div className="max-w-4xl w-full bg-gray-800/50 backdrop-blur-sm rounded-3xl shadow-[0_0_80px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-8 md:p-12 relative">
+          {onBackToHome && (
+            <button
+              onClick={onBackToHome}
+              className="absolute top-6 left-6 flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors group"
+            >
+              <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+              <span className="font-medium">Back to Site</span>
+            </button>
+          )}
           <div className="text-center mb-8">
             <div className="relative inline-block mb-6">
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full blur-2xl opacity-50"></div>
@@ -260,7 +270,15 @@ export function LiteDemoPage({ walletAddress, onConnectWallet }: LiteDemoPagePro
   if (step === 'playing') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4">
-        <div className="max-w-3xl w-full bg-gray-800/50 backdrop-blur-sm rounded-3xl shadow-[0_0_80px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-8">
+        <div className="max-w-3xl w-full bg-gray-800/50 backdrop-blur-sm rounded-3xl shadow-[0_0_80px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-8 relative">
+          {onBackToHome && (
+            <button
+              onClick={onBackToHome}
+              className="absolute top-6 left-6 flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors group"
+            >
+              <Home className="w-5 h-5" />
+            </button>
+          )}
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-6">
               <div className="flex items-center gap-2">
@@ -327,7 +345,15 @@ export function LiteDemoPage({ walletAddress, onConnectWallet }: LiteDemoPagePro
     const usdcAmount = stats.aicEarned / 2;
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4">
-        <div className="max-w-2xl w-full bg-gray-800/50 backdrop-blur-sm rounded-3xl shadow-[0_0_80px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-8">
+        <div className="max-w-2xl w-full bg-gray-800/50 backdrop-blur-sm rounded-3xl shadow-[0_0_80px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-8 relative">
+          {onBackToHome && (
+            <button
+              onClick={onBackToHome}
+              className="absolute top-6 left-6 flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors group"
+            >
+              <Home className="w-5 h-5" />
+            </button>
+          )}
           <div className="text-center mb-8">
             <TrendingUp className="w-20 h-20 text-green-400 mx-auto mb-4" />
             <h2 className="text-4xl font-bold text-white mb-4">Great Job!</h2>
@@ -381,7 +407,15 @@ export function LiteDemoPage({ walletAddress, onConnectWallet }: LiteDemoPagePro
   if (step === 'withdraw') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4">
-        <div className="max-w-2xl w-full bg-gray-800/50 backdrop-blur-sm rounded-3xl shadow-[0_0_80px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-8">
+        <div className="max-w-2xl w-full bg-gray-800/50 backdrop-blur-sm rounded-3xl shadow-[0_0_80px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-8 relative">
+          {onBackToHome && (
+            <button
+              onClick={onBackToHome}
+              className="absolute top-6 left-6 flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors group"
+            >
+              <Home className="w-5 h-5" />
+            </button>
+          )}
           <div className="text-center mb-8">
             <DollarSign className="w-20 h-20 text-purple-400 mx-auto mb-4" />
             <h2 className="text-4xl font-bold text-white mb-4">Ready to Cash Out!</h2>
@@ -468,7 +502,15 @@ export function LiteDemoPage({ walletAddress, onConnectWallet }: LiteDemoPagePro
   if (step === 'success') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4">
-        <div className="max-w-2xl w-full bg-gray-800/50 backdrop-blur-sm rounded-3xl shadow-[0_0_80px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-8">
+        <div className="max-w-2xl w-full bg-gray-800/50 backdrop-blur-sm rounded-3xl shadow-[0_0_80px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-8 relative">
+          {onBackToHome && (
+            <button
+              onClick={onBackToHome}
+              className="absolute top-6 left-6 flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors group"
+            >
+              <Home className="w-5 h-5" />
+            </button>
+          )}
           <div className="text-center">
             <div className="relative inline-block mb-6">
               <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full blur-2xl opacity-50 animate-pulse"></div>
