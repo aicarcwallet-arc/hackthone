@@ -17,6 +17,10 @@ export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
             <div className="mb-6 sm:mb-8">
               <img src="/aic toekn .png" alt="AI Cognitive Token Logo" className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 mx-auto" />
             </div>
+            <div className="inline-flex items-center gap-2 bg-green-900/30 backdrop-blur-sm px-4 py-2 rounded-full mb-5 border border-green-500/50 shadow-[0_0_20px_rgba(34,197,94,0.3)]">
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              <span className="text-sm font-semibold text-green-300">LIVE ON ARC TESTNET</span>
+            </div>
             <div className="inline-flex items-center gap-2 bg-gray-900/50 backdrop-blur-sm px-4 py-2 rounded-full mb-5 border border-cyan-500/30">
               <span className="text-sm font-semibold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Programmable Stablecoin • Layer 1 Token</span>
             </div>
