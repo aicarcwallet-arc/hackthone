@@ -33,9 +33,36 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
   const [withdrawMethod, setWithdrawMethod] = useState<'wallet' | 'card'>('wallet');
 
   const demoWords = [
-    { word: 'BLOCKCHAIN', reward: 100 },
-    { word: 'DEFI', reward: 150 },
-    { word: 'SMART', reward: 120 },
+    {
+      word: 'BLOCKCHAIN',
+      reward: 100,
+      definition: 'A decentralized digital ledger that records transactions across multiple computers securely and transparently.'
+    },
+    {
+      word: 'DEFI',
+      reward: 150,
+      definition: 'Decentralized Finance - Financial services built on blockchain technology without traditional intermediaries like banks.'
+    },
+    {
+      word: 'SMART CONTRACT',
+      reward: 120,
+      definition: 'Self-executing code on a blockchain that automatically enforces agreements when predetermined conditions are met.'
+    },
+    {
+      word: 'WALLET',
+      reward: 100,
+      definition: 'A digital tool that stores your private keys and allows you to send, receive, and manage cryptocurrency.'
+    },
+    {
+      word: 'TOKEN',
+      reward: 110,
+      definition: 'A digital asset created and managed on a blockchain that can represent value, utility, or ownership.'
+    },
+    {
+      word: 'GAS',
+      reward: 90,
+      definition: 'The fee required to execute a transaction or smart contract on a blockchain network.'
+    },
   ];
 
   useEffect(() => {
@@ -310,7 +337,13 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
                 <p className="text-3xl sm:text-5xl font-bold text-white text-center mb-3 sm:mb-4 tracking-wider break-words">
                   {currentWord}
                 </p>
-                <p className="text-center text-gray-400 text-sm sm:text-base">Type this word to earn AIC tokens</p>
+                <div className="bg-cyan-500/10 rounded-lg p-4 mb-4 border border-cyan-500/30">
+                  <p className="text-xs text-cyan-400 font-semibold mb-2 uppercase tracking-wide">Definition</p>
+                  <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
+                    {demoWords[stats.wordsCompleted % demoWords.length].definition}
+                  </p>
+                </div>
+                <p className="text-center text-gray-400 text-xs sm:text-sm">Type this blockchain term to earn {demoWords[stats.wordsCompleted % demoWords.length].reward} AIC tokens</p>
               </div>
 
               <input
