@@ -76,8 +76,13 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
   };
 
   const handleSubmitWord = async () => {
-    if (typedWord.toUpperCase() !== currentWord) {
+    if (!typedWord.trim()) {
+      return;
+    }
+
+    if (typedWord.trim().toUpperCase() !== currentWord.toUpperCase()) {
       alert('Try again! Type the word exactly as shown.');
+      setTypedWord('');
       return;
     }
 
@@ -211,47 +216,47 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
               <span className="font-medium">Back to Site</span>
             </button>
           )}
-          <div className="text-center mb-8">
+          <div className="text-center mb-8 pt-8 sm:pt-0">
             <div className="relative inline-block mb-6">
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full blur-2xl opacity-50"></div>
-              <Trophy className="w-24 h-24 text-cyan-400 mx-auto relative" />
+              <Trophy className="w-20 h-20 sm:w-24 sm:h-24 text-cyan-400 mx-auto relative" />
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent mb-4">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent mb-4 px-4">
               AI Cognitive Token
             </h1>
-            <p className="text-2xl text-gray-300 font-medium mb-2">
+            <p className="text-lg sm:text-2xl text-gray-300 font-medium mb-2 px-4">
               Learn English • Earn Real USDC
             </p>
-            <p className="text-lg text-gray-400">
+            <p className="text-base sm:text-lg text-gray-400 px-4">
               Built on Arc Network with Circle
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-            <div className="bg-gradient-to-br from-cyan-500/10 to-blue-600/10 rounded-2xl p-6 border border-cyan-500/30">
-              <Play className="w-12 h-12 text-cyan-400 mb-4 mx-auto" />
-              <h3 className="text-xl font-bold text-white text-center mb-2">1. Play Game</h3>
-              <p className="text-gray-300 text-center">Type words, earn AIC tokens</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-10">
+            <div className="bg-gradient-to-br from-cyan-500/10 to-blue-600/10 rounded-2xl p-4 sm:p-6 border border-cyan-500/30">
+              <Play className="w-10 h-10 sm:w-12 sm:h-12 text-cyan-400 mb-3 sm:mb-4 mx-auto" />
+              <h3 className="text-lg sm:text-xl font-bold text-white text-center mb-2">1. Play Game</h3>
+              <p className="text-sm sm:text-base text-gray-300 text-center">Type words, earn AIC tokens</p>
             </div>
 
-            <div className="bg-gradient-to-br from-blue-500/10 to-purple-600/10 rounded-2xl p-6 border border-blue-500/30">
-              <Zap className="w-12 h-12 text-blue-400 mb-4 mx-auto" />
-              <h3 className="text-xl font-bold text-white text-center mb-2">2. Convert</h3>
-              <p className="text-gray-300 text-center">AIC → USDC instantly</p>
+            <div className="bg-gradient-to-br from-blue-500/10 to-purple-600/10 rounded-2xl p-4 sm:p-6 border border-blue-500/30">
+              <Zap className="w-10 h-10 sm:w-12 sm:h-12 text-blue-400 mb-3 sm:mb-4 mx-auto" />
+              <h3 className="text-lg sm:text-xl font-bold text-white text-center mb-2">2. Convert</h3>
+              <p className="text-sm sm:text-base text-gray-300 text-center">AIC → USDC instantly</p>
             </div>
 
-            <div className="bg-gradient-to-br from-purple-500/10 to-pink-600/10 rounded-2xl p-6 border border-purple-500/30">
-              <DollarSign className="w-12 h-12 text-purple-400 mb-4 mx-auto" />
-              <h3 className="text-xl font-bold text-white text-center mb-2">3. Cash Out</h3>
-              <p className="text-gray-300 text-center">Real USDC in your wallet</p>
+            <div className="bg-gradient-to-br from-purple-500/10 to-pink-600/10 rounded-2xl p-4 sm:p-6 border border-purple-500/30">
+              <DollarSign className="w-10 h-10 sm:w-12 sm:h-12 text-purple-400 mb-3 sm:mb-4 mx-auto" />
+              <h3 className="text-lg sm:text-xl font-bold text-white text-center mb-2">3. Cash Out</h3>
+              <p className="text-sm sm:text-base text-gray-300 text-center">Real USDC in your wallet</p>
             </div>
           </div>
 
           <button
             onClick={handleStartPlaying}
-            className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-xl font-bold py-6 px-8 rounded-2xl transition-all shadow-[0_0_40px_rgba(34,211,238,0.5)] hover:shadow-[0_0_60px_rgba(34,211,238,0.8)] flex items-center justify-center gap-3"
+            className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-lg sm:text-xl font-bold py-4 sm:py-6 px-6 sm:px-8 rounded-2xl transition-all shadow-[0_0_40px_rgba(34,211,238,0.5)] hover:shadow-[0_0_60px_rgba(34,211,238,0.8)] active:scale-95 flex items-center justify-center gap-3 touch-manipulation"
           >
-            <Play className="w-6 h-6" />
+            <Play className="w-5 h-5 sm:w-6 sm:h-6" />
             {walletAddress ? 'Start Earning USDC' : 'Connect Wallet to Start'}
           </button>
 
@@ -300,27 +305,36 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
             </div>
           ) : (
             <>
-              <div className="bg-gray-900/50 rounded-2xl p-8 mb-8 border border-cyan-500/20">
-                <p className="text-5xl font-bold text-white text-center mb-4 tracking-wider">
+                  <div className="bg-gray-900/50 rounded-2xl p-6 sm:p-8 mb-6 sm:mb-8 border border-cyan-500/20">
+                <p className="text-3xl sm:text-5xl font-bold text-white text-center mb-3 sm:mb-4 tracking-wider break-words">
                   {currentWord}
                 </p>
-                <p className="text-center text-gray-400">Type this word to earn AIC tokens</p>
+                <p className="text-center text-gray-400 text-sm sm:text-base">Type this word to earn AIC tokens</p>
               </div>
 
               <input
                 type="text"
                 value={typedWord}
                 onChange={(e) => setTypedWord(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSubmitWord()}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !isLoading && typedWord.trim()) {
+                    e.preventDefault();
+                    handleSubmitWord();
+                  }
+                }}
                 placeholder="Type here..."
-                className="w-full bg-gray-900/50 border-2 border-cyan-500/30 rounded-xl px-6 py-4 text-2xl text-white text-center font-mono focus:border-cyan-400 focus:outline-none mb-6"
+                className="w-full bg-gray-900/50 border-2 border-cyan-500/30 rounded-xl px-4 sm:px-6 py-3 sm:py-4 text-xl sm:text-2xl text-white text-center font-mono focus:border-cyan-400 focus:outline-none mb-4 sm:mb-6 touch-manipulation"
                 autoFocus
+                autoComplete="off"
+                autoCapitalize="off"
+                autoCorrect="off"
+                spellCheck="false"
               />
 
               <button
                 onClick={handleSubmitWord}
                 disabled={isLoading || !typedWord.trim()}
-                className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-700 text-white text-xl font-bold py-4 px-8 rounded-xl transition-all shadow-[0_0_30px_rgba(34,211,238,0.5)] hover:shadow-[0_0_50px_rgba(34,211,238,0.8)] flex items-center justify-center gap-2"
+                className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white text-lg sm:text-xl font-bold py-4 sm:py-5 px-6 sm:px-8 rounded-xl transition-all shadow-[0_0_30px_rgba(34,211,238,0.5)] hover:shadow-[0_0_50px_rgba(34,211,238,0.8)] active:scale-95 flex items-center justify-center gap-2 touch-manipulation"
               >
                 {isLoading ? (
                   <>
@@ -345,7 +359,7 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
     const usdcAmount = stats.aicEarned / 2;
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4">
-        <div className="max-w-2xl w-full bg-gray-800/50 backdrop-blur-sm rounded-3xl shadow-[0_0_80px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-8 relative">
+        <div className="max-w-2xl w-full bg-gray-800/50 backdrop-blur-sm rounded-3xl shadow-[0_0_80px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-6 sm:p-8 relative">
           {onBackToHome && (
             <button
               onClick={onBackToHome}
@@ -354,30 +368,30 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
               <Home className="w-5 h-5" />
             </button>
           )}
-          <div className="text-center mb-8">
-            <TrendingUp className="w-20 h-20 text-green-400 mx-auto mb-4" />
-            <h2 className="text-4xl font-bold text-white mb-4">Great Job!</h2>
-            <p className="text-xl text-gray-300">You earned {stats.aicEarned} AIC tokens</p>
+          <div className="text-center mb-6 sm:mb-8 pt-8 sm:pt-0">
+            <TrendingUp className="w-16 h-16 sm:w-20 sm:h-20 text-green-400 mx-auto mb-4" />
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Great Job!</h2>
+            <p className="text-lg sm:text-xl text-gray-300">You earned {stats.aicEarned} AIC tokens</p>
           </div>
 
-          <div className="bg-gradient-to-r from-cyan-500/20 to-blue-600/20 rounded-2xl p-8 mb-8 border border-cyan-500/30">
-            <div className="flex items-center justify-between mb-6">
+          <div className="bg-gradient-to-r from-cyan-500/20 to-blue-600/20 rounded-2xl p-4 sm:p-8 mb-6 sm:mb-8 border border-cyan-500/30">
+            <div className="flex items-center justify-between mb-4 sm:mb-6">
               <div className="text-center flex-1">
-                <Coins className="w-12 h-12 text-cyan-400 mx-auto mb-2" />
-                <p className="text-gray-400 text-sm mb-1">You Have</p>
-                <p className="text-3xl font-bold text-white">{stats.aicEarned} AIC</p>
+                <Coins className="w-10 h-10 sm:w-12 sm:h-12 text-cyan-400 mx-auto mb-2" />
+                <p className="text-gray-400 text-xs sm:text-sm mb-1">You Have</p>
+                <p className="text-2xl sm:text-3xl font-bold text-white">{stats.aicEarned} AIC</p>
               </div>
 
-              <ArrowRight className="w-8 h-8 text-gray-400" />
+              <ArrowRight className="w-6 h-6 sm:w-8 sm:h-8 text-gray-400" />
 
               <div className="text-center flex-1">
-                <DollarSign className="w-12 h-12 text-green-400 mx-auto mb-2" />
-                <p className="text-gray-400 text-sm mb-1">Get</p>
-                <p className="text-3xl font-bold text-white">{usdcAmount.toFixed(2)} USDC</p>
+                <DollarSign className="w-10 h-10 sm:w-12 sm:h-12 text-green-400 mx-auto mb-2" />
+                <p className="text-gray-400 text-xs sm:text-sm mb-1">Get</p>
+                <p className="text-2xl sm:text-3xl font-bold text-white">{usdcAmount.toFixed(2)} USDC</p>
               </div>
             </div>
 
-            <p className="text-center text-gray-400 text-sm">
+            <p className="text-center text-gray-400 text-xs sm:text-sm">
               Exchange Rate: 2 AIC = 1 USDC
             </p>
           </div>
@@ -385,7 +399,7 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
           <button
             onClick={handleConvertToUSDC}
             disabled={isLoading}
-            className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 disabled:from-gray-600 disabled:to-gray-700 text-white text-xl font-bold py-4 px-8 rounded-xl transition-all shadow-[0_0_30px_rgba(34,197,94,0.5)] hover:shadow-[0_0_50px_rgba(34,197,94,0.8)] flex items-center justify-center gap-2"
+            className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white text-lg sm:text-xl font-bold py-4 sm:py-5 px-6 sm:px-8 rounded-xl transition-all shadow-[0_0_30px_rgba(34,197,94,0.5)] hover:shadow-[0_0_50px_rgba(34,197,94,0.8)] active:scale-95 flex items-center justify-center gap-2 touch-manipulation"
           >
             {isLoading ? (
               <>
@@ -407,7 +421,7 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
   if (step === 'withdraw') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4">
-        <div className="max-w-2xl w-full bg-gray-800/50 backdrop-blur-sm rounded-3xl shadow-[0_0_80px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-8 relative">
+        <div className="max-w-2xl w-full bg-gray-800/50 backdrop-blur-sm rounded-3xl shadow-[0_0_80px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-6 sm:p-8 relative">
           {onBackToHome && (
             <button
               onClick={onBackToHome}
@@ -416,10 +430,10 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
               <Home className="w-5 h-5" />
             </button>
           )}
-          <div className="text-center mb-8">
-            <DollarSign className="w-20 h-20 text-purple-400 mx-auto mb-4" />
-            <h2 className="text-4xl font-bold text-white mb-4">Ready to Cash Out!</h2>
-            <p className="text-xl text-gray-300">Choose your withdrawal method</p>
+          <div className="text-center mb-6 sm:mb-8 pt-8 sm:pt-0">
+            <DollarSign className="w-16 h-16 sm:w-20 sm:h-20 text-purple-400 mx-auto mb-4" />
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Ready to Cash Out!</h2>
+            <p className="text-lg sm:text-xl text-gray-300">Choose your withdrawal method</p>
           </div>
 
           <div className="bg-gradient-to-r from-purple-500/20 to-pink-600/20 rounded-2xl p-8 mb-8 border border-purple-500/30">
