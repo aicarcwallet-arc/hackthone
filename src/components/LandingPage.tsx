@@ -18,10 +18,10 @@ export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
               <img src="/aic toekn .png" alt="AI Cognitive Token Logo" className="w-8 h-8 sm:w-10 sm:h-10" />
               <span className="text-sm sm:text-base font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">AI Cognitive Token (AiC)</span>
             </div>
-            <div className="bg-gradient-to-r from-pink-500/20 to-purple-600/20 border border-pink-500/30 rounded-2xl px-6 py-4 mb-6 inline-block">
-              <p className="text-lg sm:text-xl font-bold text-pink-400 mb-2">🚀 WORLD'S FIRST LAUNCHED!</p>
-              <p className="text-sm sm:text-base text-white font-semibold">Learn & Earn Layer 1 Stablecoin Token</p>
-              <p className="text-xs text-gray-300 mt-1">AI Cognitive Token • Live on Arc Network</p>
+            <div className="bg-gradient-to-r from-pink-500/20 to-rose-600/20 border-2 border-pink-500/50 rounded-2xl px-6 py-5 mb-6 inline-block shadow-[0_0_40px_rgba(236,72,153,0.4)] animate-pulse-slow">
+              <p className="text-base sm:text-lg font-bold text-pink-400 mb-2">🎮 WORLD'S FIRST BLOCKCHAIN COGNITIVE EDUCATION REWARDS GAME IS LIVE!</p>
+              <p className="text-sm sm:text-base text-white font-semibold mb-1">Learn and Earn with Stablecoin Token</p>
+              <p className="text-xs text-gray-300">Live on Arc Testnet • Powered by Circle USDC</p>
             </div>
             <p className="text-lg sm:text-xl md:text-2xl font-semibold bg-gradient-to-r from-cyan-300 via-blue-400 to-cyan-300 bg-clip-text text-transparent mb-4 sm:mb-5 px-2 drop-shadow-[0_0_20px_rgba(34,211,238,0.4)]">
               Your Knowledge is Your Currency
@@ -67,11 +67,11 @@ export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
               {onNavigate && (
                 <button
                   onClick={() => onNavigate('lite-demo')}
-                  className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-400 hover:to-rose-500 text-white font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-base sm:text-lg shadow-[0_0_30px_rgba(236,72,153,0.5)] hover:shadow-[0_0_50px_rgba(236,72,153,0.8)] transition-all touch-manipulation active:scale-95 animate-pulse-slow"
+                  className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-400 hover:to-rose-500 text-white font-bold px-8 sm:px-12 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl shadow-[0_0_40px_rgba(236,72,153,0.6)] hover:shadow-[0_0_60px_rgba(236,72,153,1)] transition-all touch-manipulation active:scale-95 animate-pulse-slow border-2 border-pink-400/30"
                 >
-                  <DollarSign className="w-5 h-5 sm:w-6 sm:h-6 animate-pulse" />
-                  <span>🎯 Instant Earn Mode - Play Now!</span>
-                  <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform" />
+                  <Trophy className="w-6 h-6 sm:w-7 sm:h-7 animate-bounce" />
+                  <span>🎮 Click Here to Enter Game Launchpad</span>
+                  <ArrowRight className="w-6 h-6 sm:w-7 sm:h-7 group-hover:translate-x-2 transition-transform" />
                 </button>
               )}
 
