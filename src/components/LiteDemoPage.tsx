@@ -304,6 +304,57 @@ export function LiteDemoPage({ walletAddress, onConnectWallet, onBackToHome }: L
             {walletAddress ? 'Start Earning USDC' : 'Connect Wallet to Start'}
           </button>
 
+          {/* Mobile App Installation Banner */}
+          <div className="mt-8 p-6 bg-gradient-to-r from-cyan-900/30 to-blue-900/30 backdrop-blur-sm rounded-2xl border border-cyan-500/30">
+            <div className="text-center mb-4">
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <Smartphone className="w-6 h-6 text-cyan-400" />
+                <h3 className="text-xl font-bold text-white">Play on Mobile</h3>
+                <Smartphone className="w-6 h-6 text-cyan-400" />
+              </div>
+              <p className="text-sm text-gray-300 mb-4">
+                Play your game here or install it to your iPhone and Android. Unlock your game on any device with your Arc Testnet account. Same RPC, same wallet, same progress everywhere.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <button
+                onClick={() => window.open('https://apps.apple.com', '_blank')}
+                className="flex items-center justify-center gap-3 bg-gray-900/50 hover:bg-gray-800/50 text-white px-6 py-3 rounded-xl transition-all border border-gray-700 hover:border-cyan-500/50"
+              >
+                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                </svg>
+                <div className="text-left">
+                  <div className="text-xs text-gray-400">Download on</div>
+                  <div className="text-sm font-semibold">App Store</div>
+                </div>
+              </button>
+
+              <button
+                onClick={() => window.open('https://play.google.com', '_blank')}
+                className="flex items-center justify-center gap-3 bg-gray-900/50 hover:bg-gray-800/50 text-white px-6 py-3 rounded-xl transition-all border border-gray-700 hover:border-cyan-500/50"
+              >
+                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/>
+                </svg>
+                <div className="text-left">
+                  <div className="text-xs text-gray-400">Get it on</div>
+                  <div className="text-sm font-semibold">Google Play</div>
+                </div>
+              </button>
+            </div>
+
+            <div className="mt-4 p-4 bg-cyan-500/10 rounded-lg border border-cyan-500/20">
+              <div className="flex items-start gap-3">
+                <Wallet className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" />
+                <div className="text-xs text-gray-300">
+                  <span className="text-cyan-400 font-semibold">Cross-Device Sync:</span> Connect your Arc Testnet wallet on any device. Your progress, tokens, and rewards sync automatically through the same RPC connection.
+                </div>
+              </div>
+            </div>
+          </div>
+
           {walletAddress && (
             <div className="mt-6 text-center">
               <p className="text-sm text-gray-400">
