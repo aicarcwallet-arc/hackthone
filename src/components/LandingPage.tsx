@@ -26,11 +26,11 @@ export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold mb-4 px-2 leading-tight">
               <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
-                Play Word Games, Earn Real USDC
+                Learn Blockchain Vocabulary, Earn AiC Tokens
               </span>
             </h1>
             <p className="text-sm sm:text-base text-gray-300 mb-3 max-w-xl mx-auto px-4 leading-relaxed">
-              Earn AiC tokens instantly by playing vocabulary games, then convert them 1:1 to USDC. A programmable stablecoin on Arc Network Layer 1.
+              Educational knowledge base platform where you master blockchain terms and get rewarded with AiC tokens. Convert to USDC 1:1 and cash out instantly.
             </p>
             <p className="text-xs sm:text-sm font-medium text-cyan-400 mb-8 max-w-lg mx-auto px-4">
               Join the Stablecoin Revolution • Partners: Circle & Arc Network
