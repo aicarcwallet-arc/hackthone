@@ -1,9 +1,9 @@
-import { ArrowRight, Wallet, Brain, DollarSign, Zap, Shield, TrendingUp, Smartphone, Apple, GraduationCap } from 'lucide-react';
+import { ArrowRight, Wallet, Brain, DollarSign, Zap, Shield, TrendingUp, Smartphone, Apple, GraduationCap, Trophy } from 'lucide-react';
 import { Footer } from './Footer';
 
 interface LandingPageProps {
   onGetStarted: () => void;
-  onNavigate?: (page: 'home' | 'play' | 'withdraw' | 'how' | 'arc-updates' | 'partners' | 'chat' | 'mainnet-ready' | 'fund-treasury') => void;
+  onNavigate?: (page: 'home' | 'play' | 'withdraw' | 'how' | 'arc-updates' | 'partners' | 'chat' | 'mainnet-ready' | 'fund-treasury' | 'lite-demo') => void;
 }
 
 export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
@@ -58,6 +58,17 @@ export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
                 <span>Get AiC Token Rewards</span>
                 <ArrowRight className="w-6 h-6 sm:w-7 sm:h-7 group-hover:translate-x-1 transition-transform" />
               </button>
+
+              {onNavigate && (
+                <button
+                  onClick={() => onNavigate('lite-demo')}
+                  className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-400 hover:to-pink-500 text-white font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-base sm:text-lg shadow-[0_0_30px_rgba(168,85,247,0.5)] hover:shadow-[0_0_50px_rgba(168,85,247,0.8)] transition-all touch-manipulation active:scale-95"
+                >
+                  <Trophy className="w-5 h-5 sm:w-6 sm:h-6" />
+                  <span>Hackathon Demo (100% Success)</span>
+                  <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform" />
+                </button>
+              )}
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
                 <a

@@ -29,6 +29,7 @@ const PartnersPage = lazy(() => import('./components/PartnersPage').then(m => ({
 const ChatSupport = lazy(() => import('./components/ChatSupport').then(m => ({ default: m.ChatSupport })));
 const TreasuryFunder = lazy(() => import('./components/TreasuryFunder').then(m => ({ default: m.TreasuryFunder })));
 const MainnetReadyPage = lazy(() => import('./components/MainnetReadyPage').then(m => ({ default: m.MainnetReadyPage })));
+const LiteDemoPage = lazy(() => import('./components/LiteDemoPage').then(m => ({ default: m.LiteDemoPage })));
 
 const LoadingSpinner = () => (
   <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black flex items-center justify-center">
@@ -40,7 +41,7 @@ const LoadingSpinner = () => (
 );
 
 type Tab = 'game' | 'bridge' | 'convert' | 'burn' | 'history' | 'accelerator' | 'card' | 'banking';
-type Page = 'home' | 'play' | 'leaderboard' | 'rewards' | 'withdraw' | 'how' | 'arc-updates' | 'partners' | 'chat' | 'fund-treasury' | 'mainnet-ready' | 'swap' | 'bridge' | 'accelerator' | 'history' | 'card' | 'banking';
+type Page = 'home' | 'play' | 'leaderboard' | 'rewards' | 'withdraw' | 'how' | 'arc-updates' | 'partners' | 'chat' | 'fund-treasury' | 'mainnet-ready' | 'swap' | 'bridge' | 'accelerator' | 'history' | 'card' | 'banking' | 'lite-demo';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -415,6 +416,17 @@ function App() {
         </Suspense>
         <Footer onNavigate={handleNavigate} />
       </>
+    );
+  }
+
+  if (currentPage === 'lite-demo') {
+    return (
+      <Suspense fallback={<LoadingSpinner />}>
+        <LiteDemoPage
+          walletAddress={connectedAddress}
+          onConnectWallet={handleConnectWallet}
+        />
+      </Suspense>
     );
   }
 
