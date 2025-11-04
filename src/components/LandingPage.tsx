@@ -17,45 +17,55 @@ export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
             <div className="mb-6 sm:mb-8">
               <img src="/aic toekn .png" alt="AI Cognitive Token Logo" className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 mx-auto" />
             </div>
-            <div className="inline-flex items-center gap-2 sm:gap-3 bg-gray-900/50 backdrop-blur-sm px-4 sm:px-5 py-2.5 rounded-full mb-6 sm:mb-8 border border-cyan-500/30">
-              <span className="text-base sm:text-lg font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">AI Cognitive Token (AiC)</span>
+            <div className="inline-flex items-center gap-2 bg-gray-900/50 backdrop-blur-sm px-4 py-2 rounded-full mb-5 border border-cyan-500/30">
+              <span className="text-sm font-semibold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Programmable Stablecoin • Layer 1 Token</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-8 px-2 leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold mb-4 px-2 leading-tight">
               <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
-                Earn AiC Rewards
+                Learn & Earn AiC Rewards
               </span>
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-4 max-w-2xl mx-auto px-4">
-              World's first AI cognitive knowledge-based game where your knowledge becomes currency in terms of USDC on Arc Network.
+            <p className="text-sm sm:text-base text-gray-300 mb-3 max-w-xl mx-auto px-4 leading-relaxed">
+              AiC Token: 1:1 pegged to USDC. A programmable stablecoin on Arc Network Layer 1 where your knowledge becomes real currency.
             </p>
-            <p className="text-sm text-cyan-400 mb-10 sm:mb-12 max-w-xl mx-auto px-4">
-              Powered by Circle USDC • Arc Network Layer 1 • OpenAI
+            <p className="text-xs sm:text-sm font-medium text-cyan-400 mb-8 max-w-lg mx-auto px-4">
+              Join the Stablecoin Revolution • Partners: Circle & Arc Network
             </p>
-            <div className="flex flex-col items-center gap-3">
+            <div className="flex flex-col items-center gap-2.5">
+              {onNavigate && (
+                <button
+                  onClick={() => onNavigate('lite-demo')}
+                  className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-white font-medium px-6 py-2.5 rounded-md text-sm shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
+                >
+                  <span>Game Launchpad</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+              )}
+
               <button
                 onClick={onGetStarted}
-                className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold px-8 py-3 rounded-lg text-base shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105"
+                className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-medium px-6 py-2.5 rounded-md text-sm shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
               >
                 <span>Start Learning</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
 
-              <div className="flex flex-wrap items-center justify-center gap-2 mt-4">
+              <div className="flex items-center justify-center gap-2 mt-2">
                 <a
                   href={window.location.origin}
                   download
-                  className="group inline-flex items-center gap-2 bg-gray-800/50 hover:bg-gray-800 text-gray-300 hover:text-white font-medium px-4 py-2 rounded-lg text-sm border border-gray-700 hover:border-gray-600 transition-all duration-200"
+                  className="inline-flex items-center gap-1.5 bg-gray-800/40 hover:bg-gray-800 text-gray-400 hover:text-white font-normal px-3 py-1.5 rounded-md text-xs border border-gray-700/50 hover:border-gray-600 transition-all duration-200"
                 >
-                  <Smartphone className="w-4 h-4" />
+                  <Smartphone className="w-3.5 h-3.5" />
                   <span>Android</span>
                 </a>
 
                 <a
                   href={window.location.origin}
                   download
-                  className="group inline-flex items-center gap-2 bg-gray-800/50 hover:bg-gray-800 text-gray-300 hover:text-white font-medium px-4 py-2 rounded-lg text-sm border border-gray-700 hover:border-gray-600 transition-all duration-200"
+                  className="inline-flex items-center gap-1.5 bg-gray-800/40 hover:bg-gray-800 text-gray-400 hover:text-white font-normal px-3 py-1.5 rounded-md text-xs border border-gray-700/50 hover:border-gray-600 transition-all duration-200"
                 >
-                  <Apple className="w-4 h-4" />
+                  <Apple className="w-3.5 h-3.5" />
                   <span>iOS</span>
                 </a>
               </div>
