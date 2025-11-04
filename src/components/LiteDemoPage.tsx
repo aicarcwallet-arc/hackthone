@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {
   Play, Coins, DollarSign, CheckCircle2, Loader2,
-  Trophy, Zap, TrendingUp, ArrowRight, Wallet
+  Trophy, Zap, TrendingUp, ArrowRight, Wallet, CreditCard, Download, Smartphone
 } from 'lucide-react';
 
 interface LiteDemoPageProps {
@@ -29,6 +29,7 @@ export function LiteDemoPage({ walletAddress, onConnectWallet }: LiteDemoPagePro
   const [isLoading, setIsLoading] = useState(false);
   const [txHash, setTxHash] = useState('');
   const [showReward, setShowReward] = useState(false);
+  const [withdrawMethod, setWithdrawMethod] = useState<'wallet' | 'card'>('wallet');
 
   const demoWords = [
     { word: 'BLOCKCHAIN', reward: 100 },
@@ -382,9 +383,9 @@ export function LiteDemoPage({ walletAddress, onConnectWallet }: LiteDemoPagePro
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4">
         <div className="max-w-2xl w-full bg-gray-800/50 backdrop-blur-sm rounded-3xl shadow-[0_0_80px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-8">
           <div className="text-center mb-8">
-            <Wallet className="w-20 h-20 text-purple-400 mx-auto mb-4" />
+            <DollarSign className="w-20 h-20 text-purple-400 mx-auto mb-4" />
             <h2 className="text-4xl font-bold text-white mb-4">Ready to Cash Out!</h2>
-            <p className="text-xl text-gray-300">Send USDC to your wallet</p>
+            <p className="text-xl text-gray-300">Choose your withdrawal method</p>
           </div>
 
           <div className="bg-gradient-to-r from-purple-500/20 to-pink-600/20 rounded-2xl p-8 mb-8 border border-purple-500/30">
@@ -394,10 +395,48 @@ export function LiteDemoPage({ walletAddress, onConnectWallet }: LiteDemoPagePro
               <p className="text-gray-400 text-sm">≈ ${stats.usdcEarned.toFixed(2)} USD</p>
             </div>
 
-            <div className="bg-gray-900/50 rounded-xl p-4 border border-purple-500/20">
-              <p className="text-xs text-gray-400 mb-1">Sending to:</p>
-              <p className="text-white font-mono text-sm break-all">{walletAddress}</p>
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              <button
+                onClick={() => setWithdrawMethod('wallet')}
+                className={`p-6 rounded-xl border-2 transition-all ${
+                  withdrawMethod === 'wallet'
+                    ? 'border-purple-500 bg-purple-500/20 shadow-[0_0_20px_rgba(168,85,247,0.4)]'
+                    : 'border-gray-600 hover:border-purple-500/50'
+                }`}
+              >
+                <Wallet className="w-10 h-10 mx-auto mb-3 text-purple-400" />
+                <div className="text-white font-bold text-lg mb-1">Arc Wallet</div>
+                <div className="text-gray-400 text-sm">Direct to wallet</div>
+                <div className="text-green-400 text-xs mt-2 font-semibold">Instant</div>
+              </button>
+
+              <button
+                onClick={() => setWithdrawMethod('card')}
+                className={`p-6 rounded-xl border-2 transition-all ${
+                  withdrawMethod === 'card'
+                    ? 'border-purple-500 bg-purple-500/20 shadow-[0_0_20px_rgba(168,85,247,0.4)]'
+                    : 'border-gray-600 hover:border-purple-500/50'
+                }`}
+              >
+                <CreditCard className="w-10 h-10 mx-auto mb-3 text-pink-400" />
+                <div className="text-white font-bold text-lg mb-1">Virtual Card</div>
+                <div className="text-gray-400 text-sm">Spend anywhere</div>
+                <div className="text-green-400 text-xs mt-2 font-semibold">Instant</div>
+              </button>
             </div>
+
+            {withdrawMethod === 'wallet' ? (
+              <div className="bg-gray-900/50 rounded-xl p-4 border border-purple-500/20">
+                <p className="text-xs text-gray-400 mb-1">Sending to Arc Wallet:</p>
+                <p className="text-white font-mono text-sm break-all">{walletAddress}</p>
+              </div>
+            ) : (
+              <div className="bg-gray-900/50 rounded-xl p-4 border border-pink-500/20">
+                <p className="text-xs text-gray-400 mb-1">Card Deposit Method:</p>
+                <p className="text-white text-sm">Instant deposit to Circle virtual card</p>
+                <p className="text-gray-400 text-xs mt-2">Spend at any merchant accepting Mastercard</p>
+              </div>
+            )}
           </div>
 
           <button
@@ -408,18 +447,18 @@ export function LiteDemoPage({ walletAddress, onConnectWallet }: LiteDemoPagePro
             {isLoading ? (
               <>
                 <Loader2 className="w-6 h-6 animate-spin" />
-                Sending USDC...
+                Processing...
               </>
             ) : (
               <>
-                <DollarSign className="w-6 h-6" />
-                Send to My Wallet
+                {withdrawMethod === 'wallet' ? <Wallet className="w-6 h-6" /> : <CreditCard className="w-6 h-6" />}
+                {withdrawMethod === 'wallet' ? 'Send to Arc Wallet' : 'Load Virtual Card'}
               </>
             )}
           </button>
 
           <p className="text-center text-gray-400 text-sm mt-4">
-            Transaction completes in 5-10 seconds
+            {withdrawMethod === 'wallet' ? 'Transaction completes in 5-10 seconds' : 'Card loads instantly'}
           </p>
         </div>
       </div>
@@ -461,21 +500,58 @@ export function LiteDemoPage({ walletAddress, onConnectWallet }: LiteDemoPagePro
               )}
             </div>
 
-            <button
-              onClick={() => {
-                setStep('welcome');
-                setStats({
-                  wordsCompleted: 0,
-                  aicEarned: 0,
-                  usdcEarned: 0,
-                  usdcWithdrawn: 0,
-                });
-              }}
-              className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-xl font-bold py-4 px-8 rounded-xl transition-all shadow-[0_0_30px_rgba(34,211,238,0.5)] hover:shadow-[0_0_50px_rgba(34,211,238,0.8)] flex items-center justify-center gap-2"
-            >
-              <Play className="w-6 h-6" />
-              Play Again
-            </button>
+            <div className="space-y-4">
+              <button
+                onClick={() => {
+                  setStep('welcome');
+                  setStats({
+                    wordsCompleted: 0,
+                    aicEarned: 0,
+                    usdcEarned: 0,
+                    usdcWithdrawn: 0,
+                  });
+                }}
+                className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-xl font-bold py-4 px-8 rounded-xl transition-all shadow-[0_0_30px_rgba(34,211,238,0.5)] hover:shadow-[0_0_50px_rgba(34,211,238,0.8)] flex items-center justify-center gap-2"
+              >
+                <Play className="w-6 h-6" />
+                Play Again
+              </button>
+
+              <div className="bg-gradient-to-r from-blue-500/10 to-purple-600/10 rounded-xl p-6 border border-blue-500/30">
+                <Smartphone className="w-12 h-12 text-blue-400 mx-auto mb-3" />
+                <h3 className="text-white font-bold text-lg mb-2 text-center">Install Mobile App</h3>
+                <p className="text-gray-300 text-sm mb-4 text-center">
+                  Install AIC Token app on your phone and earn anywhere!
+                </p>
+                <div className="grid grid-cols-2 gap-3">
+                  <a
+                    href={window.location.origin}
+                    className="flex items-center justify-center gap-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 font-semibold py-3 px-4 rounded-lg transition-all border border-blue-500/30"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span className="text-sm">Android</span>
+                  </a>
+                  <button
+                    onClick={() => {
+                      if (navigator.share) {
+                        navigator.share({
+                          title: 'AIC Token - Learn & Earn',
+                          text: 'Learn English and earn USDC!',
+                          url: window.location.origin
+                        });
+                      }
+                    }}
+                    className="flex items-center justify-center gap-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 font-semibold py-3 px-4 rounded-lg transition-all border border-purple-500/30"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span className="text-sm">iOS PWA</span>
+                  </button>
+                </div>
+                <p className="text-gray-400 text-xs mt-3 text-center">
+                  Play offline, get push notifications for rewards
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
