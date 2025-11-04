@@ -1,4 +1,4 @@
-import { generateEntitySecret, registerEntitySecretCiphertext } from '@circle-fin/developer-controlled-wallets';
+import { registerEntitySecretCiphertext } from '@circle-fin/developer-controlled-wallets';
 import { config } from 'dotenv';
 import * as fs from 'fs';
 
@@ -6,35 +6,23 @@ config();
 
 async function registerNewEntitySecret() {
   try {
-    console.log("Step 1: Generating new entity secret...\n");
-    generateEntitySecret();
-
-    console.log("\n⚠️  COPY THE ENTITY SECRET SHOWN ABOVE");
-    console.log("Then paste it when prompted...\n");
-
-    // Wait for user input
-    process.stdin.resume();
-    const entitySecret = await new Promise<string>((resolve) => {
-      console.log("Paste entity secret here:");
-      process.stdin.once('data', (data) => {
-        resolve(data.toString().trim());
-        process.stdin.pause();
-      });
-    });
-
-    console.log("\n===========================================");
-    console.log("Using entity secret:", entitySecret);
-    console.log("===========================================\n");
-
+    const entitySecret = process.env.CIRCLE_ENTITY_SECRET;
     const apiKey = process.env.VITE_CIRCLE_API_KEY;
 
-    if (!apiKey) {
-      console.error("Error: CIRCLE_API_KEY environment variable not set");
-      console.log("Please set it with: export CIRCLE_API_KEY=your_api_key");
+    if (!entitySecret || entitySecret === 'not-configured') {
+      console.error("❌ CIRCLE_ENTITY_SECRET not configured in .env");
       process.exit(1);
     }
 
-    console.log("Step 2: Registering entity secret with Circle...");
+    if (!apiKey) {
+      console.error("❌ VITE_CIRCLE_API_KEY not configured in .env");
+      process.exit(1);
+    }
+
+    console.log("🔄 Registering entity secret with Circle...\n");
+    console.log("Entity Secret:", entitySecret.substring(0, 10) + "...");
+    console.log("API Key:", apiKey.substring(0, 20) + "...\n");
+
     const response = await registerEntitySecretCiphertext({
       apiKey,
       entitySecret,
