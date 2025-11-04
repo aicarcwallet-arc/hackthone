@@ -72,7 +72,7 @@ export function DirectUSDCPayout({ walletAddress }: DirectUSDCPayoutProps) {
           },
           body: JSON.stringify({
             walletAddress: walletAddress,
-            useCircleAPI: true,
+            useCircleAPI: false,
           }),
         }
       );
