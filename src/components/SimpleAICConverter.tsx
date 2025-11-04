@@ -3,6 +3,7 @@ import { ArrowDown, Loader2, CheckCircle2, AlertCircle, ExternalLink, RefreshCw 
 import { createPublicClient, createWalletClient, custom, http, formatUnits, parseUnits } from 'viem';
 import { SUPPORTED_CHAINS, getActiveArcExplorerUrl, getActiveArcChainId } from '../config/chains';
 import { USDC_ADDRESS, ERC20_ABI } from '../config/contracts';
+import { useAICToken } from '../hooks/useAICToken';
 
 interface SimpleAICConverterProps {
   walletAddress?: string;
@@ -30,29 +31,30 @@ const SIMPLE_CONVERTER_ABI = [
 ] as const;
 
 export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
-  const [aicBalance, setAicBalance] = useState<string>('0');
   const [aicAmount, setAicAmount] = useState<string>('');
   const [usdcAmount, setUsdcAmount] = useState<string>('0');
   const [isConverting, setIsConverting] = useState(false);
   const [txHash, setTxHash] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
-  const [isLoadingBalance, setIsLoadingBalance] = useState(false);
 
   const activeChainId = getActiveArcChainId();
   const arcChain = Object.values(SUPPORTED_CHAINS).find(c => c.id === activeChainId);
 
+  // Use the hook to get real blockchain balance
+  const { aicBalance, refreshBalances } = useAICToken(walletAddress);
+
   useEffect(() => {
     if (walletAddress) {
-      loadAICBalance();
+      refreshBalances();
 
       const interval = setInterval(() => {
-        loadAICBalance();
+        refreshBalances();
       }, 5000);
 
       return () => clearInterval(interval);
     }
-  }, [walletAddress]);
+  }, [walletAddress, refreshBalances]);
 
   useEffect(() => {
     if (aicAmount && !isNaN(parseFloat(aicAmount))) {
@@ -64,44 +66,6 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
     }
   }, [aicAmount]);
 
-  const loadAICBalance = async () => {
-    if (!walletAddress) {
-      console.log('❌ No wallet connected');
-      return;
-    }
-
-    setIsLoadingBalance(true);
-    try {
-      console.log('🔄 Loading AIC balance for:', walletAddress);
-
-      const { supabase } = await import('../lib/supabase');
-      const { data, error } = await supabase
-        .from('users')
-        .select('total_aic_earned, claimed_aic')
-        .eq('wallet_address', walletAddress.toLowerCase())
-        .maybeSingle();
-
-      console.log('📊 Database result:', { data, error });
-
-      if (error) throw error;
-
-      if (data) {
-        const totalEarned = parseFloat(data.total_aic_earned || '0');
-        const claimed = parseFloat(data.claimed_aic || '0');
-        const available = totalEarned - claimed;
-        console.log('✅ Balance:', { totalEarned, claimed, available });
-        setAicBalance(available.toFixed(6));
-      } else {
-        console.log('⚠️ No user found');
-        setAicBalance('0');
-      }
-    } catch (err) {
-      console.error('❌ Load failed:', err);
-      setAicBalance('0');
-    } finally {
-      setIsLoadingBalance(false);
-    }
-  };
 
   const handleConvert = async () => {
     if (!walletAddress) {
@@ -175,7 +139,7 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
       setTxHash(`convert-${Date.now()}`);
       setSuccess(true);
       setAicAmount('');
-      await loadAICBalance();
+      await refreshBalances();
 
       // Dispatch custom event to notify other components
       window.dispatchEvent(new CustomEvent('usdcBalanceUpdated', {
@@ -227,14 +191,13 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
               <label className="text-xs sm:text-sm text-gray-400">From</label>
               <div className="flex items-center gap-2">
                 <span className="text-xs sm:text-sm text-gray-400">
-                  Balance: {isLoadingBalance ? '...' : parseFloat(aicBalance).toFixed(2)} AIC
+                  Balance: {parseFloat(aicBalance || '0').toFixed(2)} AIC
                 </span>
                 <button
-                  onClick={() => loadAICBalance()}
-                  disabled={isLoadingBalance}
-                  className="text-cyan-400 hover:text-cyan-300 transition-colors disabled:opacity-50 touch-manipulation"
+                  onClick={() => refreshBalances()}
+                  className="text-cyan-400 hover:text-cyan-300 transition-colors touch-manipulation"
                 >
-                  <RefreshCw className={`w-3 h-3 sm:w-4 sm:h-4 ${isLoadingBalance ? 'animate-spin' : ''}`} />
+                  <RefreshCw className="w-3 h-3 sm:w-4 sm:h-4" />
                 </button>
               </div>
             </div>
