@@ -340,12 +340,17 @@ Deno.serve(async (req: Request) => {
       transport: http(rpcUrl),
     });
 
+    const nonce = await publicClient.getTransactionCount({
+      address: account.address,
+    });
+
     const txHash = await walletClient.writeContract({
       address: usdcTokenAddress,
       abi: USDC_ABI,
       functionName: "transfer",
       args: [walletAddress as `0x${string}`, amountToSend],
-      gasPrice: parseUnits("7", 6),
+      nonce,
+      gasPrice: parseUnits("250", 6),
     });
 
     await supabase
