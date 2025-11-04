@@ -8,70 +8,47 @@ interface LandingPageProps {
 
 export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-gradient-to-b from-white via-purple-50/30 to-white">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-gray-950 via-gray-900 to-black">
-        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+      <section className="relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 md:py-32 relative">
           <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-2 sm:gap-3 bg-gray-900/50 backdrop-blur-sm px-3 sm:px-4 py-2 rounded-full mb-4 sm:mb-6 border border-cyan-500/30">
+            <div className="inline-flex items-center gap-2 sm:gap-3 bg-white/80 backdrop-blur-sm px-4 sm:px-5 py-2.5 rounded-full mb-6 sm:mb-8 border border-purple-200 shadow-sm">
               <img src="/aic toekn .png" alt="AI Cognitive Token Logo" className="w-8 h-8 sm:w-10 sm:h-10" />
-              <span className="text-sm sm:text-base font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">AI Cognitive Token (AiC)</span>
+              <span className="text-sm sm:text-base font-semibold bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">AI Cognitive Token</span>
             </div>
-            <div className="bg-gradient-to-r from-pink-500/20 to-rose-600/20 border-2 border-pink-500/50 rounded-2xl px-6 py-5 mb-6 inline-block shadow-[0_0_40px_rgba(236,72,153,0.4)] animate-pulse-slow">
-              <p className="text-base sm:text-lg font-bold text-pink-400 mb-2">🎮 WORLD'S FIRST BLOCKCHAIN COGNITIVE EDUCATION REWARDS GAME IS LIVE!</p>
-              <p className="text-sm sm:text-base text-white font-semibold mb-1">Learn and Earn with Stablecoin Token</p>
-              <p className="text-xs text-gray-300">Live on Arc Testnet • Powered by Circle USDC</p>
-            </div>
-            <p className="text-lg sm:text-xl md:text-2xl font-semibold bg-gradient-to-r from-cyan-300 via-blue-400 to-cyan-300 bg-clip-text text-transparent mb-4 sm:mb-5 px-2 drop-shadow-[0_0_20px_rgba(34,211,238,0.4)]">
-              Your Knowledge is Your Currency
-            </p>
-            <p className="text-xs sm:text-sm md:text-base text-cyan-400 mb-6 sm:mb-8 px-2 flex items-center justify-center gap-2 flex-wrap">
-              <GraduationCap className="w-4 h-4" />
-              Learn Blockchain Vocabulary • Get AIC Rewards • Earn Real USDC
-            </p>
-            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 px-2 leading-tight">
-              <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
-                Learn Blockchain Vocabulary.
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-8 px-2 leading-tight tracking-tight">
+              <span className="bg-gradient-to-r from-gray-900 via-purple-800 to-gray-900 bg-clip-text text-transparent">
+                Learn vocabulary.
               </span>
-              <br className="hidden sm:block" />
-              <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
-                Get <span className="text-white font-bold drop-shadow-[0_0_30px_rgba(255,255,255,0.8)]">AIC Rewards</span>.
-              </span>
-              <br className="hidden sm:block" />
-              <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.5)]">
-                Earn <span className="text-white font-bold drop-shadow-[0_0_30px_rgba(255,255,255,0.8)]">Real USDC</span>.
+              <br />
+              <span className="bg-gradient-to-r from-purple-600 via-blue-500 to-cyan-500 bg-clip-text text-transparent">
+                Earn real USDC.
               </span>
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto px-4">
-              Check out our <span className="text-pink-400 font-bold">live blockchain vocab dictionary</span> — learn, write, and earn real USDC. Portal to earning education powered by Circle & Arc.
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-4 max-w-3xl mx-auto px-4 leading-relaxed font-light">
+              Your knowledge is your currency. Learn blockchain vocabulary, earn AIC tokens, and convert to real USDC instantly.
             </p>
-            <div className="mb-8 sm:mb-12 px-4">
-              <p className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-3">
-                Because Your Knowledge is Your Currency
-              </p>
-              <p className="text-xs sm:text-sm text-cyan-400 font-semibold">
-                🔗 Powered by Arc Network Layer 1 • Circle USDC • Educational Portal
-              </p>
-            </div>
+            <p className="text-sm sm:text-base text-gray-500 mb-10 sm:mb-12 max-w-2xl mx-auto px-4">
+              Powered by <span className="font-semibold text-purple-600">Circle</span> and <span className="font-semibold text-blue-600">Arc Network</span>
+            </p>
             <div className="flex flex-col items-center gap-4 sm:gap-6">
               <button
                 onClick={onGetStarted}
-                className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold px-8 sm:px-12 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl shadow-[0_0_40px_rgba(34,211,238,0.6)] hover:shadow-[0_0_60px_rgba(34,211,238,1)] transition-all touch-manipulation active:scale-95 animate-pulse-slow"
+                className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold px-8 sm:px-10 py-4 sm:py-4.5 rounded-full text-base sm:text-lg shadow-lg hover:shadow-xl transition-all duration-300 touch-manipulation hover:scale-105"
               >
-                <Zap className="w-6 h-6 sm:w-7 sm:h-7 animate-pulse" />
-                <span>Get AiC Token Rewards</span>
-                <ArrowRight className="w-6 h-6 sm:w-7 sm:h-7 group-hover:translate-x-1 transition-transform" />
+                <span>Get started</span>
+                <ArrowRight className="w-5 h-5 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
               </button>
 
               {onNavigate && (
                 <button
                   onClick={() => onNavigate('lite-demo')}
-                  className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-400 hover:to-rose-500 text-white font-bold px-8 sm:px-12 py-4 sm:py-5 rounded-2xl text-lg sm:text-xl shadow-[0_0_40px_rgba(236,72,153,0.6)] hover:shadow-[0_0_60px_rgba(236,72,153,1)] transition-all touch-manipulation active:scale-95 animate-pulse-slow border-2 border-pink-400/30"
+                  className="group relative inline-flex items-center gap-3 bg-white hover:bg-gray-50 text-purple-600 font-semibold px-8 sm:px-10 py-4 sm:py-4.5 rounded-full text-base sm:text-lg border-2 border-purple-200 hover:border-purple-300 shadow-md hover:shadow-lg transition-all duration-300 touch-manipulation hover:scale-105"
                 >
-                  <Trophy className="w-6 h-6 sm:w-7 sm:h-7 animate-bounce" />
-                  <span>🎮 Click Here to Enter Game Launchpad</span>
-                  <ArrowRight className="w-6 h-6 sm:w-7 sm:h-7 group-hover:translate-x-2 transition-transform" />
+                  <Trophy className="w-5 h-5 sm:w-5 sm:h-5" />
+                  <span>Try demo</span>
+                  <ArrowRight className="w-5 h-5 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
               )}
 
@@ -110,54 +87,54 @@ export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
           </div>
 
           {/* Feature Pills */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-6xl mx-auto mt-16">
-            <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-4 shadow-[0_0_20px_rgba(34,211,238,0.3)] border border-cyan-500/30 text-center hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all">
-              <GraduationCap className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-white">Learn Blockchain</p>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 max-w-6xl mx-auto mt-16">
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-sm border border-purple-100 text-center hover:shadow-md hover:border-purple-200 transition-all duration-300">
+              <GraduationCap className="w-7 h-7 text-purple-600 mx-auto mb-2" />
+              <p className="text-xs sm:text-sm font-medium text-gray-700">Learn vocabulary</p>
             </div>
-            <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-4 shadow-[0_0_20px_rgba(34,211,238,0.3)] border border-cyan-500/30 text-center hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all">
-              <Wallet className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-white">In-House Wallet</p>
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-sm border border-blue-100 text-center hover:shadow-md hover:border-blue-200 transition-all duration-300">
+              <Wallet className="w-7 h-7 text-blue-600 mx-auto mb-2" />
+              <p className="text-xs sm:text-sm font-medium text-gray-700">Built-in wallet</p>
             </div>
-            <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-4 shadow-[0_0_20px_rgba(34,211,238,0.3)] border border-cyan-500/30 text-center hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all">
-              <DollarSign className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-white">1:1 USDC Pegging</p>
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-sm border border-cyan-100 text-center hover:shadow-md hover:border-cyan-200 transition-all duration-300">
+              <DollarSign className="w-7 h-7 text-cyan-600 mx-auto mb-2" />
+              <p className="text-xs sm:text-sm font-medium text-gray-700">Real USDC</p>
             </div>
-            <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-4 shadow-[0_0_20px_rgba(34,211,238,0.3)] border border-cyan-500/30 text-center hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all">
-              <Zap className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-white">Lightning-Fast Arc</p>
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-sm border border-purple-100 text-center hover:shadow-md hover:border-purple-200 transition-all duration-300">
+              <Zap className="w-7 h-7 text-purple-600 mx-auto mb-2" />
+              <p className="text-xs sm:text-sm font-medium text-gray-700">Instant rewards</p>
             </div>
-            <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-4 shadow-[0_0_20px_rgba(34,211,238,0.3)] border border-cyan-500/30 text-center hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all">
-              <Shield className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-white">Arc Testnet Verified</p>
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-sm border border-blue-100 text-center hover:shadow-md hover:border-blue-200 transition-all duration-300">
+              <Shield className="w-7 h-7 text-blue-600 mx-auto mb-2" />
+              <p className="text-xs sm:text-sm font-medium text-gray-700">Blockchain verified</p>
             </div>
-            <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-4 shadow-[0_0_20px_rgba(34,211,238,0.3)] border border-cyan-500/30 text-center hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] transition-all">
-              <TrendingUp className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-white">Live Explorer Tracking</p>
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-sm border border-cyan-100 text-center hover:shadow-md hover:border-cyan-200 transition-all duration-300">
+              <TrendingUp className="w-7 h-7 text-cyan-600 mx-auto mb-2" />
+              <p className="text-xs sm:text-sm font-medium text-gray-700">Live tracking</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="bg-gradient-to-r from-cyan-500 to-blue-600 py-12 shadow-[0_0_50px_rgba(34,211,238,0.3)]">
+      <section className="bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-500 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-white mb-1">$300-500</div>
-              <div className="text-sm text-cyan-100">USDC Per Word</div>
+              <div className="text-3xl sm:text-4xl font-bold text-white mb-2">$300-500</div>
+              <div className="text-sm sm:text-base text-purple-100 font-light">USDC per word</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-white mb-1">&lt;1s</div>
-              <div className="text-sm text-cyan-100">Settlement Time</div>
+              <div className="text-3xl sm:text-4xl font-bold text-white mb-2">&lt;1s</div>
+              <div className="text-sm sm:text-base text-purple-100 font-light">Settlement time</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-white mb-1">$0.01</div>
-              <div className="text-sm text-cyan-100">Gas Fees</div>
+              <div className="text-3xl sm:text-4xl font-bold text-white mb-2">$0.01</div>
+              <div className="text-sm sm:text-base text-purple-100 font-light">Gas fees</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-white mb-1">100%</div>
-              <div className="text-sm text-cyan-100">Blockchain Verified</div>
+              <div className="text-3xl sm:text-4xl font-bold text-white mb-2">100%</div>
+              <div className="text-sm sm:text-base text-purple-100 font-light">Verified</div>
             </div>
           </div>
         </div>
@@ -184,74 +161,95 @@ export function LandingPage({ onGetStarted, onNavigate }: LandingPageProps) {
       </section>
 
       {/* Why AiC Token Section */}
-      <section className="py-20 bg-gray-950">
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-4">
-              What is AI Cognitive Token (AiC)?
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6 tracking-tight">
+              How it works
             </h2>
-            <p className="text-lg text-gray-300 mb-3">
-              The world's first learn-to-earn token powered by artificial intelligence
-            </p>
-            <p className="text-base text-cyan-400 max-w-3xl mx-auto">
-              AiC combines cognitive learning with blockchain rewards. Type blockchain vocabulary, get validated by OpenAI, and earn USDC-backed tokens instantly on Circle's Arc blockchain.
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto font-light leading-relaxed">
+              Learn blockchain vocabulary, earn AIC tokens instantly, and convert to real USDC. Powered by Circle and Arc Network.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/30 shadow-[0_0_20px_rgba(34,211,238,0.2)]">
-              <h3 className="text-2xl font-bold text-cyan-400 mb-4">AI Cognitive Learning</h3>
-              <ul className="space-y-3 text-gray-300">
-                <li>• Type blockchain terms like CONSENSUS, DEFI, SMART-CONTRACT</li>
-                <li>• OpenAI validates your cognitive understanding</li>
-                <li>• Earn 300-500 AiC tokens per correct word</li>
-                <li>• No copy-paste - real learning equals real rewards</li>
-              </ul>
-            </div>
-
-            <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/30 shadow-[0_0_20px_rgba(34,211,238,0.2)]">
-              <h3 className="text-2xl font-bold text-cyan-400 mb-4">Built on Circle's Arc L1</h3>
-              <ul className="space-y-3 text-gray-300">
-                <li>• Native USDC gas payments - no ETH needed</li>
-                <li>• Sub-second finality with deterministic settlement</li>
-                <li>• Circle Bridge Kit for cross-chain transfers</li>
-                <li>• Every AiC token minted is verifiable on-chain</li>
-              </ul>
-            </div>
-
-            <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/30 shadow-[0_0_20px_rgba(34,211,238,0.2)]">
-              <h3 className="text-2xl font-bold text-cyan-400 mb-4">Hackathon Innovation</h3>
-              <ul className="space-y-3 text-gray-300">
-                <li>• Submission for Circle's "AI Agents on Arc with USDC" hackathon</li>
-                <li>• Demonstrates programmable USDC + AI integration</li>
-                <li>• Real-world use case: education meets DeFi</li>
-                <li>• Open-source and ready for production scaling</li>
-              </ul>
-            </div>
-
-            <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/30 shadow-[0_0_20px_rgba(34,211,238,0.2)]">
-              <h3 className="text-2xl font-bold text-cyan-400 mb-4">USDC-Backed Rewards</h3>
-              <ul className="space-y-3 text-gray-300">
-                <li>• 1:1 AiC to USDC swap ratio guaranteed</li>
-                <li>• Circle's programmable USDC powers all rewards</li>
-                <li>• Bridge to Ethereum, Arbitrum, Base via Circle CCTP</li>
-                <li>• Withdraw real stablecoin earnings anytime</li>
-              </ul>
-            </div>
-
-            <div className="bg-gradient-to-br from-cyan-500/10 to-blue-600/10 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/50 shadow-[0_0_30px_rgba(34,211,238,0.3)]">
-              <div className="flex items-center gap-3 mb-4">
-                <img src="/circle.b8b9d808c4509a1c3043e1a2859807b7a83364094f388457832f020fa02cbc37.png" alt="Circle" className="w-10 h-10" />
-                <h3 className="text-2xl font-bold text-cyan-400">Circle Partner Alliance Features</h3>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-gradient-to-br from-purple-50 to-white rounded-3xl p-8 border border-purple-100 shadow-sm hover:shadow-lg transition-shadow duration-300">
+              <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center mb-6">
+                <Brain className="w-7 h-7 text-white" />
               </div>
-              <ul className="space-y-3 text-gray-300">
-                <li>• 💳 Virtual Visa Card - Spend USDC globally at 70M+ merchants</li>
-                <li>• 🏦 Fintech Banking - ACH, Wire, Direct Deposit integration</li>
-                <li>• 🌍 Fiat-to-Crypto Bridge - Seamless USD ↔ USDC conversion</li>
-                <li>• 🔐 FDIC-Insured Partners - Regulated banking infrastructure</li>
-              </ul>
-              <p className="text-sm text-cyan-400 italic mt-4">
-                These features will be requested from Circle Partner Alliance to support the complete Circle ecosystem integration
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Learn vocabulary</h3>
+              <p className="text-gray-600 leading-relaxed font-light">
+                Type blockchain terms and learn their meanings. Each correct word validates your knowledge.
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-blue-50 to-white rounded-3xl p-8 border border-blue-100 shadow-sm hover:shadow-lg transition-shadow duration-300">
+              <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl flex items-center justify-center mb-6">
+                <Zap className="w-7 h-7 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Earn tokens instantly</h3>
+              <p className="text-gray-600 leading-relaxed font-light">
+                Get AIC tokens immediately for every correct word. 300-500 tokens per word, verified on-chain.
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-cyan-50 to-white rounded-3xl p-8 border border-cyan-100 shadow-sm hover:shadow-lg transition-shadow duration-300">
+              <div className="w-12 h-12 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl flex items-center justify-center mb-6">
+                <DollarSign className="w-7 h-7 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Convert to USDC</h3>
+              <p className="text-gray-600 leading-relaxed font-light">
+                Exchange AIC tokens for real USDC anytime. Powered by Circle on Arc Network Layer 1.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-16 bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-500 rounded-3xl p-1">
+            <div className="bg-white rounded-3xl p-8 sm:p-12">
+              <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 tracking-tight">Built on Circle technology</h3>
+              <p className="text-lg text-gray-600 font-light leading-relaxed">
+                Leverages Circle's USDC and Arc Network for instant, secure, and verified transactions with sub-second settlement.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Circle Features */}
+      <section className="py-20 bg-gradient-to-b from-white via-purple-50/20 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <img src="/circle.b8b9d808c4509a1c3043e1a2859807b7a83364094f388457832f020fa02cbc37.png" alt="Circle" className="w-12 h-12" />
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">Powered by Circle</h2>
+            </div>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto font-light">
+              Real USDC rewards, instant settlements, and global accessibility
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-sm hover:shadow-lg transition-shadow duration-300">
+              <DollarSign className="w-10 h-10 text-purple-600 mb-4" />
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Real USDC</h3>
+              <p className="text-gray-600 font-light leading-relaxed">
+                Convert your earned tokens to USDC instantly. 1:1 backing guaranteed by Circle's technology.
+              </p>
+            </div>
+
+            <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-sm hover:shadow-lg transition-shadow duration-300">
+              <Shield className="w-10 h-10 text-blue-600 mb-4" />
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Secure & verified</h3>
+              <p className="text-gray-600 font-light leading-relaxed">
+                Every transaction is verified on Arc Network blockchain with sub-second finality.
+              </p>
+            </div>
+
+            <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-sm hover:shadow-lg transition-shadow duration-300">
+              <TrendingUp className="w-10 h-10 text-cyan-600 mb-4" />
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Instant access</h3>
+              <p className="text-gray-600 font-light leading-relaxed">
+                Withdraw or spend your earnings immediately with no delays or waiting periods.
               </p>
             </div>
           </div>
