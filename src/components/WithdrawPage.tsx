@@ -1,37 +1,34 @@
 import { useState } from 'react';
-import { Send, CreditCard, Building2, DollarSign, ArrowDownUp } from 'lucide-react';
-import { BridgeInterface } from './BridgeInterface';
-import { VirtualCard } from './VirtualCard';
-import { CircleBanking } from './CircleBanking';
-import { DirectUSDCPayout } from './DirectUSDCPayout';
+import { Wallet, ArrowDownUp } from 'lucide-react';
 import { SimpleAICConverter } from './SimpleAICConverter';
+import { DirectUSDCPayout } from './DirectUSDCPayout';
 
 interface WithdrawPageProps {
   walletAddress?: string;
   usdcBalance: string;
 }
 
-type WithdrawTab = 'convert' | 'payout' | 'bridge' | 'card' | 'bank';
+type WithdrawTab = 'convert' | 'withdraw';
 
 export function WithdrawPage({ walletAddress, usdcBalance }: WithdrawPageProps) {
   const [activeTab, setActiveTab] = useState<WithdrawTab>('convert');
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 py-6">
+    <div className="w-full max-w-4xl mx-auto px-4 py-6">
       <div className="text-center mb-8">
         <h2 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-3">
-          Withdraw Your USDC
+          Cash Out Your Rewards
         </h2>
         <p className="text-gray-300 text-sm sm:text-base">
-          Choose how you want to use your funds - Bridge, Spend, or Save
+          Convert your AIC tokens to USDC and withdraw to your wallet
         </p>
       </div>
 
       <div className="flex justify-center mb-8 px-2">
-        <div className="inline-flex bg-gray-800/50 backdrop-blur-sm rounded-lg shadow-[0_0_30px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-1 flex-col sm:flex-row gap-1 w-full sm:w-auto max-w-full">
+        <div className="inline-flex bg-gray-800/50 backdrop-blur-sm rounded-lg shadow-[0_0_30px_rgba(34,211,238,0.3)] border border-cyan-500/30 p-1 gap-2 w-full sm:w-auto max-w-full">
           <button
             onClick={() => setActiveTab('convert')}
-            className={`flex items-center gap-2 px-4 sm:px-6 py-3 rounded-md font-medium text-sm transition-all touch-manipulation w-full sm:w-auto justify-start ${
+            className={`flex items-center gap-2 px-6 sm:px-8 py-4 rounded-md font-medium text-base transition-all touch-manipulation flex-1 sm:flex-none justify-center ${
               activeTab === 'convert'
                 ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-[0_0_20px_rgba(34,211,238,0.5)]'
                 : 'text-gray-300 hover:bg-cyan-500/20'
@@ -45,170 +42,103 @@ export function WithdrawPage({ walletAddress, usdcBalance }: WithdrawPageProps) 
           </button>
 
           <button
-            onClick={() => setActiveTab('payout')}
-            className={`flex items-center gap-2 px-4 sm:px-6 py-3 rounded-md font-medium text-sm transition-all touch-manipulation w-full sm:w-auto justify-start ${
-              activeTab === 'payout'
+            onClick={() => setActiveTab('withdraw')}
+            className={`flex items-center gap-2 px-6 sm:px-8 py-4 rounded-md font-medium text-base transition-all touch-manipulation flex-1 sm:flex-none justify-center ${
+              activeTab === 'withdraw'
                 ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-[0_0_20px_rgba(34,197,94,0.5)]'
                 : 'text-gray-300 hover:bg-green-500/20'
             }`}
           >
-            <DollarSign className="w-5 h-5 flex-shrink-0" />
+            <Wallet className="w-5 h-5 flex-shrink-0" />
             <div className="text-left">
-              <div className="font-bold">Cash Out</div>
-              <div className="text-xs opacity-75">Get your money</div>
-            </div>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('bridge')}
-            className={`flex items-center gap-2 px-4 sm:px-6 py-3 rounded-md font-medium text-sm transition-all touch-manipulation w-full sm:w-auto justify-start ${
-              activeTab === 'bridge'
-                ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-[0_0_20px_rgba(34,211,238,0.5)]'
-                : 'text-gray-300 hover:bg-cyan-500/20'
-            }`}
-          >
-            <Send className="w-5 h-5 flex-shrink-0" />
-            <div className="text-left">
-              <div className="font-bold">Bridge</div>
-              <div className="text-xs opacity-75">Cross-chain</div>
-            </div>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('card')}
-            className={`flex items-center gap-2 px-4 sm:px-6 py-3 rounded-md font-medium text-sm transition-all touch-manipulation w-full sm:w-auto justify-start ${
-              activeTab === 'card'
-                ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-[0_0_20px_rgba(34,211,238,0.5)]'
-                : 'text-gray-300 hover:bg-cyan-500/20'
-            }`}
-          >
-            <CreditCard className="w-5 h-5 flex-shrink-0" />
-            <div className="text-left">
-              <div className="font-bold">Card</div>
-              <div className="text-xs opacity-75">Spend</div>
-            </div>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('bank')}
-            className={`flex items-center gap-2 px-4 sm:px-6 py-3 rounded-md font-medium text-sm transition-all touch-manipulation w-full sm:w-auto justify-start ${
-              activeTab === 'bank'
-                ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-[0_0_20px_rgba(59,130,246,0.5)]'
-                : 'text-gray-300 hover:bg-blue-500/20'
-            }`}
-          >
-            <Building2 className="w-5 h-5 flex-shrink-0" />
-            <div className="text-left">
-              <div className="font-bold">Bank</div>
-              <div className="text-xs opacity-75">Save</div>
+              <div className="font-bold">Withdraw</div>
+              <div className="text-xs opacity-75">To Wallet</div>
             </div>
           </button>
         </div>
       </div>
 
-      <div className="flex justify-center">
+      <div className="mb-6">
         {activeTab === 'convert' && walletAddress && (
-          <div className="w-full max-w-2xl">
-            <div className="mb-6 bg-cyan-500/10 border border-cyan-500/30 rounded-lg p-4">
-              <h3 className="text-cyan-400 font-bold mb-2 flex items-center gap-2">
-                <ArrowDownUp className="w-5 h-5" />
-                Step 1: Convert AIC to USDC
-              </h3>
-              <p className="text-gray-300 text-sm">
-                First, convert your claimed AIC tokens into USDC at a 1:1 ratio. Then you can withdraw the USDC.
-              </p>
-            </div>
-            <SimpleAICConverter walletAddress={walletAddress} />
-          </div>
+          <SimpleAICConverter walletAddress={walletAddress} />
         )}
 
-        {activeTab === 'payout' && walletAddress && (
+        {activeTab === 'withdraw' && walletAddress && (
           <DirectUSDCPayout walletAddress={walletAddress} />
         )}
 
-        {activeTab === 'bridge' && (
-          <div className="w-full">
-            <div className="mb-6 bg-cyan-500/10 border border-cyan-500/30 rounded-lg p-4">
-              <h3 className="text-cyan-400 font-bold mb-2 flex items-center gap-2">
-                <Send className="w-5 h-5" />
-                Bridge Your USDC to Any Chain
-              </h3>
-              <p className="text-gray-300 text-sm">
-                Transfer USDC from Arc to Ethereum, Arbitrum, Base, Optimism, and more using Circle's CCTP technology.
-              </p>
-            </div>
-            <BridgeInterface />
-          </div>
-        )}
-
-        {activeTab === 'card' && (
-          <div className="w-full">
-            <div className="mb-6 bg-cyan-500/10 border border-cyan-500/30 rounded-lg p-4">
-              <h3 className="text-cyan-400 font-bold mb-2 flex items-center gap-2">
-                <CreditCard className="w-5 h-5" />
-                AiC-Arc Visa Virtual Card
-              </h3>
-              <p className="text-gray-300 text-sm">
-                Load USDC onto your virtual card and spend at 70+ million merchants worldwide. Earn 5% AiC cashback on every purchase!
-              </p>
-              <div className="mt-2 inline-flex items-center gap-2 bg-blue-500/20 px-3 py-1 rounded-lg border border-blue-500/30">
-                <img src="/circle.b8b9d808c4509a1c3043e1a2859807b7a83364094f388457832f020fa02cbc37.png" alt="Circle" className="w-4 h-4" />
-                <span className="text-xs text-blue-400">Circle Partner Alliance</span>
-              </div>
-            </div>
-            <VirtualCard walletAddress={walletAddress} usdcBalance={usdcBalance} />
-          </div>
-        )}
-
-        {activeTab === 'bank' && (
-          <div className="w-full">
-            <div className="mb-6 bg-purple-500/10 border border-purple-500/30 rounded-lg p-4">
-              <h3 className="text-purple-400 font-bold mb-2 flex items-center gap-2">
-                <Building2 className="w-5 h-5" />
-                AiC-Circle Banking System
-              </h3>
-              <p className="text-gray-300 text-sm">
-                Withdraw USDC to your traditional bank account via ACH (free), Wire ($15), or Instant Transfer ($2.50). Bridge crypto to fiat seamlessly.
-              </p>
-              <div className="mt-2 inline-flex items-center gap-2 bg-purple-500/20 px-3 py-1 rounded-lg border border-purple-500/30">
-                <img src="/circle.b8b9d808c4509a1c3043e1a2859807b7a83364094f388457832f020fa02cbc37.png" alt="Circle" className="w-4 h-4" />
-                <span className="text-xs text-purple-400">Circle Partner Alliance</span>
-              </div>
-            </div>
-            <CircleBanking walletAddress={walletAddress} usdcBalance={usdcBalance} />
+        {!walletAddress && (
+          <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-6 text-center">
+            <p className="text-yellow-400 font-medium">
+              Please connect your wallet to continue
+            </p>
           </div>
         )}
       </div>
 
-      <div className="mt-8 grid sm:grid-cols-3 gap-4">
-        <div className={`rounded-lg p-4 border cursor-pointer transition-all ${
-          activeTab === 'bridge'
-            ? 'bg-cyan-500/10 border-cyan-500/50 shadow-[0_0_20px_rgba(34,211,238,0.3)]'
-            : 'bg-gray-800/30 border-gray-700 hover:border-cyan-500/30'
-        }`} onClick={() => setActiveTab('bridge')}>
-          <Send className="w-8 h-8 text-cyan-400 mb-2" />
-          <h4 className="font-bold text-white mb-1">Cross-Chain Bridge</h4>
-          <p className="text-xs text-gray-400">Access any blockchain ecosystem with CCTP</p>
+      <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-cyan-500/20">
+        <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+          <ArrowDownUp className="w-5 h-5 text-cyan-400" />
+          How It Works
+        </h3>
+        <div className="space-y-4">
+          <div className="flex items-start gap-3">
+            <div className="bg-cyan-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">
+              1
+            </div>
+            <div>
+              <h4 className="text-white font-semibold mb-1">Play & Earn</h4>
+              <p className="text-gray-400 text-sm">
+                Play vocabulary games and earn AIC tokens as rewards
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3">
+            <div className="bg-cyan-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">
+              2
+            </div>
+            <div>
+              <h4 className="text-white font-semibold mb-1">Convert to USDC</h4>
+              <p className="text-gray-400 text-sm">
+                Click "Convert" to swap your AIC tokens to USDC instantly
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3">
+            <div className="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">
+              3
+            </div>
+            <div>
+              <h4 className="text-white font-semibold mb-1">Withdraw to Wallet</h4>
+              <p className="text-gray-400 text-sm">
+                Click "Withdraw" to send USDC directly to your MetaMask wallet on Arc Network
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3">
+            <div className="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">
+              4
+            </div>
+            <div>
+              <h4 className="text-white font-semibold mb-1">Use Anywhere</h4>
+              <p className="text-gray-400 text-sm">
+                Once in your wallet, send USDC anywhere, trade on DEX, or bridge to other chains
+              </p>
+            </div>
+          </div>
         </div>
 
-        <div className={`rounded-lg p-4 border cursor-pointer transition-all ${
-          activeTab === 'card'
-            ? 'bg-cyan-500/10 border-cyan-500/50 shadow-[0_0_20px_rgba(34,211,238,0.3)]'
-            : 'bg-gray-800/30 border-gray-700 hover:border-cyan-500/30'
-        }`} onClick={() => setActiveTab('card')}>
-          <CreditCard className="w-8 h-8 text-cyan-400 mb-2" />
-          <h4 className="font-bold text-white mb-1">Virtual Card</h4>
-          <p className="text-xs text-gray-400">Spend crypto anywhere Visa is accepted</p>
-        </div>
-
-        <div className={`rounded-lg p-4 border cursor-pointer transition-all ${
-          activeTab === 'bank'
-            ? 'bg-purple-500/10 border-purple-500/50 shadow-[0_0_20px_rgba(139,92,246,0.3)]'
-            : 'bg-gray-800/30 border-gray-700 hover:border-purple-500/30'
-        }`} onClick={() => setActiveTab('bank')}>
-          <Building2 className="w-8 h-8 text-purple-400 mb-2" />
-          <h4 className="font-bold text-white mb-1">Banking System</h4>
-          <p className="text-xs text-gray-400">Withdraw to your traditional bank account</p>
+        <div className="mt-6 pt-6 border-t border-cyan-500/20">
+          <div className="flex items-start gap-2 text-cyan-400">
+            <Wallet className="w-5 h-5 flex-shrink-0 mt-0.5" />
+            <p className="text-sm">
+              <strong>Your funds, your control.</strong> USDC goes directly to your MetaMask wallet.
+              You can send it anywhere or use it on any dApp on Arc Network.
+            </p>
+          </div>
         </div>
       </div>
     </div>
