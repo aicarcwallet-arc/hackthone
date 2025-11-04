@@ -50,23 +50,29 @@ export function useAICToken(walletAddress?: string) {
 
     try {
       if (AIC_TOKEN_ADDRESS && USDC_ADDRESS) {
-        const [aic, usdc] = await Promise.all([
-          publicClient.readContract({
-            address: AIC_TOKEN_ADDRESS,
-            abi: ERC20_ABI,
-            functionName: 'balanceOf',
-            args: [walletAddress as `0x${string}`],
-          }),
-          publicClient.readContract({
-            address: USDC_ADDRESS,
-            abi: ERC20_ABI,
-            functionName: 'balanceOf',
-            args: [walletAddress as `0x${string}`],
-          }),
-        ]);
+        try {
+          const [aic, usdc] = await Promise.all([
+            publicClient.readContract({
+              address: AIC_TOKEN_ADDRESS,
+              abi: ERC20_ABI,
+              functionName: 'balanceOf',
+              args: [walletAddress as `0x${string}`],
+            }),
+            publicClient.readContract({
+              address: USDC_ADDRESS,
+              abi: ERC20_ABI,
+              functionName: 'balanceOf',
+              args: [walletAddress as `0x${string}`],
+            }),
+          ]);
 
-        setAicBalance(formatUnits(aic as bigint, 6));
-        setUsdcBalance(formatUnits(usdc as bigint, 6));
+          setAicBalance(formatUnits(aic as bigint, 6));
+          setUsdcBalance(formatUnits(usdc as bigint, 6));
+        } catch (contractError) {
+          // Silently fail contract reads, use defaults
+          setAicBalance('0');
+          setUsdcBalance('0');
+        }
       }
 
       await fetchDatabaseBalance();
@@ -76,8 +82,9 @@ export function useAICToken(walletAddress?: string) {
   };
 
   const fetchPrice = async () => {
+    setAicPrice('1.00');
+
     if (!AIC_SWAP_ADDRESS) {
-      setAicPrice('1.00');
       return;
     }
 
@@ -90,8 +97,7 @@ export function useAICToken(walletAddress?: string) {
 
       setAicPrice(formatUnits(price as bigint, 6));
     } catch (error) {
-      console.error('Error fetching price:', error);
-      setAicPrice('1.00');
+      // Silently fail and keep default 1.00 price
     }
   };
 
