@@ -21,22 +21,28 @@ Deno.serve(async (req: Request) => {
       throw new Error("Missing apiKey or entitySecret");
     }
 
-    const walletSetId = 'wallet-set-' + Date.now();
-    const idempotencyKey = 'idem-' + Date.now();
+    const walletSetId = crypto.randomUUID();
+    const idempotencyKey = crypto.randomUUID();
+
+    const encoder = new TextEncoder();
+    const data = encoder.encode(entitySecret);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const entitySecretCiphertext = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 
     const walletResponse = await fetch('https://api.circle.com/v1/w3s/developer/wallets', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-        'X-User-Token': entitySecret
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         idempotencyKey,
         accountType: 'SCA',
         blockchains: ['ETH-SEPOLIA'],
         count: 1,
-        walletSetId
+        walletSetId,
+        entitySecretCiphertext
       })
     });
 
