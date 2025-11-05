@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Coins, TrendingUp, Clock, CheckCircle, ExternalLink, Wallet, ArrowRight } from 'lucide-react';
+import { Coins, TrendingUp, Clock, CheckCircle, ExternalLink, Wallet, ArrowRight, RefreshCw } from 'lucide-react';
 import { InternetMinutesRewardsBox } from './InternetMinutesRewardsBox';
 import { ClaimAICTokens } from './ClaimAICTokens';
 
@@ -16,6 +16,7 @@ export function RewardsPage({ walletAddress, userId, onNavigate }: RewardsPagePr
   const [claimedAIC, setClaimedAIC] = useState<number>(0);
   const [totalWords, setTotalWords] = useState<number>(0);
   const [recentTransactions, setRecentTransactions] = useState<any[]>([]);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   useEffect(() => {
     if (walletAddress) {
@@ -107,6 +108,15 @@ export function RewardsPage({ walletAddress, userId, onNavigate }: RewardsPagePr
     }, 5000);
   };
 
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    await Promise.all([
+      loadUserStats(),
+      loadRecentTransactions()
+    ]);
+    setTimeout(() => setIsRefreshing(false), 1000);
+  };
+
   const unclaimedUSDC = totalUSDCEarned - claimedUSDC;
   const unclaimedAIC = totalAICEarned - claimedAIC;
 
@@ -132,10 +142,21 @@ export function RewardsPage({ walletAddress, userId, onNavigate }: RewardsPagePr
         ) : (
           <>
             <div className="mb-8">
-              <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                Active Claimable Rewards
-              </h2>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  Active Claimable Rewards
+                </h2>
+                <button
+                  onClick={handleRefresh}
+                  disabled={isRefreshing}
+                  className="flex items-center gap-2 px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 active:bg-cyan-500/40 border border-cyan-500/50 rounded-lg text-cyan-400 transition-colors touch-manipulation min-h-[48px] disabled:opacity-50"
+                  title="Refresh rewards"
+                >
+                  <RefreshCw className={`w-5 h-5 ${isRefreshing ? 'animate-spin' : ''}`} />
+                  <span className="hidden sm:inline">Refresh</span>
+                </button>
+              </div>
 
               {unclaimedAIC === 0 && unclaimedUSDC === 0 ? (
                 <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-8 border border-gray-700/50 text-center">

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { DollarSign, Loader2, CheckCircle2, AlertCircle, Wallet, Zap } from 'lucide-react';
+import { DollarSign, Loader2, CheckCircle2, AlertCircle, Wallet, Zap, RefreshCw } from 'lucide-react';
 
 interface DirectUSDCPayoutProps {
   walletAddress: string;
@@ -13,6 +13,7 @@ export function DirectUSDCPayout({ walletAddress }: DirectUSDCPayoutProps) {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [payoutMethod, setPayoutMethod] = useState<'bank' | 'wallet'>('wallet');
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   useEffect(() => {
     if (walletAddress) {
@@ -139,6 +140,12 @@ export function DirectUSDCPayout({ walletAddress }: DirectUSDCPayoutProps) {
     setAmount(usdcBalance);
   };
 
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    await loadUSDCBalance();
+    setTimeout(() => setIsRefreshing(false), 1000);
+  };
+
   return (
     <div className="max-w-2xl mx-auto">
       <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-cyan-500/30">
@@ -153,9 +160,19 @@ export function DirectUSDCPayout({ walletAddress }: DirectUSDCPayoutProps) {
         <div className="bg-gray-900/50 rounded-xl p-4 mb-6 border border-cyan-500/20">
           <div className="flex items-center justify-between mb-3">
             <span className="text-gray-400 text-sm">Available to Withdraw</span>
-            <div className="flex items-center gap-2">
-              <Wallet className="w-4 h-4 text-cyan-400" />
-              <span className="text-cyan-400 font-bold text-lg">{usdcBalance} USDC</span>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handleRefresh}
+                disabled={isRefreshing}
+                className="text-cyan-400 hover:text-cyan-300 active:text-cyan-200 transition-colors touch-manipulation min-w-[44px] min-h-[44px] flex items-center justify-center disabled:opacity-50"
+                title="Refresh balance"
+              >
+                <RefreshCw className={`w-5 h-5 ${isRefreshing ? 'animate-spin' : ''}`} />
+              </button>
+              <div className="flex items-center gap-2">
+                <Wallet className="w-4 h-4 text-cyan-400" />
+                <span className="text-cyan-400 font-bold text-lg">{usdcBalance} USDC</span>
+              </div>
             </div>
           </div>
           <div className="flex items-center justify-between pt-3 border-t border-gray-700/50">

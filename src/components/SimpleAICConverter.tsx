@@ -38,6 +38,7 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [isReversed, setIsReversed] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const activeChainId = getActiveArcChainId();
   const arcChain = Object.values(SUPPORTED_CHAINS).find(c => c.id === activeChainId);
@@ -179,6 +180,12 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
     setAicAmount(parseFloat(aicBalance).toFixed(6));
   };
 
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    await refreshBalances();
+    setTimeout(() => setIsRefreshing(false), 1000);
+  };
+
   if (!walletAddress) {
     return (
       <div className="max-w-2xl mx-auto">
@@ -211,10 +218,12 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
                   Balance: {parseFloat(aicBalance || '0').toFixed(2)} AIC
                 </span>
                 <button
-                  onClick={() => refreshBalances()}
-                  className="text-cyan-400 hover:text-cyan-300 transition-colors touch-manipulation"
+                  onClick={handleRefresh}
+                  disabled={isRefreshing}
+                  className="text-cyan-400 hover:text-cyan-300 active:text-cyan-200 transition-colors touch-manipulation min-w-[32px] min-h-[32px] flex items-center justify-center disabled:opacity-50"
+                  title="Refresh balance"
                 >
-                  <RefreshCw className="w-3 h-3 sm:w-4 sm:h-4" />
+                  <RefreshCw className={`w-4 h-4 sm:w-5 sm:h-5 ${isRefreshing ? 'animate-spin' : ''}`} />
                 </button>
               </div>
             </div>
