@@ -17,17 +17,19 @@ function AppAvalanche() {
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' }) as string[];
 
       if (accounts && accounts.length > 0) {
-        const avalancheChainId = '0xa86a';
+        const useFuji = import.meta.env.VITE_AVALANCHE_NETWORK === 'fuji';
+
+        const avalancheChainId = useFuji ? '0xa869' : '0xa86a';
         const avalancheConfig = {
-          chainId: '0xa86a',
-          chainName: 'Avalanche C-Chain',
+          chainId: useFuji ? '0xa869' : '0xa86a',
+          chainName: useFuji ? 'Avalanche Fuji Testnet' : 'Avalanche C-Chain',
           nativeCurrency: {
             name: 'AVAX',
             symbol: 'AVAX',
             decimals: 18
           },
-          rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
-          blockExplorerUrls: ['https://snowtrace.io/']
+          rpcUrls: [useFuji ? 'https://api.avax-test.network/ext/bc/C/rpc' : 'https://api.avax.network/ext/bc/C/rpc'],
+          blockExplorerUrls: [useFuji ? 'https://testnet.snowtrace.io/' : 'https://snowtrace.io/']
         };
 
         try {
