@@ -30,9 +30,18 @@ export function CircleBanking({ walletAddress, usdcBalance }: CircleBankingProps
         <p className="text-lg text-gray-300 max-w-3xl mx-auto mb-3">
           Seamlessly bridge crypto and traditional finance. Withdraw USDC to fiat instantly via ACH, Wire, or Direct Deposit.
         </p>
-        <div className="inline-flex items-center gap-2 bg-purple-500/20 px-4 py-2 rounded-lg border border-purple-500/30">
-          <img src="/circle.b8b9d808c4509a1c3043e1a2859807b7a83364094f388457832f020fa02cbc37.png" alt="Circle" className="w-5 h-5" />
-          <span className="text-purple-400 text-sm font-semibold">Powered by Circle Partner Alliance</span>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-4">
+          <div className="inline-flex items-center gap-2 bg-purple-500/20 px-4 py-2 rounded-lg border border-purple-500/30">
+            <img src="/circle.b8b9d808c4509a1c3043e1a2859807b7a83364094f388457832f020fa02cbc37.png" alt="Circle" className="w-5 h-5" />
+            <span className="text-purple-400 text-sm font-semibold">Powered by Circle Partner Alliance</span>
+          </div>
+          <a
+            href="/create-wallet-v2.html"
+            target="_blank"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white px-6 py-2 rounded-lg font-bold transition-all shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:shadow-[0_0_30px_rgba(34,211,238,0.6)]"
+          >
+            🎯 Create Circle Wallet
+          </a>
         </div>
       </div>
 
