@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Circle Wallet - Simple Version</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #0066ff;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        button:hover { background: #0052cc; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-family: monospace;
+        }
+        .result {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            word-break: break-all;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .error {
+            background: #ffebee;
+            color: #c62828;
+        }
+        h2 { margin-top: 0; color: #333; }
+        label { display: block; margin-top: 15px; font-weight: bold; color: #555; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>Step 1: Enter Your Details</h2>
+
+        <label>API Key (from .env file):</label>
+        <input type="text" id="apiKey" placeholder="80a6410f0bf7df6e92327c8eb8c27339:0ff6b1aa840f26973e38758af644f0fa">
+
+        <label>Entity Secret (from .env file):</label>
+        <input type="text" id="entitySecret" placeholder="a2267b2bf92ec8b27b451f6bb84d38b36edcdb7893d45352afab00553ada89fe">
+
+        <button onclick="createWalletNow()">CREATE WALLET NOW</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function createWalletNow() {
+            const apiKey = document.getElementById('apiKey').value.trim();
+            const entitySecret = document.getElementById('entitySecret').value.trim();
+            const resultDiv = document.getElementById('result');
+
+            resultDiv.innerHTML = '<div class="result">⏳ Working...</div>';
+
+            try {
+                const supabaseUrl = 'https://vcxvhlhpznzixbzvgmgq.supabase.co';
+
+                const response = await fetch(`${supabaseUrl}/functions/v1/create-circle-wallet`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        apiKey,
+                        entitySecret
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!data.success) {
+                    throw new Error(data.error || 'Wallet creation failed');
+                }
+
+                const walletId = data.walletId;
+                const address = data.address;
+
+                resultDiv.innerHTML = `
+                    <div class="result">
+                        <h3>✓ SUCCESS!</h3>
+                        <strong>Wallet ID:</strong><br>
+                        ${walletId}<br><br>
+                        <strong>Address:</strong><br>
+                        ${address}<br><br>
+                        <strong>Add this to your .env file:</strong><br>
+                        VITE_CIRCLE_WALLET_ID=${walletId}
+                    </div>
+                `;
+
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        <strong>❌ ERROR:</strong><br>
+                        ${error.message}
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
