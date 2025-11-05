@@ -83,11 +83,14 @@
 
             try {
                 const supabaseUrl = 'https://vcxvhlhpznzixbzvgmgq.supabase.co';
+                const anonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZjeHZobGhwem56aXhienZnbWdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzAyNDExODEsImV4cCI6MjA0NTgxNzE4MX0.KjQqCcwcdRtFcFkzUa3D6eN6sYZPz88qYscTrrmIJCo';
 
                 const response = await fetch(`${supabaseUrl}/functions/v1/create-circle-wallet`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${anonKey}`,
+                        'apikey': anonKey
                     },
                     body: JSON.stringify({
                         apiKey,
