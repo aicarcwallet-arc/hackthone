@@ -65,6 +65,12 @@
       `;
 
       try {
+        // Extract just the key part if it includes TEST_API_KEY: prefix
+        let authKey = apiKey;
+        if (apiKey.startsWith('TEST_API_KEY:')) {
+          authKey = apiKey.substring('TEST_API_KEY:'.length);
+        }
+
         // Create wallet
         const idempotencyKey = generateRandomBytes(16);
         const walletSetId = generateRandomBytes(16);
@@ -73,7 +79,7 @@
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiKey}`,
+            'Authorization': `Bearer ${authKey}`,
           },
           body: JSON.stringify({
             idempotencyKey,
