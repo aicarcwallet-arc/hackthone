@@ -82,38 +82,27 @@
             resultDiv.innerHTML = '<div class="result">⏳ Working...</div>';
 
             try {
-                // Create wallet directly (no registration needed)
-                const walletSetId = 'wallet-set-' + Date.now();
-                const idempotencyKey = 'idem-' + Date.now();
+                const supabaseUrl = 'https://vcxvhlhpznzixbzvgmgq.supabase.co';
 
-                const walletResponse = await fetch('https://api.circle.com/v1/w3s/developer/wallets', {
+                const response = await fetch(`${supabaseUrl}/functions/v1/create-circle-wallet`, {
                     method: 'POST',
                     headers: {
-                        'Authorization': `Bearer ${apiKey}`,
-                        'Content-Type': 'application/json',
-                        'X-User-Token': entitySecret
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        idempotencyKey,
-                        accountType: 'SCA',
-                        blockchains: ['ETH-SEPOLIA'],
-                        count: 1,
-                        walletSetId
+                        apiKey,
+                        entitySecret
                     })
                 });
 
-                const walletData = await walletResponse.json();
+                const data = await response.json();
 
-                if (!walletResponse.ok) {
-                    throw new Error('Wallet creation failed: ' + JSON.stringify(walletData));
+                if (!data.success) {
+                    throw new Error(data.error || 'Wallet creation failed');
                 }
 
-                const walletId = walletData.data?.wallets?.[0]?.id;
-                const address = walletData.data?.wallets?.[0]?.address;
-
-                if (!walletId) {
-                    throw new Error('No wallet ID in response: ' + JSON.stringify(walletData));
-                }
+                const walletId = data.walletId;
+                const address = data.address;
 
                 resultDiv.innerHTML = `
                     <div class="result">
