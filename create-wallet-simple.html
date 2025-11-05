@@ -82,25 +82,7 @@
             resultDiv.innerHTML = '<div class="result">⏳ Working...</div>';
 
             try {
-                // Step 1: Register entity secret
-                const registerResponse = await fetch('https://api.circle.com/v1/w3s/config/entity/entitySecretCiphertext', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${apiKey}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ entitySecret })
-                });
-
-                const registerData = await registerResponse.json();
-
-                if (!registerResponse.ok) {
-                    throw new Error('Registration failed: ' + JSON.stringify(registerData));
-                }
-
-                console.log('✓ Entity secret registered');
-
-                // Step 2: Create wallet
+                // Create wallet directly (no registration needed)
                 const walletSetId = 'wallet-set-' + Date.now();
                 const idempotencyKey = 'idem-' + Date.now();
 
