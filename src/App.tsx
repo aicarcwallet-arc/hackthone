@@ -669,6 +669,7 @@ function App() {
       onNavigate={handleNavigate}
       walletAddress={connectedAddress || undefined}
       onConnectWallet={handleConnectWallet}
+      onDisconnectWallet={handleDisconnectWallet}
     />
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black relative overflow-hidden py-8 pb-32 lg:pb-8">
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>

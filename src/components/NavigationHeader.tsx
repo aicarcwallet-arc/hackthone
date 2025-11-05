@@ -1,14 +1,15 @@
 import { useState } from 'react';
-import { Menu, X, Home, Gamepad2, CreditCard, Building2, BookOpen, Send, Download, Heart, Rocket, Trophy, Coins, ChevronDown, Zap, ArrowRightLeft, Flame, History, Wrench, Landmark } from 'lucide-react';
+import { Menu, X, Home, Gamepad2, CreditCard, Building2, BookOpen, Send, Download, Heart, Rocket, Trophy, Coins, ChevronDown, Zap, ArrowRightLeft, Flame, History, Wrench, Landmark, LogOut } from 'lucide-react';
 
 interface NavigationHeaderProps {
   currentPage: string;
   onNavigate: (page: string) => void;
   walletAddress?: string;
   onConnectWallet: () => void;
+  onDisconnectWallet?: () => void;
 }
 
-export function NavigationHeader({ currentPage, onNavigate, walletAddress, onConnectWallet }: NavigationHeaderProps) {
+export function NavigationHeader({ currentPage, onNavigate, walletAddress, onConnectWallet, onDisconnectWallet }: NavigationHeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isPlayMenuOpen, setIsPlayMenuOpen] = useState(false);
   const [isRewardsMenuOpen, setIsRewardsMenuOpen] = useState(false);
@@ -178,11 +179,21 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
 
             <div className="flex items-center gap-3">
               {walletAddress ? (
-                <div className="hidden md:flex items-center gap-2 bg-gradient-to-r from-cyan-500/20 to-blue-600/20 px-4 py-2 rounded-lg border border-cyan-500/30">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-sm text-cyan-400 font-mono">
-                    {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
-                  </span>
+                <div className="hidden md:flex items-center gap-2">
+                  <div className="flex items-center gap-2 bg-gradient-to-r from-cyan-500/20 to-blue-600/20 px-4 py-2 rounded-lg border border-cyan-500/30">
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <span className="text-sm text-cyan-400 font-mono">
+                      {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+                    </span>
+                  </div>
+                  <button
+                    onClick={onDisconnectWallet}
+                    className="flex items-center gap-1.5 px-3 py-2 text-xs bg-red-500/20 hover:bg-red-500/30 text-red-300 rounded-lg transition-colors border border-red-500/30"
+                    title="Disconnect wallet"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span>Logout</span>
+                  </button>
                 </div>
               ) : (
                 <button
@@ -266,11 +277,23 @@ export function NavigationHeader({ currentPage, onNavigate, walletAddress, onCon
 
               <div className="pt-4 border-t border-gray-800">
                 {walletAddress ? (
-                  <div className="flex items-center gap-2 bg-gradient-to-r from-cyan-500/20 to-blue-600/20 px-4 py-3 rounded-lg border border-cyan-500/30">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                    <span className="text-sm text-cyan-400 font-mono">
-                      {walletAddress.slice(0, 8)}...{walletAddress.slice(-6)}
-                    </span>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2 bg-gradient-to-r from-cyan-500/20 to-blue-600/20 px-4 py-3 rounded-lg border border-cyan-500/30">
+                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                      <span className="text-sm text-cyan-400 font-mono">
+                        {walletAddress.slice(0, 8)}...{walletAddress.slice(-6)}
+                      </span>
+                    </div>
+                    <button
+                      onClick={() => {
+                        onDisconnectWallet?.();
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm bg-red-500/20 active:bg-red-500/30 text-red-300 rounded-lg transition-colors touch-manipulation min-h-[48px] border border-red-500/30"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      <span className="font-semibold">Logout</span>
+                    </button>
                   </div>
                 ) : (
                   <button
