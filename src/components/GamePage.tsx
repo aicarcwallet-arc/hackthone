@@ -48,10 +48,20 @@ export function GamePage({ userId, walletAddress, onNavigate, onConnectWallet, o
 
       window.addEventListener('focus', handleFocus);
 
+      // Listen for balance update events from claim button
+      const handleBalanceUpdate = () => {
+        console.log('Balance update event received, refreshing...');
+        refreshBalances();
+        loadUserStats();
+      };
+
+      window.addEventListener('aicBalanceUpdated', handleBalanceUpdate);
+
       return () => {
         clearInterval(interval);
         document.removeEventListener('visibilitychange', handleVisibilityChange);
         window.removeEventListener('focus', handleFocus);
+        window.removeEventListener('aicBalanceUpdated', handleBalanceUpdate);
       };
     }
   }, [walletAddress, userId]);

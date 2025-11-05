@@ -70,6 +70,9 @@ export function ClaimAICTokens({ walletAddress, unclaimedAmount, onSuccess }: Cl
 
       setTxHash(data.txHash);
 
+      // Emit custom event to trigger balance refresh across all components
+      window.dispatchEvent(new CustomEvent('aicBalanceUpdated'));
+
       // Multiple refresh cycles to ensure balance updates
       // Immediate refresh
       await onSuccess();
@@ -77,7 +80,10 @@ export function ClaimAICTokens({ walletAddress, unclaimedAmount, onSuccess }: Cl
       // Refresh every 2 seconds for the next 10 seconds
       const refreshIntervals = [2000, 4000, 6000, 8000, 10000];
       refreshIntervals.forEach(delay => {
-        setTimeout(() => onSuccess(), delay);
+        setTimeout(() => {
+          onSuccess();
+          window.dispatchEvent(new CustomEvent('aicBalanceUpdated'));
+        }, delay);
       });
 
       // Clear success message after 15s

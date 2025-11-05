@@ -21,6 +21,19 @@ export function RewardsPage({ walletAddress, userId, onNavigate }: RewardsPagePr
     if (walletAddress) {
       loadUserStats();
       loadRecentTransactions();
+
+      // Listen for balance updates
+      const handleBalanceUpdate = () => {
+        console.log('Rewards page: Balance update event received');
+        loadUserStats();
+        loadRecentTransactions();
+      };
+
+      window.addEventListener('aicBalanceUpdated', handleBalanceUpdate);
+
+      return () => {
+        window.removeEventListener('aicBalanceUpdated', handleBalanceUpdate);
+      };
     }
   }, [walletAddress]);
 
