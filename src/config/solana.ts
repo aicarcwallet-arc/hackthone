@@ -1,10 +1,20 @@
 import { Connection, clusterApiUrl, Cluster } from '@solana/web3.js';
 
-export const SOLANA_NETWORK = (import.meta.env.VITE_SOLANA_NETWORK || 'devnet') as Cluster;
+const getEnv = (key: string, defaultValue: string = '') => {
+  if (typeof import.meta !== 'undefined' && import.meta.env) {
+    return import.meta.env[key] || defaultValue;
+  }
+  if (typeof process !== 'undefined' && process.env) {
+    return process.env[key] || defaultValue;
+  }
+  return defaultValue;
+};
 
-export const SOLANA_RPC_URL = import.meta.env.VITE_SOLANA_RPC_URL || clusterApiUrl(SOLANA_NETWORK);
+export const SOLANA_NETWORK = (getEnv('VITE_SOLANA_NETWORK', 'devnet')) as Cluster;
 
-export const PYUSD_MINT_ADDRESS = import.meta.env.VITE_PYUSD_MINT_ADDRESS ||
+export const SOLANA_RPC_URL = getEnv('VITE_SOLANA_RPC_URL') || clusterApiUrl(SOLANA_NETWORK);
+
+export const PYUSD_MINT_ADDRESS = getEnv('VITE_PYUSD_MINT_ADDRESS') ||
   (SOLANA_NETWORK === 'mainnet-beta'
     ? '2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo'
     : 'CXk2AMBfi3TwaEL2468s6zP8xq9NxTXjp9gjMgzeUynM');
@@ -17,7 +27,7 @@ export const getConnection = () => {
 };
 
 export const PROGRAM_IDS = {
-  aicToken: import.meta.env.VITE_AIC_TOKEN_PROGRAM_ID || '',
-  pyusdSwap: import.meta.env.VITE_PYUSD_SWAP_PROGRAM_ID || '',
-  payoutManager: import.meta.env.VITE_PAYOUT_MANAGER_PROGRAM_ID || '',
+  aicToken: getEnv('VITE_AIC_TOKEN_PROGRAM_ID'),
+  pyusdSwap: getEnv('VITE_PYUSD_SWAP_PROGRAM_ID'),
+  payoutManager: getEnv('VITE_PAYOUT_MANAGER_PROGRAM_ID'),
 };

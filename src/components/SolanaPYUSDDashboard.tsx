@@ -23,14 +23,62 @@ export const SolanaPYUSDDashboard: React.FC = () => {
   const [estimatedPYUSD, setEstimatedPYUSD] = useState<number>(0);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<'earn' | 'swap' | 'cashout'>('earn');
+  const [mintingStatus, setMintingStatus] = useState<string>('');
+  const [hasMinted, setHasMinted] = useState(false);
 
   const AIC_MINT_ADDRESS = import.meta.env.VITE_AIC_TOKEN_MINT || '';
 
   useEffect(() => {
     if (isConnected && publicKey) {
+      claimWelcomeBonus();
       loadBalances();
     }
   }, [isConnected, publicKey]);
+
+  const claimWelcomeBonus = async () => {
+    if (hasMinted || !publicKey) return;
+
+    try {
+      setMintingStatus('🎁 Claiming your 1,000,000 AIC welcome bonus...');
+
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/mint-solana-aic`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          },
+          body: JSON.stringify({
+            userWallet: publicKey.toBase58(),
+          }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (result.success) {
+        setMintingStatus('✅ Welcome bonus claimed! You received 1,000,000 AIC tokens!');
+        setHasMinted(true);
+        setTimeout(() => {
+          setMintingStatus('');
+          loadBalances();
+        }, 5000);
+      } else {
+        if (result.error?.includes('already minted') || result.error?.includes('balance')) {
+          setMintingStatus('✅ Welcome bonus already claimed!');
+          setHasMinted(true);
+        } else {
+          setMintingStatus(`⚠️  ${result.error || 'Could not claim bonus'}`);
+        }
+        setTimeout(() => setMintingStatus(''), 5000);
+      }
+    } catch (error) {
+      console.error('Minting error:', error);
+      setMintingStatus('⚠️  Bonus claim pending...');
+      setTimeout(() => setMintingStatus(''), 3000);
+    }
+  };
 
   const loadBalances = async () => {
     try {
@@ -105,6 +153,12 @@ export const SolanaPYUSDDashboard: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <div className="max-w-6xl mx-auto p-6">
+        {mintingStatus && (
+          <div className="mb-6 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-4 rounded-xl shadow-lg animate-pulse">
+            <p className="text-lg font-semibold">{mintingStatus}</p>
+          </div>
+        )}
+
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-4xl font-bold text-gray-900 mb-2">

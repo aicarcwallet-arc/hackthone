@@ -1,16 +1,29 @@
-import { Keypair, Connection, clusterApiUrl, LAMPORTS_PER_SOL } from '@solana/web3.js';
+import { Keypair, Connection, clusterApiUrl, LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import { AICSolanaToken } from '../src/lib/solana-aic-token';
 import { PYUSDSwapPool } from '../src/lib/solana-pyusd-swap';
 import * as fs from 'fs';
 import * as path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const DEVNET_RPC = clusterApiUrl('devnet');
 
-async function requestAirdrop(connection: Connection, publicKey: any, amount: number) {
+async function requestAirdrop(connection: Connection, publicKey: PublicKey, amount: number) {
   console.log(`Requesting ${amount} SOL airdrop...`);
-  const signature = await connection.requestAirdrop(publicKey, amount * LAMPORTS_PER_SOL);
-  await connection.confirmTransaction(signature);
-  console.log(`Airdrop successful: ${amount} SOL`);
+  try {
+    const signature = await connection.requestAirdrop(publicKey, amount * LAMPORTS_PER_SOL);
+    const latestBlockhash = await connection.getLatestBlockhash();
+    await connection.confirmTransaction({
+      signature,
+      ...latestBlockhash
+    });
+    console.log(`✅ Airdrop successful: ${amount} SOL`);
+  } catch (error) {
+    console.log('⚠️  Airdrop failed (rate limit?), continuing with existing balance...');
+  }
 }
 
 async function main() {
@@ -49,38 +62,40 @@ async function main() {
   const { mint: aicMint } = await aicToken.createToken(deployerKeypair);
   console.log(`✅ AIC Token Created: ${aicMint.toBase58()}`);
 
-  console.log('\n💰 Step 2: Minting initial AIC supply...');
+  console.log('\n💰 Step 2: Minting initial AIC supply for treasury...');
   await aicToken.mintTokens(
     aicMint,
     deployerKeypair.publicKey,
     deployerKeypair,
-    10_000_000
+    100_000_000
   );
-  console.log('✅ Minted 10,000,000 AIC tokens');
+  console.log('✅ Minted 100,000,000 AIC tokens to treasury');
+  console.log('   (This will be used for swap pool and user rewards!)');
 
   console.log('\n🏊 Step 3: Creating PYUSD Swap Pool...');
   const swapPool = new PYUSDSwapPool();
 
-  console.log('⚠️  Note: This demo uses simulated PYUSD on devnet');
-  console.log('   For mainnet, you would use real PYUSD tokens');
+  console.log('⚠️  Note: Using devnet PYUSD (testnet only)');
+  console.log('   For mainnet, you would use real PYUSD tokens\n');
 
   await swapPool.initializePool(
     deployerKeypair,
     aicMint,
-    5_000_000,
-    500,
+    10_000_000,
+    1000,
     0.3
   );
 
-  console.log('✅ Swap Pool Created');
-  console.log('   - AIC Reserve: 5,000,000');
-  console.log('   - PYUSD Reserve: 500 (simulated)');
+  console.log('✅ Swap Pool Created Successfully!');
+  console.log('   - AIC Reserve: 10,000,000');
+  console.log('   - PYUSD Reserve: 1,000 (simulated)');
   console.log('   - Swap Fee: 0.3%');
 
   const poolInfo = swapPool.getPoolInfo();
-  console.log('\n📊 Pool Information:');
-  console.log(`   - AIC Price: $${poolInfo.aicPrice.toFixed(6)}`);
-  console.log(`   - PYUSD Price: ${poolInfo.pyusdPrice.toFixed(6)} AIC`);
+  console.log(`\n📊 Pool Information:`);
+  console.log(`   - AIC Price: $${poolInfo.aicPrice.toFixed(6)} PYUSD`);
+  console.log(`   - PYUSD Price: ${poolInfo.pyusdPrice.toFixed(2)} AIC`);
+  console.log(`   - Each user can get 1,000,000 AIC tokens!`);
 
   console.log('\n💾 Saving deployment information...');
 
@@ -90,35 +105,50 @@ async function main() {
     deployer: deployerKeypair.publicKey.toBase58(),
     aicTokenMint: aicMint.toBase58(),
     poolAuthority: deployerKeypair.publicKey.toBase58(),
-    initialSupply: 10_000_000,
+    deployerSecretKey: Array.from(deployerKeypair.secretKey),
+    initialSupply: 100_000_000,
     poolReserves: {
-      aic: 5_000_000,
-      pyusd: 500,
+      aic: 10_000_000,
+      pyusd: 1000,
     },
     swapFee: 0.3,
+    perUserAllocation: 1_000_000,
   };
 
   const deploymentPath = path.join(__dirname, '../solana-deployment.json');
   fs.writeFileSync(deploymentPath, JSON.stringify(deploymentInfo, null, 2));
 
-  console.log('\n✅ Deployment information saved to solana-deployment.json');
+  console.log('✅ Deployment information saved to solana-deployment.json');
 
-  console.log('\n📝 Environment Variables to Add:');
-  console.log('================================');
+  console.log('\n\n═══════════════════════════════════════════════════════');
+  console.log('🎉 DEPLOYMENT COMPLETE!');
+  console.log('═══════════════════════════════════════════════════════\n');
+
+  console.log('📝 Add these to your .env file:');
+  console.log('─────────────────────────────────────────────────────');
   console.log(`VITE_SOLANA_NETWORK=devnet`);
   console.log(`VITE_SOLANA_RPC_URL=${DEVNET_RPC}`);
   console.log(`VITE_AIC_TOKEN_MINT=${aicMint.toBase58()}`);
   console.log(`VITE_POOL_AUTHORITY=${deployerKeypair.publicKey.toBase58()}`);
 
-  console.log('\n🎉 Deployment Complete!');
-  console.log('\n📋 Next Steps:');
-  console.log('1. Add the environment variables above to your .env file');
-  console.log('2. Test the swap functionality on devnet');
-  console.log('3. Integrate with Circle wallet for PYUSD payouts');
-  console.log('4. Once tested, prepare for mainnet deployment');
+  console.log('\n\n🎮 Next Steps:');
+  console.log('─────────────────────────────────────────────────────');
+  console.log('1. Update your .env file with the variables above');
+  console.log('2. Run: npm run dev');
+  console.log('3. Visit: http://localhost:5173/solana.html');
+  console.log('4. Connect your Phantom wallet (switch to devnet!)');
+  console.log('5. Each new user will automatically get 1,000,000 AIC!');
 
-  console.log('\n⚠️  IMPORTANT: Keep .solana-deployer-keypair.json secure!');
-  console.log('   This file controls the AIC token mint authority');
+  console.log('\n\n💡 Important Notes:');
+  console.log('─────────────────────────────────────────────────────');
+  console.log('• Keep .solana-deployer-keypair.json SECRET!');
+  console.log('• This keypair controls the AIC token mint');
+  console.log('• Install Phantom wallet and switch to devnet');
+  console.log('• Get free devnet SOL from: https://solfaucet.com/');
+  console.log('• Each user gets 1M AIC on first connection!');
+
+  console.log('\n\n🚀 Ready to test! Good luck!');
+  console.log('═══════════════════════════════════════════════════════\n');
 }
 
 main()
