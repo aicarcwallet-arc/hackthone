@@ -23,6 +23,21 @@ export function useAICToken(walletAddress?: string) {
       if (AIC_TOKEN_ADDRESS && USDC_ADDRESS) {
         fetchPrice();
       }
+
+      // Listen for balance update events from claim/mint operations
+      const handleBalanceUpdate = () => {
+        console.log('🔔 useAICToken: Balance update event received, refreshing...');
+        fetchBalances();
+        fetchDatabaseBalance();
+      };
+
+      window.addEventListener('aicBalanceUpdated', handleBalanceUpdate);
+      window.addEventListener('usdcBalanceUpdated', handleBalanceUpdate);
+
+      return () => {
+        window.removeEventListener('aicBalanceUpdated', handleBalanceUpdate);
+        window.removeEventListener('usdcBalanceUpdated', handleBalanceUpdate);
+      };
     }
   }, [walletAddress]);
 
@@ -49,6 +64,8 @@ export function useAICToken(walletAddress?: string) {
     if (!walletAddress) return;
 
     try {
+      console.log('💰 useAICToken: Fetching balances for', walletAddress);
+
       if (AIC_TOKEN_ADDRESS && USDC_ADDRESS) {
         try {
           const [aic, usdc] = await Promise.all([
@@ -66,9 +83,18 @@ export function useAICToken(walletAddress?: string) {
             }),
           ]);
 
-          setAicBalance(formatUnits(aic as bigint, 6));
-          setUsdcBalance(formatUnits(usdc as bigint, 6));
+          const aicFormatted = formatUnits(aic as bigint, 6);
+          const usdcFormatted = formatUnits(usdc as bigint, 6);
+
+          console.log('✅ useAICToken: Balances fetched:', {
+            AIC: aicFormatted,
+            USDC: usdcFormatted
+          });
+
+          setAicBalance(aicFormatted);
+          setUsdcBalance(usdcFormatted);
         } catch (contractError) {
+          console.error('❌ useAICToken: Contract read error:', contractError);
           // Silently fail contract reads, use defaults
           setAicBalance('0');
           setUsdcBalance('0');
