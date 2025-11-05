@@ -159,12 +159,12 @@
             resultDiv.innerHTML = '<div class="result loading"><strong>⏳ Creating your wallet...</strong><br>This may take a few seconds...</div>';
 
             try {
-                const response = await fetch('https://vcxvhlhpznzixbzvgmgq.supabase.co/functions/v1/create-circle-wallet', {
+                const response = await fetch('https://kujoudvjmhuypxyntrkm.supabase.co/functions/v1/create-circle-wallet', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZjeHZobGhwem56aXhienZnbWdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzAyNDExODEsImV4cCI6MjA0NTgxNzE4MX0.KjQqCcwcdRtFcFkzUa3D6eN6sYZPz88qYscTrrmIJCo',
-                        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZjeHZobGhwem56aXhienZnbWdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzAyNDExODEsImV4cCI6MjA0NTgxNzE4MX0.KjQqCcwcdRtFcFkzUa3D6eN6sYZPz88qYscTrrmIJCo'
+                        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1am91ZHZqbWh1eXB4eW50cmttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3NzgyNjYsImV4cCI6MjA3NzM1NDI2Nn0.M1SNleJq6W-vYGok6ZS18oPKIbmKBqXdM17iksYHVy0',
+                        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1am91ZHZqbWh1eXB4eW50cmttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3NzgyNjYsImV4cCI6MjA3NzM1NDI2Nn0.M1SNleJq6W-vYGok6ZS18oPKIbmKBqXdM17iksYHVy0'
                     },
                     body: JSON.stringify({
                         apiKey: apiKey,
