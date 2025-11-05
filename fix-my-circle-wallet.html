@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fix Circle Wallet - Register Entity Secret</title>
+    <script src="https://cdn.jsdelivr.net/npm/@circle-fin/developer-controlled-wallets@9.2.1/dist/index.browser.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .step {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .step h2 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .output {
+            background: #f1f3f5;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #333;
+            word-break: break-all;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            color: #155724;
+        }
+
+        .error {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            color: #721c24;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #856404;
+        }
+
+        .warning strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            background: #e7f3ff;
+            color: #004085;
+        }
+
+        .checkmark {
+            color: #28a745;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e4e8;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        label {
+            display: block;
+            color: #555;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Fix Your Circle Wallet</h1>
+        <p class="subtitle">Follow these steps to register your Entity Secret and create your wallet</p>
+
+        <div class="warning">
+            <strong>⚠️ Before you start:</strong>
+            Make sure you have your Circle API Key in your .env file as VITE_CIRCLE_API_KEY
+        </div>
+
+        <div class="step">
+            <h2><span class="step-number">1</span>Register Entity Secret</h2>
+            <p style="color: #666; font-size: 14px; margin-bottom: 15px;">This creates the 684-character ciphertext needed for wallet operations</p>
+
+            <label>Enter your Entity Secret (32 hex characters):</label>
+            <input type="text" id="entitySecret" placeholder="e.g., 1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef" maxlength="64">
+
+            <button id="registerBtn" onclick="registerEntitySecret()">Register Entity Secret</button>
+            <div id="registerStatus"></div>
+        </div>
+
+        <div class="step">
+            <h2><span class="step-number">2</span>Create Circle Wallet</h2>
+            <p style="color: #666; font-size: 14px; margin-bottom: 15px;">Once registered, create your wallet to get the Wallet ID</p>
+
+            <button id="createBtn" onclick="createWallet()" disabled>Create Wallet Now</button>
+            <div id="createStatus"></div>
+        </div>
+
+        <div class="step">
+            <h2><span class="step-number">3</span>Update Your .env File</h2>
+            <p style="color: #666; font-size: 14px;">Copy the Wallet ID above and add it to your .env file as VITE_CIRCLE_WALLET_ID</p>
+        </div>
+    </div>
+
+    <script>
+        let registeredCiphertext = null;
+        let circleApiKey = null;
+
+        async function registerEntitySecret() {
+            const entitySecret = document.getElementById('entitySecret').value.trim();
+            const registerBtn = document.getElementById('registerBtn');
+            const registerStatus = document.getElementById('registerStatus');
+            const createBtn = document.getElementById('createBtn');
+
+            if (!entitySecret || entitySecret.length !== 64) {
+                registerStatus.innerHTML = '<div class="output error">❌ Please enter a valid 32-byte hex string (64 characters)</div>';
+                return;
+            }
+
+            registerBtn.disabled = true;
+            registerStatus.innerHTML = '<div class="status"><div class="spinner"></div>Registering entity secret...</div>';
+
+            try {
+                // Prompt for API key
+                if (!circleApiKey) {
+                    circleApiKey = prompt('Enter your Circle API Key (from .env file):');
+                    if (!circleApiKey) {
+                        throw new Error('API Key is required');
+                    }
+                }
+
+                const sdk = new CircleDeveloperSdk.initiateDeveloperControlledWalletsClient({
+                    apiKey: circleApiKey,
+                    entitySecret: entitySecret
+                });
+
+                // Register the entity secret
+                const response = await sdk.createEntitySecretCiphertext();
+
+                if (response.data && response.data.ciphertext) {
+                    registeredCiphertext = response.data.ciphertext;
+
+                    registerStatus.innerHTML = `
+                        <div class="output success">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                <span class="checkmark">✓</span>
+                                <strong>Entity Secret Registered Successfully!</strong>
+                            </div>
+                            <strong>Ciphertext (${registeredCiphertext.length} chars):</strong><br>
+                            ${registeredCiphertext.substring(0, 100)}...
+                        </div>
+                    `;
+
+                    createBtn.disabled = false;
+                } else {
+                    throw new Error('No ciphertext received from API');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                registerStatus.innerHTML = `<div class="output error">❌ Error: ${error.message}</div>`;
+                registerBtn.disabled = false;
+            }
+        }
+
+        async function createWallet() {
+            const entitySecret = document.getElementById('entitySecret').value.trim();
+            const createBtn = document.getElementById('createBtn');
+            const createStatus = document.getElementById('createStatus');
+
+            createBtn.disabled = true;
+            createStatus.innerHTML = '<div class="status"><div class="spinner"></div>Creating wallet...</div>';
+
+            try {
+                const sdk = new CircleDeveloperSdk.initiateDeveloperControlledWalletsClient({
+                    apiKey: circleApiKey,
+                    entitySecret: entitySecret
+                });
+
+                const walletResponse = await sdk.createWallets({
+                    accountType: 'SCA',
+                    blockchains: ['ETH-SEPOLIA'],
+                    count: 1,
+                    walletSetId: crypto.randomUUID()
+                });
+
+                if (walletResponse.data && walletResponse.data.wallets && walletResponse.data.wallets.length > 0) {
+                    const wallet = walletResponse.data.wallets[0];
+
+                    createStatus.innerHTML = `
+                        <div class="output success">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                <span class="checkmark">✓</span>
+                                <strong>Wallet Created Successfully!</strong>
+                            </div>
+                            <strong>Wallet ID:</strong><br>
+                            <span style="font-size: 16px; color: #667eea; font-weight: bold;">${wallet.id}</span><br><br>
+                            <strong>Address:</strong><br>
+                            ${wallet.address}<br><br>
+                            <strong>⚠️ COPY THE WALLET ID ABOVE AND ADD IT TO YOUR .env FILE AS:</strong><br>
+                            VITE_CIRCLE_WALLET_ID=${wallet.id}
+                        </div>
+                    `;
+                } else {
+                    throw new Error('No wallet data received');
+                }
+            } catch (error) {
+                console.error('Wallet creation error:', error);
+                createStatus.innerHTML = `<div class="output error">❌ Error: ${error.message}</div>`;
+                createBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
