@@ -143,6 +143,91 @@ export function WalletDashboard({ walletAddress, userId, onDisconnect }: WalletD
 
   return (
     <div className="mb-8 sm:mb-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div className="bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border-2 border-yellow-500/50 rounded-2xl p-6 backdrop-blur-sm shadow-[0_0_30px_rgba(234,179,8,0.3)]">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-yellow-500/30 rounded-full flex items-center justify-center">
+                <Coins className="w-6 h-6 text-yellow-300" />
+              </div>
+              <div>
+                <h3 className="text-sm text-gray-400">Available AIC Balance</h3>
+                <p className="text-xs text-yellow-200">Ready to Convert</p>
+              </div>
+            </div>
+            <button
+              onClick={handleRefresh}
+              className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+            >
+              <RefreshCw className={`w-4 h-4 text-yellow-300 ${isLoading ? 'animate-spin' : ''}`} />
+            </button>
+          </div>
+          <div className="mb-4">
+            <p className="text-4xl font-bold text-white mb-1">
+              {parseFloat(aicBalance || '0').toFixed(2)}
+            </p>
+            <p className="text-yellow-200 text-sm">AIC Tokens</p>
+          </div>
+          {parseFloat(aicBalance || '0') > 0 ? (
+            <button
+              onClick={() => setShowSwapModal(true)}
+              className="w-full bg-gradient-to-r from-yellow-500 to-orange-600 hover:from-yellow-400 hover:to-orange-500 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2"
+            >
+              <ArrowRightLeft className="w-5 h-5" />
+              Convert to USDC
+            </button>
+          ) : (
+            <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3 text-center">
+              <p className="text-yellow-200 text-sm font-medium">Play games to earn AIC tokens!</p>
+            </div>
+          )}
+        </div>
+
+        <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 border-2 border-green-500/50 rounded-2xl p-6 backdrop-blur-sm shadow-[0_0_30px_rgba(34,197,94,0.3)]">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-green-500/30 rounded-full flex items-center justify-center">
+                <img
+                  src="/usdc-3d-icon-download-in-png-blend-fbx-gltf-file-formats--bitcoin-logo-coin-cryptocurrency-symbol-crypto-coins-vol2-pack-science-technology-icons-7947905.webp"
+                  alt="USDC"
+                  className="w-8 h-8 rounded-full"
+                />
+              </div>
+              <div>
+                <h3 className="text-sm text-gray-400">Available USDC Balance</h3>
+                <p className="text-xs text-green-200">Ready to Withdraw</p>
+              </div>
+            </div>
+            <button
+              onClick={handleRefresh}
+              className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+            >
+              <RefreshCw className={`w-4 h-4 text-green-300 ${isLoading ? 'animate-spin' : ''}`} />
+            </button>
+          </div>
+          <div className="mb-4">
+            <p className="text-4xl font-bold text-white mb-1">
+              {parseFloat(usdcBalance).toFixed(2)}
+            </p>
+            <p className="text-green-200 text-sm">
+              ≈ ${parseFloat(usdcBalance).toFixed(2)} USD
+            </p>
+          </div>
+          {parseFloat(usdcBalance) > 0 ? (
+            <a
+              href="#withdraw"
+              className="block w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-lg text-center"
+            >
+              Withdraw to Bank/Card
+            </a>
+          ) : (
+            <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-3 text-center">
+              <p className="text-green-200 text-sm font-medium">Convert AIC to USDC to withdraw!</p>
+            </div>
+          )}
+        </div>
+      </div>
+
       <InternetMinutesRewardsBox
         walletAddress={walletAddress}
         unclaimedUSDC={unclaimedUSDC}
