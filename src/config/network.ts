@@ -23,12 +23,12 @@ interface NetworkConfig {
 }
 
 const TESTNET_CONFIG: NetworkConfig = {
-  chainId: 5042002,
-  chainIdHex: '0x4CEF52',
-  rpcUrl: 'https://rpc.testnet.arc.network',
-  explorerUrl: 'https://testnet.arcscan.app',
-  name: 'Arc Testnet',
-  usdcAddress: '0x3600000000000000000000000000000000000000',
+  chainId: 11155111,
+  chainIdHex: '0xaa36a7',
+  rpcUrl: `https://sepolia.infura.io/v3/${import.meta.env.VITE_INFURA_API_KEY}`,
+  explorerUrl: 'https://sepolia.etherscan.io',
+  name: 'Sepolia Testnet',
+  usdcAddress: '0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238',
   treasuryAddress: '0x43909cce967BE2a4448336a0ad95A99b7040BF05',
 };
 
@@ -83,9 +83,9 @@ export function getMetaMaskNetworkConfig() {
     chainId: ARC_CHAIN_ID_HEX,
     chainName: ARC_NETWORK_NAME,
     nativeCurrency: {
-      name: 'USDC',
-      symbol: 'USDC',
-      decimals: 6,
+      name: 'ETH',
+      symbol: 'ETH',
+      decimals: 18,
     },
     rpcUrls: [ARC_RPC_URL],
     blockExplorerUrls: [ARC_EXPLORER_URL],
