@@ -88,12 +88,18 @@ export function GamePage({ userId, walletAddress, onNavigate, onConnectWallet, o
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
-    await refreshBalances();
+    await Promise.all([
+      refreshBalances(),
+      loadUserStats()
+    ]);
     setTimeout(() => setIsRefreshing(false), 1000);
   };
 
-  const handleSwapSuccess = () => {
-    refreshBalances();
+  const handleSwapSuccess = async () => {
+    await Promise.all([
+      refreshBalances(),
+      loadUserStats()
+    ]);
   };
 
   const unclaimedAIC = totalAICEarned - claimedAIC;
