@@ -238,8 +238,12 @@
             const registerStatus = document.getElementById('registerStatus');
             const createBtn = document.getElementById('createBtn');
 
+            console.log('Entity Secret entered:', entitySecret);
+            console.log('Length:', entitySecret.length);
+
             if (!entitySecret || entitySecret.length !== 64) {
-                registerStatus.innerHTML = '<div class="output error">❌ Please enter a valid 32-byte hex string (64 characters)</div>';
+                alert('❌ Please enter a valid 32-byte hex string (64 characters). You entered: ' + entitySecret.length + ' characters');
+                registerStatus.innerHTML = '<div class="output error">❌ Please enter a valid 32-byte hex string (64 characters). Current length: ' + entitySecret.length + '</div>';
                 return;
             }
 
