@@ -69,18 +69,22 @@ export function ClaimAICTokens({ walletAddress, unclaimedAmount, onSuccess }: Cl
       }
 
       setTxHash(data.txHash);
+      console.log('✅ Mint successful! TX Hash:', data.txHash);
+      console.log('💰 Amount minted:', data.amountMinted);
 
-      // Emit custom event to trigger balance refresh across all components
+      // Wait 1 second for database to update, then start refreshing
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // First refresh after database has time to update
+      console.log('🔄 Triggering first refresh...');
+      await onSuccess();
       window.dispatchEvent(new CustomEvent('aicBalanceUpdated'));
 
-      // Multiple refresh cycles to ensure balance updates
-      // Immediate refresh
-      await onSuccess();
-
-      // Refresh every 2 seconds for the next 10 seconds
+      // Continue refreshing to catch any delayed updates
       const refreshIntervals = [2000, 4000, 6000, 8000, 10000];
       refreshIntervals.forEach(delay => {
         setTimeout(() => {
+          console.log(`🔄 Auto-refresh at ${delay}ms`);
           onSuccess();
           window.dispatchEvent(new CustomEvent('aicBalanceUpdated'));
         }, delay);

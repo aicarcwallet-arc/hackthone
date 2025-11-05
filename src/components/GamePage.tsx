@@ -78,8 +78,18 @@ export function GamePage({ userId, walletAddress, onNavigate, onConnectWallet, o
         .maybeSingle();
 
       if (data) {
-        setTotalAICEarned(parseFloat(data.total_aic_earned || '0'));
-        setClaimedAIC(parseFloat(data.claimed_aic || '0'));
+        const totalEarned = parseFloat(data.total_aic_earned || '0');
+        const claimed = parseFloat(data.claimed_aic || '0');
+        const unclaimed = totalEarned - claimed;
+
+        console.log('🎮 Game Page Stats Loaded:', {
+          totalAICEarned: totalEarned,
+          claimedAIC: claimed,
+          unclaimedAIC: unclaimed
+        });
+
+        setTotalAICEarned(totalEarned);
+        setClaimedAIC(claimed);
       }
     } catch (error) {
       console.error('Failed to load user stats:', error);

@@ -50,10 +50,22 @@ export function RewardsPage({ walletAddress, userId, onNavigate }: RewardsPagePr
         .maybeSingle();
 
       if (data) {
-        setTotalAICEarned(parseFloat(data.total_aic_earned || '0'));
+        const totalEarned = parseFloat(data.total_aic_earned || '0');
+        const claimed = parseFloat(data.claimed_aic || '0');
+        const unclaimed = totalEarned - claimed;
+
+        console.log('📊 Rewards Page Stats Loaded:', {
+          totalAICEarned: totalEarned,
+          claimedAIC: claimed,
+          unclaimedAIC: unclaimed,
+          totalUSDCEarned: parseFloat(data.total_usdc_earned || '0'),
+          claimedUSDC: parseFloat(data.claimed_usdc || '0')
+        });
+
+        setTotalAICEarned(totalEarned);
         setTotalUSDCEarned(parseFloat(data.total_usdc_earned || '0'));
         setClaimedUSDC(parseFloat(data.claimed_usdc || '0'));
-        setClaimedAIC(parseFloat(data.claimed_aic || '0'));
+        setClaimedAIC(claimed);
         setTotalWords(data.total_words_submitted || 0);
       }
     } catch (error) {
