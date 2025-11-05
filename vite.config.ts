@@ -10,13 +10,32 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          'react-vendor': ['react', 'react-dom'],
-          'blockchain': ['viem', '@circle-fin/adapter-viem-v2', '@circle-fin/bridge-kit'],
-          'supabase': ['@supabase/supabase-js'],
+        manualChunks(id) {
+          // Separate large vendor chunks
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'react-vendor';
+            }
+            if (id.includes('viem') || id.includes('@circle-fin')) {
+              return 'blockchain';
+            }
+            if (id.includes('@supabase')) {
+              return 'supabase';
+            }
+            if (id.includes('lucide-react')) {
+              return 'icons';
+            }
+            // Other node_modules go to vendor
+            return 'vendor';
+          }
         },
       },
     },
-    chunkSizeWarningLimit: 600,
+    chunkSizeWarningLimit: 1000,
+    // Use esbuild for faster builds
+    minify: 'esbuild',
+    // Smaller output
+    target: 'es2020',
+    cssMinify: true,
   },
 });
