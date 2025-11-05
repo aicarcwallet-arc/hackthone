@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ArrowDown, Loader2, CheckCircle2, AlertCircle, ExternalLink, RefreshCw } from 'lucide-react';
+import { ArrowDown, ArrowDownUp, Loader2, CheckCircle2, AlertCircle, ExternalLink, RefreshCw } from 'lucide-react';
 import { createPublicClient, createWalletClient, custom, http, formatUnits, parseUnits } from 'viem';
 import { SUPPORTED_CHAINS, getActiveArcExplorerUrl, getActiveArcChainId } from '../config/chains';
 import { USDC_ADDRESS, ERC20_ABI } from '../config/contracts';
@@ -37,6 +37,7 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
   const [txHash, setTxHash] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [isReversed, setIsReversed] = useState(false);
 
   const activeChainId = getActiveArcChainId();
   const arcChain = Object.values(SUPPORTED_CHAINS).find(c => c.id === activeChainId);
@@ -57,14 +58,30 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
   }, [walletAddress, refreshBalances]);
 
   useEffect(() => {
-    if (aicAmount && !isNaN(parseFloat(aicAmount))) {
-      const aic = parseFloat(aicAmount);
-      const usdc = aic * CONVERSION_RATE;
-      setUsdcAmount(usdc.toFixed(6));
+    if (isReversed) {
+      if (usdcAmount && !isNaN(parseFloat(usdcAmount))) {
+        const usdc = parseFloat(usdcAmount);
+        const aic = usdc / CONVERSION_RATE;
+        setAicAmount(aic.toFixed(6));
+      } else {
+        setAicAmount('0');
+      }
     } else {
-      setUsdcAmount('0');
+      if (aicAmount && !isNaN(parseFloat(aicAmount))) {
+        const aic = parseFloat(aicAmount);
+        const usdc = aic * CONVERSION_RATE;
+        setUsdcAmount(usdc.toFixed(6));
+      } else {
+        setUsdcAmount('0');
+      }
     }
-  }, [aicAmount]);
+  }, [aicAmount, usdcAmount, isReversed]);
+
+  const handleSwitch = () => {
+    setIsReversed(!isReversed);
+    setAicAmount(usdcAmount);
+    setUsdcAmount(aicAmount);
+  };
 
 
   const handleConvert = async () => {
@@ -188,7 +205,7 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
         <div className="space-y-3 sm:space-y-4">
           <div className="bg-gray-900/50 rounded-xl p-3 sm:p-4 border border-cyan-500/20">
             <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-2 gap-1">
-              <label className="text-xs sm:text-sm text-gray-400">From</label>
+              <label className="text-xs sm:text-sm text-gray-400">{isReversed ? 'To' : 'From'}</label>
               <div className="flex items-center gap-2">
                 <span className="text-xs sm:text-sm text-gray-400">
                   Balance: {parseFloat(aicBalance || '0').toFixed(2)} AIC
@@ -208,15 +225,18 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
                 onChange={(e) => setAicAmount(e.target.value)}
                 placeholder="0.00"
                 className="flex-1 bg-transparent text-xl sm:text-2xl font-bold text-white outline-none min-w-0"
-                disabled={isConverting}
+                disabled={isConverting || isReversed}
+                readOnly={isReversed}
               />
-              <button
-                onClick={handleMaxClick}
-                className="px-2 sm:px-3 py-1 bg-cyan-500/20 hover:bg-cyan-500/30 active:bg-cyan-500/40 text-cyan-400 rounded-lg text-xs sm:text-sm font-medium transition-colors touch-manipulation flex-shrink-0"
-                disabled={isConverting}
-              >
-                MAX
-              </button>
+              {!isReversed && (
+                <button
+                  onClick={handleMaxClick}
+                  className="px-2 sm:px-3 py-1 bg-cyan-500/20 hover:bg-cyan-500/30 active:bg-cyan-500/40 text-cyan-400 rounded-lg text-xs sm:text-sm font-medium transition-colors touch-manipulation flex-shrink-0"
+                  disabled={isConverting}
+                >
+                  MAX
+                </button>
+              )}
               <div className="flex items-center gap-1 sm:gap-2 bg-gray-800 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg flex-shrink-0">
                 <img src="/aic toekn .png" alt="AIC" className="w-5 h-5 sm:w-6 sm:h-6 rounded-full" />
                 <span className="font-bold text-white text-sm sm:text-base">AIC</span>
@@ -225,23 +245,29 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
           </div>
 
           <div className="flex justify-center -my-1 sm:my-0">
-            <div className="bg-gray-800 rounded-full p-1.5 sm:p-2 border border-cyan-500/30">
-              <ArrowDown className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400" />
-            </div>
+            <button
+              onClick={handleSwitch}
+              disabled={isConverting}
+              className="bg-gray-800 hover:bg-gray-700 active:bg-gray-600 disabled:bg-gray-800 rounded-full p-1.5 sm:p-2 border border-cyan-500/30 hover:border-cyan-500/50 transition-all touch-manipulation"
+            >
+              <ArrowDownUp className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400" />
+            </button>
           </div>
 
           <div className="bg-gray-900/50 rounded-xl p-3 sm:p-4 border border-cyan-500/20">
             <div className="flex justify-between items-center mb-2">
-              <label className="text-xs sm:text-sm text-gray-400">To</label>
-              <span className="text-xs sm:text-sm text-gray-400">You'll receive</span>
+              <label className="text-xs sm:text-sm text-gray-400">{isReversed ? 'From' : 'To'}</label>
+              <span className="text-xs sm:text-sm text-gray-400">{isReversed ? 'Enter amount' : "You'll receive"}</span>
             </div>
             <div className="flex items-center gap-2 sm:gap-3">
               <input
-                type="text"
+                type="number"
                 value={usdcAmount}
-                readOnly
+                onChange={(e) => isReversed && setUsdcAmount(e.target.value)}
                 placeholder="0.00"
                 className="flex-1 bg-transparent text-xl sm:text-2xl font-bold text-white outline-none min-w-0"
+                disabled={isConverting || !isReversed}
+                readOnly={!isReversed}
               />
               <div className="flex items-center gap-1 sm:gap-2 bg-gray-800 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg flex-shrink-0">
                 <img
@@ -286,7 +312,7 @@ export function SimpleAICConverter({ walletAddress }: SimpleAICConverterProps) {
                 <span>Converting...</span>
               </>
             ) : (
-              'Convert AIC to USDC'
+              isReversed ? 'Convert USDC to AIC' : 'Convert AIC to USDC'
             )}
           </button>
 
