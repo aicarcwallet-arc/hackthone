@@ -18,21 +18,21 @@ export function RewardsPage({ walletAddress, userId, onNavigate }: RewardsPagePr
   const [recentTransactions, setRecentTransactions] = useState<any[]>([]);
 
   useEffect(() => {
-    if (userId && walletAddress) {
+    if (walletAddress) {
       loadUserStats();
       loadRecentTransactions();
     }
-  }, [userId, walletAddress]);
+  }, [walletAddress]);
 
   const loadUserStats = async () => {
-    if (!userId) return;
+    if (!walletAddress) return;
 
     try {
       const { supabase } = await import('../lib/supabase');
       const { data } = await supabase
         .from('users')
-        .select('total_aic_earned, total_usdc_earned, claimed_usdc, claimed_aic, total_words_submitted')
-        .eq('id', userId)
+        .select('id, total_aic_earned, total_usdc_earned, claimed_usdc, claimed_aic, total_words_submitted')
+        .eq('wallet_address', walletAddress.toLowerCase())
         .maybeSingle();
 
       if (data) {
@@ -48,14 +48,23 @@ export function RewardsPage({ walletAddress, userId, onNavigate }: RewardsPagePr
   };
 
   const loadRecentTransactions = async () => {
-    if (!userId) return;
+    if (!walletAddress) return;
 
     try {
       const { supabase } = await import('../lib/supabase');
+
+      const { data: userData } = await supabase
+        .from('users')
+        .select('id')
+        .eq('wallet_address', walletAddress.toLowerCase())
+        .maybeSingle();
+
+      if (!userData) return;
+
       const { data } = await supabase
         .from('token_transactions')
         .select('*')
-        .eq('user_id', userId)
+        .eq('user_id', userData.id)
         .order('created_at', { ascending: false })
         .limit(10);
 
