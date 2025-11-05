@@ -9,13 +9,21 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
-    "setup-circle": "tsx scripts/setup-circle-complete.ts"
+    "setup-circle": "tsx scripts/setup-circle-complete.ts",
+    "deploy-solana": "tsx scripts/deploy-solana-devnet.ts"
   },
   "dependencies": {
     "@circle-fin/adapter-viem-v2": "^1.0.1",
     "@circle-fin/bridge-kit": "^1.1.0",
     "@circle-fin/developer-controlled-wallets": "^9.2.1",
+    "@coral-xyz/anchor": "^0.32.1",
     "@metamask/sdk-react": "^0.33.1",
+    "@solana/spl-token": "^0.4.14",
+    "@solana/wallet-adapter-base": "^0.9.27",
+    "@solana/wallet-adapter-react": "^0.15.39",
+    "@solana/wallet-adapter-react-ui": "^0.9.39",
+    "@solana/wallet-adapter-wallets": "^0.19.37",
+    "@solana/web3.js": "^1.98.4",
     "@supabase/supabase-js": "^2.57.4",
     "dotenv": "^17.2.3",
     "lucide-react": "^0.344.0",
