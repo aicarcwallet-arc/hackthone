@@ -163,13 +163,10 @@ Deno.serve(async (req: Request) => {
 
     console.log('Transaction sent:', txHash);
 
-    // Arc Network: Malachite BFT consensus provides deterministic finality
-    // Transactions are final as soon as included in a block (sub-second)
-    // Wait for 1 confirmation for absolute certainty
     const receipt = await publicClient.waitForTransactionReceipt({
       hash: txHash,
-      confirmations: 1, // Arc blocks finalize in <1 second
-      timeout: 10_000, // 10s timeout (generous for sub-second blocks)
+      confirmations: 1,
+      timeout: 10_000,
     });
 
     if (receipt.status !== "success") {
@@ -179,19 +176,18 @@ Deno.serve(async (req: Request) => {
 
     console.log('Transaction confirmed! Updating database...');
 
-    // Update claimed amount in database
+    const newClaimedAmount = alreadyClaimed + unclaimedAmount;
     const { error: updateError } = await supabase
       .from("users")
-      .update({ claimed_aic: totalEarned.toString() })
+      .update({ claimed_aic: newClaimedAmount.toString() })
       .eq("id", userData.id);
 
     if (updateError) {
       console.error('Failed to update claimed_aic:', updateError);
-      // Transaction succeeded on-chain but DB update failed
-      // User will need to manually reset claimed_aic
+    } else {
+      console.log('Updated claimed_aic:', { from: alreadyClaimed, to: newClaimedAmount });
     }
 
-    // Record transaction
     const { error: txError } = await supabase.from("token_transactions").insert({
       user_id: userData.id,
       transaction_type: "mint",
