@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avalanche Theme Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #FFFFFF;
+      color: #000000;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 8rem 2rem 6rem;
+      text-center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      background: #F3F4F6;
+      color: #374151;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 2rem;
+    }
+
+    .mountain-icon {
+      width: 1rem;
+      height: 1rem;
+      color: #E84142;
+    }
+
+    h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .red-text {
+      color: #E84142;
+    }
+
+    .subtitle {
+      font-size: 1.5rem;
+      color: #4B5563;
+      margin-bottom: 3rem;
+      line-height: 1.6;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: #000000;
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 1.125rem;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      transition: all 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: #1F2937;
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #111827;
+      padding: 1rem 2rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 1.125rem;
+      border: 2px solid #D1D5DB;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      border-color: #111827;
+    }
+
+    /* How It Works */
+    .how-it-works {
+      padding: 6rem 2rem;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      font-size: 1.25rem;
+      color: #4B5563;
+      margin-bottom: 4rem;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .step {
+      text-align: center;
+    }
+
+    .step-icon {
+      width: 4rem;
+      height: 4rem;
+      background: #F3F4F6;
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 2rem;
+    }
+
+    .step-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .step-text {
+      color: #4B5563;
+      line-height: 1.6;
+    }
+
+    /* Features */
+    .features {
+      padding: 6rem 2rem;
+      background: #F9FAFB;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 2rem;
+      border: 1px solid #E5E7EB;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-icon {
+      width: 3rem;
+      height: 3rem;
+      background: rgba(232, 65, 66, 0.1);
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .feature-text {
+      color: #4B5563;
+      line-height: 1.6;
+    }
+
+    /* Stats */
+    .stats {
+      padding: 6rem 2rem;
+      text-align: center;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 3rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: #4B5563;
+      font-weight: 500;
+    }
+
+    /* CTA */
+    .cta {
+      padding: 6rem 2rem;
+    }
+
+    .cta-box {
+      background: #000000;
+      border-radius: 1.5rem;
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    .cta-title {
+      font-size: 3rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-text {
+      font-size: 1.25rem;
+      color: #D1D5DB;
+      margin-bottom: 2.5rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .btn-cta {
+      background: #E84142;
+      color: white;
+      padding: 1.25rem 2.5rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 1.125rem;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 15px 35px rgba(232, 65, 66, 0.3);
+      transition: all 0.2s;
+    }
+
+    .btn-cta:hover {
+      background: #D13738;
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(232, 65, 66, 0.4);
+    }
+
+    /* Footer */
+    .footer {
+      padding: 3rem 2rem;
+      border-top: 1px solid #E5E7EB;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      font-size: 0.875rem;
+      color: #4B5563;
+    }
+
+    .footer-links a {
+      color: #4B5563;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: #000000;
+    }
+
+    .comparison {
+      padding: 4rem 2rem;
+      background: #F9FAFB;
+      border-top: 1px solid #E5E7EB;
+    }
+
+    .comparison h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .theme-preview {
+      padding: 2rem;
+      border-radius: 1rem;
+      border: 2px solid #E5E7EB;
+    }
+
+    .arc-theme {
+      background: linear-gradient(135deg, #030712 0%, #111827 100%);
+      color: #fff;
+    }
+
+    .avalanche-theme {
+      background: white;
+      color: #000;
+    }
+
+    .theme-label {
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .theme-items {
+      list-style: none;
+    }
+
+    .theme-items li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .avalanche-theme .theme-items li {
+      border-bottom: 1px solid #E5E7EB;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      .subtitle {
+        font-size: 1.125rem;
+      }
+
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="badge">
+        <svg class="mountain-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+        </svg>
+        Powered by Avalanche
+      </div>
+
+      <h1>
+        Mine vocabulary.<br>
+        <span class="red-text">Earn USDC.</span>
+      </h1>
+
+      <p class="subtitle">
+        Type blockchain words to unlock AIC tokens from your personal smart contract.
+        Swap to USDC and spend anywhere with your Avalanche Card.
+      </p>
+
+      <div class="button-group">
+        <button class="btn-primary">
+          Start Mining
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+        <button class="btn-secondary">Get Avalanche Card</button>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+      <h2 class="section-title">How it works</h2>
+      <p class="section-subtitle">From typing words to buying coffee in minutes</p>
+
+      <div class="steps-grid">
+        <div class="step">
+          <div class="step-icon">⛏️</div>
+          <h3 class="step-title">1. Mine Words</h3>
+          <p class="step-text">Type blockchain vocabulary words to earn AIC tokens</p>
+        </div>
+
+        <div class="step">
+          <div class="step-icon">🔓</div>
+          <h3 class="step-title">2. Redeem Tokens</h3>
+          <p class="step-text">Unlock AIC from your personal smart contract</p>
+        </div>
+
+        <div class="step">
+          <div class="step-icon">🔄</div>
+          <h3 class="step-title">3. Swap to USDC</h3>
+          <p class="step-text">Convert AIC to USDC on Trader Joe DEX</p>
+        </div>
+
+        <div class="step">
+          <div class="step-icon">💳</div>
+          <h3 class="step-title">4. Spend Anywhere</h3>
+          <p class="step-text">Load your Avalanche Card and use at any merchant</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+      <div class="container">
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg width="24" height="24" fill="none" stroke="#E84142" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+              </svg>
+            </div>
+            <h3 class="feature-title">Built on Avalanche</h3>
+            <p class="feature-text">
+              Lightning-fast transactions with sub-second finality. Gas fees under $0.10.
+              Proven infrastructure trusted by millions.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg width="24" height="24" fill="none" stroke="#E84142" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+              </svg>
+            </div>
+            <h3 class="feature-title">Your Personal Contract</h3>
+            <p class="feature-text">
+              Every user gets their own smart contract with 100,000 AIC allocation.
+              Full transparency. Complete control.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg width="24" height="24" fill="none" stroke="#E84142" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+            </div>
+            <h3 class="feature-title">Real-World Spending</h3>
+            <p class="feature-text">
+              Avalanche Card turns your crypto into spendable funds.
+              Physical and virtual Visa cards. Works everywhere.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats">
+      <div class="stats-grid">
+        <div>
+          <div class="stat-number">$0.05</div>
+          <div class="stat-label">Average Gas Fee</div>
+        </div>
+        <div>
+          <div class="stat-number">100K</div>
+          <div class="stat-label">AIC Per User</div>
+        </div>
+        <div>
+          <div class="stat-number">&lt;1s</div>
+          <div class="stat-label">Transaction Time</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+      <div class="cta-box">
+        <h2 class="cta-title">Ready to start earning?</h2>
+        <p class="cta-text">
+          Connect your wallet, mine vocabulary words, and withdraw USDC to your Avalanche Card.
+        </p>
+        <button class="btn-cta">
+          Start Mining Now
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- Comparison -->
+    <section class="comparison">
+      <h2>🎨 Theme Comparison: Arc vs Avalanche</h2>
+      <div class="comparison-grid">
+        <div class="theme-preview arc-theme">
+          <div class="theme-label">Arc Build (Current)</div>
+          <ul class="theme-items">
+            <li>🌑 Dark gradient background</li>
+            <li>💠 Cyan primary (#06b6d4)</li>
+            <li>🔵 Blue accents</li>
+            <li>⚡ Glowing effects</li>
+            <li>🎮 Cyberpunk style</li>
+            <li>🏢 Circle branding</li>
+          </ul>
+        </div>
+
+        <div class="theme-preview avalanche-theme">
+          <div class="theme-label">Avalanche Build (New)</div>
+          <ul class="theme-items">
+            <li>☀️ Pure white background</li>
+            <li>⚫ Black + Red (#E84142)</li>
+            <li>✨ Clean minimal design</li>
+            <li>📝 Inter font (Google Fonts)</li>
+            <li>💳 Avalanche Card style</li>
+            <li>🏔️ Mountain branding</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: white; border-radius: 1rem; border: 2px solid #E84142;">
+        <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Switch Between Builds</h3>
+        <p style="color: #4B5563; margin-bottom: 1.5rem;">
+          To use this Avalanche theme in your app, follow the instructions in <code>SWITCH_BUILDS.md</code>
+        </p>
+        <p style="font-size: 0.875rem; color: #6B7280;">
+          Change one line in <code>src/main.tsx</code> to switch between Arc (dark) and Avalanche (light) themes!
+        </p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <svg width="24" height="24" fill="none" stroke="#E84142" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+          </svg>
+          AIC Mining Platform
+        </div>
+
+        <div class="footer-links">
+          <a href="https://www.avax.network/" target="_blank">Avalanche Network</a>
+          <a href="https://www.avalanchecard.com/" target="_blank">Avalanche Card</a>
+          <a href="https://traderjoexyz.com/" target="_blank">Trader Joe DEX</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
