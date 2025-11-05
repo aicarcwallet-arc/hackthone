@@ -218,6 +218,12 @@ function App() {
     }
   };
 
+  const handleDisconnectWallet = () => {
+    setConnectedAddress(null);
+    setUserId(null);
+    setCurrentPage('home');
+  };
+
   const getOrCreateUser = async (walletAddress: string) => {
     try {
       const { data: existingUser, error: fetchError } = await supabase
@@ -446,6 +452,7 @@ function App() {
             walletAddress={connectedAddress}
             onNavigate={handleNavigate}
             onConnectWallet={handleConnectWallet}
+            onDisconnectWallet={handleDisconnectWallet}
           />
         </Suspense>
         <Footer onNavigate={handleNavigate} />

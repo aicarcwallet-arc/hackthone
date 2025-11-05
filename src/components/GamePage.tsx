@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { VocabularyGame } from './VocabularyGame';
 import { QuickSwapModal } from './QuickSwapModal';
-import { Trophy, Zap, Target, Coins, Star, Brain, Award, ArrowRightLeft, Download, Wallet, RefreshCw } from 'lucide-react';
+import { Trophy, Zap, Target, Coins, Star, Brain, Award, ArrowRightLeft, Download, Wallet, RefreshCw, LogOut } from 'lucide-react';
 import { useAICToken } from '../hooks/useAICToken';
 
 interface GamePageProps {
@@ -9,9 +9,10 @@ interface GamePageProps {
   walletAddress: string | null;
   onNavigate?: (page: string) => void;
   onConnectWallet?: () => void;
+  onDisconnectWallet?: () => void;
 }
 
-export function GamePage({ userId, walletAddress, onNavigate, onConnectWallet }: GamePageProps) {
+export function GamePage({ userId, walletAddress, onNavigate, onConnectWallet, onDisconnectWallet }: GamePageProps) {
   const { aicBalance, usdcBalance, refreshBalances } = useAICToken(walletAddress || undefined);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [showSwapModal, setShowSwapModal] = useState(false);
@@ -123,6 +124,19 @@ export function GamePage({ userId, walletAddress, onNavigate, onConnectWallet }:
         {walletAddress && (
           <div className="mb-6 bg-gradient-to-r from-green-900/30 to-emerald-900/30 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-green-500/30 shadow-[0_0_30px_rgba(34,197,94,0.3)]">
             <div className="space-y-4">
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-xs text-gray-400">
+                  {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+                </p>
+                <button
+                  onClick={onDisconnectWallet}
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-red-500/20 hover:bg-red-500/30 active:bg-red-500/40 text-red-300 rounded-lg transition-colors touch-manipulation border border-red-500/30"
+                  title="Disconnect wallet"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                  <span>Logout</span>
+                </button>
+              </div>
               <div className="grid grid-cols-2 gap-3 sm:flex sm:items-center sm:gap-6">
                 <div className="flex items-center gap-2 sm:gap-3">
                   <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-500/20 rounded-full flex items-center justify-center flex-shrink-0">
